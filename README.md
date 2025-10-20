@@ -1,4 +1,4 @@
-# dotnix
+# dotfiles
 
 ```mermaid
 graph TD
