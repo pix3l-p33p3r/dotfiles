@@ -1,6 +1,6 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, wallpaper, ... }:
 let
-  variables = import ./variables.nix { inherit pkgs inputs; };
+  variables = import ./variables.nix { inherit pkgs inputs wallpaper; };
   submapsConfig = import ./submaps.nix { inherit variables; };
   keybindings = import ./keybindings.nix { inherit variables; };
   settings = import ./settings.nix { inherit variables keybindings; };

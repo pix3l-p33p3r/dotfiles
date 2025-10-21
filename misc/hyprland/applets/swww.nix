@@ -27,7 +27,7 @@ in
     };
 
     Service = {
-      ExecStart = "${pkgs.swww}/bin/swww img ${variables.wallpaper} --fit fill";
+      ExecStart = "${pkgs.swww}/bin/swww img --filter Nearest ${variables.wallpaper}";
       Type = "oneshot";
     };
   };

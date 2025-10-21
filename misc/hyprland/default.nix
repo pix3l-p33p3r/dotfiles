@@ -1,8 +1,8 @@
 {
   pkgs,
-  lo-pkgs,
   inputs,
   host,
+  wallpaper,
   ...
 }:
 {
@@ -116,7 +116,7 @@
     wl-color-picker
     wofi
     wofi-emoji
-    lo-pkgs.realod-failed-services
+    # lo-pkgs.realod-failed-services  # Commented out - package not available
 
     # --------------------------------------------------------------------------
     # |                                Audio                                   |
@@ -163,7 +163,7 @@
     # --------------------------------------------------------------------------
     # |                           GUI Applications                             |
     # --------------------------------------------------------------------------
-    aylurs-gtk-shell-git
+    # aylurs-gtk-shell-git  # Package not available in nixpkgs
     
     # DEV (Development)
     code-cursor
@@ -215,7 +215,7 @@
     # --------------------------------------------------------------------------
     dart-sass
     gtksourceview3
-    libsoup3
+    libsoup_3
 
     # --------------------------------------------------------------------------
     # |                               Drivers                                  |
