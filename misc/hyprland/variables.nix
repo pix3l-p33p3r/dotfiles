@@ -40,8 +40,8 @@
 
   wl-clip-persist = "${pkgs.wl-clip-persist}/bin/wl-clip-persist";
 
-  homescreen_img = ../../../../assets/images/homescreen.png;
-  lockscreen_img = ../../../../assets/images/lockscreen.png;
+  homescreen_img = ../../../../wallpaper/hellsing-4200x2366-19239.jpg;
+  lockscreen_img = ../../../../wallpaper/hellsing-4200x2366-19239.jpg;
   hellsing_wallpaper = ../../../../wallpaper/hellsing-4200x2366-19239.jpg;
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
