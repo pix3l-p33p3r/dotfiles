@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, config, ... }:
 let
   variables = import ../variables.nix { inherit pkgs inputs; };
 in
@@ -8,6 +8,6 @@ in
     ./sway-notification-center.nix
     ./wofi.nix
     ./sherlock.nix
-    (import ./swww.nix { inherit pkgs variables; })
+    (import ./swww.nix { inherit pkgs config variables; })
   ];
 }
