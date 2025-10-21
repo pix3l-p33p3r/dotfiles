@@ -63,7 +63,6 @@
     nitch
     nix-tree
     ripgrep
-    starship
     tldr
     tmux
     trashy
