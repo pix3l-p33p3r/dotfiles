@@ -28,11 +28,11 @@
   catppuccin.fzf.enable = true;
   catppuccin.fzf.flavor = "mocha";
 
-  catppuccin.fd.enable = true;
-  catppuccin.fd.flavor = "mocha";
+  # catppuccin.fd.enable = true;  # Not supported in current catppuccin module
+  # catppuccin.fd.flavor = "mocha";
 
-  catppuccin.ripgrep.enable = true;
-  catppuccin.ripgrep.flavor = "mocha";
+  # catppuccin.ripgrep.enable = true;
+  # catppuccin.ripgrep.flavor = "mocha";
 
   # ============================================================================
   # Terminal & Shell
@@ -80,8 +80,8 @@
   # ============================================================================
   
   # Desktop widgets and panel
-  catppuccin.waybar.enable = true;
-  catppuccin.waybar.flavor = "mocha";
+  # catppuccin.waybar.enable = true;
+  # catppuccin.waybar.flavor = "mocha";
 
   # Window manager (if using catppuccin integration)
   # catppuccin.hyprland.enable = true;  # Disabled - using custom config

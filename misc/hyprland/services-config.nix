@@ -29,7 +29,7 @@ in
   services.network-manager-applet.enable = true;
 
   # Hyprland-specific services
-  hypridle = {
+  services.hypridle = {
     enable = true;
     settings = {
       general = {
@@ -68,7 +68,7 @@ in
   };
 
   # Basic hyprlock enable - detailed config is in hyprlock.nix
-  hyprlock = {
+  services.hyprlock = {
     enable = true;
   };
 }
