@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     font-awesome
     noto-fonts
+    power-profiles-daemon
   ];
 
   programs.waybar = {
@@ -21,6 +22,7 @@
           "temperature"
           "upower"
           "backlight"
+          "custom/power-profile"
           "tray"
           "custom/notification"
         ];
@@ -140,6 +142,16 @@
         "tray" = {
           "icon-size" = 16;
           "spacing" = 10;
+        };
+
+        "custom/power-profile" = {
+          "format" = "{text}";
+          "exec" = "echo '{\"text\": \"'$(powerprofilesctl get)'\", \"class\": \"'$(powerprofilesctl get)'\"}'";
+          "return-type" = "json";
+          "interval" = 5;
+          "on-click" = "powerprofilesctl set $(powerprofilesctl get | sed 's/power-saver/balanced/; s/balanced/performance/; s/performance/power-saver/')";
+          "tooltip" = true;
+          "tooltip-format" = "Power Profile: {text}";
         };
       };
     };
@@ -340,6 +352,29 @@
           transition: none;
           color: #ffffff;
           background: #161616;
+      }
+
+      #custom-power-profile {
+          margin-right: 8px;
+          padding-left: 16px;
+          padding-right: 16px;
+          border-radius: 10px;
+          transition: none;
+          color: #ffffff;
+          background: #161616;
+      }
+
+      #custom-power-profile.power-saver {
+          background-color: #26A65B;
+      }
+
+      #custom-power-profile.balanced {
+          background-color: #ffbe61;
+          color: black;
+      }
+
+      #custom-power-profile.performance {
+          background-color: #f53c3c;
       }
 
       @keyframes blink {

@@ -26,8 +26,8 @@ in
 
   bind = [
     "$mod, Return, exec, $terminal"
-    "$mod_SHIFT, Return, exec, $terminal --class alacritty-float"
-    "$mod_SHIFT, q, killactive,"
+    "$mod_SHIFT, Return, exec, $terminal --class kitty-float"
+    "$mod, q, killactive,"
     "$mod, M, exit,"
     "$mod_SHIFT, space, togglefloating,"
     "$mod, d, exec, ${sherlock}"
@@ -35,8 +35,8 @@ in
     "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
     "$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
 
-    "$mod SHIFT, f, exec, $file_manager"
-    "$mod SHIFT, b, exec, $browser"
+    "$mod, f, exec, $file_manager"
+    "$mod, b, exec, $browser"
 
     "$mod, l, movefocus, r"
     "$mod, h, movefocus, l"
