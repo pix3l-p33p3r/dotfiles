@@ -1,4 +1,4 @@
-{ inputs, ... }@all: {
+{ inputs, wallpaper, ... }@all: {
    imports = [
    ../../misc/hyprland
    ./catppuccin.nix
