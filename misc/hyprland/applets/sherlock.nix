@@ -1,10 +1,6 @@
-{ ... }:
-{
-
-  programs.sherlock = {
-    enable = true;
-
-    settings = {
+{ pkgs, ... }:
+let
+  sherlockConfig = {
       default_apps = {
         terminal = "kitty";
         browser = "firefox %U";
@@ -177,6 +173,10 @@
           priority = 0;
         }
       ];
-    };
+};
+in
+{
+  xdg.configFile."sherlock/config.toml" = {
+    text = builtins.toTOML sherlockConfig;
   };
 }
