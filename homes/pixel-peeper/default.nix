@@ -1,9 +1,8 @@
 { inputs, ... }@all: {
    imports = [
    ../../misc/hyprland
+   ./catppuccin.nix
    ];
-
-
 
    # Essential for Thunar for trash, network, and mounting
    # services.gvfs.enable = true; this was the old way 
