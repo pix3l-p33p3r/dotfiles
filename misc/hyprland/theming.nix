@@ -45,8 +45,8 @@
      cursor.package = pkgs.volantes-cursors;
  
      fonts.monospace = {
-       name = "Noto Sans Mono";
-       package = pkgs.noto-fonts;
+       name = "JetBrainsMono Nerd Font";
+       package = pkgs.nerd-fonts.jetbrains-mono;
      };
  
      fonts.sansSerif = {

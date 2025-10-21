@@ -21,7 +21,7 @@
     defaultFonts = {
       emoji = [ "Noto Color Emoji" ];
       monospace = [
-        "Noto Sans Mono"
+        "JetBrainsMono Nerd Font"
         "Noto Naskh Arabic UI"
         "Noto Sans Arabic"
       ];
