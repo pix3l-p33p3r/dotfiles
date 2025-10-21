@@ -23,7 +23,7 @@
     ./applets
 
     # ./browsers/firefox.nix
-    ./kitty/kitty.nix
+    ./kitty.nix
     ./zsh
     ./mpv.nix
     ./imv.nix
