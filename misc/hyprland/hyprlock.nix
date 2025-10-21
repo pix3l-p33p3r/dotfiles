@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, variables, ... }:
 let
   # Define your Catppuccin Mocha colors directly in Nix
   catppuccinMocha = {
@@ -53,7 +53,7 @@ in
     # BACKGROUND
     background {
         monitor =
-        #path = ~/.config/backgrounds/shaded.png
+        path = ${variables.lockscreen_img}
         blur_passes = 2
         color = 0x${catppuccinMocha.base} # Replaced $base with hex code
     }
