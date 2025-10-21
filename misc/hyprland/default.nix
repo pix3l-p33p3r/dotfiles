@@ -21,10 +21,9 @@
 
     # Applets
     ./applets
-    ./services.nix
 
     # ./browsers/firefox.nix
-    # ./alacritty
+    # ./kitty/kitty.nix
     ./zsh
     ./mpv.nix
     ./imv.nix
