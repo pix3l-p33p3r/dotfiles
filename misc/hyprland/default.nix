@@ -1,7 +1,7 @@
 {pkgs, inputs, ...}:
 {
   imports = [
-
+    inputs.sherlock.homeModules.default
     inputs.stylix.homeModules.stylix
 
     # import home manager custom modules
