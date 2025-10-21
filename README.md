@@ -7,7 +7,7 @@ My NixOS and Home Manager dotfiles configuration for a modern Linux development 
 ### Core System
 - **OS**: NixOS with Flakes
 - **Window Manager**: Hyprland (Wayland compositor)
-- **Shell**: Zsh with Oh My Zsh and custom plugins
+- **Shell**: Zsh with Zap plugin manager and custom plugins
 - **Terminal**: Kitty
 - **Theme**: Catppuccin Mocha
 
