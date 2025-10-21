@@ -3,7 +3,7 @@ let
   inherit (variables) 
     loginctl waybar cliphist wofi hyprpicker volume_up volume_down 
     volume_mute_toggle player_play_toggle player_next player_prev 
-    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist swaync wl-copy;
+    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist swaync wl-copy sherlock;
 in
 {
   exec-once = [
@@ -30,9 +30,8 @@ in
     "$mod_SHIFT, q, killactive,"
     "$mod, M, exit,"
     "$mod_SHIFT, space, togglefloating,"
-    "$mod, d, exec, $menu"
-
-    #"$mod, x, exec, ${sherlock} --sub-menu pm"
+    "$mod, d, exec, ${sherlock}"
+    "$mod, x, exec, ${sherlock} --sub-menu pm"
     "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
     "$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
 
@@ -61,7 +60,6 @@ in
     "$mod, 0, workspace, 10"
 
     "$mod ALT, l, exec, ${loginctl} lock-session"
-    #"$mod, d, exec, ${sherlock}"
 
     "$mod SHIFT, 1, movetoworkspace, 1"
     "$mod SHIFT, 2, movetoworkspace, 2"

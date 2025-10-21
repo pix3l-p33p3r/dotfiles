@@ -12,9 +12,10 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sherlock.url = "github:Trybnetic/sherlock-desktop";
   };
   
-  outputs = { self, nixpkgs, catppuccin, home-manager, stylix, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, home-manager, stylix, sherlock, ... }@inputs: {
     # ===== NixOS Configuration =====
     nixosConfigurations.pixel-peeper = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
