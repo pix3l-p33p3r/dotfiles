@@ -4,7 +4,7 @@
     enable = true;
     font = {
       name = lib.mkForce "JetBrainsMono Nerd Font Mono";
-      size = 16;
+      size = lib.mkForce 16;
     };
     settings = {
       # Cursor trail
