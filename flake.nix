@@ -16,7 +16,6 @@
     sherlock = {
       url = "github:Skxxtz/sherlock";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
       inputs.flake-parts.follows = "flake-parts";
     };
   };
