@@ -53,7 +53,7 @@ in
     # BACKGROUND
     background {
         monitor =
-        path = ${variables.lockscreen_img}
+        path = ${variables.wallpaper}
         blur_passes = 2
         color = 0x${catppuccinMocha.base} # Replaced $base with hex code
     }
