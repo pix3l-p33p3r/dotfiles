@@ -89,6 +89,7 @@
     kmon
     libgtop
     nvtopPackages.intel
+    power-profiles-daemon
     s-tui
     upower
 
@@ -104,6 +105,8 @@
     hyprlock
     hyprpaper
     hyprpicker
+    hyprpanel
+    hyprsunset
     hyprutils
     slurp
     waybar
