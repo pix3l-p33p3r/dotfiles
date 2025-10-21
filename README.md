@@ -15,7 +15,7 @@ My NixOS and Home Manager dotfiles configuration for a modern Linux development 
 - **Editor**: Neovim with LSP, TreeSitter, and extensive plugin setup
 - **Language Servers**: Multiple LSP servers (Rust, TypeScript, Python, Go, etc.)
 - **Git**: Git with lazygit and gitui for GUI operations
-- **CLI Tools**: bat, eza, fd, ripgrep, fzf, starship
+- **CLI Tools**: bat, eza, fd, ripgrep, fzf
 
 ### Applications
 - **File Manager**: Thunar
@@ -27,11 +27,23 @@ My NixOS and Home Manager dotfiles configuration for a modern Linux development 
 - **Security**: KeePassXC, Picocrypt, Tor
 
 ### Wayland & System
-- **Desktop Environment**: Waybar (status bar), Wofi (app launcher)
+- **Desktop Environment**: Waybar (status bar), Sherlock (app launcher)
 - **Screen Lock**: Hyprlock
 - **Idle**: Hypridle for power management
 - **Screenshots**: Grim + Slurp
 - **Color Picker**: Hyprpicker
+
+### Sherlock Launcher Features
+Sherlock provides an intelligent application launcher with:
+- **App Launcher**: Search and launch applications
+- **Weather Widget**: Real-time weather information
+- **Clipboard Integration**: Execute clipboard content
+- **Spotify Controls**: Audio management and controls
+- **Calculator**: Built-in calculator functionality
+- **Power Management**: System shutdown, sleep, lock, and reboot
+- **VPN Controls**: Wireguard connection management
+- **Web Search**: Google and YouTube search integration
+- **Utilities**: Color picker and other system tools
 
 ## Keybinds
 
@@ -42,7 +54,8 @@ My NixOS and Home Manager dotfiles configuration for a modern Linux development 
 | `Super + Shift + Q` | Kill active window |
 | `Super + M` | Exit |
 | `Super + Shift + Space` | Toggle floating |
-| `Super + D` | Open app launcher (Wofi) |
+| `Super + D` | Open app launcher (Sherlock) |
+| `Super + X` | Open power management submenu (Sherlock) |
 | `Super + Shift + V` | Open clipboard history |
 | `Super + Shift + C` | Color picker |
 | `Super + Shift + F` | Open file manager |
