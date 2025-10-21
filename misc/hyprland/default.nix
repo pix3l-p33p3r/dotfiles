@@ -1,7 +1,7 @@
 {pkgs, inputs, ...}:
 {
   imports = [
-    # inputs.sherlock.homeModules.default  # New Skxxtz fork may not provide homeManager module
+    inputs.sherlock.homeModules.default  # New Skxxtz fork may not provide homeManager module
     inputs.stylix.homeModules.stylix
 
     # import home manager custom modules
