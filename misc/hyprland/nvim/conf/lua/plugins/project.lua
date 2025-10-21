@@ -1,7 +1,13 @@
 return {
-	"DrKJeff16/project.nvim", -- Changes PWD to the root of the project
+	"ahmedkhalf/project.nvim", -- Changes PWD to the root of the project
 	config = function()
-		require("project_nvim").setup({
+		local status_ok, project_nvim = pcall(require, "project_nvim")
+		if not status_ok then
+			vim.notify("project.nvim not found", vim.log.levels.ERROR)
+			return
+		end
+
+		project_nvim.setup({
 			-- Manual mode doesn't automatically change your root directory, so you have
 			-- the option to manually do so using `:ProjectRoot` command.
 			manual_mode = false,
