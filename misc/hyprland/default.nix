@@ -106,6 +106,7 @@
     hyprpaper
     hyprpicker
     hyprpanel
+    hyprshot
     hyprsunset
     hyprutils
     slurp
