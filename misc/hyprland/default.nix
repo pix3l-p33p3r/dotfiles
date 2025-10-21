@@ -1,7 +1,14 @@
-{pkgs, inputs, ...}:
 {
-  imports = [
+  pkgs,
+  inputs,
+  host,
+  wallpaper,
+  ...
+}:
+{
 
+  imports = [
+    # inputs.sherlock.homeModules.default
     inputs.stylix.homeModules.stylix
 
     # import home manager custom modules

@@ -1,10 +1,13 @@
-{ ... }:
+{ pkgs, inputs, config, wallpaper, ... }:
+let
+  variables = import ../variables.nix { inherit pkgs inputs wallpaper; };
+in
 {
   imports = [
     ./waybar.nix
     ./sway-notification-center.nix
     ./wofi.nix
-    ./sherlock.nix  # Temporarily disabled due to module structure change
-    ./swww.nix
+    ./sherlock.nix
+    (import ./swww.nix { inherit pkgs config variables; })
   ];
 }
