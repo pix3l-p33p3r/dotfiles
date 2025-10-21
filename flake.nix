@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     catppuccin.url = "github:catppuccin/nix";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,10 +16,12 @@
     sherlock = {
       url = "github:Skxxtz/sherlock";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+      inputs.flake-parts.follows = "flake-parts";
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, home-manager, stylix, sherlock, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, sherlock, ... }@inputs: {
     # ===== NixOS Configuration =====
     nixosConfigurations.pixel-peeper = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
