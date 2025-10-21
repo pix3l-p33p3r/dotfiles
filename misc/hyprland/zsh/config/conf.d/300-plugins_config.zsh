@@ -15,7 +15,7 @@
 # AGKOZAK_COLORS_PROMPT_CHAR='%F{#cdd6f4}'      # text (white/light)
 # AGKOZAK_COLORS_CMD_EXEC_TIME='%F{#6c7086}'    # overlay0 (gray)
 # AGKOZAK_COLORS_VIRTUALENV='%F{#a6e3a1}'       # green
-# AGKOZAK_COLORS_BG_STRING='%F{#cba6f7}'        # mauve
+# AGKOZAK_COLORS_BG_STRING='%F{#b4befe}'        # lavender
 
 
 # # "zsh-users/zsh-history-substring-search" - Catppuccin Mocha colors

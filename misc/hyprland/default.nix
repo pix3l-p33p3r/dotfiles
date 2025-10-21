@@ -1,5 +1,12 @@
-{pkgs, inputs, ...}:
 {
+  pkgs,
+  lo-pkgs,
+  inputs,
+  host,
+  ...
+}:
+{
+
   imports = [
     # inputs.sherlock.homeModules.default
     inputs.stylix.homeModules.stylix
