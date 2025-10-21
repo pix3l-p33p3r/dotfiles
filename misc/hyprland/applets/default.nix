@@ -4,7 +4,7 @@
     ./waybar.nix
     ./sway-notification-center.nix
     ./wofi.nix
-    # ./sherlock.nix
+    ./sherlock.nix
     ./swww.nix
   ];
 }
