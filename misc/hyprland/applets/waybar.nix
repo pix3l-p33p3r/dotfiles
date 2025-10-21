@@ -149,13 +149,13 @@
           border: none;
           border-radius: 0;
           /* `otf-font-awesome` is required to be installed for icons */
-          font-family: "JetBrainsMono Nerd Font";
+          font-family: Noto Sans;
           font-size: 14px;
           min-height: 24px;
       }
         #custom-notification {
           margin-right: 8px;
-          font-family: "JetBrainsMono Nerd Font";
+          font-family: "Noto Sans";
         }
 
       window#waybar {
