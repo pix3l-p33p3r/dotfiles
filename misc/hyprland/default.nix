@@ -1,7 +1,7 @@
 {pkgs, inputs, ...}:
 {
   imports = [
-    inputs.sherlock.homeModules.default
+    # inputs.sherlock.homeModules.default
     inputs.stylix.homeModules.stylix
 
     # import home manager custom modules
@@ -100,6 +100,7 @@
     wl-color-picker
     wofi
     wofi-emoji
+    lo-pkgs.realod-failed-services
 
     # --------------------------------------------------------------------------
     # |                                Audio                                   |
