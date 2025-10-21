@@ -13,7 +13,4 @@ in
   wayland.windowManager.hyprland.extraConfig = submapsConfig;
 
   wayland.windowManager.hyprland.settings = settings;
-
-  # Security PAM service for hyprlock
-  security.pam.services.hyprlock = {};
 } // servicesConfig // hyprlockConfig
