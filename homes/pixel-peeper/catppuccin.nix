@@ -42,8 +42,9 @@
   catppuccin.tmux.enable = true;
   catppuccin.tmux.flavor = "mocha";
 
-  # Terminal emulator (already configured via manual theme files)
-  # catppuccin.kitty.enable = true;  # Disabled - using manual config
+  # Terminal emulator
+  catppuccin.kitty.enable = true;
+  catppuccin.kitty.flavor = "mocha";
   
   # File manager (TUI)
   catppuccin.yazi.enable = true;
