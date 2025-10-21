@@ -67,8 +67,5 @@ in
     };
   };
 
-  # Basic hyprlock enable - detailed config is in hyprlock.nix
-  services.hyprlock = {
-    enable = true;
-  };
+  # Basic hyprlock config is handled in hyprlock.nix via xdg.configFile
 }
