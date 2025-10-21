@@ -1,6 +1,10 @@
-{ pkgs, ... }:
-let
-  sherlockConfig = {
+{ ... }:
+{
+
+  programs.sherlock = {
+    enable = true;
+
+    settings = {
       default_apps = {
         terminal = "kitty";
         browser = "firefox %U";
@@ -121,6 +125,7 @@ let
               };
               Lock = {
                 icon = "system-lock-screen";
+                # exec = "systemctl suspend & swaylock";
                 exec = "hyprlock";
                 search_string = "Lock Screen;";
               };
@@ -173,10 +178,6 @@ let
           priority = 0;
         }
       ];
-};
-in
-{
-  xdg.configFile."sherlock/config.toml" = {
-    text = builtins.toTOML sherlockConfig;
+    };
   };
 }

@@ -42,6 +42,7 @@
 
   homescreen_img = ../../../../assets/images/homescreen.png;
   lockscreen_img = ../../../../assets/images/lockscreen.png;
+  hellsing_wallpaper = ../../../../wallpaper/hellsing-4200x2366-19239.jpg;
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
 
