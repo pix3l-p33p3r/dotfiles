@@ -97,6 +97,7 @@
     # --------------------------------------------------------------------------
     cliphist
     grim
+    grimblast
     hyprcursor
     hypridle
     hyprland
@@ -129,7 +130,6 @@
     # |                              Networking                                |
     # --------------------------------------------------------------------------
     bluez
-    bluez-utils
     bluez-tools
     iwd
     networkmanager
