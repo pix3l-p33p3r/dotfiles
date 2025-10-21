@@ -32,7 +32,7 @@
 
   wofi = "${pkgs.wofi}/bin/wofi";
   menu = "${pkgs.wofi}/bin/wofi --show drun";
-  #sherlock = "${inputs.sherlock.packages.x86_64-linux.default}/bin/sherlock";
+  sherlock = "${inputs.sherlock.packages.x86_64-linux.default}/bin/sherlock";
   firefox = "${pkgs.firefox}/bin/firefox";
   thunar = "${pkgs.xfce.thunar}/bin/thunar";
 
