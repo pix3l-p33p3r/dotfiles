@@ -23,7 +23,7 @@
     ./applets
 
     # ./browsers/firefox.nix
-    # ./kitty/kitty.nix
+    ./kitty/kitty.nix
     ./zsh
     ./mpv.nix
     ./imv.nix
@@ -59,7 +59,6 @@
     fd
     fzf
     gping
-    kitty
     macchina
     nitch
     nix-tree
