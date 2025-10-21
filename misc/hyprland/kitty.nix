@@ -47,7 +47,7 @@
 
       # Background blur
       background_blur = 1;
-      background_opacity = 0.8;
+      background_opacity = "0.8";
 
       clipboard_control = "write-clipboard write-primary read-clipboard-ask read-primary-ask";
       allow_hyperlinks = "yes";
