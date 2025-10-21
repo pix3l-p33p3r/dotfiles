@@ -12,7 +12,10 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sherlock.url = "github:Trybnetic/sherlock-desktop";
+    sherlock = {
+      url = "github:Skxxtz/sherlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
   outputs = { self, nixpkgs, catppuccin, home-manager, stylix, sherlock, ... }@inputs: {
