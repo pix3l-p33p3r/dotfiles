@@ -38,6 +38,7 @@
               ./homes/pixel-peeper
               #catppuccin.homeManagerModules.catppuccin
               catppuccin.homeModules.catppuccin
+              sherlock.homeModules.default
             ];
           };
         }
@@ -52,6 +53,7 @@
         ./homes/pixel-peeper
         #catppuccin.homeManagerModules.catppuccin
         catppuccin.homeModules.catppuccin
+        sherlock.homeModules.default
       ];
     };
   };
