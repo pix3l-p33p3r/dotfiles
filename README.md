@@ -2,6 +2,63 @@
 
 My NixOS and Home Manager dotfiles configuration for a modern Linux development environment.
 
+## 📁 Project Structure
+
+```
+dotfiles/
+├── flake.nix                    # Main flake configuration
+├── flake.lock                   # Locked dependencies
+├── README.md                    # This file
+├── LICENSE                      # License file
+├── configs/                     # Configuration modules
+│   ├── desktop/hyprland/        # Desktop environment configs
+│   │   ├── core/                # Core hyprland configs
+│   │   │   ├── hyprland.nix     # Main hyprland config
+│   │   │   ├── settings.nix     # Hyprland settings
+│   │   │   ├── keybindings.nix  # Keybindings
+│   │   │   ├── variables.nix    # Environment variables
+│   │   │   └── ...              # Other core configs
+│   │   ├── apps/                # Desktop applications
+│   │   │   ├── applets/         # Waybar, wofi, sherlock, etc.
+│   │   │   ├── battop.nix       # System monitor
+│   │   │   └── imv.nix          # Image viewer
+│   │   └── devices/             # Device-specific configs
+│   │       ├── kraken/          # Kraken device configs
+│   │       └── x1/              # X1 device configs
+│   ├── terminal/                # Terminal-related configs
+│   │   ├── kitty.nix            # Kitty terminal config
+│   │   ├── zsh/                 # Zsh shell config
+│   │   └── nvim/                # Neovim configuration
+│   ├── browsers/                # Browser configurations
+│   │   ├── firefox.nix          # Firefox config
+│   │   └── chromium.nix         # Chromium config
+│   └── media/                   # Media applications
+│       ├── mpv.nix              # MPV video player
+│       └── zathura.nix          # Zathura PDF viewer
+├── assets/                      # Static assets
+│   ├── wallpapers/              # Wallpaper images
+│   └── fonts/                   # Custom fonts
+├── homes/                       # User configurations
+│   └── pixel-peeper/            # Main user config
+├── machines/                    # Machine configurations
+│   └── pixel-peeper/            # Main machine config
+└── scripts/                     # Utility scripts
+```
+
+### 🗂️ Organization Principles
+
+- **`configs/`**: All configuration modules organized by category
+- **`desktop/hyprland/`**: Desktop environment specific configs
+  - **`core/`**: Essential hyprland configurations
+  - **`apps/`**: Desktop applications and applets
+  - **`devices/`**: Device-specific overrides
+- **`terminal/`**: Terminal emulator, shell, and editor configs
+- **`browsers/`**: Web browser configurations
+- **`media/`**: Media player and viewer configs
+- **`assets/`**: Static files like wallpapers and fonts
+- **`homes/`**: User-specific home manager configs
+- **`machines/`**: Machine-specific NixOS configs
+
 ## Stack
 
 ### Core System
