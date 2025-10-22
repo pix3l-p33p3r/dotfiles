@@ -35,4 +35,6 @@ require("lazy").setup({
 		enabled = true,
 		notify = false, -- get a notification when changes are found
 	},
+	-- Use writable location for lockfile since config is in read-only nix store
+	lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })

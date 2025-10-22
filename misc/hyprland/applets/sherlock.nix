@@ -125,6 +125,7 @@
               };
               Lock = {
                 icon = "system-lock-screen";
+                # exec = "systemctl suspend & swaylock";
                 exec = "hyprlock";
                 search_string = "Lock Screen;";
               };
