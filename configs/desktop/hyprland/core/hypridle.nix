@@ -1,4 +1,4 @@
-{ variables, lib, ... }:
+{ variables, ... }:
 let
   inherit (variables)
     pidof hyprlock hyprctl brightnessctl systemctl;
