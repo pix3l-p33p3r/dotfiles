@@ -1,6 +1,6 @@
 { inputs, wallpaper, ... }@all: {
    imports = [
-   ../../misc/hyprland
+   ../../configs/desktop/hyprland
    ./catppuccin.nix
    ];
 

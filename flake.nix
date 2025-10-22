@@ -23,7 +23,7 @@
   
   outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, sherlock, ... }@inputs: {
     # Add wallpaper to the flake source
-    wallpaper = self + "/wallpaper/hellsing-4200x2366-19239.jpg";
+    wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
     # ===== NixOS Configuration =====
     nixosConfigurations.pixel-peeper = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -34,7 +34,7 @@
         home-manager.nixosModules.home-manager
         {
           home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; wallpaper = self + "/wallpaper/hellsing-4200x2366-19239.jpg"; };
+          home-manager.extraSpecialArgs = { inherit inputs; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
           home-manager.users.pixel-peeper = {
             imports = [
               ./homes/pixel-peeper
@@ -49,7 +49,7 @@
     # ===== Standalone Home Manager Configuration =====
     homeConfigurations."pixel-peeper@pixel-peeper" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = { inherit inputs; wallpaper = self + "/wallpaper/hellsing-4200x2366-19239.jpg"; };
+      extraSpecialArgs = { inherit inputs; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
       modules = [
         ./homes/pixel-peeper
         #catppuccin.homeManagerModules.catppuccin
