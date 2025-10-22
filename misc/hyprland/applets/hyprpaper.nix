@@ -12,8 +12,21 @@ let
 
 in
 {
-  services.swww.enable = true;
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [
+        "~/Pictures/Wallpapers"
+      ];
+      wallpaper = [
+        ",~/Pictures/Wallpapers"
+      ];
+    };
+  };
 
+<<<<<<< HEAD:misc/hyprland/applets/hyprpaper.nix
+  systemd.user.services.hyprpaper-wallpaper-reload = {
+=======
   # Set initial wallpaper
   systemd.user.services.swww-set-wallpaper = {
     Install = {
@@ -33,13 +46,14 @@ in
   };
 
   systemd.user.services.swww-wallpaper-reload = {
+>>>>>>> 84798cdf678c72f09e8db6c6ed90b09886eec420:misc/hyprland/applets/swww.nix
     Install = {
       WantedBy = [ config.wayland.systemd.target ];
     };
 
     Unit = {
       ConditionEnvironment = "WAYLAND_DISPLAY";
-      Description = "swww-wallpaper-reload";
+      Description = "hyprpaper-wallpaper-reload";
       After = [ config.wayland.systemd.target ];
       PartOf = [ config.wayland.systemd.target ];
     };
