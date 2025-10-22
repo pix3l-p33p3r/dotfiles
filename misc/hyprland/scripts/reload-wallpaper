@@ -1,5 +1,24 @@
 #!/bin/sh
 
+<<<<<<< HEAD
+DEFAULT_INTERVAL=$((60 * 15)) # In seconds
+
+while true; do
+	find "$HOME/Pictures/Wallpapers" -type f \
+	| while read -r img; do
+		echo "$(</dev/urandom tr -dc a-zA-Z0-9 | head -c 8):$img"
+	done \
+	| sort -n | cut -d':' -f2- \
+	| while read -r img; do
+		echo "setting wallpaper: $img"
+		hyprpaper unload all
+		hyprpaper preload "$img"
+		hyprpaper wallpaper ,"$img"
+		sleep "${2:-$DEFAULT_INTERVAL}"
+	done
+done
+=======
 # Set the Hellsing wallpaper to fit the screen - this is now handled by the systemd service
 # This script is kept for compatibility but the main wallpaper is set via systemd
 echo "Wallpaper is managed by systemd service swww-set-wallpaper"
+>>>>>>> 84798cdf678c72f09e8db6c6ed90b09886eec420

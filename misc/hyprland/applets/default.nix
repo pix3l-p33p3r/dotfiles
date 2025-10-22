@@ -8,6 +8,6 @@ in
     ./sway-notification-center.nix
     ./wofi.nix
     ./sherlock.nix
-    (import ./swww.nix { inherit pkgs config variables; })
+    (import ./hyprpaper.nix { inherit pkgs config variables; })
   ];
 }

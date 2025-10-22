@@ -3,8 +3,8 @@
   programs.kitty = {
     enable = true;
     font = {
-      name = lib.mkForce "JetBrainsMono Nerd Font Mono";
-      size = lib.mkForce 14;
+      name = lib.mkForce "FiraCode Nerd Font";
+      size = lib.mkForce 13;
     };
     settings = {
       # Cursor trail
@@ -40,7 +40,9 @@
       single_window_padding_width = 1;
       placement_strategy = "center";
       inactive_text_alpha = 0.5;
-      tab_bar_align = "center";
+
+      # Tab settings
+      tab_bar_align = "bottom";
       tab_fade = "0.15 0.35 0.65 1";
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
