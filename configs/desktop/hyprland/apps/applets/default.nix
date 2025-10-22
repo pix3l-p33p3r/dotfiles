@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ./waybar.nix
+    ./hyprpanel.nix
     ./sway-notification-center.nix
     ./wofi.nix
     ./sherlock.nix
