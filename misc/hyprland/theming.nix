@@ -16,8 +16,8 @@
     };
 
     iconTheme = {
-      package = (pkgs.colloid-icon-theme.override { colorVariants = [ "grey" ]; });
-       name = "Colloid-Grey-Dark";
+      package = pkgs.catppuccin-papirus-folders;
+       name = "Papirus";
      };
 
     gtk3.extraConfig = {
@@ -49,23 +49,17 @@
        package = pkgs.nerd-fonts.jetbrains-mono;
      };
  
-     fonts.sansSerif = {
-       name = "Noto Sans";
-       package = pkgs.noto-fonts;
-     };
- 
-     fonts.serif = {
-       name = "Noto Sans";
-       package = pkgs.noto-fonts;
-     };
+    fonts.sansSerif = {
+      name = "JetBrainsMono Nerd Font";
+      package = pkgs.nerd-fonts.jetbrains-mono;
+    };
+
+    fonts.serif = {
+      name = "JetBrainsMono Nerd Font";
+      package = pkgs.nerd-fonts.jetbrains-mono;
+    };
  
      fonts.sizes.applications = 11;
- 
-#   font-awesome
-#   noto-fonts-emoji
-#   nerd-fonts.fira-code
-#   nerd-fonts.jetbrains-mono
-#   nerd-fonts.iosevka
 
 
 
@@ -86,7 +80,7 @@
       base0B = "a6e3a1"; # green
       base0C = "94e2d5"; # teal
       base0D = "89b4fa"; # blue
-      base0E = "cba6f7"; # mauve
+      base0E = "b4befe"; # lavender
       base0F = "f2cdcd"; # flamingo
 };
 

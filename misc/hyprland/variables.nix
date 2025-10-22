@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, wallpaper, ... }:
 {
   kitty = "${pkgs.kitty}/bin/kitty";
   pactl = "${pkgs.pulseaudio}/bin/pactl";
@@ -40,8 +40,7 @@
 
   wl-clip-persist = "${pkgs.wl-clip-persist}/bin/wl-clip-persist";
 
-  homescreen_img = ../../../../assets/images/homescreen.png;
-  lockscreen_img = ../../../../assets/images/lockscreen.png;
+  wallpaper = "${pkgs.copyPathToStore wallpaper}";
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
 
