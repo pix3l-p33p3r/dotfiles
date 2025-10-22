@@ -26,7 +26,7 @@
       set zoom-min 10
       set guioptions ""
 
-      set font "JetBrainsMono Nerd Font 15"
+      set font "Noto Sans 12"
 
       set render-loading "false"
       set scroll-step 50
