@@ -1,6 +1,6 @@
 { pkgs, inputs, config, wallpaper, ... }:
 let
-  variables = import ../variables.nix { inherit pkgs inputs wallpaper; };
+  variables = import ../../core/variables.nix { inherit pkgs inputs wallpaper; };
 in
 {
   services.hyprpaper = {

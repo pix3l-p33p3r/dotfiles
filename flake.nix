@@ -19,9 +19,12 @@
       inputs.flake-parts.follows = "flake-parts";
       # inputs.home-manager.follows = "home-manager";
     };
+    nur = {
+      url = "github:nix-community/NUR";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, sherlock, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, sherlock, nur, ... }@inputs: {
     # Add wallpaper to the flake source
     wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
     # ===== NixOS Configuration =====
