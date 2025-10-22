@@ -42,7 +42,7 @@
       inactive_text_alpha = 0.5;
 
       # Tab settings
-      tab_bar_align = "bottom";
+      tab_bar_align = "left";
       tab_fade = "0.15 0.35 0.65 1";
       tab_bar_style = "powerline";
       tab_powerline_style = "slanted";
