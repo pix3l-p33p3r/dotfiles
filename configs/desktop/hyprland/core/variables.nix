@@ -36,7 +36,7 @@
   firefox = "${pkgs.firefox}/bin/firefox";
   thunar = "${pkgs.xfce.thunar}/bin/thunar";
 
-  waybar = "${pkgs.waybar}/bin/waybar";
+  hyprpanel = "${pkgs.hyprpanel}/bin/hyprpanel";
 
   wl-clip-persist = "${pkgs.wl-clip-persist}/bin/wl-clip-persist";
 
@@ -44,6 +44,4 @@
   cliphist = "${pkgs.cliphist}/bin/cliphist";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
 
-  swaync = "${pkgs.swaynotificationcenter}/bin/swaync";
-  swaync-client = "${pkgs.swaynotificationcenter}/bin/swaync-client";
 }

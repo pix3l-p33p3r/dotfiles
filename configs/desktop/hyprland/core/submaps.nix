@@ -1,6 +1,6 @@
 { variables, ... }:
 let
-  inherit (variables) snapfull snaparea hyprctl swaync-client;
+  inherit (variables) snapfull snaparea hyprctl;
 in
 ''
   bind=ALT, p, submap, snapshot
@@ -33,14 +33,6 @@ in
   submap=reset
 
 
-  bind=ALT, n, submap, notifications
-
-  submap=notifications
-  bind=, c, exec, ${swaync-client} -C && ${hyprctl} dispatch submap reset
-  bind=, t, exec, ${swaync-client} -t -sw && ${hyprctl} dispatch submap reset
-  bind=, d, exec, ${swaync-client} --toggle-dnd && ${hyprctl} dispatch submap reset
-  bind=, escape, submap, reset
-  submap=reset
 
   env = QT_AUTO_SCREEN_SCALE_FACTOR,2
   env = QT_QPA_PLATFORM,wayland;xcb
