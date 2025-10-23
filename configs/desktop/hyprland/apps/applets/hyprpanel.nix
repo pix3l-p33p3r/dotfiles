@@ -1,12 +1,5 @@
 { lib, pkgs, ... }:
 {
-  # Dependent packages
-  home.packages = with pkgs; [
-    font-awesome
-    noto-fonts
-    power-profiles-daemon
-  ];
-
   # Hyprpanel configuration
   xdg.configFile."hyprpanel/hyprpanel.conf".text = ''
     # Hyprpanel Configuration
