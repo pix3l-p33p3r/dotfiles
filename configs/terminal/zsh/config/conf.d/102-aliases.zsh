@@ -32,8 +32,8 @@ alias e="$EDITOR"
 
 # nix aliases
 
-alias build="sudo nixos-rebuild switch --flake . && home-manager switch --flake ."
-alias clean="./scripts/nix-cleaner.sh"
+alias build="cd $HOME/dotfiles && sudo nixos-rebuild switch --flake . && home-manager switch --flake ."
+alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 
 
 
