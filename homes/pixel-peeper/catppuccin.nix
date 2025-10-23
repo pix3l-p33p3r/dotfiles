@@ -79,10 +79,6 @@
   # ============================================================================
   # Wayland & Desktop Environment
   # ============================================================================
-  
-  # Desktop widgets and panel
-  # catppuccin.waybar.enable = true;
-  # catppuccin.waybar.flavor = "mocha";
 
   # Window manager (if using catppuccin integration)
   # catppuccin.hyprland.enable = true;  # Disabled - using custom config
