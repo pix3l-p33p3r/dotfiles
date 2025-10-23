@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ./hyprpanel.nix
+    # ./hyprpanel.nix
     ./wofi.nix
     ./sherlock.nix
     ./hyprpaper.nix
