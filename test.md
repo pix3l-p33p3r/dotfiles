@@ -73,3 +73,8 @@
 | **Presentations** | 24-32pt | 1.3 | Readable from distance |
 
 ---
+
+
+todo list
+
+<!-- hyprlock and hypridle dont work properly if i logout i dont cant login i dont have like the section/space to put the input of my login password in need to be fix -->
