@@ -44,7 +44,7 @@
     # USER AVATAR
     image {
         monitor = 
-        path = /home/pixel-peeper/dotfiles/assets/avatar/pixel-peeper.png
+        path = /home/pixel-peeper/dotfiles/assets/avatar/ryuma_pixel-peeper.webp
         size = 100
         border_color = $accent
 
