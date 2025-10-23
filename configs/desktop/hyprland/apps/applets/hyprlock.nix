@@ -13,7 +13,12 @@
     background {
         monitor =
         path = /home/pixel-peeper/dotfiles/assets/wallpapers/hellsing-4200x2366-19239.jpg
-        blur_passes = 1
+        blur_passes = 3
+        blur_size = 7
+        noise = 0.02
+        contrast = 1.3
+        brightness = 0.8
+        vibrancy = 0.21
         color = $base
     }
 
@@ -47,6 +52,10 @@
         path = /home/pixel-peeper/dotfiles/assets/avatar/ryuma_pixel-peeper.webp
         size = 100
         border_color = $accent
+
+        # Circular border
+        rounding = -1
+        border_size = 4
 
         position = 0, 75
         halign = center
