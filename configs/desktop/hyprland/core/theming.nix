@@ -36,7 +36,7 @@
      targets.hyprpaper.enable = lib.mkForce false;
      targets.wofi.enable = true;
      targets.neovim.enable = false;
-     targets.hyprlock.enable = false;
+     targets.hyprlock.enable = false; # - configuring manually
      targets.hyprland.enable = false;
      targets.qt.enable = true;
  
