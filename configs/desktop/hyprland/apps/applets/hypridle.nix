@@ -2,7 +2,8 @@
 {
   home.packages = [ pkgs.hypridle ];
 
-  xdg.configFile."hypridle/hypridle.conf".text = ''
+  xdg.configFile."hypridle/hypridle.conf" = {
+    text = ''
     general {
       lock_cmd = pidof hyprlock || ${pkgs.hyprlock}/bin/hyprlock
       before_sleep_cmd = loginctl lock-session
@@ -25,7 +26,9 @@
       on-timeout = hyprctl dispatch dpms off
       on-resume = hyprctl dispatch dpms on
     }
-  '';
+    '';
+    force = true;
+  };
 
   # Systemd user service for hypridle
   systemd.user.services.hypridle = {
