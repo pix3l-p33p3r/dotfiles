@@ -5,7 +5,6 @@ in
 {
   imports = [
     ./hyprpanel.nix
-    ./sway-notification-center.nix
     ./wofi.nix
     ./sherlock.nix
     ./hyprpaper.nix
