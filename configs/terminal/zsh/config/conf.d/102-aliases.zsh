@@ -30,4 +30,11 @@ alias pg="ping 1.0.0.1 -c 5"
 alias vi=nvim
 alias e="$EDITOR"
 
+# nix aliases
+
+alias build="sudo nixos-rebuild switch --flake . && home-manager switch --flake ."
+alias clean="./scripts/nix-cleaner.sh"
+
+
+
 alias timezsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
