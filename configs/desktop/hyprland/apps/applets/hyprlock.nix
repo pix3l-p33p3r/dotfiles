@@ -83,7 +83,8 @@ in
 {
   home.packages = [ pkgs.hyprlock ];
 
-  xdg.configFile."hyprlock/hyprlock.conf".text = ''
+  xdg.configFile."hyprlock/hyprlock.conf" = {
+    text = ''
     general {
         disable_loading_bar = true
         hide_cursor = true
@@ -161,7 +162,12 @@ in
     $accent = $mauve
     $accentAlpha = $mauveAlpha
     $font = JetBrainsMono Nerd Font
-  '';
+    '';
+    force = true;
+  };
 
-  xdg.configFile."hyprlock/mocha.conf".text = mochaColors;
+  xdg.configFile."hyprlock/mocha.conf" = {
+    text = mochaColors;
+    force = true;
+  };
 }
