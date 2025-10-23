@@ -71,7 +71,6 @@
     hyprsunset # Hyprland night light
     hyprutils
     slurp
-    waybar
     wl-clipboard
     wl-clip-persist
     wl-color-picker
