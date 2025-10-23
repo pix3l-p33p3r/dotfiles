@@ -8,5 +8,7 @@ in
     ./wofi.nix
     ./sherlock.nix
     ./hyprpaper.nix
+    ./hypridle.nix
+    ./hyprlock.nix
   ];
 }
