@@ -33,11 +33,14 @@
     ./core/pkgs.nix
 
     # Browsers
-    ../../browsers/firefox.nix
+    # ../../browsers/firefox.nix
 
     # Terminal
     ../../terminal/kitty.nix
     ../../terminal/zsh
+    
+    # Neovim
+    ../../terminal/nvim
 
     # Media
     ../../media/mpv.nix
@@ -46,8 +49,7 @@
     # Desktop apps
     ./apps/imv.nix
 
-    # Neovim
-    ../../terminal/nvim
+
   ];
 
 }
