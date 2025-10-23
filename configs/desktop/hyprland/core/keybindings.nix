@@ -8,15 +8,26 @@ let
 in
 {
   exec-once = [
+
+    # Services
     "systemctl --user restart pipewire pipewire.socket"
     "systemctl --user is-active xdg-desktop-portal-gtk.service && systemctl --user stop xdg-desktop-portal-gtk.service"
     "systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
     "systemctl --user restart xdg-desktop-portal.service"
-    "$browser"
-    "${hyprpanel}" # - configuring manually
+
+    # Applets
+    "${hyprpaper}"
+    "${hyprpanel}"
+    "${hypridle}"
+    
+    # Clipboard
     "sleep 3; ${cliphist} wipe"
     "${wl-paste} --watch ${cliphist} store"
     "${wl-clip-persist} --clipboard both"
+
+    # Terminal
+    "$terminal"
+
   ];
 
   bindm = [
