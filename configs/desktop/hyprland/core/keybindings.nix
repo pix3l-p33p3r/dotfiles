@@ -1,9 +1,10 @@
 { variables, ... }:
 let
   inherit (variables) 
-    loginctl hyprpanel cliphist wofi hyprpicker volume_up volume_down 
+    loginctl cliphist wofi hyprpicker volume_up volume_down 
     volume_mute_toggle player_play_toggle player_next player_prev 
-    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy sherlock hyprlock;
+    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy sherlock;
+    hyprpanel hyprlock hypridle; # configuring manually
 in
 {
   exec-once = [
@@ -12,7 +13,7 @@ in
     "systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
     "systemctl --user restart xdg-desktop-portal.service"
     "$browser"
-    "${hyprpanel}"
+    "${hyprpanel}" # - configuring manually
     "sleep 3; ${cliphist} wipe"
     "${wl-paste} --watch ${cliphist} store"
     "${wl-clip-persist} --clipboard both"
@@ -58,7 +59,7 @@ in
     "$mod, 9, workspace, 9"
     "$mod, 0, workspace, 10"
 
-    "$mod, Escape, exec, ${hyprlock}"
+    "$mod, Escape, exec, ${hyprlock}" # - configuring manually
 
     "$mod SHIFT, 1, movetoworkspace, 1"
     "$mod SHIFT, 2, movetoworkspace, 2"

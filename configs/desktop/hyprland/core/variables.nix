@@ -13,7 +13,7 @@
 
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   loginctl = "${pkgs.systemd}/bin/loginctl";
-  hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
+  hyprlock = "${pkgs.hyprlock}/bin/hyprlock"; # - configuring manually
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   systemctl = "${pkgs.systemd}/bin/systemctl";
   pidof = "${pkgs.procps}/bin/pidof";
@@ -36,7 +36,7 @@
   firefox = "${pkgs.firefox}/bin/firefox";
   thunar = "${pkgs.xfce.thunar}/bin/thunar";
 
-  hyprpanel = "${pkgs.hyprpanel}/bin/hyprpanel";
+  hyprpanel = "${pkgs.hyprpanel}/bin/hyprpanel"; # - configuring manually
 
   wl-clip-persist = "${pkgs.wl-clip-persist}/bin/wl-clip-persist";
 
