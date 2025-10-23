@@ -78,7 +78,7 @@
     # Clock module
     clock {
         # Time format
-        format = "%H:%M"
+        format = "%H:%M:%S"
         
         # Date format
         date_format = "%a %d %b"
@@ -102,7 +102,7 @@
         show_temperature = true
         
         # Update interval (seconds)
-        update_interval = 2
+        update_interval = 1
         
         # System info color
         color = #cdd6f4
