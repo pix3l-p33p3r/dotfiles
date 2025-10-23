@@ -3,7 +3,7 @@ let
   inherit (variables) 
     loginctl cliphist wofi hyprpicker volume_up volume_down 
     volume_mute_toggle player_play_toggle player_next player_prev 
-    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy sherlock;
+    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy sherlock
     hyprpanel hyprlock hypridle; # configuring manually
 in
 {
