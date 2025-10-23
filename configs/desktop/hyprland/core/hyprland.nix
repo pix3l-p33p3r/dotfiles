@@ -5,8 +5,6 @@ let
   keybindings = import ./keybindings.nix { inherit variables; };
   settings = import ./settings.nix { inherit variables keybindings; };
   servicesConfig = import ./services-config.nix { inherit variables; };
-  # hypridleConfig = import ./hypridle.nix { inherit variables; };
-  # hyprlockConfig = import ./hyprlock.nix { inherit pkgs variables; };
 in
 {
   wayland.windowManager.hyprland.enable = true;
@@ -14,4 +12,4 @@ in
   wayland.windowManager.hyprland.extraConfig = submapsConfig;
 
   wayland.windowManager.hyprland.settings = settings;
-} // servicesConfig // hypridleConfig // hyprlockConfig
+} // servicesConfig
