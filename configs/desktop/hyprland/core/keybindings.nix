@@ -1,9 +1,9 @@
 { variables, ... }:
 let
   inherit (variables) 
-    loginctl waybar cliphist wofi hyprpicker volume_up volume_down 
+    loginctl hyprpanel cliphist wofi hyprpicker volume_up volume_down 
     volume_mute_toggle player_play_toggle player_next player_prev 
-    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist swaync wl-copy sherlock hyprlock;
+    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy sherlock hyprlock;
 in
 {
   exec-once = [
@@ -12,11 +12,10 @@ in
     "systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
     "systemctl --user restart xdg-desktop-portal.service"
     "$browser"
-    "${waybar}"
+    "${hyprpanel}"
     "sleep 3; ${cliphist} wipe"
     "${wl-paste} --watch ${cliphist} store"
     "${wl-clip-persist} --clipboard both"
-    "${swaync}"
   ];
 
   bindm = [
