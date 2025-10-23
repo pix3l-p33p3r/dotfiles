@@ -18,13 +18,10 @@ dotfiles/
 │   │   │   ├── keybindings.nix  # Keybindings
 │   │   │   ├── variables.nix    # Environment variables
 │   │   │   └── ...              # Other core configs
-│   │   ├── apps/                # Desktop applications
-│   │   │   ├── applets/         # Waybar, wofi, sherlock, etc.
-│   │   │   ├── battop.nix       # System monitor
-│   │   │   └── imv.nix          # Image viewer
-│   │   └── devices/             # Device-specific configs
-│   │       ├── kraken/          # Kraken device configs
-│   │       └── x1/              # X1 device configs
+│   │   └── apps/                # Desktop applications
+│   │       ├── applets/         # hyprpanel, wofi, sherlock, etc.
+│   │       ├── battop.nix       # System monitor
+│   │       └── imv.nix          # Image viewer
 │   ├── terminal/                # Terminal-related configs
 │   │   ├── kitty.nix            # Kitty terminal config
 │   │   ├── zsh/                 # Zsh shell config
@@ -84,7 +81,7 @@ dotfiles/
 - **Security**: KeePassXC, Picocrypt, Tor
 
 ### Wayland & System
-- **Desktop Environment**: Waybar (status bar), Sherlock (app launcher)
+- **Desktop Environment**: hyprpanel (status bar), Sherlock (app launcher)
 - **Screen Lock**: Hyprlock
 - **Idle**: Hypridle for power management
 - **Screenshots**: Grim + Slurp
