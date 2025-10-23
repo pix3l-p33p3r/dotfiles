@@ -31,9 +31,9 @@ alias vi=nvim
 alias e="$EDITOR"
 
 # nix aliases
-
-alias build="cd $HOME/dotfiles && sudo nixos-rebuild switch --flake . && home-manager switch --flake ."
 alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
+
+alias build="cd $HOME/dotfiles && sudo nixos-rebuild switch --flake . && home-manager switch --flake . && clean"
 
 
 
