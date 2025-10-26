@@ -36,6 +36,7 @@
         catppuccin.nixosModules.catppuccin
         home-manager.nixosModules.home-manager
         {
+          nix.settings.download-buffer-size = 104857600; # 100MB
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = { inherit inputs; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
           home-manager.users.pixel-peeper = {
