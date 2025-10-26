@@ -128,6 +128,12 @@
     gcc
     gitui
     lazygit
+    lazydocker
+    lazyjournal
+    lazysql
+    lazyssh
+    k9s
+
 
     # Notes
     joplin-desktop
