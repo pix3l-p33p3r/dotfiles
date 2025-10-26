@@ -228,6 +228,7 @@
 	acpi # ACPI utilities
 	btop # System monitor
 	brightnessctl # Brightness control
+	dysk # Disk usage analyzer
 	gvfs # Virtual filesystem support
 	kmon # Kernel monitor
 	libgtop # System monitoring library
