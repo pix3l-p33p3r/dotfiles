@@ -232,7 +232,7 @@
 	gvfs # Virtual filesystem support
 	kmon # Kernel monitor
 	libgtop # System monitoring library
-	nvtop # GPU monitoring
+	nvtopPackages.intel # Intel GPU monitoring
 	power-profiles-daemon # Power management daemon
 	s-tui # System monitoring TUI
 	upower # Power management daemon
