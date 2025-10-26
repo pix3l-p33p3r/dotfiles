@@ -22,34 +22,34 @@
         color = $base
     }
 
-    # TIME
-    label {
-        monitor =
-        text = cmd[update:30000] echo "$(date +"%R")"
-        color = $text
-        font_size = 90
-        font_family = $font
-        position = -30, 0
-        halign = right
-        valign = top
-    }
+    # # TIME
+    # label {
+    #     monitor =
+    #     text = cmd[update:30000] echo "$(date +"%R")"
+    #     color = $text
+    #     font_size = 90
+    #     font_family = $font
+    #     position = -30, 0
+    #     halign = right
+    #     valign = top
+    # }
 
-    # DATE 
-    label {
-        monitor = 
-        text = cmd[update:43200000] echo "$(date +"%A, %d %B %Y")"
-        color = $text
-        font_size = 25
-        font_family = $font
-        position = -30, -150
-        halign = right
-        valign = top
-    }
+    # # DATE 
+    # label {
+    #     monitor = 
+    #     text = cmd[update:43200000] echo "$(date +"%A, %d %B %Y")"
+    #     color = $text
+    #     font_size = 25
+    #     font_family = $font
+    #     position = -30, -150
+    #     halign = right
+    #     valign = top
+    # }
 
     # USER AVATAR
     image {
-        monitor = 
-        path = /home/pixel-peeper/dotfiles/assets/avatar/ryuma_pixel-peeper.webp
+        monitor = eDP-1
+        path = /home/pixel-peeper/dotfiles/assets/avatar/ryuma_pixel-peeper.png
         size = 100
         border_color = $accent
 
