@@ -4,236 +4,234 @@
 	# --------------------------------------------------------------------------
 	# |                                CLI Base                                |
 	# --------------------------------------------------------------------------
-	bzip2
-	curl
-	direnv
-	git
-	gnutar
-	jq
-	p7zip
-	unrar
-	unzip
-	wget
-	xdg-utils
+	bzip2 # Compression utility
+	curl # HTTP client
+	direnv # Environment management
+	git # Version control
+	gnutar # Archive utility
+	jq # JSON processor
+	p7zip # Archive utility
+	unrar # RAR archive extractor
+	unzip # ZIP archive extractor
+	wget # HTTP downloader
+	xdg-utils # Desktop integration utilities
 
 	# --------------------------------------------------------------------------
 	# |                         Shell & CLI Tools                              |
 	# --------------------------------------------------------------------------
-	atuin
-	bat
-	bb
-	eza
-	fastfetch
-	fd
-	fzf
-	gping
-	macchina
-	nix-tree
-	ripgrep
-	tldr
-	tmux
-	trashy
-	tree
-	tt
-	ueberzugpp
-	yazi
-	zoxide
+	atuin # Shell history search
+	bat # Cat with syntax highlighting
+	bb # Command line tool
+	eza # Modern ls replacement
+	fastfetch # System information
+	fd # Find replacement
+	fzf # Fuzzy finder
+	gping # Ping with graph
+	macchina # System information
+	nix-tree # Nix dependency tree
+	ripgrep # Fast text search
+	tldr # Simplified man pages
+	tmux # Terminal multiplexer
+	trashy # Trash utility
+	tree # Directory tree
+	tt # Terminal typing test
+	ueberzugpp # Image preview
+	yazi # File manager
+	zoxide # Smart cd
 
 	# --------------------------------------------------------------------------
 	# |                        DevOps & Infrastructure                         |
 	# --------------------------------------------------------------------------
 	# Container & Orchestration
-	docker
-	docker-compose
-	podman
-	podman-compose
-	helm
-	kustomize
-	minikube
-	kind
-	k3s
-	k9s
+	docker # Container runtime
+	docker-compose # Multi-container orchestration
+	podman # Container runtime
+	podman-compose # Podman compose
+	helm # Kubernetes package manager
+	kustomize # Kubernetes configuration management
+	minikube # Local Kubernetes
+	kind # Kubernetes in Docker
+	k3s # Lightweight Kubernetes
+	k9s # Kubernetes TUI
 	
 	# Infrastructure as Code
-	terraform
-	terraform-ls
-	terragrunt
-	pulumi
-	ansible
-	ansible-lint
+	terraform # Infrastructure provisioning
+	terraform-ls # Terraform language server
+	terragrunt # Terraform wrapper
+	pulumi # Infrastructure as code
+	ansible # Configuration management
+	ansible-lint # Ansible linting
 	
 	# CI/CD & Build Tools
-	gitlab-runner
-	github-runner
-	buildah
-	skopeo
-	crane
+	gitlab-runner # GitLab CI runner
+	github-runner # GitHub Actions runner
+	buildah # Container image builder
+	skopeo # Container image operations
+	crane # Container registry operations
 	
 	# Monitoring & Observability
-	prometheus
-	grafana
-	loki
-	promtail
-	prometheus-node-exporter
-	cadvisor
+	prometheus # Metrics collection
+	grafana # Metrics visualization
+	loki # Log aggregation
+	promtail # Log shipping
+	prometheus-node-exporter # Node metrics
+	cadvisor # Container metrics
 	
 	# Cloud & API Tools
-	awscli2
-	azure-cli
-	google-cloud-sdk
-	doctl
-	linode-cli
-	vultr-cli
+	awscli2 # AWS command line
+	azure-cli # Azure command line
+	google-cloud-sdk # Google Cloud SDK
+	doctl # DigitalOcean CLI
+	linode-cli # Linode CLI
+	vultr-cli # Vultr CLI
 	
 	# Network & Security Tools
-	nmap
-	wireshark-cli
-	tcpdump
-	netcat
-	openssl
-	httpie
+	nmap # Network scanner
+	wireshark-cli # Network analyzer
+	tcpdump # Packet analyzer
+	netcat # Network utility
+	openssl # SSL/TLS toolkit
+	httpie # HTTP client
 	
 	# --------------------------------------------------------------------------
 	# |                        DevSecOps & Security                           |
 	# --------------------------------------------------------------------------
 	# Security Scanning
-	trivy
-	grype
-	syft
-	semgrep
-	bandit
-	pip-audit
+	trivy # Vulnerability scanner
+	grype # Vulnerability scanner
+	syft # Software composition analysis
+	semgrep # Static analysis
+	bandit # Python security linter
+	pip-audit # Python dependency audit
 	
 	# Secrets Management
-	vault
-	sops
-	age
-	gopass
-	pass
-	keychain
+	vault # Secrets management
+	sops # Secrets encryption
+	age # File encryption
+	gopass # Password manager
+	pass # Password store
+	keychain # SSH key management
 	
 	# Security Analysis
-	nuclei
-	subfinder
-	amass
-	assetfinder
-	waybackurls
-	gau
-	ffuf
-	gobuster
-	dirb
-	nikto
+	nuclei # Vulnerability scanner
+	subfinder # Subdomain discovery
+	amass # Subdomain enumeration
+	assetfinder # Asset discovery
+	waybackurls # Wayback machine URLs
+	gau # Get all URLs
+	ffuf # Web fuzzer
+	gobuster # Directory/file brute forcer
+	dirb # Web content scanner
+	nikto # Web vulnerability scanner
 	
 	# --------------------------------------------------------------------------
 	# |                      Low-Level & Robotics                             |
 	# --------------------------------------------------------------------------
 	# Embedded Development
-	gcc-arm-embedded
-	openocd
-	qemu
+	gcc-arm-embedded # ARM cross-compiler
+	openocd # On-chip debugging
+	qemu # Virtualization platform
 	
 	# Microcontroller Tools
-	avrdude
-	picocom
-	minicom
-	screen
+	avrdude # AVR programmer
+	picocom # Serial terminal
+	minicom # Serial communication
+	screen # Terminal multiplexer
 	
 	# Hardware Debugging
-	sigrok-cli
-	pulseview
-	gtkwave
-	iverilog
+	sigrok-cli # Logic analyzer
+	pulseview # Logic analyzer GUI
+	gtkwave # Waveform viewer
+	iverilog # Verilog simulator
 	
 	# --------------------------------------------------------------------------
 	# |                        System & Performance                           |
 	# --------------------------------------------------------------------------
 	# System Monitoring
-	iotop
-	vnstat
-	perf
-	strace
-	ltrace
+	iotop # I/O monitoring
+	vnstat # Network traffic monitor
+	perf # Performance profiler
+	strace # System call tracer
+	ltrace # Library call tracer
 	
 	# Process & Memory Analysis
-	psmisc
-	procps
-	memtest86plus
-	stress-ng
+	psmisc # Process utilities
+	procps # Process utilities
+	memtest86plus # Memory tester
+	stress-ng # System stress tester
 	
 	# File System Tools
-	ntfs3g
-	exfat
-	f2fs-tools
-	xfsprogs
-	btrfs-progs
-	e2fsprogs
+	ntfs3g # NTFS support
+	exfat # exFAT support
+	f2fs-tools # F2FS utilities
+	xfsprogs # XFS utilities
+	btrfs-progs # Btrfs utilities
+	e2fsprogs # ext2/3/4 utilities
 	
 	# --------------------------------------------------------------------------
 	# |                        Development Utilities                           |
 	# --------------------------------------------------------------------------
 	# Version Control
-	git-lfs
-	git-crypt
-	git-secrets
-	gh
-	glab
+	git-lfs # Git large file storage
+	git-crypt # Git encryption
+	git-secrets # Git secrets scanner
+	gh # GitHub CLI
+	glab # GitLab CLI
 	
 	# Code Quality & Linting
-	shellcheck
-	shfmt
-	hadolint
-	yamllint
-	checkstyle
-	eslint
-	prettier
+	shellcheck # Shell script linter
+	shfmt # Shell formatter
+	hadolint # Dockerfile linter
+	yamllint # YAML linter
+	checkstyle # Java code style
+	eslint # JavaScript linter
+	prettier # Code formatter
 	
 	# Build Tools
-	cmake
-	ninja
-	meson
-	pkg-config
+	cmake # Build system
+	ninja # Build system
+	meson # Build system
+	pkg-config # Package configuration
 	
 	# Package Managers
-	pipx
-	cargo
-	go
-	nodejs
-	yarn
-	pnpm
+	pipx # Python package installer
+	cargo # Rust package manager
+	go # Go compiler
+	nodejs # JavaScript runtime
+	yarn # Node package manager
+	pnpm # Node package manager
 	
 	# --------------------------------------------------------------------------
 	# |                            TUI Applications                            |
 	# --------------------------------------------------------------------------
-
-	
 	# Network Tools
-	bandwhich
-	slurm
-	speedtest-cli
+	bandwhich # Network utilization
+	slurm # Network monitor
+	speedtest-cli # Internet speed test
 	
 	# Database Tools
-	mycli
-	pgcli
-	litecli
-	usql
+	mycli # MySQL CLI
+	pgcli # PostgreSQL CLI
+	litecli # SQLite CLI
+	usql # Universal SQL CLI
 	
 	# Git TUI Tools
-	tig
-	git-interactive-rebase-tool
+	tig # Git repository browser
+	git-interactive-rebase-tool # Interactive rebase
 	
 	# Development TUI
-	stern
+	stern # Kubernetes log tailing
 
 	# --------------------------------------------------------------------------
 	# |                            System & Hardware                           |
 	# --------------------------------------------------------------------------
-	acpi
-	btop
-	brightnessctl
+	acpi # ACPI utilities
+	btop # System monitor
+	brightnessctl # Brightness control
 	gvfs # Virtual filesystem support
-	kmon
+	kmon # Kernel monitor
 	libgtop # System monitoring library
-	nvtopPackages.intel
+	nvtop # GPU monitoring
 	power-profiles-daemon # Power management daemon
 	s-tui # System monitoring TUI
 	upower # Power management daemon
@@ -241,126 +239,126 @@
 	# --------------------------------------------------------------------------
 	# |                               Wayland                                  |
 	# --------------------------------------------------------------------------
-	cliphist
-	grim
+	cliphist # Clipboard history
+	grim # Screenshot tool
 	grimblast # Grim screenshot utility with blast functionality
-	hyprcursor
-	hypridle
-	hyprland
-	hyprlock
-	hyprpaper
-	hyprpicker
+	hyprcursor # Hyprland cursor
+	hypridle # Hyprland idle daemon
+	hyprland # Wayland compositor
+	hyprlock # Hyprland screen locker
+	hyprpaper # Hyprland wallpaper daemon
+	hyprpicker # Hyprland color picker
 	hyprpanel # Hyprland panel
 	hyprshot # Hyprland screenshot tool
 	hyprsunset # Hyprland night light
-	hyprutils
-	slurp
-	wl-clipboard
-	wl-clip-persist
-	wl-color-picker
-	wofi
-	wofi-emoji
+	hyprutils # Hyprland utilities
+	slurp # Screen area selection
+	wl-clipboard # Wayland clipboard
+	wl-clip-persist # Persistent clipboard
+	wl-color-picker # Wayland color picker
+	wofi # Application launcher
+	wofi-emoji # Emoji picker
 
 
 	# --------------------------------------------------------------------------
 	# |                                Audio                                   |
 	# --------------------------------------------------------------------------
-	alsa-firmware
-	alsa-tools
-	cava
-	pamixer
-	pavucontrol
-	pipewire
-	playerctl
+	alsa-firmware # ALSA firmware
+	alsa-tools # ALSA utilities
+	cava # Audio visualizer
+	pamixer # PulseAudio mixer
+	pavucontrol # PulseAudio control
+	pipewire # Audio server
+	playerctl # Media player control
 	wireplumber # PipeWire session manager
 
 	# --------------------------------------------------------------------------
 	# |                              Networking                                |
 	# --------------------------------------------------------------------------
-	bluez
-	bluez-tools
-	iwd
+	bluez # Bluetooth stack
+	bluez-tools # Bluetooth utilities
+	iwd # Wireless daemon
 	networkmanager # Network management daemon
-	networkmanagerapplet
+	networkmanagerapplet # NetworkManager applet
 
 	# --------------------------------------------------------------------------
 	# |                             File Manager                               |
 	# --------------------------------------------------------------------------
-	xfce.thunar
-	xfce.thunar-archive-plugin
-	xfce.thunar-volman
-	xfce.tumbler
+	xfce.thunar # File manager
+	xfce.thunar-archive-plugin # Archive support
+	xfce.thunar-volman # Volume management
+	xfce.tumbler # Thumbnail generator
 
 	# --------------------------------------------------------------------------
 	# |                            Media & Documents                           |
 	# --------------------------------------------------------------------------
-	ffmpeg
-	imagemagick
-	imv
-	mpv
-	pandoc
-	poppler
-	resvg
-	vlc
-	zathura
+	ffmpeg # Media converter
+	imagemagick # Image manipulation
+	imv # Image viewer
+	mpv # Media player
+	pandoc # Document converter
+	poppler # PDF utilities
+	resvg # SVG renderer
+	vlc # Media player
+	zathura # PDF viewer
 
 	# --------------------------------------------------------------------------
 	# |                           GUI Applications                             |
 	# --------------------------------------------------------------------------
 	# DEV (Development)
-	code-cursor
-	gitui
+	code-cursor # VS Code fork
+	gitui # Git TUI
 
 
 	# Notes
-	joplin-desktop
-	notesnook
-	obsidian
+	joplin-desktop # Note-taking app
+	notesnook # Note-taking app
+	obsidian # Knowledge management
 
 	# Anime & Manga
-	ani-cli
-	komikku
+	ani-cli # Anime streaming CLI
+	komikku # Manga reader
 
 	# Privacy, Anonymity & OpSec (Operational Security)
-	librewolf
-	mullvad-browser
-	onionshare-gui
-	tor
+	librewolf # Privacy-focused browser
+	mullvad-browser # Privacy browser
+	onionshare-gui # Secure file sharing
+	tor # Anonymous network
 
 	# ComSec (Secure Communication)
-	session-desktop
-	simplex-chat-desktop
+	session-desktop # Secure messaging
+	simplex-chat-desktop # Secure chat
 
 	# Security
-	gpa
-	keepassxc
-	picocrypt
+	gpa # GNU Privacy Assistant
+	keepassxc # Password manager
+	picocrypt # File encryption
 
 	# General Utilities & Social
-	discord
-	hackgregator # RSS
-	puffin
-	spotify
-	syncthing
-	taskwarrior3
+	discord # Chat application
+	hackgregator # RSS aggregator
+	puffin # RSS reader
+	spotify # Music streaming
+	syncthing # File synchronization
+	taskwarrior3 # Task management
 
 	# --------------------------------------------------------------------------
 	# |                               AI                                       |
 	# --------------------------------------------------------------------------
-	gemini-cli
-	fabric-ai
+	gemini-cli # Google Gemini CLI
+	fabric-ai # AI framework
 
 	# --------------------------------------------------------------------------
 	# |                          Development & Libraries                        |
 	# --------------------------------------------------------------------------
-	dart-sass
-	gtksourceview3
-	libsoup_3
+	dart-sass # Sass compiler
+	gtksourceview3 # Text editor widget
+	libsoup_3 # HTTP library
 
 	# --------------------------------------------------------------------------
 	# |                               Drivers                                  |
 	# --------------------------------------------------------------------------
-	intel-gpu-tools
-	vulkan-tools
+	intel-gpu-tools # Intel GPU utilities
+	vulkan-tools # Vulkan utilities
   ];
 }
