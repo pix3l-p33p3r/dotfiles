@@ -3,7 +3,7 @@ let
   inherit (variables) 
     loginctl cliphist wofi hyprpicker volume_up volume_down 
     volume_mute_toggle player_play_toggle player_next player_prev 
-    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy sherlock
+    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy hyprlauncher
     hyprpanel hyprlock hypridle hyprpaper; # configuring manually
 in
 {
@@ -41,8 +41,8 @@ in
     "$mod, q, killactive,"
     "$mod, M, exit,"
     "$mod_SHIFT, space, togglefloating,"
-    "$mod, d, exec, ${sherlock}"
-    "$mod, x, exec, ${sherlock} --sub-menu pm"
+    "$mod, d, exec, ${hyprlauncher}"
+    "$mod, x, exec, ${hyprlauncher} --category system"
     "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
     "$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
 

@@ -197,6 +197,7 @@
 	hyprshot # Hyprland screenshot tool
 	hyprsunset # Hyprland night light
 	hyprutils # Hyprland utilities
+	hyprlauncher # Hyprland application launcher
 	slurp # Screen area selection
 	wl-clipboard # Wayland clipboard
 	wl-clip-persist # Persistent clipboard
