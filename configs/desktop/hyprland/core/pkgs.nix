@@ -6,12 +6,9 @@
 	# --------------------------------------------------------------------------
 	bzip2 # Compression utility
 	curl # HTTP client
-	gnutar # Archive utility
 	jq # JSON processor
-	p7zip # Archive utility
 	unrar # RAR archive extractor
 	unzip # ZIP archive extractor
-	wget # HTTP downloader
 	xdg-utils # Desktop integration utilities
 
 
@@ -21,8 +18,6 @@
 	# Container & Orchestration
 	docker # Container runtime
 	docker-compose # Multi-container orchestration
-	podman # Container runtime
-	podman-compose # Podman compose
 	helm # Kubernetes package manager
 	kustomize # Kubernetes configuration management
 	minikube # Local Kubernetes
@@ -67,7 +62,6 @@
 	tcpdump # Packet analyzer
 	netcat # Network utility
 	openssl # SSL/TLS toolkit
-	httpie # HTTP client
 	
 	# --------------------------------------------------------------------------
 	# |                        DevSecOps & Security                           |
@@ -130,7 +124,6 @@
 	ltrace # Library call tracer
 	
 	# Process & Memory Analysis
-	psmisc # Process utilities
 	procps # Process utilities
 	memtest86plus # Memory tester
 	stress-ng # System stress tester
@@ -197,13 +190,12 @@
 	hyprshot # Hyprland screenshot tool
 	hyprsunset # Hyprland night light
 	hyprutils # Hyprland utilities
-	hyprlauncher # Hyprland application launcher
+	# hyprlauncher # Hyprland application launcher (removed - repository deleted)
 	slurp # Screen area selection
 	wl-clipboard # Wayland clipboard
 	wl-clip-persist # Persistent clipboard
 	wl-color-picker # Wayland color picker
-	wofi # Application launcher
-	wofi-emoji # Emoji picker
+	rofi # Application launcher (X11 and Wayland)
 
 
 	# --------------------------------------------------------------------------
@@ -223,7 +215,6 @@
 	# --------------------------------------------------------------------------
 	bluez # Bluetooth stack
 	bluez-tools # Bluetooth utilities
-	iwd # Wireless daemon
 	networkmanager # Network management daemon
 	networkmanagerapplet # NetworkManager applet
 
@@ -253,7 +244,6 @@
 	# --------------------------------------------------------------------------
 	# DEV (Development)
 	code-cursor # VS Code fork
-
 
 	# Notes
 	joplin-desktop # Note-taking app
