@@ -61,6 +61,46 @@
       # Symbol mapping for powerline
       symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
       text_composition_strategy platform
+
+      # Catppuccin Mocha Colorscheme
+      # Base colors
+      background #1e1e2e
+      foreground #cdd6f4
+      selection_background #585b70
+      selection_foreground #cdd6f4
+      url_color #f5e0dc
+
+      # Cursor colors
+      cursor #f5e0dc
+      cursor_text_color #1e1e2e
+
+      # Normal colors
+      color0 #45475a
+      color1 #f38ba8
+      color2 #a6e3a1
+      color3 #f9e2af
+      color4 #89b4fa
+      color5 #cba6f7
+      color6 #94e2d5
+      color7 #bac2de
+
+      # Bright colors
+      color8 #585b70
+      color9 #f38ba8
+      color10 #a6e3a1
+      color11 #f9e2af
+      color12 #89b4fa
+      color13 #cba6f7
+      color14 #94e2d5
+      color15 #a6adc8
+
+      # Tab bar colors
+      tab_bar_background #11111b
+      active_tab_background #cba6f7
+      active_tab_foreground #11111b
+      inactive_tab_background #313244
+      inactive_tab_foreground #a6adc8
+      tab_bar_margin_color #11111b
     '';
   };
 }
