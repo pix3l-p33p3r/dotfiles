@@ -13,7 +13,7 @@
 - **Hyprland** - Modern Wayland compositor with smooth animations
 - **Catppuccin Mocha** - Beautiful, pastel color scheme
 - **Hyprpanel** - Elegant status bar with system information
-- **Sherlock** - Intelligent application launcher with widgets
+- **Hyprlauncher** - Modern application launcher with Catppuccin theme
 - **Hyprlock** - Secure lock screen with custom avatar
 
 ### 🛠️ **Development Tools**
@@ -123,8 +123,8 @@ dotfiles/
 ### 🚀 **Applications**
 | Keybind | Action |
 |---------|--------|
-| `Super + D` | Open app launcher (Sherlock) |
-| `Super + X` | Open power management menu |
+| `Super + D` | Open app launcher (Hyprlauncher) |
+| `Super + X` | Open system management menu |
 | `Super + Shift + V` | Open clipboard history |
 | `Super + Shift + C` | Color picker |
 | `Super + F` | Open file manager |
@@ -176,25 +176,24 @@ dotfiles/
 
 ### 🔧 **System Tools**
 - **Status Bar**: hyprpanel
-- **App Launcher**: Sherlock with widgets
+- **App Launcher**: Hyprlauncher with Catppuccin theme
 - **Screen Lock**: hyprlock with custom avatar
 - **Idle Management**: hypridle
 - **Screenshots**: Grim + Slurp
 - **Color Picker**: hyprpicker
 
-## 🎯 Sherlock Launcher Features
+## 🎯 Hyprlauncher Features
 
-Sherlock provides an intelligent application launcher with:
+Hyprlauncher provides a modern application launcher with Catppuccin Mocha theming:
 
-- **🔍 App Launcher**: Search and launch applications
-- **🌤️ Weather Widget**: Real-time weather information
-- **📋 Clipboard Integration**: Execute clipboard content
-- **🎵 Spotify Controls**: Audio management and controls
-- **🧮 Calculator**: Built-in calculator functionality
-- **⚡ Power Management**: System shutdown, sleep, lock, and reboot
-- **🔒 VPN Controls**: Wireguard connection management
-- **🌐 Web Search**: Google and YouTube search integration
-- **🛠️ Utilities**: Color picker and other system tools
+- **🔍 App Launcher**: Fuzzy search and launch applications
+- **🎨 Catppuccin Theme**: Beautiful Mocha color scheme integration
+- **⚡ System Management**: Shutdown, reboot, suspend, and lock screen
+- **🛠️ Utilities**: Color picker, screenshots, and system tools
+- **📱 Categories**: Organized by application type with icons
+- **⌨️ Keyboard Navigation**: Full keyboard support with intuitive shortcuts
+- **🎭 Animations**: Smooth slide animations and transitions
+- **🔧 Custom Commands**: Extensible with custom system commands
 
 ## 🎨 Customization
 
@@ -264,7 +263,7 @@ graph TD
     D --> D1[nixpkgs]
     D --> D2[home-manager]
     D --> D3[catppuccin]
-    D --> D4[sherlock]
+    D --> D4[hyprlauncher]
 
     B1 --> E[Hyprland]
     B1 --> F[System Tools]
@@ -274,7 +273,7 @@ graph TD
     
     C3 --> I[hyprpanel]
     C3 --> J[hyprlock]
-    C3 --> K[sherlock]
+    C3 --> K[hyprlauncher]
 
     style A fill:#A2D2FF,stroke:#444444,stroke-width:2px
     style B fill:#B0E0E6,stroke:#444444,stroke-width:2px
@@ -301,7 +300,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Home Manager](https://github.com/nix-community/home-manager) - Manage a user environment using Nix
 - [Hyprland](https://hyprland.org/) - Dynamic tiling Wayland compositor
 - [Catppuccin](https://github.com/catppuccin/catppuccin) - Soothing pastel theme
-- [Sherlock](https://github.com/Skxxtz/sherlock) - Intelligent application launcher
+- [Hyprlauncher](https://github.com/hyprland-community/hyprlauncher) - Modern application launcher
 - [Neovim](https://neovim.io/) - Hyperextensible Vim-based text editor
 
 ---

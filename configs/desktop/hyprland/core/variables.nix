@@ -35,7 +35,7 @@
   # Application launchers and menus
   wofi = "${pkgs.wofi}/bin/wofi";
   menu = "${pkgs.wofi}/bin/wofi --show drun";
-  sherlock = "${inputs.sherlock.packages.x86_64-linux.default}/bin/sherlock";
+  hyprlauncher = "${pkgs.hyprlauncher}/bin/hyprlauncher";
 
   # Hyprland ecosystem
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";

@@ -6,7 +6,7 @@ in
   imports = [
     # ./hyprpanel.nix
     ./wofi.nix
-    ./sherlock.nix
+    ./hyprlauncher.nix
     ./hyprpaper.nix
     ./hypridle.nix
     ./hyprlock.nix
