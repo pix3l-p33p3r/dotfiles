@@ -124,8 +124,8 @@ alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 - Process completion for kill commands
 
 #### `300-plugins_config.zsh` - Plugin Settings
-- **agkozak-zsh-prompt**: Clean, git-aware prompt
-- **history-substring-search**: Enhanced history search
+- **agkozak-zsh-prompt**: Clean, git-aware prompt with Catppuccin Mocha colors
+- **history-substring-search**: Enhanced history search with Catppuccin colors
 - **autosuggestions**: Smart command suggestions
 
 #### `900-startup.zsh` - Startup Commands
@@ -236,14 +236,30 @@ Add completion files to `config/completions/` directory. Files should start with
 
 ## 🎨 Prompt Customization
 
-The prompt uses agkozak-zsh-prompt. Customize it in `config/conf.d/300-plugins_config.zsh`:
+The prompt uses agkozak-zsh-prompt with **Catppuccin Mocha** colors. Customize it in `config/conf.d/300-plugins_config.zsh`:
 
+### Catppuccin Mocha Color Scheme
 ```bash
-# Prompt colors
-AGKOZAK_COLORS_USER_HOST=blue
-AGKOZAK_COLORS_PATH=green
-AGKOZAK_COLORS_BRANCH_STATUS=yellow
-AGKOZAK_COLORS_PROMPT_CHAR=white
+# Catppuccin Mocha Colors for agkozak prompt
+AGKOZAK_COLORS_EXIT_STATUS=red          # #f38ba8 (red)
+AGKOZAK_COLORS_USER_HOST=blue           # #89b4fa (blue)
+AGKOZAK_COLORS_PATH=green               # #a6e3a1 (green)
+AGKOZAK_COLORS_BRANCH_STATUS=yellow     # #f9e2af (yellow)
+AGKOZAK_COLORS_PROMPT_CHAR=white        # #bac2de (white/foreground)
+AGKOZAK_COLORS_CMD_EXEC_TIME=cyan       # #94e2d5 (teal)
+AGKOZAK_COLORS_VIRTUALENV=magenta       # #cba6f7 (mauve)
+AGKOZAK_COLORS_BG_STRING=magenta        # #cba6f7 (mauve)
+
+# Modern prompt characters
+AGKOZAK_PROMPT_CHAR='❯'               # Success prompt
+AGKOZAK_PROMPT_CHAR_FAIL='✗'          # Error prompt
+```
+
+### Customization Options
+```bash
+# Change colors to other Catppuccin variants
+AGKOZAK_COLORS_USER_HOST=cyan          # For macchiato variant
+AGKOZAK_COLORS_PATH=blue              # For frappe variant
 ```
 
 ## 🔍 Troubleshooting
