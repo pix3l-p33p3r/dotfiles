@@ -80,12 +80,6 @@
   # Wayland & Desktop Environment
   # ============================================================================
 
-  # Window manager (if using catppuccin integration)
-  # catppuccin.hyprland.enable = true;  # Disabled - using custom config
-  
-  # Screen lock (if using catppuccin integration)
-  # catppuccin.hyprlock.enable = true;  # Disabled - using custom config
-
   # Application launcher
   catppuccin.rofi.enable = true;
   catppuccin.rofi.flavor = "mocha";
