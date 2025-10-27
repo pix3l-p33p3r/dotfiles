@@ -13,7 +13,7 @@
 - **Hyprland** - Modern Wayland compositor with smooth animations
 - **Catppuccin Mocha** - Beautiful, pastel color scheme
 - **Hyprpanel** - Elegant status bar with system information
-- **Hyprlauncher** - Modern application launcher with Catppuccin theme
+- **Rofi** - Modern application launcher with Catppuccin theme
 - **Hyprlock** - Secure lock screen with custom avatar
 
 ### 🛠️ **Development Tools**
@@ -123,8 +123,8 @@ dotfiles/
 ### 🚀 **Applications**
 | Keybind | Action |
 |---------|--------|
-| `Super + D` | Open app launcher (Hyprlauncher) |
-| `Super + X` | Open system management menu |
+| `Super + D` | Open app launcher (Rofi) |
+| `Super + Shift + D` | Open run dialog (Rofi) |
 | `Super + Shift + V` | Open clipboard history |
 | `Super + Shift + C` | Color picker |
 | `Super + F` | Open file manager |
@@ -176,24 +176,25 @@ dotfiles/
 
 ### 🔧 **System Tools**
 - **Status Bar**: hyprpanel
-- **App Launcher**: Hyprlauncher with Catppuccin theme
+- **App Launcher**: Rofi with Catppuccin theme and plugins
 - **Screen Lock**: hyprlock with custom avatar
 - **Idle Management**: hypridle
 - **Screenshots**: Grim + Slurp
 - **Color Picker**: hyprpicker
 
-## 🎯 Hyprlauncher Features
+## 🎯 Rofi Launcher Features
 
-Hyprlauncher provides a modern application launcher with Catppuccin Mocha theming:
+Rofi provides a powerful application launcher with Catppuccin Mocha theming:
 
-- **🔍 App Launcher**: Fuzzy search and launch applications
+- **🔍 App Launcher**: Search and launch applications with fuzzy matching
 - **🎨 Catppuccin Theme**: Beautiful Mocha color scheme integration
-- **⚡ System Management**: Shutdown, reboot, suspend, and lock screen
-- **🛠️ Utilities**: Color picker, screenshots, and system tools
-- **📱 Categories**: Organized by application type with icons
+- **📱 Multiple Modes**: Applications, run commands, window switcher, SSH
+- **🧮 Calculator**: Built-in calculator with rofi-calc plugin
+- **😀 Emoji Picker**: Quick emoji insertion with rofi-emoji plugin
+- **⚡ Power Menu**: System management with rofi-power-menu plugin
 - **⌨️ Keyboard Navigation**: Full keyboard support with intuitive shortcuts
-- **🎭 Animations**: Smooth slide animations and transitions
-- **🔧 Custom Commands**: Extensible with custom system commands
+- **🎭 Smooth Animations**: Elegant transitions and visual effects
+- **🔧 Extensible**: Plugin system for additional functionality
 
 ## 🎨 Customization
 
@@ -207,7 +208,15 @@ wallpaper = self + "/assets/wallpapers/your-wallpaper.jpg";
 Replace `assets/avatar/ryuma_pixel-peeper.png` with your own avatar for the lock screen.
 
 ### 🎨 **Theme**
-The configuration uses Catppuccin Mocha. To change themes, modify `configs/desktop/hyprland/core/theming.nix`.
+The configuration uses Catppuccin Mocha across all applications. Comprehensive theme integration includes:
+- **Terminal**: Kitty, Tmux, Yazi
+- **Development**: LazyGit, GitUI
+- **Media**: MPV, IMV, Zathura, Cava
+- **System**: Btop, Bat, Eza, FZF
+- **Launcher**: Rofi with Catppuccin module
+- **Editor**: Neovim with Catppuccin colorscheme
+
+To change themes, modify `homes/pixel-peeper/catppuccin.nix`.
 
 ### ⌨️ **Keybindings**
 Customize keybindings in `configs/desktop/hyprland/core/keybindings.nix`.
@@ -263,7 +272,7 @@ graph TD
     D --> D1[nixpkgs]
     D --> D2[home-manager]
     D --> D3[catppuccin]
-    D --> D4[hyprlauncher]
+    D --> D4[rofi]
 
     B1 --> E[Hyprland]
     B1 --> F[System Tools]
@@ -273,7 +282,7 @@ graph TD
     
     C3 --> I[hyprpanel]
     C3 --> J[hyprlock]
-    C3 --> K[hyprlauncher]
+    C3 --> K[rofi]
 
     style A fill:#A2D2FF,stroke:#444444,stroke-width:2px
     style B fill:#B0E0E6,stroke:#444444,stroke-width:2px
@@ -300,7 +309,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Home Manager](https://github.com/nix-community/home-manager) - Manage a user environment using Nix
 - [Hyprland](https://hyprland.org/) - Dynamic tiling Wayland compositor
 - [Catppuccin](https://github.com/catppuccin/catppuccin) - Soothing pastel theme
-- [Hyprlauncher](https://github.com/hyprland-community/hyprlauncher) - Modern application launcher
+- [Rofi](https://github.com/davatorium/rofi) - Application launcher and dmenu replacement
 - [Neovim](https://neovim.io/) - Hyperextensible Vim-based text editor
 
 ---
