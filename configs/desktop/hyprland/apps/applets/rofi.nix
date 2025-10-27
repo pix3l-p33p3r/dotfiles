@@ -3,12 +3,6 @@
   programs.rofi = {
     enable = true;
     
-    # Enable Wayland support
-    wayland.enable = true;
-    
-    # Theme configuration
-    theme = "catppuccin-mocha";
-    
     # Configuration options
     extraConfig = {
       # Display modes
