@@ -270,7 +270,8 @@
 	picocrypt # File encryption
 
 	# General Utilities & Social
-	discord # Chat application
+	vencord # Discord alternative
+	# discord # Chat application
 	hackgregator # RSS aggregator
 	puffin # RSS reader
 	spotify # Music streaming
