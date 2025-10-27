@@ -92,4 +92,13 @@
   # Audio visualizer
   catppuccin.cava.enable = true;
   catppuccin.cava.flavor = "mocha";
+
+  # ============================================================================
+  # Browsers & Web Applications
+  # ============================================================================
+
+  # Discord client (vesktop)
+  catppuccin.vesktop.enable = true;
+  catppuccin.vesktop.flavor = "mocha";
+  catppuccin.vesktop.accent = "mauve";
 }
