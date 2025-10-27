@@ -83,7 +83,7 @@ in
     "$mod SHIFT, 9, movetoworkspace, 9"
     "$mod SHIFT, 0, movetoworkspace, 10"
 
-    "$mod, f, fullscreen, 0"
+    "$mod SHIFT, f, fullscreen, 0"
 
     "$mod, S, togglespecialworkspace, magic"
     "$mod SHIFT, S, movetoworkspace, special:magic"
