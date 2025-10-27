@@ -40,8 +40,6 @@
     shfmt # Shell formatter
     hadolint # Dockerfile linter
     yamllint # YAML linter
-    checkstyle # Java code style
-    eslint # JavaScript linter
     prettier # Code formatter
     
     # Build Tools
