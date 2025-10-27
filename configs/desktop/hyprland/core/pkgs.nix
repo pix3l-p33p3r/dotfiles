@@ -195,8 +195,6 @@
 	wl-clipboard # Wayland clipboard
 	wl-clip-persist # Persistent clipboard
 	wl-color-picker # Wayland color picker
-	rofi # Application launcher (X11 and Wayland)
-	rofi-catppuccin-theme # Catppuccin theme for rofi
 
 
 	# --------------------------------------------------------------------------
