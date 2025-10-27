@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [
+	home.packages = with pkgs; [
 	# --------------------------------------------------------------------------
 	# |                                CLI Base                                |
 	# --------------------------------------------------------------------------
@@ -271,7 +271,6 @@
 
 	# General Utilities & Social
 	vesktop # Discord alternative
-	# discord # Chat application
 	hackgregator # RSS aggregator
 	puffin # RSS reader
 	spotify # Music streaming
@@ -296,5 +295,5 @@
 	# --------------------------------------------------------------------------
 	intel-gpu-tools # Intel GPU utilities
 	vulkan-tools # Vulkan utilities
-  ];
+	];
 }
