@@ -33,9 +33,10 @@
   snapfull = "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp -o)\" - | tee ~/Pictures/Screenshots/$(date +%Y%m%d_%Hh%Mm%Ss)_full.png | ${pkgs.wl-clipboard}/bin/wl-copy -t 'image/png'";
 
   # Application launchers and menus
-  wofi = "${pkgs.wofi}/bin/wofi";
-  menu = "${pkgs.wofi}/bin/wofi --show drun";
-  hyprlauncher = "${pkgs.hyprlauncher}/bin/hyprlauncher";
+  rofi = "${pkgs.rofi}/bin/rofi";
+  rofi-menu = "${pkgs.rofi}/bin/rofi -show drun -show-icons";
+  rofi-cliphist = "${pkgs.rofi}/bin/rofi -dmenu -i";
+  menu = "${pkgs.rofi}/bin/rofi -show drun -show-icons";
 
   # Hyprland ecosystem
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
