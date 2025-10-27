@@ -1,9 +1,9 @@
 { variables, ... }:
 let
   inherit (variables) 
-    loginctl cliphist wofi hyprpicker volume_up volume_down 
+    loginctl cliphist rofi rofi-menu rofi-cliphist hyprpicker volume_up volume_down 
     volume_mute_toggle player_play_toggle player_next player_prev 
-    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy hyprlauncher
+    screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
     hyprpanel hyprlock hypridle hyprpaper; # configuring manually
 in
 {
@@ -41,9 +41,9 @@ in
     "$mod, q, killactive,"
     "$mod, M, exit,"
     "$mod_SHIFT, space, togglefloating,"
-    "$mod, d, exec, ${hyprlauncher}"
-    "$mod, x, exec, ${hyprlauncher} --category system"
-    "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
+    "$mod, d, exec, ${rofi-menu}"
+    "$mod SHIFT, d, exec, ${rofi} -show run"
+    "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
     "$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
 
     "$mod, f, exec, $file_manager"
