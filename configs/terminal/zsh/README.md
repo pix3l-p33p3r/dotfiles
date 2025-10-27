@@ -38,8 +38,6 @@ zsh/
     ├── completions/         # Custom completions
     │   ├── _ovquik
     │   ├── _volta
-    │   ├── _warp-cli
-    │   └── _zellij
     └── conf.d/              # Configuration modules
         ├── 100-zsh.zsh      # Core zsh options
         ├── 102-aliases.zsh  # Command aliases
@@ -86,7 +84,6 @@ alias cd="z"                    # Smart cd with zoxide
 alias vi="nvim"                 # Use nvim as vi
 alias e="$EDITOR"               # Quick editor access
 alias tx="tmux"                 # Terminal multiplexer
-alias zlj="zellij"             # Terminal multiplexer
 
 # System
 alias myip="curl icanhazip.com"  # Check external IP
@@ -232,7 +229,34 @@ plug "username/plugin-name"
 ```
 
 ### Custom Completions
-Add completion files to `config/completions/` directory. Files should start with `_` and follow zsh completion naming conventions.
+The `config/completions/` directory contains custom zsh completion scripts for various tools and applications. These files provide intelligent command-line completion and follow zsh completion naming conventions (starting with `_`).
+
+#### Available Completion Files:
+
+**`_ovquik`** (317B, 13 lines)
+- **Purpose**: Completion for `ovquik` OpenVPN management tool
+- **Features**: 
+  - Server connection/disconnection completion
+  - Dynamic server list from `.ovpn` files
+  - Status and disconnect options
+- **Usage**: Provides tab completion for VPN server names and commands
+
+**`_volta`** (9.4KB, 300 lines)
+- **Purpose**: Completion for Volta JavaScript toolchain manager
+- **Features**:
+  - Node.js version management completion
+  - Package installation and removal
+  - Project and global tool management
+  - Verbose/quiet mode options
+- **Usage**: Intelligent completion for all Volta commands and options
+
+#### Adding New Completions
+To add custom completion files:
+1. Create a file starting with `_` in `config/completions/`
+2. Follow zsh completion script conventions
+3. Use `#compdef <command>` to specify the command
+4. Implement completion logic using zsh completion functions
+5. The completions will be automatically loaded by the zsh configuration
 
 ## 🎨 Prompt Customization
 
