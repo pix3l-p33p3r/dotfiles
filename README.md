@@ -109,7 +109,7 @@ dotfiles/
 | `Super + Q` | Kill active window |
 | `Super + M` | Exit Hyprland |
 | `Super + Shift + Space` | Toggle floating |
-| `Super + F` | Toggle fullscreen |
+| `Super + Shift + F` | Toggle fullscreen |
 
 ### 🧭 **Navigation**
 | Keybind | Action |
