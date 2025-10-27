@@ -38,14 +38,14 @@
       parse-known-hosts = true;
       
       # Terminal
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.kitty}/bin/kitty";
       
       # Prompt
       prompt = "Search";
       
       # Filtering
-      filter = "fuzzy";
-      fuzzy-filter = "fzf";
+      # filter = "fuzzy";
+      # fuzzy-filter = "fzf";
       
       # Click behavior
       click-to-exit = true;
