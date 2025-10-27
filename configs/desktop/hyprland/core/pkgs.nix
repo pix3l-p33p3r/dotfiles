@@ -270,7 +270,7 @@
 	picocrypt # File encryption
 
 	# General Utilities & Social
-	vencord # Discord alternative
+	# vencord # Discord alternative (conflicts with prettier in code-cursor)
 	# discord # Chat application
 	hackgregator # RSS aggregator
 	puffin # RSS reader
