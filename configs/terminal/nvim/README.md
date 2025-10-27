@@ -6,7 +6,7 @@ A modern, feature-rich Neovim configuration built with [Lazy.nvim](https://githu
 
 ### Core Setup
 - **Plugin Manager**: Lazy.nvim (fast, modern plugin manager)
-- **Colorscheme**: Nightfox (Carbonfox variant)
+- **Colorscheme**: Catppuccin (Mocha variant)
 - **LSP**: Native LSP with comprehensive language support
 - **Completion**: Native completion with LSP integration
 - **Treesitter**: Advanced syntax highlighting and parsing
@@ -68,7 +68,7 @@ nvim/
     │       ├── modes.lua     # Mode indicators
     │       ├── neo-tree.lua  # File explorer
     │       ├── neoscroll.lua # Smooth scrolling
-    │       ├── nightfox.nvim.lua # Colorscheme
+    │       ├── catppuccin.lua # Colorscheme
     │       ├── nvim-tree.lua # Alternative file explorer
     │       ├── oil.lua       # File editing
     │       ├── project.lua   # Project management
@@ -116,7 +116,7 @@ nvim/
 ### Plugin Configurations (`lua/plugins/`)
 
 #### Core Plugins
-- **nightfox.nvim**: Colorscheme (Carbonfox variant)
+- **catppuccin.nvim**: Colorscheme (Mocha variant)
 - **lazy.nvim**: Plugin manager
 - **telescope.nvim**: Fuzzy finder
 - **lspsaga.nvim**: Enhanced LSP features
@@ -310,23 +310,20 @@ vim.lsp.config.my_ls = {
 ```
 
 ### Colorscheme Customization
-Edit `lua/plugins/nightfox.nvim.lua`:
+Edit `lua/plugins/catppuccin.lua`:
 
 ```lua
 -- Change colorscheme
-vim.cmd([[colorscheme terafox]]) -- or other nightfox variants
+vim.cmd([[colorscheme catppuccin-macchiato]]) -- or other catppuccin variants
 ```
 
 ## 🎨 Themes
 
-The configuration uses **Nightfox** colorscheme with the **Carbonfox** variant. Available variants:
-- `carbonfox` (default) - Dark theme
-- `nightfox` - Classic dark
-- `dayfox` - Light theme
-- `dawnfox` - Light theme
-- `duskfox` - Dark theme
-- `nordfox` - Nord-inspired
-- `terafox` - Terra-inspired
+The configuration uses **Catppuccin** colorscheme with the **Mocha** variant. Available variants:
+- `mocha` (default) - Dark theme with warm tones
+- `macchiato` - Dark theme with cooler tones
+- `frappe` - Dark theme with balanced tones
+- `latte` - Light theme
 
 ## 🔍 Troubleshooting
 
@@ -358,7 +355,7 @@ The configuration uses **Nightfox** colorscheme with the **Carbonfox** variant. 
 - [Tree-sitter](https://tree-sitter.github.io/tree-sitter/)
 - [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 - [LSP Saga](https://github.com/glepnir/lspsaga.nvim)
-- [Nightfox](https://github.com/EdenEast/nightfox.nvim)
+- [Catppuccin](https://github.com/catppuccin/nvim)
 
 ## 🤝 Contributing
 
