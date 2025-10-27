@@ -13,18 +13,12 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sherlock = {
-      url = "github:Skxxtz/sherlock";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      # inputs.home-manager.follows = "home-manager";
-    };
     nur = {
       url = "github:nix-community/NUR";
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, sherlock, nur, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, nur, ... }@inputs: {
     # Add wallpaper to the flake source
     wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
     # ===== NixOS Configuration =====
