@@ -31,13 +31,8 @@
 
    stylix = {
      enable = true;
-     #image = ../../../../assets/images/homescreen.png;
  
-     targets.hyprpaper.enable = lib.mkForce false;
-     targets.wofi.enable = true;
-     targets.neovim.enable = false;
-     targets.hyprlock.enable = false; # - configuring manually
-     targets.hyprland.enable = false;
+    #  targets.neovim.enable = true;
      targets.qt.enable = true;
  
      cursor.name = "volantes_cursors";
