@@ -6,7 +6,7 @@ in
   imports = [
     # ./hyprpanel.nix
     ./wofi.nix
-    ./hyprlauncher.nix
+    # ./hyprlauncher.nix # removed - repository deleted
     ./hyprpaper.nix
     ./hypridle.nix
     ./hyprlock.nix
