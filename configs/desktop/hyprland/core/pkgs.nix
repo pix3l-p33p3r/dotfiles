@@ -196,6 +196,7 @@
 	wl-clip-persist # Persistent clipboard
 	wl-color-picker # Wayland color picker
 	rofi # Application launcher (X11 and Wayland)
+	rofi-catppuccin-theme # Catppuccin theme for rofi
 
 
 	# --------------------------------------------------------------------------
@@ -217,6 +218,7 @@
 	bluez-tools # Bluetooth utilities
 	networkmanager # Network management daemon
 	networkmanagerapplet # NetworkManager applet
+	wifi-qr # Generate WiFi QR codes
 
 	# --------------------------------------------------------------------------
 	# |                             File Manager                               |
