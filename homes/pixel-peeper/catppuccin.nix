@@ -87,12 +87,13 @@
   # catppuccin.hyprlock.enable = true;  # Disabled - using custom config
 
   # Application launcher
-  # catppuccin.wofi.enable = true;
-  # catppuccin.wofi.flavor = "mocha";
+  catppuccin.rofi.enable = true;
+  catppuccin.rofi.flavor = "mocha";
 
   # ============================================================================
   # Audio & Media
   # ============================================================================
+  
   
   # Audio visualizer
   catppuccin.cava.enable = true;

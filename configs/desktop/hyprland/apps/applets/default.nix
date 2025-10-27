@@ -5,8 +5,8 @@ in
 {
   imports = [
     # ./hyprpanel.nix
-    ./wofi.nix
-    # ./hyprlauncher.nix # removed - repository deleted
+    ./rofi.nix
+    # ./hyprlauncher.nix # in the future maybe 
     ./hyprpaper.nix
     ./hypridle.nix
     ./hyprlock.nix
