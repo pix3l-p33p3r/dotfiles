@@ -243,7 +243,7 @@
 	# |                           GUI Applications                             |
 	# --------------------------------------------------------------------------
 	# DEV (Development)
-	code-cursor # VS Code fork
+	code-cursor # Code editor
 
 	# Notes
 	joplin-desktop # Note-taking app
@@ -270,7 +270,7 @@
 	picocrypt # File encryption
 
 	# General Utilities & Social
-	# vencord # Discord alternative (conflicts with prettier in code-cursor)
+	vesktop # Discord alternative
 	# discord # Chat application
 	hackgregator # RSS aggregator
 	puffin # RSS reader
