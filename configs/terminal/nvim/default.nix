@@ -62,42 +62,50 @@
     enable = true;
 
     extraPackages = with pkgs; [
-      # essentials
+      # ============================================================================
+      # |                            ESSENTIAL TOOLS                              |
+      # ============================================================================
+      # Core Development
+      gcc # C/C++ compiler
+      gnumake # Build automation tool
+      tree-sitter # Parser generator
+      inotify-tools # File system monitoring
       nodejs
-      gcc
       git
       cargo
-      gnumake # telescope-fzf-native-nvim
-      tree-sitter
       ripgrep
-      inotify-tools
 
-      # lsp servers
-      nixd
-      pyright
-      eslint_d
-      pylint
-      rust-analyzer
-      gopls
-      clang-tools
-      typos-lsp
-      bash-language-server
-      svelte-language-server
-      typescript-language-server
-      vscode-langservers-extracted
-      emmet-ls
-      harper
-      lua-language-server
-      tailwindcss-language-server
-      yaml-language-server
+      # ============================================================================
+      # |                          LANGUAGE SERVERS                               |
+      # ============================================================================
+      # Language Servers
+      nixd # Nix language server
+      pyright # Python language server
+      eslint_d # JavaScript/TypeScript linter daemon
+      pylint # Python linter
+      rust-analyzer # Rust language server
+      gopls # Go language server
+      clang-tools # C/C++ language server
+      typos-lsp # Typo checker language server
+      bash-language-server # Bash language server
+      svelte-language-server # Svelte language server
+      typescript-language-server # TypeScript language server
+      vscode-langservers-extracted # VS Code language servers
+      emmet-ls # Emmet language server
+      harper # Harper language server
+      lua-language-server # Lua language server
+      tailwindcss-language-server # Tailwind CSS language server
+      yaml-language-server # YAML language server
 
-      # formatters
-      nixfmt
-      nodePackages.prettier
-      prettierd
-      black
-      stylua
-      rustfmt
+      # ============================================================================
+      # |                            FORMATTERS                                   |
+      # ============================================================================
+      nixfmt # Nix formatter
+      nodePackages.prettier # JavaScript/TypeScript formatter
+      prettierd # Prettier daemon
+      black # Python formatter
+      stylua # Lua formatter
+      rustfmt # Rust formatter
     ];
   };
 
