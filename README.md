@@ -17,7 +17,7 @@
 - **Hyprlock** - Secure lock screen with custom avatar
 
 ### 🛠️ **Development Tools**
-- **Neovim** - Modern Vim with LSP, TreeSitter, and extensive plugins
+- **Neovim** - Modern Vim with LSP, TreeSitter, GitHub Copilot, and extensive plugins
 - **Kitty** - GPU-accelerated terminal emulator
 - **Zsh** - Powerful shell with Zap plugin manager
 - **Git** - Version control with lazygit and gitui GUIs
@@ -159,7 +159,8 @@ dotfiles/
 - **Theme**: Catppuccin Mocha
 
 ### 💻 **Development**
-- **Editor**: Neovim with LSP, TreeSitter, and 40+ plugins
+- **Editor**: Neovim with LSP, TreeSitter, GitHub Copilot, and 40+ plugins
+- **AI Assistant**: GitHub Copilot for intelligent code completion
 - **Language Servers**: Rust, TypeScript, Python, Go, Lua, and more
 - **Git**: lazygit, gitui for GUI operations
 - **CLI Tools**: bat, eza, fd, ripgrep, fzf, jq
