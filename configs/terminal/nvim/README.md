@@ -10,6 +10,7 @@ A modern, feature-rich Neovim configuration built with [Lazy.nvim](https://githu
 - **LSP**: Native LSP with comprehensive language support
 - **Completion**: Native completion with LSP integration
 - **Treesitter**: Advanced syntax highlighting and parsing
+- **AI Assistant**: GitHub Copilot for intelligent code completion
 
 ### Development Tools
 - **LSP Servers**: TypeScript, Python, Rust, Go, C/C++, Lua, Nix, and more
@@ -23,6 +24,7 @@ A modern, feature-rich Neovim configuration built with [Lazy.nvim](https://githu
 - **Navigation**: Leap for quick movement, enhanced window navigation
 - **Code Actions**: LSP Saga for enhanced LSP features
 - **Auto-completion**: Native completion with LSP
+- **AI Code Completion**: GitHub Copilot with intelligent suggestions
 - **Auto-pairs**: Smart bracket and quote pairing
 - **Auto-save**: Automatic file saving
 - **Session Management**: Persistence for session restoration
@@ -54,6 +56,7 @@ nvim/
     │       ├── bufferline.lua # Buffer line
     │       ├── comment.lua   # Commenting
     │       ├── conform.lua   # Formatting
+    │       ├── copilot.lua   # GitHub Copilot AI assistant
     │       ├── eye-linter.lua # Linting
     │       ├── gitsigns.lua  # Git signs
     │       ├── hover.lua     # Hover documentation
@@ -130,6 +133,7 @@ nvim/
 - **eye-linter.nvim**: Linting
 - **gitsigns.nvim**: Git integration
 - **hover.nvim**: Documentation hover
+- **copilot.vim**: GitHub Copilot AI assistant
 
 #### Productivity Plugins
 - **leap.nvim**: Quick navigation
@@ -180,6 +184,21 @@ nvim/
 - `<leader>gc` - Git commits (Telescope)
 - `<leader>gb` - Git branches (Telescope)
 - `<leader>gs` - Git status (Telescope)
+
+#### GitHub Copilot
+- `Ctrl+Space` - Accept Copilot suggestion
+- `Ctrl+Right` - Accept word suggestion
+- `Ctrl+Escape` - Dismiss suggestion
+- `Ctrl+]` - Next suggestion
+- `Ctrl+[` - Previous suggestion
+- `Ctrl+Shift+P` - Open Copilot panel
+- `Ctrl+Shift+S` - Show Copilot status
+- `Ctrl+Shift+E` - Enable Copilot
+- `Ctrl+Shift+D` - Disable Copilot
+- `<leader>cp` - Open Copilot panel (normal mode)
+- `<leader>cs` - Show Copilot status (normal mode)
+- `<leader>ce` - Enable Copilot (normal mode)
+- `<leader>cd` - Disable Copilot (normal mode)
 
 #### Session Management
 - `<leader>pr` - Restore session
@@ -269,6 +288,15 @@ On first launch, Lazy.nvim will automatically:
 3. Configure Tree-sitter parsers
 4. Initialize all plugin configurations
 
+### GitHub Copilot Setup
+GitHub Copilot requires authentication:
+1. **Authenticate with GitHub CLI:**
+   ```bash
+   gh auth login
+   ```
+2. **Start Neovim** - Copilot will automatically install via lazy.nvim
+3. **Test Copilot** - Start typing code to see AI suggestions
+
 ### GUI Usage (Neovide)
 If you prefer a GUI, Neovide is included and configured:
 ```bash
@@ -356,6 +384,7 @@ The configuration uses **Catppuccin** colorscheme with the **Mocha** variant. Av
 - [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 - [LSP Saga](https://github.com/glepnir/lspsaga.nvim)
 - [Catppuccin](https://github.com/catppuccin/nvim)
+- [GitHub Copilot](https://github.com/github/copilot.vim)
 
 ## 🤝 Contributing
 
