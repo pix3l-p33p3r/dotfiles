@@ -37,14 +37,14 @@ in
 
   bind = [
 	"$mod, Return, exec, $terminal"
-	"$mod, Shift, Return, exec, $terminal --class kitty-float"
+  "$mod SHIFT, Return, exec, $terminal --class kitty-float"
 	"$mod, q, killactive,"
 	"$mod, M, exit,"
-	"$mod, Shift, space, togglefloating,"
+  "$mod SHIFT, space, togglefloating,"
 	"$mod, d, exec, ${rofi-menu}"
-	"$mod, Shift, d, exec, ${rofi} -show run"
-	"$mod, Shift, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
-	"$mod, Shift, c, exec, ${hyprpicker} | ${wl-copy}"
+  "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
+  "$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
+  "$mod SHIFT, d, exec, ${rofi} -show run"
 
 	# Hyprpanel windows
 	"$mod, p, exec, ${hyprpanel} toggleWindow dashboardmenu"
