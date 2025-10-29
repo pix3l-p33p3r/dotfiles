@@ -46,10 +46,6 @@
   catppuccin.lazygit.enable = true;
 
   catppuccin.gitui.enable = true;
-  
-  # Additional CLIs present in packages
-  catppuccin.gh.enable = true;
-  catppuccin.glow.enable = true;
 
   # ============================================================================
   # Media & Documents
