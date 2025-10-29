@@ -37,7 +37,7 @@ echo ""
 echo "--- [ROOT] Step 4 of 4: Optimizing the Nix store ---"
 echo "This may also ask for your password."
 # As root, this finds identical files in the store and hardlinks them to save space.
-sudo nix store optimise
+sudo nix store optimise && nix store optimise
 echo "Nix store optimise."
 echo ""
 
