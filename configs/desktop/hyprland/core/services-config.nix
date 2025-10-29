@@ -1,8 +1,7 @@
 { variables, ... }:
 let
   inherit (variables) 
-    pidof hyprctl brightnessctl systemctl;
-    # hyprlock; # Commented out - configuring manually
+    pidof hyprctl brightnessctl systemctl ;
 in
 {
   # System services
@@ -29,6 +28,4 @@ in
   services.poweralertd.enable = true;
   services.network-manager-applet.enable = true;
 
-  # Hyprland-specific services moved to hypridle.nix (now configured manually)
-  # Basic hyprlock config is handled in hyprlock.nix via xdg.configFile (now configured manually)
 }

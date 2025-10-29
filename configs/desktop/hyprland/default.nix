@@ -10,11 +10,6 @@
   imports = [
     inputs.stylix.homeModules.stylix
 
-    # import home manager custom modules
-    # ../../../../modules/hm
-
-    # ../../common
-
     # Hyprland config
     ./core/hyprland.nix
 
