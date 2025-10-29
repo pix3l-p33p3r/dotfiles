@@ -46,4 +46,7 @@ in
     '';
   };
 
+  # Expose MPD to MPRIS so Hyprpanel can read it via playerctl
+  services.mpdris2.enable = true;
+
 }
