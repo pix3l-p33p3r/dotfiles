@@ -37,20 +37,24 @@ in
 
   bind = [
 	"$mod, Return, exec, $terminal"
-	"$mod_SHIFT, Return, exec, $terminal --class kitty-float"
+	"$mod, Shift, Return, exec, $terminal --class kitty-float"
 	"$mod, q, killactive,"
 	"$mod, M, exit,"
-	"$mod_SHIFT, space, togglefloating,"
+	"$mod, Shift, space, togglefloating,"
 	"$mod, d, exec, ${rofi-menu}"
-	"$mod SHIFT, d, exec, ${rofi} -show run"
-	"$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
-	"$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
+	"$mod, Shift, d, exec, ${rofi} -show run"
+	"$mod, Shift, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
+	"$mod, Shift, c, exec, ${hyprpicker} | ${wl-copy}"
 
 	# Hyprpanel windows
-	"$mod, p, exec, ${hyprpanel} toggleWindow settings-dialog"
+	"$mod, p, exec, ${hyprpanel} toggleWindow dashboardmenu"
 
 	"$mod, f, exec, $file_manager"
 	"$mod, b, exec, $browser"
+	"$mod, x, exec, $browser --new-tab https://x.com"
+	"$mod, g, exec, $browser --new-tab https://mail.google.com"
+	"$mod, c, exec, cursor"
+	"$mod, v, exec, vesktop"
 
 	"$mod, l, movefocus, r"
 	"$mod, h, movefocus, l"
