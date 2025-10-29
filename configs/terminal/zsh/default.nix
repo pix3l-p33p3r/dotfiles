@@ -98,6 +98,9 @@
     VISUAL = "nvim";
   };
 
+  # Add local bin to PATH
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   home.file = {
     ".config/zsh" = {
       source = ./config;
