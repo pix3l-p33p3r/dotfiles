@@ -47,7 +47,7 @@ in
 	"$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
 
 	# Hyprpanel windows
-	"$mod, comma, exec, ${hyprpanel} toggleWindow settings-dialog"
+	"$mod, p, exec, ${hyprpanel} toggleWindow settings-dialog"
 
 	"$mod, f, exec, $file_manager"
 	"$mod, b, exec, $browser"

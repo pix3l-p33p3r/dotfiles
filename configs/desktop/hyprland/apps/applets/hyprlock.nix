@@ -4,15 +4,21 @@
 
   xdg.configFile."hyprlock/hyprlock.conf" = {
     text = ''
+    # Accent and font
+    $accent = $lavender
+    $accentAlpha = $lavenderAlpha
+    $font = JetBrainsMono Nerd Font
+
+    # GENERAL
     general {
-        disable_loading_bar = true
         hide_cursor = true
         grace = 30
     }
 
+    # BACKGROUND
     background {
         monitor =
-        path = /home/pixel-peeper/dotfiles/assets/wallpapers/hellsing-4200x2366-19239.jpg
+        path = $HOME/dotfiles/assets/wallpapers/hellsing-4200x2366-19239.jpg
         blur_passes = 3
         blur_size = 7
         noise = 0.02
@@ -22,10 +28,22 @@
         color = $base
     }
 
+    # LAYOUT
+    label {
+        monitor =
+        text = Layout: $LAYOUT
+        color = $text
+        font_size = 25
+        font_family = $font
+        position = 30, -30
+        halign = left
+        valign = top
+    }
+
     # TIME
     label {
         monitor =
-        text = cmd[update:30000] echo "$(date +"%R")"
+        text = $TIME
         color = $text
         font_size = 90
         font_family = $font
@@ -34,10 +52,10 @@
         valign = top
     }
 
-    # DATE 
+    # DATE
     label {
-        monitor = 
-        text = cmd[update:43200000] echo "$(date +"%A, %d %B %Y")"
+        monitor =
+        text = cmd[update:43200000] date +"%A, %d %B %Y"
         color = $text
         font_size = 25
         font_family = $font
@@ -46,10 +64,22 @@
         valign = top
     }
 
+    # FINGERPRINT
+    label {
+        monitor =
+        text = $FPRINTPROMPT
+        color = $text
+        font_size = 14
+        font_family = $font
+        position = 0, -107
+        halign = center
+        valign = center
+    }
+
     # USER AVATAR
     image {
-        monitor = eDP-1
-        path = /home/pixel-peeper/dotfiles/assets/avatar/ryuma_pixel-peeper.png
+        monitor =
+        path = $HOME/dotfiles/assets/avatar/ryuma_pixel-peeper.png
         size = 100
         border_color = $accent
 
@@ -80,7 +110,7 @@
         fail_color = $red
         fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i>
         capslock_color = $yellow
-        position = 0, -35
+        position = 0, -47
         halign = center
         valign = center
     }
