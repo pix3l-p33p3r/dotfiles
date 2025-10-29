@@ -39,6 +39,7 @@
     # Media
     ../../media/mpv.nix
     ../../media/zathura.nix
+    ../../media/rmpc.nix
 
     # Desktop apps
     ./apps/imv.nix
