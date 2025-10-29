@@ -6,7 +6,7 @@
     # Configuration options
     extraConfig = {
       # Display modes
-      modi = "drun,run,window,ssh";
+      modi = "run,window,combi";
       
       # Display settings
       show-icons = true;
@@ -15,12 +15,13 @@
       display-run = "Run";
       display-window = "Windows";
       display-ssh = "SSH";
+      display-combi = "All";
       
       # Window settings
-      width = 550;
-      lines = 8;
-      columns = 1;
-      font = "Noto Sans 12";
+      width = 600;
+      lines = 5;
+      columns = 2;
+      font = "JetBrainsMono Nerd Font 18";
       
       # Behavior
       combi-hide-mode-prefix = true;
@@ -31,11 +32,13 @@
       cycle = true;
       
       # Appearance
-      sidebar-mode = false;
+      sidebar-mode = true;
       eh = 1;
       auto-select = false;
       parse-hosts = true;
       parse-known-hosts = true;
+      hide-scrollbar = true;
+      location = 0;
       
       # Terminal
       terminal = "${pkgs.kitty}/bin/kitty";
@@ -51,7 +54,7 @@
       click-to-exit = true;
       
       # Wayland specific
-      drun-display-format = "{name}";
+      drun-display-format = "{icon} {name}";
       window-format = "{w} {c} {t}";
     };
     
