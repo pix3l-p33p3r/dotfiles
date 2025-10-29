@@ -363,8 +363,9 @@
 		vlc # Media player
 
 		# Music Players
-		rmpc # Music player
-		kew # Music player
+		rmpc # Music player client (rust mpc)
+		kew # TUI music player
+		mpd # Music Player Daemon
 
 		# Document Tools
 		pandoc # Document converter
