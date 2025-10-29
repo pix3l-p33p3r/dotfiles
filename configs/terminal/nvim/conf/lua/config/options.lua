@@ -55,6 +55,10 @@ opt.updatetime = 250
 -- Displays which-key popup sooner
 opt.timeoutlen = 300
 
+-- Make <Esc> respond instantly even after multi-key chords
+opt.ttimeout = true
+opt.ttimeoutlen = 10
+
 -- Configure how new splits should be opened
 opt.splitright = true
 opt.splitbelow = true

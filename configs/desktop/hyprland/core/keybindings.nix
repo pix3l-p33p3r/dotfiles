@@ -46,6 +46,9 @@ in
 	"$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
 	"$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
 
+	# Hyprpanel windows
+	"$mod, comma, exec, ${hyprpanel} toggleWindow settings-dialog"
+
 	"$mod, f, exec, $file_manager"
 	"$mod, b, exec, $browser"
 
