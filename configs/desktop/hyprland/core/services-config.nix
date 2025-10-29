@@ -28,4 +28,22 @@ in
   services.poweralertd.enable = true;
   services.network-manager-applet.enable = true;
 
+  # MPD (Music Player Daemon) as a user service for rmpc/kew
+  services.mpd = {
+    enable = true;
+    musicDirectory = "/home/pixel-peeper/Music";
+    network = {
+      listenAddress = "127.0.0.1";
+      port = 6600;
+    };
+    extraConfig = ''
+      audio_output {
+        type "pipewire"
+        name "PipeWire Output"
+      }
+      restore_paused "yes"
+      auto_update "yes"
+    '';
+  };
+
 }
