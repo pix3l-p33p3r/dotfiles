@@ -357,6 +357,8 @@
 		# ============================================================================
 		# Media Tools
 		ffmpeg # Media converter
+		yt-dlp # YouTube downloader
+		spotdl # Spotify downloader
 		imagemagick # Image manipulation
 		imv # Image viewer
 		mpv # Media player
