@@ -82,11 +82,6 @@
         path = $HOME/dotfiles/assets/avatar/ryuma_pixel-peeper.png
         size = 100
         border_color = $accent
-
-        # Circular border
-        rounding = -1
-        border_size = 4
-
         position = 0, 75
         halign = center
         valign = center
