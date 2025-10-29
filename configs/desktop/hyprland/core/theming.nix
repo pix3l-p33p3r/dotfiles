@@ -3,7 +3,7 @@
   home.pointerCursor = {
     x11 = {
       enable = true;
-      defaultCursor = "volantes_cursors";
+      defaultCursor = "Catppuccin-Mocha-Lavender";
     };
   };
 
@@ -11,8 +11,8 @@
     enable = true;
     cursorTheme = {
       size = 24;
-      name = "volantes_cursors";
-      package = pkgs.volantes-cursors;
+      name = "Catppuccin-Mocha-Lavender";
+      package = pkgs.catppuccin-cursors.mochaLavender;
     };
 
     iconTheme = {
@@ -35,9 +35,9 @@
     #  targets.neovim.enable = true;
      targets.qt.enable = true;
  
-     cursor.name = "volantes_cursors";
+    cursor.name = "Catppuccin-Mocha-Lavender";
      cursor.size = 42;
-     cursor.package = pkgs.volantes-cursors;
+    cursor.package = pkgs.catppuccin-cursors.mochaLavender;
  
      fonts.monospace = {
        name = "JetBrainsMono Nerd Font";
