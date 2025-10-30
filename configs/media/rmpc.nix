@@ -1,7 +1,129 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  xdg.configFile."rmpc/themes/catppuccin_mocha.ron" = {
+    enable = true;
+    force = true;
+    text = ''
+      (
+        name: "Catppuccin Mocha",
+        foreground: "#cdd6f4",
+        background: "#1e1e2e",
+        accent:     "#89b4fa",
+        selection:  "#313244",
+        success:    "#a6e3a1",
+        warning:    "#f9e2af",
+        error:      "#f38ba8",
+      )
+    '';
+  };
+
+  xdg.configFile."rmpc/notify" = {
+    enable = true;
+    force = true;
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      artist="$1"
+      title="$2"
+      album="$3"
+      if command -v notify-send >/dev/null 2>&1; then
+        t="$title"; a="$artist"; b="$album"
+        if [[ -z "$t" ]]; then t="Unknown Title"; fi
+        if [[ -z "$a" ]]; then a="Unknown Artist"; fi
+        if [[ -z "$b" ]]; then b="Unknown Album"; fi
+        notify-send -a rmpc "$t" "$a — $b" -i audio-x-generic
+      fi
+    '';
+  };
+
+  xdg.configFile."rmpc/increment_play_count" = {
+    enable = true;
+    force = true;
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      artist="$1"; title="$2"; album="$3"; file="$4"; elapsed_ms="$5"; duration_ms="$6"; state="$7"
+      log_dir="$HOME/.local/state/rmpc"
+      mkdir -p "$log_dir"
+      log_file="$log_dir/play.log"
+      printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$(date -Is)" "$artist" "$title" "$album" "$file" "$elapsed_ms" "$duration_ms" >> "$log_file"
+    '';
+  };
+
+  home.file.".local/bin/tag_music.sh" = {
+    enable = true;
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      set -eo pipefail
+      if ! command -v eyeD3 >/dev/null 2>&1; then
+        echo "eyeD3 is required. Install python3Packages.eyed3."
+        exit 1
+      fi
+      ARTIST=""''${ARTIST-}
+      ALBUM=""''${ALBUM-}
+      DIR=""''${DIR-}"."
+      if [[ -z "$ARTIST" || -z "$ALBUM" ]]; then
+        echo "Usage: ARTIST=... ALBUM=... DIR=path $0"
+        exit 1
+      fi
+      shopt -s nullglob
+      for f in "$DIR"/*.mp3; do
+        eyeD3 --artist "$ARTIST" --album "$ALBUM" "$f" >/dev/null
+      done
+    '';
+  };
+
+  home.file.".local/bin/tag_genres.sh" = {
+    enable = true;
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      set -eo pipefail
+      if ! command -v eyeD3 >/dev/null 2>&1; then
+        echo "eyeD3 is required. Install python3Packages.eyed3."
+        exit 1
+      fi
+      dir="$1"; if [[ -z "$dir" ]]; then dir="."; fi
+      for f in "$dir"/*.mp3; do
+        read -rp "Genres for '$f' (e.g. Electronic;House): " GENRES
+        eyeD3 --genre "$GENRES" "$f" >/dev/null
+      done
+    '';
+  };
+
+  home.file.".local/bin/fetch_album_lyrics.sh" = {
+    enable = true;
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+      dir="$1"; if [[ -z "$dir" ]]; then dir="."; fi
+      for f in "$dir"/*.mp3; do
+        base="$(basename "$f" .mp3)"
+        out="$(dirname "$f")/$base.lrc"
+        if [[ -f "$out" ]]; then continue; fi
+        echo "; TODO: fetch lyrics for '$f'" > "$out"
+      done
+    '';
+  };
+
+  home.file.".local/bin/inspect_log.sh" = {
+    enable = true;
+    executable = true;
+    text = ''
+      #!/usr/bin/env bash
+      log_file="$HOME/.local/state/rmpc/play.log"
+      if [[ ! -f "$log_file" ]]; then
+        echo "No log found at $log_file"
+        exit 0
+      fi
+      column -t -s $'\t' "$log_file" | less -S
+    '';
+  };
   xdg.configFile."rmpc/config.ron" = {
     enable = true;
+    force = true;
     text = ''
       #![enable(implicit_some)]
       #![enable(unwrap_newtypes)]
@@ -9,9 +131,12 @@
       (
           address: "127.0.0.1:6600",
           password: None,
-          theme: None,
+          theme: Some("catppuccin_mocha"),
           cache_dir: None,
-          on_song_change: None,
+          on_song_change: Some([
+            (path: "$HOME/.config/rmpc/notify", args: []),
+            (path: "$HOME/.config/rmpc/increment_play_count", args: []),
+          ]),
           volume_step: 5,
           max_fps: 30,
           scrolloff: 0,
@@ -132,6 +257,10 @@
                       direction: Horizontal,
                       panes: [(size: "40%", pane: Pane(AlbumArt)), (size: "60%", pane: Pane(Queue))],
                   ),
+              ),
+              (
+                  name: "Lyrics",
+                  pane: Pane(Lyrics),
               ),
               (
                   name: "Directories",
