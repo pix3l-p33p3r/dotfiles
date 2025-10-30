@@ -87,7 +87,8 @@ dotfiles/
 │   │   └── chromium.nix            # Chromium configuration
 │   └── 🎵 media/                   # Media applications
 │       ├── mpv.nix                 # Video player
-│       └── zathura.nix             # PDF viewer
+│       ├── zathura.nix             # PDF viewer
+│       └── rmpc.nix                # MPD client config, theme, hooks
 ├── 🎨 assets/                      # Static assets
 │   ├── wallpapers/                 # Desktop wallpapers
 │   └── avatar/                     # User avatars
