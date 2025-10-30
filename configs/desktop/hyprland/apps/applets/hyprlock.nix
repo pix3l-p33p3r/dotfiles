@@ -13,11 +13,12 @@
     general {
         hide_cursor = true
         grace = 30
+        ignore_empty_input = true
     }
 
     # BACKGROUND
     background {
-        monitor =
+        monitor = eDP-1
         path = $HOME/dotfiles/assets/wallpapers/hellsing-4200x2366-19239.jpg
         blur_passes = 3
         blur_size = 7
@@ -28,59 +29,50 @@
         color = $base
     }
 
-    # LAYOUT
-    label {
-        monitor =
-        text = Layout: $LAYOUT
-        color = $text
-        font_size = 25
-        font_family = $font
-        position = 30, -30
-        halign = left
-        valign = top
-    }
-
     # TIME
     label {
-        monitor =
-        text = $TIME
+        monitor = eDP-1
+        text = cmd[update:1000] date "+%H:%M:%S"
         color = $text
-        font_size = 90
+        font_size = 50
         font_family = $font
-        position = -30, 0
+        position = -100, 70
         halign = right
-        valign = top
+        valign = bottom
     }
 
     # DATE
     label {
-        monitor =
-        text = cmd[update:43200000] date +"%A, %d %B %Y"
+        monitor = eDP-1
+        text = cmd[update:1000] date "+%A, %d %B %Y"
         color = $text
-        font_size = 25
+        font_size = 18
         font_family = $font
-        position = -30, -150
+        position = -100, 160
         halign = right
-        valign = top
+        valign = bottom
     }
 
-    # FINGERPRINT
+    # USERNAME
     label {
-        monitor =
-        text = $FPRINTPROMPT
+        monitor = eDP-1
+        text = $USER
         color = $text
-        font_size = 14
+        font_size = 18
         font_family = $font
-        position = 0, -107
-        halign = center
-        valign = center
+        position = -100, 200
+        halign = right
+        valign = bottom
     }
+
 
     # USER AVATAR
     image {
-        monitor =
+        monitor = eDP-1
         path = $HOME/dotfiles/assets/avatar/ryuma_pixel-peeper.png
-        size = 100
+        size = 250
+        rounding = 120
+        border_size = 3
         border_color = $accent
         position = 0, 75
         halign = center
@@ -89,23 +81,31 @@
 
     # INPUT FIELD
     input-field {
-        monitor =
-        size = 300, 60
-        outline_thickness = 4
-        dots_size = 0.2
-        dots_spacing = 0.2
+        monitor = eDP-1
+        size = 180, 45
+        outline_thickness = 2
+        dots_size = 0.28
+        dots_spacing = 0.12
         dots_center = true
+        dots_rounding = -1
         outer_color = $accent
         inner_color = $surface0
         font_color = $text
-        fade_on_empty = false
-        placeholder_text = <span foreground="##$textAlpha"><i>󰌾 Logged in as </i><span foreground="##$accentAlpha">$USER</span></span>
+        fade_on_empty = true
+        fade_timeout = 800
+        placeholder_text = <i>Input Password...</i>
         hide_input = false
+        rounding = 40
         check_color = $accent
         fail_color = $red
         fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i>
+        fail_transition = 250
         capslock_color = $yellow
-        position = 0, -47
+        numlock_color = -1
+        bothlock_color = -1
+        invert_numlock = false
+        swap_font_color = false
+        position = 0, -140
         halign = center
         valign = center
     }
@@ -164,8 +164,8 @@
     $crust = rgb(11111b)
     $crustAlpha = 11111b
 
-    $accent = $mauve
-    $accentAlpha = $mauveAlpha
+    $accent = $lavender
+    $accentAlpha = $lavenderAlpha
     $font = JetBrainsMono Nerd Font
     '';
     force = true;

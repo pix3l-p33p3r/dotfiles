@@ -363,6 +363,8 @@
 		imv # Image viewer
 		mpv # Media player
 		vlc # Media player
+		cava # Audio visualizer for terminal
+		python3Packages.eyed3 # MP3 tagging for scripts
 
 		# Music Players
 		rmpc # Music player client (rust mpc)

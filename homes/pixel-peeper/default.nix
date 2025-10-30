@@ -1,4 +1,4 @@
-{ inputs, wallpaper, ... }@all: {
+{ inputs, wallpaper, pkgs, ... }@all: {
    imports = [
    ../../configs/desktop/hyprland
    ./catppuccin.nix
@@ -16,6 +16,16 @@
 
    programs.atuin.enable = true;
    programs.home-manager.enable = true;
+
+  # Zen Browser (twilight) enabled; Firefox remains default browser
+  programs.zen-browser = {
+    enable = true;
+    # No spaces/containers for now
+    profiles.default = {
+      # TODO: add extensions via extensions.packages once source list is decided
+      extensions.packages = [];
+    };
+  };
 
    home.username = "pixel-peeper";
    home.homeDirectory = "/home/pixel-peeper";
