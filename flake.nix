@@ -16,9 +16,13 @@
     nur = {
       url = "github:nix-community/NUR";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, nur, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, nur, zen-browser, ... }@inputs: {
     # Add wallpaper to the flake source
     wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
     # ===== NixOS Configuration =====
@@ -39,6 +43,7 @@
               ./homes/pixel-peeper
               #catppuccin.homeManagerModules.catppuccin
               catppuccin.homeModules.catppuccin
+              inputs.zen-browser.homeModules.twilight
             ];
           };
         }
@@ -53,6 +58,7 @@
         ./homes/pixel-peeper
         #catppuccin.homeManagerModules.catppuccin
         catppuccin.homeModules.catppuccin
+        inputs.zen-browser.homeModules.twilight
       ];
     };
   };
