@@ -10,8 +10,7 @@
     
     # Adobe Source Han fonts (CJK coverage)
     source-han-sans
-    source-han-sans-japanese
-    source-han-serif-japanese
+  source-han-serif
     
     # System & icon fonts
     cantarell-fonts
