@@ -7,9 +7,11 @@
   # This file configures Catppuccin Mocha theme for all compatible applications
   # in your system, providing a consistent and beautiful dark theme experience.
 
+  # Global Catppuccin configuration is handled by Stylix; keep only per-app theming here
   # Global Catppuccin configuration
-  catppuccin.flavor = "mocha";
-  catppuccin.accent = "mauve";
+  # catppuccin.flavor = "mocha";
+  # catppuccin.accent = "mauve";
+
 
   # ============================================================================
   # CLI & System Tools
