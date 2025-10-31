@@ -323,3 +323,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Made with ❤️ by [me](https://pixel-peeper.me)
 
 </div>
+
+## 📝 Last Updated
+
+- Date: 2025-10-31
+- Changes:
+  - Updated `configs/terminal/zsh/config/conf.d/102-aliases.zsh`
+  - Updated `machines/pixel-peeper/system.nix`
