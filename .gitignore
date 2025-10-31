@@ -1,0 +1,24 @@
+# Nix flake development
+.envrc
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.log
+
+# Build artifacts
+result
+result-*
+
+# macOS
+.DS_Store
+
+# Garbage collection keeps
+.gc-keep
+
