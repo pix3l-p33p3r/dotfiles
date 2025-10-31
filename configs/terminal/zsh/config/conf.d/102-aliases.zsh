@@ -36,7 +36,7 @@ alias rebuild="cd $HOME/dotfiles && sudo nixos-rebuild switch --flake . && home-
 
 alias update="nix flake update && fastfetch"
 
-alias upgrade="cd $HOME/dotfiles && nix flake update && sudo nixos-rebuild switch --flake . --upgrade && home-manager switch --flake . --upgrade && clean && fastfetch"
+alias upgrade="cd $HOME/dotfiles && nix flake update && sudo nixos-rebuild switch --flake . --upgrade && home-manager switch --flake . && clean && fastfetch"
 
 alias check="nix flake check"
 
