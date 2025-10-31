@@ -12,7 +12,7 @@
     isNormalUser = true;
     description = "pixel-peeper";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "docker" "libvirtd" ];
   };
 }
 
