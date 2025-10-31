@@ -248,7 +248,6 @@
 		bat # Cat with syntax highlighting
 		bb # Command line tool
 		eza # Modern ls replacement
-		fastfetch # System information
 		fzf # Fuzzy finder
 		glow # Markdown viewer
 		gping # Ping with graph
