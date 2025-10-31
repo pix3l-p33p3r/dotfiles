@@ -23,8 +23,6 @@
   };
   
   outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, nur, zen-browser, ... }@inputs: {
-    # Add wallpaper to the flake source
-    wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
     # ===== NixOS Configuration =====
     nixosConfigurations.pixel-peeper = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
