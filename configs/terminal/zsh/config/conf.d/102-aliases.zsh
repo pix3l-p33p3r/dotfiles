@@ -32,11 +32,9 @@ alias e="$EDITOR"
 # nix aliases
 alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 
-alias rebuild="cd $HOME/dotfiles && sudo nixos-rebuild switch --flake . && home-manager switch --flake . && clean && fastfetch && sleep 10 && reboot"
-
 alias update="nix flake update && fastfetch"
 
-alias upgrade="cd $HOME/dotfiles && nix flake update && sudo nixos-rebuild switch --flake . --upgrade && home-manager switch --flake . && clean && fastfetch"
+alias upgrade="cd $HOME/dotfiles && nix flake update && sudo nixos-rebuild switch --flake . --no-reexec && home-manager switch --flake . && clean && fastfetch"
 
 alias check="nix flake check"
 
