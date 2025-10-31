@@ -351,6 +351,7 @@
 		xfce.thunar-archive-plugin # Archive support
 		xfce.thunar-volman # Volume management
 		xfce.tumbler # Thumbnail generator
+		papirus-folders # Papirus folder recoloring tool
 
 		# ============================================================================
 		# |                          MEDIA & DOCUMENTS                             |
