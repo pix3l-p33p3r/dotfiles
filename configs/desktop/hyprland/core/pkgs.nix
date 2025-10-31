@@ -382,6 +382,8 @@
 		# ============================================================================
 		# Development
 		code-cursor # Code editor
+		cursor-cli # Cursor CLI
+
 
 		# Note Taking
 		joplin-desktop # Note-taking app
