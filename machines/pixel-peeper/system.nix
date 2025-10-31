@@ -21,6 +21,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Power management (required for poweralertd)
+  services.upower.enable = true;
+
   # ───── Hostname ─────
   networking.hostName = "pixel-peeper";
 
