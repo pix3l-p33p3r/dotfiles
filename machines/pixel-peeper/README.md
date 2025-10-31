@@ -176,8 +176,24 @@ If the system fails to build:
 3. Check for syntax errors in the problematic module
 
 
-## 📝 Last Updated
+## 🧩 Services Matrix
 
-- Date: 2025-10-31
-- Changes:
-  - Updated `system.nix`
+A quick map of enabled services/programs and where they are configured.
+
+| Service/Program | Type | Module | Notes |
+|---|---|---|---|
+| NetworkManager | system service | `system.nix` (`networking.networkmanager.enable`) | Primary networking |
+| UPower | system service | `system.nix` (`services.upower.enable`) | Power metrics for hyprpanel |
+| power-profiles-daemon | system service | `system.nix` (`services.power-profiles-daemon.enable`) | Power mode switching |
+| OpenSSH | system service | `system.nix` (`services.openssh.enable`) | SSH server |
+| Printing (CUPS) | system service | `system.nix` (`services.printing.enable`) | Printer support |
+| D-Bus | system service | `security.nix` (`services.dbus.enable`) | IPC bus |
+| X11 | system service | `x11.nix` (`services.xserver.enable`) | XWayland/legacy apps |
+| Bluetooth (Blueman) | system service | `bluetooth.nix` (`services.blueman.enable`) | Bluetooth manager |
+| Blueman Applet | user service | `configs/desktop/hyprland/core/services-config.nix` | Tray applet |
+| Network Manager Applet | program | `machines/pixel-peeper/programs.nix` (`programs.nm-applet.enable`) | Tray indicator |
+| poweralertd | user service | `configs/desktop/hyprland/core/services-config.nix` | Power alerts |
+| mpdris2 | user service | `configs/desktop/hyprland/core/services-config.nix` | MPRIS for MPD |
+| Hyprland | program | `machines/pixel-peeper/wayland.nix` (`programs.hyprland.enable`) | Wayland compositor |
+
+Note: Additional Hyprland applets (hypridle, hyprlock, hyprpaper, hyprpanel) are configured under `configs/desktop/hyprland/apps/applets/` with user services as needed.
