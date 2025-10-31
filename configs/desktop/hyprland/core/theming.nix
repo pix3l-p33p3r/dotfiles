@@ -17,7 +17,7 @@
 
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders;
-       name = "Papirus";
+       name = "Papirus-Dark";
      };
 
     gtk3.extraConfig = {
@@ -28,6 +28,13 @@
       gtk-application-prefer-dark-theme = true;
     };
   };
+
+  # Ensure Papirus folder color matches Catppuccin Mocha Lavender
+  home.activation.setPapirusFolders = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if command -v papirus-folders >/dev/null 2>&1; then
+      papirus-folders -C cat-mocha-lavender --theme Papirus-Dark || true
+    fi
+  '';
 
    stylix = {
      enable = true;
