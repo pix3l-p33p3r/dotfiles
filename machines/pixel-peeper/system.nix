@@ -16,9 +16,18 @@
   # ───── Flakes & Nix settings ─────
   # Enable flakes and the new command-line tools
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.download-buffer-size = 104857600; # 100MB
+  nix.settings.download-buffer-size = 1401946112; # 1337MB
   # Trust the main user so client-specified caches (e.g., Catppuccin Cachix) aren't ignored
   nix.settings.trusted-users = [ "root" "pixel-peeper" ];
+  # System-wide binary caches
+  nix.settings.substituters = [
+    "https://cache.nixos.org"
+    "https://catppuccin.cachix.org"
+  ];
+  nix.settings.trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "catppuccin.cachix.org-1:rjlEoDXyyrbbPOL7m8HgpSW3wjsC+Mxmi5FjISvaBh0="
+  ];
 
   # Enable networking
   networking.networkmanager.enable = true;
