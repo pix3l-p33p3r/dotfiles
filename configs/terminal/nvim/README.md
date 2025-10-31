@@ -1,8 +1,16 @@
+<div align="center">
+    <img alt="neovim" src="https://img.shields.io/badge/Editor-Neovim-green.svg?style=for-the-badge&labelColor=11111B&logo=neovim&logoColor=89B4FA&color=89B4FA">
+    <img alt="lazy" src="https://img.shields.io/badge/Plugin%20Manager-Lazy-purple.svg?style=for-the-badge&labelColor=11111B&logo=npm&logoColor=89B4FA&color=89B4FA">
+    <img alt="copilot" src="https://img.shields.io/badge/AI-Copilot-blue.svg?style=for-the-badge&labelColor=11111B&logo=github&logoColor=89B4FA&color=89B4FA">
+</div>
+
+<br>
+
 # Neovim Configuration
 
 A modern, feature-rich Neovim configuration built with [Lazy.nvim](https://github.com/folke/lazy.nvim) plugin manager, optimized for development workflows and maximum productivity.
 
-## 🚀 Features
+## ✨ Features
 
 ### Core Setup
 - **Plugin Manager**: Lazy.nvim (fast, modern plugin manager)
@@ -91,8 +99,6 @@ nvim/
             └── normal.lua    # Normal mode mappings
 ```
 
-## 🔧 Configuration Files
-
 ### Core Files
 
 #### `init.lua`
@@ -143,7 +149,7 @@ nvim/
 - **auto-save.nvim**: Auto-save
 - **which-key.nvim**: Key binding help
 
-## 🎯 Key Bindings
+## ⌨️ Key Bindings
 
 ### Leader Key: `<Space>`
 
@@ -303,7 +309,7 @@ If you prefer a GUI, Neovide is included and configured:
 neovide
 ```
 
-## 🔧 Customization
+## 🎨 Customization
 
 ### Adding New Plugins
 Edit `lua/plugins/` directory and create a new `.lua` file:
