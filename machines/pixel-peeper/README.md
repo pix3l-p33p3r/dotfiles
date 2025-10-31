@@ -91,6 +91,29 @@ nix-instantiate --eval ./default.nix
 sudo nixos-rebuild build --flake .#pixel-peeper
 ```
 
+### Secure Boot Issues
+
+If `sbctl verify` shows unsigned kernels:
+
+```bash
+# Check Secure Boot status
+sudo sbctl status
+
+# Verify all boot entries
+sudo sbctl verify
+
+# Check boot loader status
+sudo bootctl status
+
+# Clean up legacy boot entries (if using Lanzaboote)
+sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh
+```
+
+**Common Issues:**
+- **Unsigned kernels in `/boot/EFI/nixos/`**: Legacy entries from pre-Lanzaboote setup. Remove or sign them.
+- **Keys not enrolled**: Run `sudo sbctl enroll-keys -m` after `sbctl create-keys`
+- **Rebuild after key enrollment**: `sudo nixos-rebuild switch --flake .#pixel-peeper`
+
 ## 📊 Service Overview
 
 | Service | Module | Config |
