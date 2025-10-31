@@ -208,6 +208,9 @@
         "audio/x-adpcm"
         "application/x-cue"
         "audio/m3u"
+      ]
+      // gen_default_app "Thunar.desktop" [
+        "inode/directory"
       ];
 
     userDirs = {

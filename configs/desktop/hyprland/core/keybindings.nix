@@ -41,7 +41,7 @@ in
 	"$mod, q, killactive,"
 	"$mod, M, exit,"
   "$mod SHIFT, space, togglefloating,"
-	"$mod, d, exec, ${rofi-menu}"
+	"$mod, space, exec, ${rofi-menu}"
   "$mod SHIFT, v, exec, ${cliphist} list | sort -r | ${rofi-cliphist} | ${cliphist} decode | ${wl-copy}"
   "$mod SHIFT, c, exec, ${hyprpicker} | ${wl-copy}"
   "$mod SHIFT, d, exec, ${rofi} -show run"
