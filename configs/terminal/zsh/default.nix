@@ -18,7 +18,6 @@
     yazi # File manager
 
     # System Information
-    fastfetch # System information
     macchina # System information
     nix-tree # Nix dependency tree
 
