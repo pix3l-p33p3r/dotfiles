@@ -175,3 +175,9 @@ If the system fails to build:
 
 3. Check for syntax errors in the problematic module
 
+
+## 📝 Last Updated
+
+- Date: 2025-10-31
+- Changes:
+  - Updated `system.nix`
