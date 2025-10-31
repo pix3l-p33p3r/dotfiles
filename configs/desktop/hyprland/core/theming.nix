@@ -9,11 +9,11 @@
 
   gtk = {
     enable = true;
-    cursorTheme = {
-      # size = 24;
-      # name = "Catppuccin-Mocha-Lavender";
-      # package = pkgs.catppuccin-cursors.mochaLavender;
-    };
+    # cursorTheme = {
+    #   size = 24;
+    #   name = "Catppuccin-Mocha-Lavender";
+    #   package = pkgs.catppuccin-cursors.mochaLavender;
+    # };
 
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders;
