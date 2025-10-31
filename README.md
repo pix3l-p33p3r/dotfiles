@@ -7,6 +7,55 @@
 [![Hyprland](https://img.shields.io/badge/Hyprland-Wayland-purple?style=for-the-badge&logo=hyprland&logoColor=white)](https://hyprland.org/)
 [![Neovim](https://img.shields.io/badge/Neovim-0.9+-green?style=for-the-badge&logo=neovim&logoColor=white)](https://neovim.io/)
 
+## 🧭 System Overview
+
+- **Machine**: `pixel-peeper`
+- **OS**: NixOS (flakes enabled)
+- **User config**: Home Manager (`homes/pixel-peeper`)
+- **Desktop**: Hyprland (Wayland)
+- **Shell/Terminal**: Zsh + Kitty
+- **Theme**: Catppuccin Mocha across desktop, terminal, and apps
+- **Browsers**: Firefox (system), Zen Browser profile, Chromium configs available
+- **Editors**: Neovim (LSP, Treesitter, Copilot)
+- **File Manager**: Thunar (with trash, archive, and thumbnails)
+- **Media**: MPV, Zathura, imv, rmpc/MPD stack
+- **Services enabled**: NetworkManager, UPower, power-profiles-daemon, OpenSSH, Printing, D-Bus, Blueman, X11 compatibility, mpdris2, network-manager-applet, poweralertd
+
+### Hyprland stack
+- **Core**: `hyprland`, `hyprpanel`, `hyprpaper`, `hyprpicker`, `hypridle`, `hyprlock`, `hyprshot`, `hyprsunset`, `hyprutils`, `hyprcursor`
+- **Wayland utils**: `wl-clipboard`, `wl-clip-persist`, `grim`, `slurp`, `grimblast`, `cliphist`, `wl-color-picker`
+
+### Terminal & CLI
+- **Shell**: Zsh (Zap), vi-mode, rich keybindings, autosuggestions, completion, Catppuccin prompt
+- **Essentials**: `bat`, `eza`, `fd`, `ripgrep`, `fzf`, `tmux`, `yazi`, `atuin`, `zoxide`, `macchina`, `fastfetch`, `tree`, `tldr`
+- **Git TUI**: `lazygit`, `gitui`, `tig`, `git-interactive-rebase-tool`
+
+### Development toolchain
+- **Languages/Build**: `gcc`, `gnumake`, `cmake`, `ninja`, `meson`, `pkg-config`, `nodejs`, `yarn`, `pnpm`, `go`, `cargo`, `pipx`
+- **LSPs**: `nixd`, `pyright`, `rust-analyzer`, `gopls`, `clang-tools`, `typescript-language-server`, `yaml-language-server`, `lua-language-server`, `vscode-langservers-extracted`, `emmet-ls`, `tailwindcss-language-server`, `bash-language-server`, `svelte-language-server`, `typos-lsp`, `harper`
+- **Formatters/Linters**: `nixfmt`, `prettier`, `prettierd`, `black`, `stylua`, `rustfmt`, `shellcheck`, `shfmt`, `hadolint`, `yamllint`, `eslint_d`, `pylint`
+
+### Containers, Cloud, and Infra
+- **Containers/K8s**: `docker`, `docker-compose`, `buildah`, `skopeo`, `crane`, `helm`, `kustomize`, `minikube`, `kind`, `k3s`, `k9s`
+- **Infra as Code**: `terraform`, `terragrunt`, `terraform-ls`, `pulumi`, `ansible`, `ansible-lint`
+- **Cloud CLIs**: `awscli2`, `azure-cli`, `google-cloud-sdk`, `doctl`, `linode-cli`, `vultr-cli`, `amazon-ecs-cli`, `acr-cli`
+- **Observability**: `prometheus`, `grafana`, `loki`, `promtail`, `node-exporter`, `cadvisor`, `elasticsearch`, `tuistash`
+
+### Security & Networking
+- **Networking**: `nmap`, `tcpdump`, `wireshark-cli`, `netcat`, `openssl`, `bandwhich`, `speedtest-cli`
+- **Security**: `trivy`, `grype`, `syft`, `semgrep`, `bandit`, `pip-audit`, `vault`, `sops`, `age`, `gopass`, `keychain`
+- **Recon**: `nuclei`, `subfinder`, `amass`, `assetfinder`, `waybackurls`, `gau`, `ffuf`, `gobuster`, `dirb`, `nikto`
+
+### Files, Media, and Apps
+- **File management**: Thunar + archive plugin + volman + tumbler, `papirus-folders`
+- **Media**: `mpv`, `vlc`, `ffmpeg`, `yt-dlp`, `spotdl`, `cava`, `playerctl`, `pavucontrol`, `pamixer`
+- **Documents**: `zathura`, `pandoc`, `poppler`, `resvg`, `imagemagick`
+- **MPD stack**: `mpd`, `rmpc`, `kew`, `mpdris2`
+- **Productivity/Comms**: `obsidian`, `joplin-desktop`, `notesnook`, `syncthing`, `taskwarrior3`, `session-desktop`, `simplex-chat-desktop`, `vesktop`, `spotify`
+- **Browsers**: Firefox enabled system-wide; Zen Browser profile via Home Manager; Chromium configs available
+
+Full package catalog is defined in `configs/desktop/hyprland/core/pkgs.nix`.
+
 ## ✨ Features
 
 ### 🖥️ **Desktop Environment**
@@ -167,6 +216,57 @@ dotfiles/
 - **CLI Tools**: bat, eza, fd, ripgrep, fzf, jq
 - **Package Manager**: Nix with Home Manager
 
+### 🧩 System Modules
+- `machines/pixel-peeper` — NixOS machine: core system (`system.nix`), services, hardware, security, wayland/x11, programs
+- `homes/pixel-peeper` — Home Manager: desktop imports, theme, portals, zsh, zen-browser
+- `configs/desktop/hyprland` — Desktop: core settings, keybindings, theming, services, applets (panel, lock, idle, rofi, paper)
+- `configs/terminal/zsh` — Zsh: Zap-based shell, aliases, keymaps, functions, completions, prompt
+- `configs/terminal/nvim` — Neovim: Lazy.nvim, plugins, LSP, options, keymaps
+- `configs/media` — MPV, Zathura, rmpc configuration
+- `configs/browsers` — Firefox and Chromium modules
+
+## 📦 Packages Catalog
+
+Source of truth: `configs/desktop/hyprland/core/pkgs.nix` (Home Manager `home.packages`). Below is an organized catalog of what’s included on this system.
+
+| Category | Highlights (not exhaustive) |
+|---|---|
+| Core Utilities | curl, jq, wget, xdg-utils |
+| Development Tools | git, git-lfs, gh, glab, cmake, ninja, meson, pkg-config |
+| Package Managers | cargo, go, nodejs, yarn, pnpm, pipx |
+| Lint/Format | shellcheck, shfmt, hadolint, yamllint, prettier, prettierd, black, stylua, rustfmt, nixfmt |
+| Language Servers | nixd, pyright, rust-analyzer, gopls, clang-tools, typescript-language-server, yaml-language-server, lua-language-server, vscode-langservers-extracted, emmet-ls, svelte-language-server, tailwindcss-language-server, bash-language-server, typos-lsp, harper |
+| Dev Utilities | ripgrep, fd, tree-sitter, inotify-tools, gnumake |
+| Containers | docker, docker-compose, buildah, skopeo, crane |
+| Kubernetes | helm, kustomize, minikube, kind, k3s, k9s, stern |
+| IaC | terraform, terragrunt, terraform-ls, pulumi, ansible, ansible-lint |
+| Cloud CLIs | awscli2, azure-cli, google-cloud-sdk, amazon-ecs-cli, acr-cli, doctl, linode-cli, vultr-cli |
+| Observability | prometheus, grafana, loki, promtail, prometheus-node-exporter, cadvisor, elasticsearch, tuistash |
+| Security | trivy, grype, syft, semgrep, bandit, pip-audit, vault, sops, age, gopass, pass, keychain |
+| Recon | nuclei, subfinder, amass, assetfinder, waybackurls, gau, ffuf, gobuster, dirb, nikto |
+| Embedded/Hardware | gcc-arm-embedded, openocd, qemu, avrdude, picocom, minicom, sigrok-cli, pulseview, gtkwave, iverilog |
+| System/Perf | iotop, vnstat, perf, strace, ltrace, btop, s-tui, procps, memtest86plus, stress-ng |
+| Filesystems | ntfs3g, exfat, f2fs-tools, xfsprogs, btrfs-progs, e2fsprogs |
+| HW/Power | acpi, brightnessctl, dysk, gvfs, kmon, libgtop, nvtopPackages.intel, power-profiles-daemon, upower |
+| Terminal Apps | atuin, bat, eza, fastfetch, fzf, glow, gping, macchina, nix-tree, tldr, tmux, trashy, tree, tt, ueberzugpp, yazi, zoxide |
+| Git TUIs | tig, git-interactive-rebase-tool, gitui, lazygit |
+| Docker/Dev TUIs | lazydocker, lazysql, lazyjournal, lazyhetzner |
+| Networking TUIs | bandwhich, slurm, speedtest-cli |
+| DB CLIs | mycli, pgcli, litecli, usql |
+| Hyprland Stack | hyprland, hyprpanel, hyprpaper, hyprpicker, hypridle, hyprlock, hyprshot, hyprsunset, hyprutils, hyprcursor |
+| Wayland Utils | cliphist, grim, grimblast, slurp, wl-clipboard, wl-clip-persist, wl-color-picker |
+| Audio | alsa-firmware, alsa-tools, cava, pamixer, pavucontrol, pipewire, playerctl, wireplumber |
+| Networking | bluez, bluez-tools, networkmanager, networkmanagerapplet, wifi-qr |
+| File Management | xfce.thunar, xfce.thunar-archive-plugin, xfce.thunar-volman, xfce.tumbler, papirus-folders |
+| Media & Docs | ffmpeg, yt-dlp, spotdl, imagemagick, imv, mpv, vlc, zathura, pandoc, poppler, resvg |
+| MPD Stack | mpd, rmpc, kew, mpdris2 |
+| GUI Apps | code-cursor, cursor-cli, qutebrowser, librewolf, mullvad-browser, joplin-desktop, notesnook, obsidian, onionshare-gui, tor, gpa, keepassxc, picocrypt, session-desktop, simplex-chat-desktop, vesktop, hackgregator, puffin, spotify, syncthing, taskwarrior3 |
+| AI | gemini-cli, fabric-ai |
+| Dev Libraries | dart-sass, gtksourceview3, libsoup_3 |
+| Drivers | intel-gpu-tools, vulkan-tools |
+
+Tip: open `pkgs.nix` to view the full, categorized list and adjust as needed.
+
 ### 🎨 **Applications**
 - **File Manager**: Thunar
 - **PDF Viewer**: Zathura
@@ -323,10 +423,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Made with ❤️ by [me](https://pixel-peeper.me)
 
 </div>
-
-## 📝 Last Updated
-
-- Date: 2025-10-31
-- Changes:
-  - Updated `configs/terminal/zsh/config/conf.d/102-aliases.zsh`
-  - Updated `machines/pixel-peeper/system.nix`
