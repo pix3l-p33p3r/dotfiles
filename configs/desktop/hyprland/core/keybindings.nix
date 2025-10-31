@@ -4,7 +4,7 @@ let
 	loginctl cliphist rofi rofi-menu rofi-cliphist hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
-	hyprpanel hyprlock hypridle hyprpaper; # configuring manually
+	hyprpanel hyprlock hypridle hyprpaper;
 in
 {
   exec-once = [
@@ -77,7 +77,7 @@ in
 	"$mod, 9, workspace, 9"
 	"$mod, 0, workspace, 10"
 
-	"$mod, Escape, exec, ${hyprlock}" # - configuring manually
+	"$mod, Escape, exec, ${hyprlock}"
 
 	"$mod SHIFT, 1, movetoworkspace, 1"
 	"$mod SHIFT, 2, movetoworkspace, 2"

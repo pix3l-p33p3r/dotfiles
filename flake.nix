@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     catppuccin.url = "github:catppuccin/nix";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      # Don't follow our nixpkgs - let lanzaboote use its own tested version
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -22,13 +27,14 @@
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, flake-parts, home-manager, stylix, nur, zen-browser, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, flake-parts, home-manager, stylix, nur, zen-browser, ... }@inputs: {
     # ===== NixOS Configuration =====
     nixosConfigurations.pixel-peeper = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };  # Pass inputs BEFORE modules
       modules = [
         ./machines/pixel-peeper
+        lanzaboote.nixosModules.lanzaboote
         catppuccin.nixosModules.catppuccin
         home-manager.nixosModules.home-manager
         {
