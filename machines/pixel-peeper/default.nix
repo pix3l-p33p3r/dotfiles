@@ -27,6 +27,10 @@
       ./wayland.nix
       ./security.nix
       
+      # Containerization & Virtualization
+      ./docker.nix
+      ./virt.nix
+      
       # Maintenance
       ./maint.nix
     ];
