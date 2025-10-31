@@ -5,6 +5,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     home-manager
+    sbctl
   ];
 
   # ───── Firefox ─────
@@ -16,4 +17,3 @@
     indicator = true;
   };
 }
-

@@ -51,6 +51,10 @@ return {
 	},
 	config = function(_, opts)
 		require("catppuccin").setup(opts)
-		vim.cmd([[colorscheme catppuccin]])
+		-- Make portable: don't error if the colorscheme isn't available yet
+		local ok = pcall(vim.cmd, "colorscheme catppuccin")
+		if not ok then
+			pcall(vim.cmd, "colorscheme default")
+		end
 	end,
 }

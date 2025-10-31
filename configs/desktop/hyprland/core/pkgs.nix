@@ -386,6 +386,12 @@
 		cursor-cli # Cursor CLI
 
 
+		# Browsers
+		qutebrowser # Keyboard-driven browser
+		librewolf # Privacy-focused browser
+		mullvad-browser # Privacy browser
+
+
 		# Note Taking
 		joplin-desktop # Note-taking app
 		notesnook # Note-taking app
@@ -396,8 +402,6 @@
 		komikku # Manga reader
 
 		# Privacy & Security
-		librewolf # Privacy-focused browser
-		mullvad-browser # Privacy browser
 		onionshare-gui # Secure file sharing
 		tor # Anonymous network
 		gpa # GNU Privacy Assistant
