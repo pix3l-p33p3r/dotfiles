@@ -1,21 +1,24 @@
-{ inputs, wallpaper, pkgs, ... }@all: {
-   imports = [
-   ../../configs/desktop/hyprland
-   ./catppuccin.nix
-   ];
+{ inputs, wallpaper, pkgs, lib, ... }@all: {
+  imports = [
+    ../../configs/desktop/hyprland
+    ./catppuccin.nix
+  ];
 
-   # Essential for Thunar for trash, network, and mounting
-   # services.gvfs.enable = true; this was the old way 
-   xdg.portal.enable = true;
+  # Essential for Thunar for trash, network, and mounting
+  # services.gvfs.enable = true; this was the old way 
+  xdg.portal.enable = true;
 
-   programs.zsh.enable = true;
+  programs.zsh.enable = true;
 
-   programs.nix-search-tv.enable = true;
+  programs.nix-search-tv.enable = true;
 
-   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
-   programs.atuin.enable = true;
-   programs.home-manager.enable = true;
+  # Required for home-manager nix configuration
+  nix.package = lib.mkDefault pkgs.nix;
+
+  programs.atuin.enable = true;
+  programs.home-manager.enable = true;
 
   # Zen Browser (twilight) enabled; Firefox remains default browser
   programs.zen-browser = {
@@ -27,7 +30,7 @@
     };
   };
 
-   home.username = "pixel-peeper";
-   home.homeDirectory = "/home/pixel-peeper";
-   home.stateVersion = "25.05";
+  home.username = "pixel-peeper";
+  home.homeDirectory = "/home/pixel-peeper";
+  home.stateVersion = "25.05";
 }

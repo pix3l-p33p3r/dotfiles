@@ -26,9 +26,10 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/4ddcdaa0-0e40-4162-8460-5a0969bc4c45"; }
-    ];
+  # swapDevices configured in system.nix (zramSwap). Removing stale disk swap.
+  # swapDevices =
+  #   [ { device = "/dev/disk/by-uuid/4ddcdaa0-0e40-4162-8460-5a0969bc4c45"; }
+  #   ]; 
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
