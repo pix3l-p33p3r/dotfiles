@@ -11,9 +11,9 @@ in
 
 	# Services
 	"systemctl --user restart pipewire pipewire.socket"
-	# "systemctl --user is-active xdg-desktop-portal-gtk.service && systemctl --user stop xdg-desktop-portal-gtk.service"
-	# "systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
-	# "systemctl --user restart xdg-desktop-portal.service"
+	"systemctl --user is-active xdg-desktop-portal-gtk.service && systemctl --user stop xdg-desktop-portal-gtk.service"
+	"systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
+	"systemctl --user restart xdg-desktop-portal.service"
 
 	# Applets
 	"${hyprpaper}"
