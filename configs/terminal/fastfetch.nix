@@ -186,18 +186,10 @@ in
       '';
     };
     packages = with pkgs; [
-      cpufetch
       fastfetch
-      foodfetch
-      ipfetch
-      microfetch
-      onefetch
-      ramfetch
     ];
   };
   programs = {
-    bash.shellAliases = shellAliases;
-    fish.shellAliases = shellAliases;
     zsh.shellAliases = shellAliases;
   };
 }
