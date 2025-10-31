@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # ───── Allow unfree packages ─────
@@ -17,12 +17,24 @@
   # Enable flakes and the new command-line tools
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.download-buffer-size = 104857600; # 100MB
+  # Trust the main user so client-specified caches (e.g., Catppuccin Cachix) aren't ignored
+  nix.settings.trusted-users = [ "root" "pixel-peeper" ];
 
   # Enable networking
   networking.networkmanager.enable = true;
 
   # Power management (required for poweralertd)
   services.upower.enable = true;
+
+  # Enable power-profiles-daemon for hyprpanel power mode switching
+  services.power-profiles-daemon.enable = true;
+
+  # Avoid long boot waits for network-online
+  systemd.services."NetworkManager-wait-online".enable = false;
+
+  # Disable stale disk swap (missing UUID) and use zram swap instead
+  swapDevices = lib.mkForce [];
+  zramSwap.enable = true;
 
   # ───── Hostname ─────
   networking.hostName = "pixel-peeper";
