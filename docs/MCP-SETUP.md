@@ -119,36 +119,26 @@ The MCP configuration is managed declaratively through Home Manager:
 
 This is The Way™ - your MCP config is now part of your dotfiles and will be automatically deployed on `home-manager switch`.
 
-## Suggested Additional MCPs
+## Future MCP Ideas
 
-Based on your stack, consider these additional MCP servers:
+Based on your stack, here are potential MCP servers to consider:
 
-### **SQLite** (`@modelcontextprotocol/server-sqlite`)
-For managing any local databases in your projects.
+### Development Tools
+- **Docker/Kubernetes** - Container and cluster management (for k9s workflow)
+- **Terraform** - Infrastructure as code operations
+- **Security Scanner** - Integrate trivy, semgrep, nuclei scans
 
-### **PostgreSQL** (`@modelcontextprotocol/server-postgres`)
-If you work with PostgreSQL databases.
+### System Management
+- **NixOS Generations** - List, diff, and rollback system generations
+- **Flake Manager** - Update and manage flake.lock inputs
+- **SOPS Helper** - Encrypt/decrypt secrets via MCP
 
-### **Kubernetes** (Custom)
-For managing k9s contexts and kubectl operations.
-```json
-{
-  "kubernetes": {
-    "command": "kubectl",
-    "args": ["--context", "your-context"],
-    "description": "Kubernetes cluster management"
-  }
-}
-```
+### Workflow Enhancement
+- **Media Library** - Access to Music/Videos for MPD/MPV
+- **Documentation Search** - Dedicated search for your docs/ directory
+- **Dotfiles Helper** - Common operations: rebuild, test, validate, format
 
-### **Terraform** (Custom)
-For infrastructure as code operations.
-
-### **Sops** (Custom)
-For managing encrypted secrets in your dotfiles.
-
-### **Nix Flake** (Custom)
-For flake operations and package searches.
+See archived `MCP-SUGGESTIONS.md` in git history for detailed implementation examples.
 
 ## Troubleshooting
 
