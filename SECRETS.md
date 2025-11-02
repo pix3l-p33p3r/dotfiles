@@ -15,10 +15,10 @@ dotfiles/
 │   ├── .gitkeep                           # Keeps directory in git
 │   ├── README.md                          # Detailed usage guide
 │   ├── hosts/
-│   │   └── pixel-peeper.yaml              # HOST secrets (encrypted)
+│   │   └── alucard.yaml              # HOST secrets (encrypted)
 │   └── users/
 │       └── pixel-peeper.yaml              # USER secrets (encrypted)
-└── machines/pixel-peeper/
+└── machines/alucard/
     ├── default.nix                        # Imports secrets.nix
     └── secrets.nix                        # SOPS configuration
 ```
@@ -32,7 +32,7 @@ dotfiles/
 
 ### Configuration
 - `secrets/.sops.yaml` - SOPS rules for encryption
-- `machines/pixel-peeper/secrets.nix` - NixOS SOPS integration
+- `machines/alucard/secrets.nix` - NixOS SOPS integration
 
 ## 🚀 Quick Start
 
@@ -40,7 +40,7 @@ dotfiles/
 
 ```bash
 # Edit host secrets (auto-decrypts/encrypts)
-sops secrets/hosts/pixel-peeper.yaml
+sops secrets/hosts/alucard.yaml
 
 # Edit user secrets
 sops secrets/users/pixel-peeper.yaml
@@ -50,7 +50,7 @@ sops secrets/users/pixel-peeper.yaml
 
 1. **Edit the secret file**:
    ```bash
-   sops secrets/hosts/pixel-peeper.yaml
+   sops secrets/hosts/alucard.yaml
    ```
 
 2. **Replace placeholder**:
@@ -63,7 +63,7 @@ sops secrets/users/pixel-peeper.yaml
 
 3. **Save** - SOPS auto-encrypts
 
-4. **Use in NixOS** (`machines/pixel-peeper/secrets.nix`):
+4. **Use in NixOS** (`machines/alucard/secrets.nix`):
    ```nix
    sops.secrets."github_token" = {
      owner = config.users.users.pixel-peeper.name;
@@ -87,7 +87,7 @@ sops secrets/users/pixel-peeper.yaml
 
 ```bash
 # Your next rebuild will automatically decrypt secrets
-sudo nixos-rebuild switch --flake .#pixel-peeper
+sudo nixos-rebuild switch --flake .#alucard
 ```
 
 Secrets are decrypted to `/run/secrets/` at boot/rebuild time.
@@ -108,8 +108,8 @@ Secrets are decrypted to `/run/secrets/` at boot/rebuild time.
 ## ⚙️ What Changed
 
 1. **flake.nix**: Added `sops-nix` input and module
-2. **machines/pixel-peeper/default.nix**: Imports `secrets.nix`
-3. **machines/pixel-peeper/secrets.nix**: NEW - SOPS configuration
+2. **machines/alucard/default.nix**: Imports `secrets.nix`
+3. **machines/alucard/secrets.nix**: NEW - SOPS configuration
 4. **secrets/**: NEW - Directory for encrypted secrets
 5. **.gitignore**: Protects age keys and unencrypted files
 
@@ -122,17 +122,17 @@ Secrets are decrypted to `/run/secrets/` at boot/rebuild time.
 
 2. **Add real secrets**:
    - SSH keys, API tokens, database passwords, etc.
-   - Use `sops secrets/hosts/pixel-peeper.yaml` to edit
+   - Use `sops secrets/hosts/alucard.yaml` to edit
 
 3. **Commit encrypted files** (after adding real secrets):
    ```bash
-   git add secrets/ machines/pixel-peeper/secrets.nix
+   git add secrets/ machines/alucard/secrets.nix
    git commit -m "Add SOPS secrets management"
    ```
 
 4. **Rebuild** to test decryption:
    ```bash
-   sudo nixos-rebuild switch --flake .#pixel-peeper
+   sudo nixos-rebuild switch --flake .#alucard
    ```
 
 ## ⚠️ Important Notes
@@ -149,7 +149,7 @@ Secrets are decrypted to `/run/secrets/` at boot/rebuild time.
 ls -la ~/.config/sops/age/keys.txt
 
 # Decrypt a test file
-sops -d secrets/hosts/pixel-peeper.yaml
+sops -d secrets/hosts/alucard.yaml
 
 # Check flake has sops-nix
 nix flake show | grep sops-nix

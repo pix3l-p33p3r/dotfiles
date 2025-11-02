@@ -32,7 +32,7 @@
     # Terminal
     ../../terminal/kitty.nix
     ../../terminal/zsh
-    ../../terminal/fastfetch.nix
+    # ../../terminal/fastfetch.nix
     
     # Neovim
     ../../terminal/nvim
