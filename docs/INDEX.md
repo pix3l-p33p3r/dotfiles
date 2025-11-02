@@ -10,12 +10,10 @@ Complete guide to navigating the NixOS dotfiles documentation.
 
 ### Configuration Guides
 - **[MCP-SETUP.md](MCP-SETUP.md)** - Model Context Protocol setup for Cursor AI (with SOPS encryption)
-- **[CURSOR-UPDATE-FIX.md](CURSOR-UPDATE-FIX.md)** - Fix Cursor update notifications
 - **[FONTS.md](FONTS.md)** - Font reference across different applications
 
 ### Architecture & Decisions
-- **[DOCUMENTATION.md](DOCUMENTATION.md)** - Complete system documentation
-- **[DECISIONS.md](DECISIONS.md)** - Tooling and configuration decisions
+- **[DECISIONS.md](DECISIONS.md)** - Why Git over jj, why standalone Home Manager
 
 ### Security
 - **[secrets/README.md](../secrets/README.md)** - SOPS + Age secrets management guide
@@ -69,12 +67,10 @@ Complete guide to navigating the NixOS dotfiles documentation.
 
 ```
 docs/
-├── INDEX.md                    # This file
-├── DOCUMENTATION.md            # Complete system documentation
-├── DECISIONS.md                # Configuration decisions
-├── HOME-MANAGER.md             # Home Manager guide
-├── MCP-SETUP.md                # Cursor MCP setup (includes future ideas)
-├── CURSOR-UPDATE-FIX.md        # Cursor update fix
+├── INDEX.md                    # This file - navigation guide
+├── DECISIONS.md                # Tooling decisions (Git, Home Manager)
+├── HOME-MANAGER.md             # Standalone Home Manager guide
+├── MCP-SETUP.md                # Cursor MCP setup + future ideas
 └── FONTS.md                    # Font reference
 
 configs/
