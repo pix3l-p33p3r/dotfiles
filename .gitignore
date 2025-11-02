@@ -36,3 +36,7 @@ secrets/**/*.json.unencrypted
 
 # MCP Configuration (contains API keys)
 mcp-config.json
+mcp-config.example.json
+
+# cursor files
+.cursorrules
