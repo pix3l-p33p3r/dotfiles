@@ -20,9 +20,6 @@ Complete guide to navigating the NixOS dotfiles documentation.
 ### Security
 - **[secrets/README.md](../secrets/README.md)** - SOPS + Age secrets management guide
 
-### Ideas & Future
-- **[MCP-SUGGESTIONS.md](MCP-SUGGESTIONS.md)** - Custom MCP server ideas and suggestions
-
 ---
 
 ## 📁 Component Documentation
@@ -76,8 +73,7 @@ docs/
 ├── DOCUMENTATION.md            # Complete system documentation
 ├── DECISIONS.md                # Configuration decisions
 ├── HOME-MANAGER.md             # Home Manager guide
-├── MCP-SETUP.md                # Cursor MCP setup
-├── MCP-SUGGESTIONS.md          # Custom MCP ideas
+├── MCP-SETUP.md                # Cursor MCP setup (includes future ideas)
 ├── CURSOR-UPDATE-FIX.md        # Cursor update fix
 └── FONTS.md                    # Font reference
 
