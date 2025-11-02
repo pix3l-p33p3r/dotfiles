@@ -99,7 +99,7 @@
   catppuccin.k9s.enable = true;
 
   # Binary cache (optional) - enables faster builds via catppuccin.cachix.org
-  # catppuccin.cache.enable = true;
+  catppuccin.cache.enable = true;
 
   # Cursor theme
   catppuccin.cursors.enable = true;
