@@ -16,7 +16,7 @@ Modular NixOS system configuration for alucard, organized for maintainability an
 alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
-├── boot.nix                 # Bootloader & Secure Boot (Lanzaboote)
+├── boot.nix                 # Bootloader, Secure Boot (Lanzaboote) & Firmware (fwupd)
 ├── system.nix               # Core settings, services
 ├── locale.nix               # Timezone, internationalization
 ├── users.nix                # User accounts, shell
@@ -39,12 +39,14 @@ alucard/
 - **Encryption**: LUKS disk encryption
 - **CPU**: Intel with microcode updates
 - **Graphics**: Intel integrated with VA-API hardware acceleration
+- **Firmware Updates**: fwupd service for BIOS, EC, and Intel ME updates
 
 **Services**
 - **Networking**: NetworkManager, OpenSSH
 - **Power**: UPower, power-profiles-daemon
 - **Media**: Pipewire audio stack
 - **Containers**: Docker, QEMU/KVM virtualization
+- **Firmware**: fwupd for automatic hardware firmware updates
 
 **Display**
 - **Wayland**: Hyprland compositor
@@ -91,6 +93,29 @@ nix-instantiate --eval ./default.nix
 sudo nixos-rebuild build --flake .#alucard
 ```
 
+### Firmware Updates
+
+The system uses `fwupd` for managing firmware updates:
+
+```bash
+# Check available firmware updates
+fwupdmgr get-updates
+
+# Apply firmware updates
+sudo fwupdmgr update
+
+# Check firmware device status
+fwupdmgr get-devices
+
+# View firmware update history
+fwupdmgr get-history
+```
+
+**Supported Hardware:**
+- Embedded Controller (EC)
+- Intel Management Engine (ME)
+- System Firmware (BIOS/UEFI)
+
 ### Secure Boot Issues
 
 If `sbctl verify` shows unsigned kernels:
@@ -122,6 +147,7 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh
 | OpenSSH | `system.nix` | `services.openssh.enable` |
 | Pipewire | `audio.nix` | Audio stack |
 | Hyprland | `wayland.nix` | `programs.hyprland.enable` |
+| fwupd | `boot.nix` | `services.fwupd.enable` |
 | Docker | `docker.nix` | `virtualisation.docker.enable` |
 | libvirt | `virt.nix` | `virtualisation.libvirtd.enable` |
 
