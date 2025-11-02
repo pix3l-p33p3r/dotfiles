@@ -108,13 +108,16 @@ mkdir -p ~/.config/Cursor/User
 ln -sf /workspace/mcp-config.json ~/.config/Cursor/User/mcp-config.json
 ```
 
-### Option 3: Add to Home Manager (NixOS Way)
+### Option 3: Add to Home Manager (NixOS Way) ✅ ACTIVE
 
-Add this to `homes/pixel-peeper/default.nix`:
+**Status**: Already configured declaratively at `configs/editors/cursor-config.nix`
 
-```nix
-home.file.".config/Cursor/User/mcp-config.json".source = ../../mcp-config.json;
-```
+The MCP configuration is managed declaratively through Home Manager:
+- Configuration: `configs/editors/cursor-config.nix`
+- Imported in: `homes/pixel-peeper/default.nix`
+- Generated to: `~/.cursor/mcp.json`
+
+This is The Way™ - your MCP config is now part of your dotfiles and will be automatically deployed on `home-manager switch`.
 
 ## Suggested Additional MCPs
 
