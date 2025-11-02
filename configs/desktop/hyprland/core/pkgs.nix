@@ -379,15 +379,14 @@
 		exiv2 # Image metadata library
 		mat2 # Metadata anonymization toolkit
 
-		# ============================================================================
-		# |                           GUI APPLICATIONS                             |
-		# ============================================================================
-		# Development
-		code-cursor # Code editor
-		cursor-cli # Cursor CLI
+	# ============================================================================
+	# |                           GUI APPLICATIONS                             |
+	# ============================================================================
+	# Development
+	# cursor is now installed via home-manager (see homes/pixel-peeper/default.nix)
+	cursor-cli # Cursor CLI
 
-
-		# Browsers
+	# Browsers
 		qutebrowser # Keyboard-driven browser
 		librewolf # Privacy-focused browser
 		mullvad-browser # Privacy browser
