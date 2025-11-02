@@ -75,19 +75,44 @@ sudo nixos-rebuild switch --flake .#your-hostname
 
 ```
 dotfiles/
-├── 🖥️ machines/              # NixOS system config
-│   └── alucard/             # Host-specific config
-├── 👤 homes/                 # Home Manager user config
-│   └── pixel-peeper/        # User settings
-├── 🎨 configs/              # Application configs
-│   ├── desktop/hyprland/    # Hyprland + applets
-│   ├── terminal/            # Neovim, Zsh, Kitty
+├── 🖥️ machines/              # NixOS system configurations
+│   └── alucard/             # Host-specific modules
+│       ├── boot.nix         # Secure Boot (Lanzaboote) & firmware
+│       ├── system.nix       # Core system settings
+│       ├── audio.nix        # Pipewire audio
+│       ├── graphics.nix     # GPU drivers & acceleration
+│       ├── wayland.nix      # Hyprland window manager
+│       └── ...              # Other modules
+├── 👤 homes/                 # Home Manager user configurations
+│   └── pixel-peeper/        # User-specific settings
+│       ├── catppuccin.nix   # Theme configuration
+│       └── default.nix      # Home Manager entry point
+├── 🎨 configs/              # Application configurations
+│   ├── desktop/
+│   │   └── hyprland/        # Hyprland + applets (hyprpanel, hyprlock)
+│   ├── terminal/
+│   │   ├── kitty.nix        # Terminal emulator
+│   │   ├── nvim/            # Neovim configuration
+│   │   └── zsh/             # Zsh shell configuration
 │   ├── browsers/            # Firefox, Chromium
 │   └── media/               # MPV, Zathura, MPD
-├── 🖼️ assets/               # Wallpapers, avatars
+├── 🖼️ assets/               # Static assets
+│   ├── ASCII/               # ASCII art logos
+│   ├── avatar/              # Profile images
+│   └── wallpapers/          # Desktop backgrounds
 ├── 🔧 scripts/              # Utility scripts
-├── 🔐 secrets/              # Encrypted secrets (SOPS)
-└── 📚 docs/                 # Documentation & decisions
+│   ├── nix-cleaner.sh       # Clean Nix generations
+│   ├── setup-secure-boot.sh # Secure Boot setup
+│   └── cleanup-legacy-boot.sh
+├── 🔐 secrets/              # Encrypted secrets (SOPS + Age)
+│   ├── hosts/               # Host-level secrets
+│   └── users/               # User-level secrets
+├── 📚 docs/                 # Documentation
+│   ├── DECISIONS.md         # Tooling decisions
+│   ├── SECRETS.md           # Secrets setup guide
+│   └── test.md
+├── flake.nix                # Nix flake configuration
+└── LICENSE                  # License file
 ```
 
 ## ⌨️ Keybindings
