@@ -48,6 +48,15 @@ in appimageTools.wrapType2 {
         fi
       done
     fi
+    
+    # Create default Cursor config directory and settings to disable update notifications
+    mkdir -p $out/share/cursor-default-config
+    cat > $out/share/cursor-default-config/product.json <<EOF
+{
+  "updateUrl": "",
+  "updateMode": "manual"
+}
+EOF
   '';
 
   meta = with lib; {
