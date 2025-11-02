@@ -21,6 +21,8 @@
       ./graphics.nix
       ./audio.nix
       ./bluetooth.nix
+      ./power.nix
+      ./swap.nix
       
       # Display system
       ./x11.nix
