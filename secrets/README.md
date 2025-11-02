@@ -14,7 +14,7 @@ This directory contains encrypted secrets managed with [SOPS](https://github.com
 secrets/
 ├── .sops.yaml          # SOPS configuration
 ├── hosts/              # Host-level secrets (NixOS)
-│   └── pixel-peeper.yaml
+│   └── alucard.yaml
 └── users/              # User-level secrets (Home Manager)
     └── pixel-peeper.yaml
 ```
@@ -25,26 +25,26 @@ secrets/
 
 ```bash
 # Encrypt in-place
-sops -e -i secrets/hosts/pixel-peeper.yaml
+sops -e -i secrets/hosts/alucard.yaml
 
 # Or create encrypted version
-sops -e secrets/hosts/pixel-peeper.yaml > secrets/hosts/pixel-peeper.yaml.enc
+sops -e secrets/hosts/alucard.yaml > secrets/hosts/alucard.yaml.enc
 ```
 
 ### Decrypt and Edit
 
 ```bash
 # Edit encrypted file (automatically decrypts/encrypts)
-sops secrets/hosts/pixel-peeper.yaml
+sops secrets/hosts/alucard.yaml
 
 # Just decrypt to stdout
-sops -d secrets/hosts/pixel-peeper.yaml
+sops -d secrets/hosts/alucard.yaml
 ```
 
 ### In NixOS Configuration
 
 ```nix
-# machines/pixel-peeper/secrets.nix
+# machines/alucard/secrets.nix
 sops.secrets."api/github_token" = {
   owner = config.users.users.pixel-peeper.name;
   mode = "0400";
@@ -81,7 +81,7 @@ cp ~/backups/age-key-backup.txt ~/.config/sops/age/keys.txt
 
 1. **Create/Edit the unencrypted file**:
    ```bash
-   sops secrets/hosts/pixel-peeper.yaml
+   sops secrets/hosts/alucard.yaml
    ```
 
 2. **Add your secret**:

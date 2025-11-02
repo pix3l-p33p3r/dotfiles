@@ -3,7 +3,7 @@
 
 {
   # Enable SOPS
-  sops.defaultSopsFile = ./../../secrets/hosts/pixel-peeper.yaml;
+  sops.defaultSopsFile = ./../../secrets/hosts/alucard.yaml;
   
   # Use SSH key from home directory for age key decryption
   # This allows automatic decryption during system rebuild
@@ -38,7 +38,7 @@
   #   owner = "postgres";
   #   group = "postgres";
   #   mode = "0400";
-  #   sopsFile = ./../../secrets/hosts/pixel-peeper.yaml;
+  #   sopsFile = ./../../secrets/hosts/alucard.yaml;
   # };
 }
 
