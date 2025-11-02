@@ -25,13 +25,11 @@
     powerKey = "suspend";
     powerKeyLongPress = "poweroff";
     
-    # Extra power key handling
-    extraConfig = ''
-      HandleSuspendKey=suspend
-      HandleHibernateKey=hibernate
-      HandleLidSwitch=suspend
-      HandleLidSwitchExternalPower=ignore
-    '';
+    # Additional power key handling settings
+    settings = {
+      Login.SuspendKey = "suspend";
+      Login.HibernateKey = "hibernate";
+    };
   };
 
   # ───── CPU Governor ─────
