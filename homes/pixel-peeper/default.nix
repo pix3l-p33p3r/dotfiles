@@ -30,6 +30,11 @@
     };
   };
 
+  # Install Cursor AI Editor v2.0.34 (using custom AppImage wrapper)
+  home.packages = [
+    (pkgs.callPackage ../../configs/editors/cursor.nix {})
+  ];
+
   home.username = "pixel-peeper";
   home.homeDirectory = "/home/pixel-peeper";
   home.stateVersion = "25.05";
