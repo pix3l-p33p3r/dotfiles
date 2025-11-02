@@ -115,8 +115,7 @@ dotfiles/
 │   └── users/               # User-level secrets
 ├── 📚 docs/                 # Documentation
 │   ├── INDEX.md             # Documentation index (start here!)
-│   ├── DOCUMENTATION.md     # Complete system documentation
-│   ├── DECISIONS.md         # Tooling and architecture decisions
+│   ├── DECISIONS.md         # Tooling decisions (Git, Home Manager)
 │   ├── HOME-MANAGER.md      # Home Manager guide
 │   ├── MCP-SETUP.md         # Cursor AI MCP configuration
 │   └── FONTS.md             # Font reference
@@ -163,7 +162,7 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 | 🔐 **Secrets (SOPS)** | [secrets/README.md](secrets/README.md) |
 | ⚙️ **Terminal (Neovim, Zsh)** | [nvim](configs/terminal/nvim/README.md), [zsh](configs/terminal/zsh/README.md) |
 | 🛠️ **Scripts** | [scripts/README.md](scripts/README.md) |
-| 💡 **Decisions & Architecture** | [DOCUMENTATION.md](docs/DOCUMENTATION.md), [DECISIONS.md](docs/DECISIONS.md) |
+| 💡 **Decisions & Architecture** | [DECISIONS.md](docs/DECISIONS.md) |
 
 ## 📄 License
 
