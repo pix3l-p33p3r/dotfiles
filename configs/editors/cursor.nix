@@ -17,21 +17,23 @@ in appimageTools.wrapType2 {
   inherit pname version src;
 
   extraInstallCommands = ''
-    # Install desktop file
+    # Install desktop file (already has correct Exec=cursor)
     install -Dm444 ${appimageContents}/cursor.desktop -t $out/share/applications
     
-    # Replace Exec line in desktop file
-    substituteInPlace $out/share/applications/cursor.desktop \
-      --replace-fail 'Exec=AppRun' 'Exec=cursor' \
-      --replace-fail 'Exec=AppRun --no-sandbox %U' 'Exec=cursor --no-sandbox %U'
-    
-    # Install icons
-    for size in 16 32 48 64 128 256 512; do
-      if [ -f ${appimageContents}/usr/share/icons/hicolor/''${size}x''${size}/apps/cursor.png ]; then
-        install -Dm444 ${appimageContents}/usr/share/icons/hicolor/''${size}x''${size}/apps/cursor.png \
-          $out/share/icons/hicolor/''${size}x''${size}/apps/cursor.png
-      fi
-    done
+    # Install icons - use the correct icon name from desktop file (co.anysphere.cursor)
+    # First try copying the full icons directory structure
+    if [ -d ${appimageContents}/usr/share/icons ]; then
+      mkdir -p $out/share
+      cp -r ${appimageContents}/usr/share/icons $out/share/
+    else
+      # Fallback: look for PNG files directly in the AppImage root
+      for icon in ${appimageContents}/*.png; do
+        if [ -f "$icon" ]; then
+          install -Dm444 "$icon" $out/share/icons/hicolor/512x512/apps/co.anysphere.cursor.png
+          break
+        fi
+      done
+    fi
   '';
 
   meta = with lib; {
