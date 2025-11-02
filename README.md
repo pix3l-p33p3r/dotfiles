@@ -75,7 +75,7 @@ nix run home-manager/master -- switch --flake .#your-username@your-hostname
 ./scripts/nix-cleaner.sh
 ```
 
-> **Note:** This configuration uses **standalone Home Manager**. System and user environments are managed separately. See [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md) for details.
+> **Note:** This configuration uses **standalone Home Manager**. System and user environments are managed separately. See [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md) for details.
 
 ## 🏗️ Architecture
 
@@ -114,7 +114,11 @@ dotfiles/
 │   ├── hosts/               # Host-level secrets
 │   └── users/               # User-level secrets
 ├── 📚 docs/                 # Documentation
-│   └── DOCUMENTATION.md     # Complete documentation
+│   ├── DOCUMENTATION.md     # Complete documentation
+│   ├── DECISIONS.md         # Tooling decisions
+│   ├── HOME-MANAGER.md      # Home Manager guide
+│   ├── SECRETS.md           # Secrets setup guide
+│   └── test.md
 ├── flake.nix                # Nix flake configuration
 └── LICENSE                  # License file
 ```
@@ -148,6 +152,7 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 **Complete Guide**: [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md) - Tooling decisions, Home Manager usage, secrets management
 
 **Component READMEs**:
+- [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md) - Standalone home-manager usage
 - [configs/desktop/README.md](configs/desktop/README.md) - Hyprland configuration
 - [configs/terminal/nvim/README.md](configs/terminal/nvim/README.md) - Neovim setup
 - [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Zsh configuration
@@ -155,6 +160,8 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 - [machines/alucard/README.md](machines/alucard/README.md) - NixOS system config
 - [scripts/README.md](scripts/README.md) - Utility scripts
 - [secrets/README.md](secrets/README.md) - SOPS secrets management
+- [docs/DECISIONS.md](docs/DECISIONS.md) - Tooling and architectural decisions
+- [docs/SECRETS.md](docs/SECRETS.md) - SOPS + Age setup guide
 
 ## 📄 License
 
