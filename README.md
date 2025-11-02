@@ -76,7 +76,7 @@ sudo nixos-rebuild switch --flake .#your-hostname
 ```
 dotfiles/
 ├── 🖥️ machines/              # NixOS system config
-│   └── pixel-peeper/        # Host-specific config
+│   └── alucard/             # Host-specific config
 ├── 👤 homes/                 # Home Manager user config
 │   └── pixel-peeper/        # User settings
 ├── 🎨 configs/              # Application configs
