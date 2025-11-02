@@ -60,9 +60,9 @@ home.packages = [
 
 ### MCP (Model Context Protocol) Configuration 🎯
 
-**Status**: ✅ Managed declaratively via `cursor-config.nix`
+**Status**: ✅ Managed declaratively via `cursor-config.nix` with SOPS-encrypted secrets
 
-The MCP configuration is now fully declarative and version-controlled:
+The MCP configuration is now fully declarative, version-controlled, and **security-hardened**:
 
 ```nix
 # configs/editors/cursor-config.nix
@@ -75,13 +75,19 @@ home.file.".cursor/mcp.json" = {
 
 **Configured MCP Servers**:
 - **NixOS** - Package search, options, and flake operations (The Enlightened Way™)
-- **Obsidian** - Second brain integration
+- **Obsidian** - Second brain integration (API key encrypted with SOPS + Age)
 - **GitKraken** - Git operations
 - **Filesystem** - Dotfiles access
 
+**Security Features**:
+- 🔐 Obsidian API key encrypted with SOPS + Age
+- 🔑 Secrets stored in `secrets/users/pixel-peeper.yaml` (encrypted)
+- 🏗️ Automatic decryption during Home Manager build
+- 📝 Age key location: `~/.config/sops/age/keys.txt`
+
 The configuration automatically deploys to `~/.cursor/mcp.json` on `home-manager switch`.
 
-See `docs/MCP-SETUP.md` for detailed documentation.
+See `docs/MCP-SETUP.md` for detailed documentation and `secrets/README.md` for SOPS usage.
 
 ### Features of Cursor
 
