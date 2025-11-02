@@ -20,12 +20,13 @@
   # Trust the main user so client-specified caches aren't ignored
   nix.settings.trusted-users = [ "root" "pixel-peeper" ];
   # System-wide binary caches
-  # Note: Catppuccin cache is configured automatically via catppuccin.cache.enable
   nix.settings.substituters = [
     "https://cache.nixos.org"
+    "https://catppuccin.cachix.org"
   ];
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
   ];
 
   # ───── nix-ld ─────
