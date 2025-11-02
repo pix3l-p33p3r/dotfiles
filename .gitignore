@@ -34,3 +34,5 @@ secrets/**/*.yaml.unencrypted
 secrets/**/*.yml.unencrypted
 secrets/**/*.json.unencrypted
 
+# MCP Configuration (contains API keys)
+mcp-config.json
