@@ -114,11 +114,12 @@ dotfiles/
 │   ├── hosts/               # Host-level secrets
 │   └── users/               # User-level secrets
 ├── 📚 docs/                 # Documentation
-│   ├── DOCUMENTATION.md     # Complete documentation
-│   ├── DECISIONS.md         # Tooling decisions
+│   ├── INDEX.md             # Documentation index (start here!)
+│   ├── DOCUMENTATION.md     # Complete system documentation
+│   ├── DECISIONS.md         # Tooling and architecture decisions
 │   ├── HOME-MANAGER.md      # Home Manager guide
-│   ├── SECRETS.md           # Secrets setup guide
-│   └── test.md
+│   ├── MCP-SETUP.md         # Cursor AI MCP configuration
+│   └── FONTS.md             # Font reference
 ├── flake.nix                # Nix flake configuration
 └── LICENSE                  # License file
 ```
@@ -149,19 +150,20 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 
 ## 📚 Documentation
 
-**Complete Guide**: [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md) - Tooling decisions, Home Manager usage, secrets management
+### Start Here
+- **[📖 Documentation Index](docs/INDEX.md)** - Complete navigation guide to all docs
 
-**Component READMEs**:
-- [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md) - Standalone home-manager usage
-- [configs/desktop/README.md](configs/desktop/README.md) - Hyprland configuration
-- [configs/terminal/nvim/README.md](configs/terminal/nvim/README.md) - Neovim setup
-- [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Zsh configuration
-- [configs/editors/README.md](configs/editors/README.md) - Cursor editor
-- [machines/alucard/README.md](machines/alucard/README.md) - NixOS system config
-- [scripts/README.md](scripts/README.md) - Utility scripts
-- [secrets/README.md](secrets/README.md) - SOPS secrets management
-- [docs/DECISIONS.md](docs/DECISIONS.md) - Tooling and architectural decisions
-- [docs/SECRETS.md](docs/SECRETS.md) - SOPS + Age setup guide
+### Quick Links
+| Topic | Guide |
+|-------|-------|
+| 🏠 **Getting Started** | [HOME-MANAGER.md](docs/HOME-MANAGER.md) |
+| 🖥️ **System Config** | [machines/alucard/README.md](machines/alucard/README.md) |
+| 🎨 **Desktop (Hyprland)** | [configs/desktop/README.md](configs/desktop/README.md) |
+| ✏️ **Cursor AI + MCP** | [configs/editors/README.md](configs/editors/README.md), [MCP-SETUP.md](docs/MCP-SETUP.md) |
+| 🔐 **Secrets (SOPS)** | [secrets/README.md](secrets/README.md) |
+| ⚙️ **Terminal (Neovim, Zsh)** | [nvim](configs/terminal/nvim/README.md), [zsh](configs/terminal/zsh/README.md) |
+| 🛠️ **Scripts** | [scripts/README.md](scripts/README.md) |
+| 💡 **Decisions & Architecture** | [DOCUMENTATION.md](docs/DOCUMENTATION.md), [DECISIONS.md](docs/DECISIONS.md) |
 
 ## 📄 License
 
