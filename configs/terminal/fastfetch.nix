@@ -28,8 +28,10 @@ in
               "type": 2
             },
             "bar": {
-              "charElapsed": "▊",
-              "charTotal": " "
+              "char": {
+                "elapsed": "▊",
+                "total": " "
+              }
             },
             "key": {
               "width": 6
@@ -156,6 +158,7 @@ in
             {
               "type": "icons",
               "key": "├─",
+              "format": "{icons1}",
               "keyColor": "33"
             },
             {
