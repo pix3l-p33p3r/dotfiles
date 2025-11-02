@@ -45,7 +45,7 @@ cd ~/.config/nixos
 
 2. **Copy and customize the host:**
 
-Copy `machines/pixel-peeper` to match your hostname and update `variables.nix`.
+Copy `machines/alucard` to match your hostname and update `variables.nix`.
 
 3. **Add hardware configuration:**
 
@@ -117,7 +117,7 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 - **Desktop**: [configs/desktop/README.md](configs/desktop/README.md) - Hyprland configuration
 - **Neovim**: [configs/terminal/nvim/README.md](configs/terminal/nvim/README.md) - Editor setup
 - **Zsh**: [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Shell configuration
-- **Machine**: [machines/pixel-peeper/README.md](machines/pixel-peeper/README.md) - NixOS system config
+- **Machine**: [machines/alucard/README.md](machines/alucard/README.md) - NixOS system config
 
 ## 📄 License
 

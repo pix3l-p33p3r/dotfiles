@@ -8,12 +8,12 @@
 
 # Machine Configuration Structure
 
-Modular NixOS system configuration for pixel-peeper, organized for maintainability and clarity.
+Modular NixOS system configuration for alucard, organized for maintainability and clarity.
 
 ## 📁 Modules
 
 ```
-pixel-peeper/
+alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
 ├── boot.nix                 # Bootloader & Secure Boot (Lanzaboote)
@@ -62,7 +62,7 @@ services.myservice.enable = true;
 
 ### Creating a New Module
 
-1. Create `machines/pixel-peeper/mymodule.nix`:
+1. Create `machines/alucard/mymodule.nix`:
 ```nix
 { config, pkgs, ... }:
 {
@@ -88,7 +88,7 @@ nix flake check --show-trace
 nix-instantiate --eval ./default.nix
 
 # Build without switching
-sudo nixos-rebuild build --flake .#pixel-peeper
+sudo nixos-rebuild build --flake .#alucard
 ```
 
 ### Secure Boot Issues
@@ -112,7 +112,7 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh
 **Common Issues:**
 - **Unsigned kernels in `/boot/EFI/nixos/`**: Legacy entries from pre-Lanzaboote setup. Remove or sign them.
 - **Keys not enrolled**: Run `sudo sbctl enroll-keys -m` after `sbctl create-keys`
-- **Rebuild after key enrollment**: `sudo nixos-rebuild switch --flake .#pixel-peeper`
+- **Rebuild after key enrollment**: `sudo nixos-rebuild switch --flake .#alucard`
 
 ## 📊 Service Overview
 

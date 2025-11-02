@@ -25,22 +25,27 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, flake-parts, home-manager, stylix, nur, zen-browser, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, flake-parts, home-manager, stylix, nur, zen-browser, sops-nix, ... }@inputs: {
     # ===== NixOS Configuration =====
-    nixosConfigurations.pixel-peeper = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };  # Pass inputs BEFORE modules
       modules = [
-        ./machines/pixel-peeper
+        ./machines/alucard
+        sops-nix.nixosModules.sops
         lanzaboote.nixosModules.lanzaboote
         catppuccin.nixosModules.catppuccin
         home-manager.nixosModules.home-manager
         {
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
-          home-manager.extraSpecialArgs = { inherit inputs; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
+          home-manager.extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
           home-manager.users.pixel-peeper = {
             imports = [
               ./homes/pixel-peeper
@@ -54,9 +59,9 @@
     };
     
     # ===== Standalone Home Manager Configuration =====
-    homeConfigurations."pixel-peeper@pixel-peeper" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."pixel-peeper@alucard" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = { inherit inputs; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
+      extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
       modules = [
         ./homes/pixel-peeper
         #catppuccin.homeManagerModules.catppuccin
