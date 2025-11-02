@@ -1,7 +1,9 @@
 { inputs, wallpaper, pkgs, lib, ... }@all: {
   imports = [
     ../../configs/desktop/hyprland
+    ../../configs/editors/cursor-config.nix
     ./catppuccin.nix
+    ./sops.nix
   ];
 
   # Essential for Thunar for trash, network, and mounting
