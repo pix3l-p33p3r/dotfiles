@@ -54,12 +54,9 @@ The main MCP configuration is in `/workspace/mcp-config.json`.
 - Fetch package information from nixpkgs
 
 ### 5. **Obsidian** (`@executeautomation/mcp-obsidian`)
-**Status**: ⚠️ Requires vault path  
-**Purpose**: Interact with your Obsidian notes vault
-
-**Setup**:
-1. Update `OBSIDIAN_VAULT_PATH` in `mcp-config.json` with your actual vault location
-2. Default is set to `/home/pixel-peeper/Documents/Obsidian`
+**Status**: ✅ Configured for your vault  
+**Purpose**: Interact with your Obsidian notes vault  
+**Vault Path**: `/home/pixel-peeper/Documents/secend-brain`
 
 **Capabilities**:
 - Read notes

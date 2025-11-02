@@ -46,7 +46,7 @@
         "@executeautomation/mcp-obsidian"
       ],
       "env": {
-        "OBSIDIAN_VAULT_PATH": "/home/pixel-peeper/Documents/Obsidian"
+        "OBSIDIAN_VAULT_PATH": "/home/pixel-peeper/Documents/secend-brain"
       },
       "description": "Interact with Obsidian vault for notes and documentation"
     },
