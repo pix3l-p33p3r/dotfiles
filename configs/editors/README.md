@@ -15,48 +15,17 @@ home.packages = [
 
 This is defined in `cursor.nix` and provides proper desktop integration, icons, and application launcher entries.
 
-### Updating to a Newer Version
+### Updating Cursor
 
-To update Cursor to a newer version:
+To update to a newer version:
 
-1. Find the new AppImage URL from the [Cursor website](https://cursor.com/download) or check their downloads page
-
-2. Get the SHA256 hash:
-```bash
-nix-prefetch-url "https://downloads.cursor.com/production/COMMIT_HASH/linux/x64/Cursor-VERSION-x86_64.AppImage"
-```
-
-3. Update `configs/editors/cursor.nix`:
-   - Change the `version` field
-   - Update the `url` in the `fetchurl` block
-   - Replace the `sha256` hash
-
-4. Rebuild your configuration:
-```bash
-home-manager switch --flake .#pixel-peeper@alucard
-```
-
-### Alternative Installation Methods
-
-#### Using nixpkgs (Older Version)
-
-If you prefer the stable but older version (1.7.52) from nixpkgs:
-
-```nix
-home.packages = [
-  pkgs.code-cursor
-];
-```
-
-#### Using FHS Environment
-
-For better extension compatibility with the nixpkgs version:
-
-```nix
-home.packages = [
-  pkgs.code-cursor-fhs
-];
-```
+1. Get the new AppImage URL from [Cursor downloads](https://cursor.com/download)
+2. Fetch the SHA256 hash:
+   ```bash
+   nix-prefetch-url "https://downloads.cursor.com/production/COMMIT_HASH/linux/x64/Cursor-VERSION-x86_64.AppImage"
+   ```
+3. Update `cursor.nix`: version, url, and sha256
+4. Rebuild: `hms` or `upgrade`
 
 ### MCP (Model Context Protocol) Configuration 🎯
 
