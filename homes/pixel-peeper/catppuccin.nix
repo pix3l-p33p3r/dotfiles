@@ -48,7 +48,7 @@
   # Git tools
   catppuccin.lazygit.enable = true;
 
-  catppuccin.gitui.enable = true;
+  # catppuccin.gitui.enable = true;
 
   # ============================================================================
   # Media & Documents
@@ -98,8 +98,8 @@
   # Kubernetes TUI
   catppuccin.k9s.enable = true;
 
-  # Binary cache (optional)
-  catppuccin.cache.enable = true;
+  # Binary cache (optional) - enables faster builds via catppuccin.cachix.org
+  # catppuccin.cache.enable = true;
 
   # Cursor theme
   catppuccin.cursors.enable = true;
