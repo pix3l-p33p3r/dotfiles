@@ -62,7 +62,11 @@ Register your new host under `nixosConfigurations`.
 5. **Build the system:**
 
 ```sh
+# Build NixOS system configuration
 sudo nixos-rebuild switch --flake .#your-hostname
+
+# Build Home Manager configuration (user environment)
+nix run home-manager/master -- switch --flake .#your-username@your-hostname
 ```
 
 6. **Clean old generations (optional):**
@@ -70,6 +74,8 @@ sudo nixos-rebuild switch --flake .#your-hostname
 ```sh
 ./scripts/nix-cleaner.sh
 ```
+
+> **Note:** This configuration uses **standalone Home Manager**. System and user environments are managed separately. See [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md) for details.
 
 ## 🏗️ Architecture
 
@@ -141,6 +147,7 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 
 ## 📚 Documentation
 
+- **Home Manager**: [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md) - Standalone home-manager usage
 - **Desktop**: [configs/desktop/README.md](configs/desktop/README.md) - Hyprland configuration
 - **Neovim**: [configs/terminal/nvim/README.md](configs/terminal/nvim/README.md) - Editor setup
 - **Zsh**: [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Shell configuration
