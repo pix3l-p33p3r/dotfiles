@@ -58,11 +58,37 @@ home.packages = [
 ];
 ```
 
+### MCP (Model Context Protocol) Configuration 🎯
+
+**Status**: ✅ Managed declaratively via `cursor-config.nix`
+
+The MCP configuration is now fully declarative and version-controlled:
+
+```nix
+# configs/editors/cursor-config.nix
+home.file.".cursor/mcp.json" = {
+  text = builtins.toJSON {
+    mcpServers = { ... };
+  };
+};
+```
+
+**Configured MCP Servers**:
+- **NixOS** - Package search, options, and flake operations (The Enlightened Way™)
+- **Obsidian** - Second brain integration
+- **GitKraken** - Git operations
+- **Filesystem** - Dotfiles access
+
+The configuration automatically deploys to `~/.cursor/mcp.json` on `home-manager switch`.
+
+See `docs/MCP-SETUP.md` for detailed documentation.
+
 ### Features of Cursor
 
 - **AI-Powered Completions**: Context-aware code suggestions
 - **Chat**: Ask questions about your codebase
 - **Composer**: AI-assisted code generation
+- **MCP Integration**: Extended capabilities via Model Context Protocol
 - **VS Code Compatible**: All VS Code extensions work
 - **Privacy**: Local processing option available
 

@@ -52,6 +52,7 @@
         ./homes/pixel-peeper
         catppuccin.homeModules.catppuccin
         inputs.zen-browser.homeModules.twilight
+        sops-nix.homeManagerModules.sops
       ];
     };
   };
