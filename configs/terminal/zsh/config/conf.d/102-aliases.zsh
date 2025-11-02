@@ -34,7 +34,7 @@ alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 
 alias update="nix flake update && fastfetch"
 
-alias upgrade="cd $HOME/dotfiles && nix flake update && sudo nixos-rebuild switch --flake '.#alucard' --no-reexec && clean && fastfetch"
+alias upgrade="cd $HOME/dotfiles && nix flake update && sudo nixos-rebuild switch --flake '.#alucard' -j 7 --no-reexec && clean && fastfetch"
 
 alias check="nix flake check"
 
