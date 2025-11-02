@@ -1,53 +1,79 @@
-# Cursor Editor Configuration
+# Editor Configurations
 
-AI-powered code editor built on VS Code, packaged as an AppImage for NixOS.
+## Cursor AI Editor
 
-## Package
+### Current Installation (Custom Package)
 
-**Version**: 2.0.34  
-**Type**: AppImage wrapped with Nix  
-**Location**: `cursor.nix`
+The configuration now installs Cursor version **2.0.34** using a custom Nix package that wraps the official AppImage:
 
-## Features
+```nix
+home.packages = [
+  (pkgs.callPackage ../../configs/editors/cursor.nix {})
+];
 
-- VS Code fork with AI features built-in
-- AI-powered code completion and chat
-- Native Nix packaging with proper dependencies
-- Desktop integration (icons, .desktop file)
-- Update notifications disabled (managed by Nix)
+```
 
-## Configuration
+This is defined in `cursor.nix` and provides proper desktop integration, icons, and application launcher entries.
 
-**Package Definition**: `configs/editors/cursor.nix`  
-**User Config**: `~/.config/Cursor/`  
-**Extensions**: `~/.cursor/extensions/`
+### Updating to a Newer Version
 
-## Key Components
+To update Cursor to a newer version:
 
-- **AppImage**: Downloaded from cursor.com
-- **Dependencies**: xorg.libxshmfence, python3, gcc, gnumake, libsecret, libnotify
-- **Desktop File**: Installed to `/share/applications`
-- **Icons**: Installed to `/share/icons`
+1. Find the new AppImage URL from the [Cursor website](https://cursor.com/download) or check their downloads page
 
-## Building
-
+2. Get the SHA256 hash:
 ```bash
-# Rebuild Home Manager to install/update
+nix-prefetch-url "https://downloads.cursor.com/production/COMMIT_HASH/linux/x64/Cursor-VERSION-x86_64.AppImage"
+```
+
+3. Update `configs/editors/cursor.nix`:
+   - Change the `version` field
+   - Update the `url` in the `fetchurl` block
+   - Replace the `sha256` hash
+
+4. Rebuild your configuration:
+```bash
 home-manager switch --flake .#pixel-peeper@alucard
 ```
 
-## Updating Cursor
+### Alternative Installation Methods
 
-To update to a new version:
+#### Using nixpkgs (Older Version)
 
-1. Update `version` in `cursor.nix`
-2. Download new AppImage URL
-3. Get new hash: `nix-prefetch-url <url>`
-4. Update `sha256` hash
-5. Rebuild Home Manager
+If you prefer the stable but older version (1.7.52) from nixpkgs:
 
-## Notes
+```nix
+home.packages = [
+  pkgs.code-cursor
+];
+```
 
-- Update notifications are disabled via `product.json`
-- Managed declaratively through Nix
-- No manual updates - use flake updates instead
+#### Using FHS Environment
+
+For better extension compatibility with the nixpkgs version:
+
+```nix
+home.packages = [
+  pkgs.code-cursor-fhs
+];
+```
+
+### Features of Cursor
+
+- **AI-Powered Completions**: Context-aware code suggestions
+- **Chat**: Ask questions about your codebase
+- **Composer**: AI-assisted code generation
+- **VS Code Compatible**: All VS Code extensions work
+- **Privacy**: Local processing option available
+
+### Troubleshooting
+
+**Issue**: Extensions don't work properly  
+**Solution**: Use `code-cursor-fhs` instead of `code-cursor`
+
+**Issue**: AppImage won't run  
+**Solution**: Make sure you're using `appimage-run` and not executing directly
+
+**Issue**: Can't download AppImage  
+**Solution**: Check network connectivity or download from browser at https://cursor.com/download
+
