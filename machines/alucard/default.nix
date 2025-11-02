@@ -1,4 +1,4 @@
-# NixOS configuration for pixel-peeper machine
+# NixOS configuration for alucard machine
 # Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
@@ -26,6 +26,7 @@
       ./x11.nix
       ./wayland.nix
       ./security.nix
+      ./secrets.nix
       
       # Containerization & Virtualization
       ./docker.nix

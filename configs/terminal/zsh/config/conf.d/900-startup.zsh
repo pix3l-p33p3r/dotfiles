@@ -1,8 +1,8 @@
-# Run macchina on each gradfather shell session
+# Run fastfetch on each grandfather shell session
 if [ "$SHLVL" = "1" ]
 then
-  macchina
-  # fastfetch
+  fastfetch
+  # macchina
 fi
 
 # direnv

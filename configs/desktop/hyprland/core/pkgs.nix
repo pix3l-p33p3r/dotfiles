@@ -262,13 +262,10 @@
 		yazi # File manager
 		zoxide # Smart cd
 
-		# Git TUI Tools
-		tig # Git repository browser
-		git-interactive-rebase-tool # Interactive rebase
-		gitui # Git TUI
-		lazygit # Git TUI
+
 
 		# Development TUI
+		lazygit # Git TUI
 		lazydocker # Docker TUI
 		lazysql # SQL database TUI
 		lazyjournal # Journal TUI
@@ -376,6 +373,11 @@
 		poppler # PDF utilities
 		resvg # SVG renderer
 		zathura # PDF viewer
+
+		# Metadata Tools
+		exiftool # Metadata editor
+		exiv2 # Image metadata library
+		mat2 # Metadata anonymization toolkit
 
 		# ============================================================================
 		# |                           GUI APPLICATIONS                             |

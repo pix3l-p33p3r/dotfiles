@@ -3,13 +3,13 @@ set -euo pipefail
 
 # This script automates steps 1-2-3-4 for enabling Secure Boot with Lanzaboote on NixOS.
 # It will:
-# 1) Enable Lanzaboote + sbctl in machines/pixel-peeper/boot.nix (uncomment if present, else append).
+# 1) Enable Lanzaboote + sbctl in machines/alucard/boot.nix (uncomment if present, else append).
 # 2) Rebuild the system (with Secure Boot still disabled in firmware).
 # 3) Create and enroll Secure Boot keys via sbctl.
 # 4) Rebuild again to ensure signed UKIs are in place.
 
 REPO_ROOT="$(cd "$(dirname "$0")"/.. && pwd)"
-CFG="$REPO_ROOT/machines/pixel-peeper/boot.nix"
+CFG="$REPO_ROOT/machines/alucard/boot.nix"
 FLAKE="$REPO_ROOT"
 
 echo "[1/4] Ensuring Lanzaboote + sbctl are enabled in: $CFG"
@@ -51,7 +51,7 @@ if ! grep -qE "^\s*boot\.lanzaboote\.enable\s*=\s*true;" "$CFG"; then
 fi
 
 echo "[2/4] Rebuilding system (Secure Boot still disabled in firmware)"
-sudo nixos-rebuild switch --flake "$FLAKE#pixel-peeper"
+sudo nixos-rebuild switch --flake "$FLAKE#alucard"
 
 echo "[3/4] Creating and enrolling Secure Boot keys with sbctl"
 if ! command -v sbctl >/dev/null 2>&1; then
@@ -69,7 +69,7 @@ sudo sbctl enroll-keys -m
 sudo sbctl verify || true
 
 echo "[4/4] Rebuilding again to ensure signed UKIs are installed"
-sudo nixos-rebuild switch --flake "$FLAKE#pixel-peeper"
+sudo nixos-rebuild switch --flake "$FLAKE#alucard"
 
 echo
 echo "Done. Next steps:"
