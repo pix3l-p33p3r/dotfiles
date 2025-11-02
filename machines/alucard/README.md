@@ -1,159 +1,60 @@
-<div align="center">
-    <img alt="nixos" src="https://img.shields.io/badge/NixOS-Configuration-blue.svg?style=for-the-badge&labelColor=11111B&logo=nixos&logoColor=89B4FA&color=89B4FA">
-    <img alt="hyprland" src="https://img.shields.io/badge/WM-Hyprland-purple.svg?style=for-the-badge&labelColor=11111B&logo=linux&logoColor=89B4FA&color=89B4FA">
-    <img alt="modular" src="https://img.shields.io/badge/Architecture-Modular-green.svg?style=for-the-badge&labelColor=11111B&logo=hackerrank&logoColor=89B4FA&color=89B4FA">
-</div>
+# Machine Configuration: alucard
 
-<br>
+Modular NixOS system configuration organized by concern.
 
-# Machine Configuration Structure
-
-Modular NixOS system configuration for alucard, organized for maintainability and clarity.
-
-## 📁 Modules
+## Modules
 
 ```
 alucard/
-├── default.nix              # Entry point, imports all modules
-├── hardware-configuration.nix  # Auto-generated hardware config
-├── boot.nix                 # Bootloader, Secure Boot (Lanzaboote) & Firmware (fwupd)
-├── system.nix               # Core settings, services
-├── locale.nix               # Timezone, internationalization
-├── users.nix                # User accounts, shell
-├── programs.nix             # System programs (Firefox, nm-applet)
-├── graphics.nix             # Intel drivers, VA-API, Vulkan
-├── audio.nix                # Pipewire, ALSA
-├── bluetooth.nix            # Bluetooth, Blueman
-├── x11.nix                  # X11 compatibility
-├── wayland.nix              # Hyprland window manager
-├── security.nix             # PAM, D-Bus, Dconf
-├── docker.nix               # Docker container runtime
-├── virt.nix                 # Virtualization (QEMU/KVM/libvirt)
-└── maint.nix                # Auto-updates, GC, optimization
+├── default.nix              # Entry point, imports all
+├── hardware-configuration.nix  # Auto-generated hardware
+├── boot.nix                 # Bootloader & Secure Boot
+├── system.nix               # Core settings & services
+├── locale.nix               # Timezone & i18n
+├── users.nix                # User accounts
+├── programs.nix             # System programs
+├── graphics.nix             # Intel drivers & VA-API
+├── audio.nix                # Pipewire
+├── bluetooth.nix            # Bluetooth & Blueman
+├── wayland.nix              # Hyprland
+├── security.nix             # PAM & D-Bus
+├── docker.nix               # Docker runtime
+├── virt.nix                 # QEMU/KVM
+└── maint.nix                # Auto-updates & GC
 ```
 
-## ⚙️ Key Components
+## Key Components
 
 **System**
-- **Secure Boot**: Lanzaboote with UKI
-- **Encryption**: LUKS disk encryption
-- **CPU**: Intel with microcode updates
-- **Graphics**: Intel integrated with VA-API hardware acceleration
-- **Firmware Updates**: fwupd service for BIOS, EC, and Intel ME updates
+- Secure Boot: Lanzaboote with UKI
+- LUKS encryption
+- Intel CPU with microcode
+- Firmware updates via fwupd
 
 **Services**
-- **Networking**: NetworkManager, OpenSSH
-- **Power**: UPower, power-profiles-daemon
-- **Media**: Pipewire audio stack
-- **Containers**: Docker, QEMU/KVM virtualization
-- **Firmware**: fwupd for automatic hardware firmware updates
+- NetworkManager, OpenSSH
+- Pipewire audio
+- Docker & QEMU/KVM
+- Power management
 
-**Display**
-- **Wayland**: Hyprland compositor
-- **X11**: Compatibility layer for legacy apps
-- **Bluetooth**: Blueman manager
+## Customization
 
-## 🔧 Customization
-
-### Adding a Service
-
-Add to `system.nix`:
+**Add a service** - Edit `system.nix`:
 ```nix
 services.myservice.enable = true;
 ```
 
-### Creating a New Module
+**Create new module** - Create file, add to `default.nix` imports
 
-1. Create `machines/alucard/mymodule.nix`:
-```nix
-{ config, pkgs, ... }:
-{
-  # Your configuration here
-}
-```
-
-2. Add to `default.nix` imports:
-```nix
-imports = [
-  # ...
-  ./mymodule.nix
-];
-```
-
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ```bash
-# Check configuration for errors
+# Check configuration
 nix flake check --show-trace
-
-# Validate a module
-nix-instantiate --eval ./default.nix
 
 # Build without switching
 sudo nixos-rebuild build --flake .#alucard
-```
 
-### Firmware Updates
-
-The system uses `fwupd` for managing firmware updates:
-
-```bash
-# Check available firmware updates
+# Check firmware updates
 fwupdmgr get-updates
-
-# Apply firmware updates
-sudo fwupdmgr update
-
-# Check firmware device status
-fwupdmgr get-devices
-
-# View firmware update history
-fwupdmgr get-history
 ```
-
-**Supported Hardware:**
-- Embedded Controller (EC)
-- Intel Management Engine (ME)
-- System Firmware (BIOS/UEFI)
-
-### Secure Boot Issues
-
-If `sbctl verify` shows unsigned kernels:
-
-```bash
-# Check Secure Boot status
-sudo sbctl status
-
-# Verify all boot entries
-sudo sbctl verify
-
-# Check boot loader status
-sudo bootctl status
-
-# Clean up legacy boot entries (if using Lanzaboote)
-sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh
-```
-
-**Common Issues:**
-- **Unsigned kernels in `/boot/EFI/nixos/`**: Legacy entries from pre-Lanzaboote setup. Remove or sign them.
-- **Keys not enrolled**: Run `sudo sbctl enroll-keys -m` after `sbctl create-keys`
-- **Rebuild after key enrollment**: `sudo nixos-rebuild switch --flake .#alucard`
-
-## 📊 Service Overview
-
-| Service | Module | Config |
-|---------|--------|--------|
-| NetworkManager | `system.nix` | `networking.networkmanager.enable` |
-| OpenSSH | `system.nix` | `services.openssh.enable` |
-| Pipewire | `audio.nix` | Audio stack |
-| Hyprland | `wayland.nix` | `programs.hyprland.enable` |
-| fwupd | `boot.nix` | `services.fwupd.enable` |
-| Docker | `docker.nix` | `virtualisation.docker.enable` |
-| libvirt | `virt.nix` | `virtualisation.libvirtd.enable` |
-
-## 💡 Benefits
-
-- **Separation of Concerns** - Each module handles a specific aspect
-- **Easier Navigation** - Find settings by category
-- **Better Maintainability** - Modify one area without affecting others
-- **Cleaner Git History** - Targeted diffs
