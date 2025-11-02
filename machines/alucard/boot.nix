@@ -17,5 +17,13 @@
 
   # Where sbctl will store and read your PK/KEK/db bundle
   boot.lanzaboote.pkiBundle = "/var/lib/sbctl";
+
+  # ───── Firmware updates with fwupd ─────
+  
+  # Enable fwupd for firmware updates (BIOS, EC, ME, etc.)
+  services.fwupd.enable = true;
+
+  # Install firmware packages for Intel microcode
+  hardware.enableRedistributableFirmware = true;
 }
 
