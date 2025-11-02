@@ -35,26 +35,12 @@
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };  # Pass inputs BEFORE modules
+      specialArgs = { inherit inputs; };
       modules = [
         ./machines/alucard
         sops-nix.nixosModules.sops
         lanzaboote.nixosModules.lanzaboote
         catppuccin.nixosModules.catppuccin
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "backup";
-          home-manager.extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
-          home-manager.users.pixel-peeper = {
-            imports = [
-              ./homes/pixel-peeper
-              #catppuccin.homeManagerModules.catppuccin
-              catppuccin.homeModules.catppuccin
-              inputs.zen-browser.homeModules.twilight
-            ];
-          };
-        }
       ];
     };
     
@@ -64,7 +50,6 @@
       extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
       modules = [
         ./homes/pixel-peeper
-        #catppuccin.homeManagerModules.catppuccin
         catppuccin.homeModules.catppuccin
         inputs.zen-browser.homeModules.twilight
       ];
