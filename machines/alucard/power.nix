@@ -17,18 +17,21 @@
   
   # Systemd logind power management settings
   services.logind = {
-    # Handle lid switch (close) actions
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
-    
-    # Handle power button action
-    powerKey = "suspend";
-    powerKeyLongPress = "poweroff";
-    
     # Additional power key handling settings
     settings = {
-      Login.SuspendKey = "suspend";
-      Login.HibernateKey = "hibernate";
+      Login = {
+        # Handle lid switch (close) actions
+        HandleLidSwitch = "suspend";
+        HandleLidSwitchDocked = "ignore";
+        
+        # Handle power button action
+        HandlePowerKey = "suspend";
+        HandlePowerKeyLongPress = "poweroff";
+        
+        # Additional power key handling
+        SuspendKey = "suspend";
+        HibernateKey = "hibernate";
+      };
     };
   };
 
