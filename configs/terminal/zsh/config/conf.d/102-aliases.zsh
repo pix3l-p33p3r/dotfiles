@@ -51,7 +51,7 @@ alias nsearch="nix search nixpkgs"
 alias nwhy="nix why-depends"
 alias nfdiff="nix flake diff"
 alias nbuild="cd $HOME/dotfiles && nix build .#"
-
+alias mcp="nix run github:utensils/mcp-nixos"
 
 
 alias timezsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
