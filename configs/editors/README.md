@@ -10,6 +10,7 @@ The configuration now installs Cursor version **2.0.34** using a custom Nix pack
 home.packages = [
   (pkgs.callPackage ../../configs/editors/cursor.nix {})
 ];
+
 ```
 
 This is defined in `cursor.nix` and provides proper desktop integration, icons, and application launcher entries.
