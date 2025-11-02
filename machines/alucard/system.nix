@@ -46,7 +46,7 @@
   zramSwap.enable = true;
 
   # ───── Hostname ─────
-  networking.hostName = "pixel-peeper";
+  networking.hostName = "alucard";
 
   # ───── OpenSSH ─────
   services.openssh.enable = true;

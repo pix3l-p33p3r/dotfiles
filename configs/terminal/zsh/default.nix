@@ -19,6 +19,7 @@
 
     # System Information
     macchina # System information
+    fastfetch # System information
     nix-tree # Nix dependency tree
 
     # Text Processing
@@ -74,14 +75,7 @@
     tig # Git repository browser
     git-interactive-rebase-tool # Interactive rebase
     gitui # Git TUI
-    lazygit # Git TUI
 
-    # Development TUI
-    lazydocker # Docker TUI
-    lazysql # SQL database TUI
-    lazyjournal # Journal TUI
-    lazyhetzner # Hetzner Cloud TUI
-    stern # Kubernetes log tailing
 
     # ============================================================================
     # |                        ENVIRONMENT MANAGEMENT                             |

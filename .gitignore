@@ -22,3 +22,15 @@ result-*
 # Garbage collection keeps
 .gc-keep
 
+# SOPS secrets - age keys (should NEVER be committed)
+*.agekey
+*keys.txt
+**/sops/age/keys.txt
+
+# Unencrypted secret files (always use SOPS encryption)
+# Note: Encrypted SOPS files (.yaml with sops metadata) are safe to commit
+# Only ignore unencrypted secret files in the secrets directory
+secrets/**/*.yaml.unencrypted
+secrets/**/*.yml.unencrypted
+secrets/**/*.json.unencrypted
+
