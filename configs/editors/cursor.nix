@@ -1,4 +1,4 @@
-{ lib, appimageTools, fetchurl }:
+{ lib, appimageTools, fetchurl, makeWrapper, stdenv }:
 
 let
   pname = "cursor";
@@ -15,6 +15,20 @@ let
 
 in appimageTools.wrapType2 {
   inherit pname version src;
+  
+  # Provide additional libraries needed by Cursor/VS Code
+  multiPkgs = null; # Use default multiPkgs
+  extraPkgs = pkgs: (appimageTools.defaultFhsEnvArgs.multiPkgs pkgs) ++ (with pkgs; [
+    # Core libraries
+    xorg.libxshmfence
+    # For native modules
+    python3
+    gcc
+    gnumake
+    # Additional runtime dependencies
+    libsecret
+    libnotify
+  ]);
 
   extraInstallCommands = ''
     # Install desktop file (already has correct Exec=cursor)
