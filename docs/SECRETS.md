@@ -101,7 +101,7 @@ Secrets are decrypted to `/run/secrets/` at boot/rebuild time.
 
 ## 📚 Documentation
 
-- **Detailed Guide**: [secrets/README.md](secrets/README.md)
+- **Detailed Guide**: [secrets/README.md](../secrets/README.md)
 - **SOPS Docs**: https://github.com/getsops/sops
 - **sops-nix**: https://github.com/Mic92/sops-nix
 
@@ -166,7 +166,7 @@ nix flake show | grep sops-nix
 **"Permission denied" at rebuild**
 → Check owner/mode in `secrets.nix` match your config
 
-See [secrets/README.md](secrets/README.md) for more troubleshooting.
+See [secrets/README.md](../secrets/README.md) for more troubleshooting.
 
 ---
 
