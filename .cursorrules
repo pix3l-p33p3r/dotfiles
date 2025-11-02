@@ -1,0 +1,49 @@
+# Cursor Rules for NixOS Dotfiles
+
+## Context
+This is a NixOS configuration repository using flakes and standalone Home Manager.
+
+## Key Principles
+1. **Nix Conventions**: Follow nixpkgs style guide
+2. **Modularity**: Keep configurations modular and reusable
+3. **Documentation**: Document non-obvious decisions in docs/DECISIONS.md
+4. **Type Safety**: Use `lib.mkOption` with types for custom options
+5. **Catppuccin Mocha**: Maintain consistent theming across all applications
+
+## File Structure
+- `machines/`: NixOS system configurations (hardware, boot, services)
+- `homes/`: Home Manager user configurations
+- `configs/`: Application-specific configurations
+- `assets/`: Static resources (wallpapers, logos, avatars)
+- `secrets/`: SOPS-encrypted secrets
+- `scripts/`: Shell utility scripts
+
+## Best Practices
+- Use relative imports where possible
+- Keep hardware-specific config in machines/
+- Keep user-specific config in homes/
+- Use `mkIf` for conditional configurations
+- Document breaking changes in commit messages
+- Test changes with `nixos-rebuild test` before `switch`
+
+## Development Stack
+- **WM**: Hyprland + hyprpanel + hyprlock
+- **Terminal**: Kitty + Zsh + Neovim
+- **Tools**: LSP, Copilot, lazygit, yazi, k9s, terraform
+- **Security**: trivy, semgrep, nuclei, vault, sops
+- **Media**: MPV, MPD, Zathura
+
+## Common Commands
+```bash
+# Rebuild system
+sudo nixos-rebuild switch --flake .#alucard
+
+# Update home manager
+nix run home-manager/master -- switch --flake .#pixel-peeper@alucard
+
+# Update flake inputs
+nix flake update
+
+# Clean old generations
+./scripts/nix-cleaner.sh
+```
