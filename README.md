@@ -85,7 +85,9 @@ dotfiles/
 │   ├── browsers/            # Firefox, Chromium
 │   └── media/               # MPV, Zathura, MPD
 ├── 🖼️ assets/               # Wallpapers, avatars
-└── 🔧 scripts/              # Utility scripts
+├── 🔧 scripts/              # Utility scripts
+├── 🔐 secrets/              # Encrypted secrets (SOPS)
+└── 📚 docs/                 # Documentation & decisions
 ```
 
 ## ⌨️ Keybindings
@@ -118,6 +120,10 @@ Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
 - **Neovim**: [configs/terminal/nvim/README.md](configs/terminal/nvim/README.md) - Editor setup
 - **Zsh**: [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Shell configuration
 - **Machine**: [machines/alucard/README.md](machines/alucard/README.md) - NixOS system config
+- **Scripts**: [scripts/README.md](scripts/README.md) - Utility scripts documentation
+- **Secrets**: [secrets/README.md](secrets/README.md) - SOPS secrets management
+- **Decisions**: [docs/DECISIONS.md](docs/DECISIONS.md) - Tooling and architectural decisions
+- **Secrets Setup**: [docs/SECRETS.md](docs/SECRETS.md) - SOPS + Age setup guide
 
 ## 📄 License
 
