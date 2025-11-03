@@ -39,7 +39,7 @@
   catppuccin.atuin.enable = true;
   
   # File manager (TUI)
-  catppuccin.yazi.enable = true;
+  # catppuccin.yazi.enable = true;  # Disabled: conflicts with programs.yazi in yazi.nix
 
   # ============================================================================
   # Development Tools
