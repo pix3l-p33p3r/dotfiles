@@ -19,6 +19,19 @@
   nix.settings.download-buffer-size = 1401946112; # 1337MB
   # Trust the main user so client-specified caches aren't ignored
   nix.settings.trusted-users = [ "root" "pixel-peeper" ];
+  
+  # Build optimization
+  nix.settings.max-jobs = "auto"; # Use all available cores
+  nix.settings.cores = 0; # 0 = use all available cores per job
+  nix.settings.auto-optimise-store = true; # Automatically deduplicate store
+  
+  # Automatic garbage collection (weekly)
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+  
   # System-wide binary caches
   nix.settings.substituters = [
     "https://cache.nixos.org"

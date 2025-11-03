@@ -68,6 +68,32 @@ home-manager switch --flake .#pixel-peeper@alucard  # User
 
 ---
 
+## Nix Build Optimizations
+
+### Decision: Enable Parallel Builds & Auto-Optimization
+
+Configured Nix to maximize build performance and minimize disk usage.
+
+### Why?
+
+**Performance:**
+- `max-jobs = "auto"` - Uses all available CPU cores
+- `cores = 0` - Each job can use all cores when beneficial
+- Faster rebuilds and package builds
+
+**Disk Management:**
+- `auto-optimise-store = true` - Automatically deduplicates identical files via hardlinks
+- `nix.gc.automatic = true` - Weekly garbage collection of old generations (>7 days)
+- Prevents /nix/store bloat without manual intervention
+
+**Trade-offs:**
+- Higher CPU usage during builds (acceptable on modern hardware)
+- Slight overhead from automatic optimization (saves GBs of disk space)
+
+**ROI:** High - faster builds + automatic cleanup with minimal configuration.
+
+---
+
 **For practical guides, see:**
 - Home Manager usage: `docs/HOME-MANAGER.md`
 - Secrets management: `secrets/README.md`
