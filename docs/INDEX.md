@@ -10,10 +10,16 @@ Complete guide to navigating the NixOS dotfiles documentation.
 
 ### Configuration Guides
 - **[MCP-SETUP.md](MCP-SETUP.md)** - Model Context Protocol setup for Cursor AI (with SOPS encryption)
-- **[FONTS.md](FONTS.md)** - Font reference across different applications
 
 ### Architecture & Decisions
-- **[DECISIONS.md](DECISIONS.md)** - Why Git over jj, why standalone Home Manager
+- **[DECISIONS.md](DECISIONS.md)** - Why Git over jj, why standalone Home Manager, Nix optimizations
+
+### Font Reference
+Quick reference for configured fonts:
+- **Code/Editor**: JetBrainsMono Nerd Font (Neovim/Cursor)
+- **Terminal**: FiraCode Nerd Font (Kitty)
+- **Obsidian**: Iosevka Nerd Font
+- **UI (GTK)**: Cantarell
 
 ### Security
 - **[secrets/README.md](../secrets/README.md)** - SOPS + Age secrets management guide
@@ -47,7 +53,6 @@ Complete guide to navigating the NixOS dotfiles documentation.
 **Configure Cursor AI:**
 1. [configs/editors/README.md](../configs/editors/README.md) - Editor setup
 2. [MCP-SETUP.md](MCP-SETUP.md) - Enable MCP capabilities
-3. [CURSOR-UPDATE-FIX.md](CURSOR-UPDATE-FIX.md) - Disable update notifications
 
 **Manage secrets:**
 1. [secrets/README.md](../secrets/README.md) - SOPS encryption guide
@@ -55,10 +60,10 @@ Complete guide to navigating the NixOS dotfiles documentation.
 
 **Customize my desktop:**
 1. [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland configuration
-2. [FONTS.md](FONTS.md) - Font choices
+2. See "Font Reference" section above for font choices
 
 **Understand the architecture:**
-1. [DOCUMENTATION.md](DOCUMENTATION.md) - Complete system docs
+1. [Main README](../README.md) - Complete system overview
 2. [DECISIONS.md](DECISIONS.md) - Why things are configured this way
 
 ---
@@ -68,10 +73,9 @@ Complete guide to navigating the NixOS dotfiles documentation.
 ```
 docs/
 ├── INDEX.md                    # This file - navigation guide
-├── DECISIONS.md                # Tooling decisions (Git, Home Manager)
+├── DECISIONS.md                # Tooling decisions (Git, Home Manager, Nix optimizations)
 ├── HOME-MANAGER.md             # Standalone Home Manager guide
-├── MCP-SETUP.md                # Cursor MCP setup + future ideas
-└── FONTS.md                    # Font reference
+└── MCP-SETUP.md                # Cursor MCP setup + future ideas
 
 configs/
 ├── desktop/README.md           # Hyprland setup
@@ -109,5 +113,5 @@ Or use the built-in Neovim Telescope search:
 
 ---
 
-**Last Updated**: 2025-11-02
+**Last Updated**: 2025-11-03
 
