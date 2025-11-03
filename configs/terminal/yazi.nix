@@ -1,4 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  catppuccinYazi = pkgs.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "yazi";
+    rev = "4da08049c135b406ddaaafb0c8eb4201d7da866e";
+    sha256 = "sha256-VQLbBn8pP1SXs2/lNDlp/ILfDz29J/qN9EkP2hKQDdU=";
+  };
+in
 {
   programs.yazi = {
     enable = true;
@@ -13,7 +21,10 @@
     };
   };
 
-  # Yazi opener configuration
+  # Catppuccin Mocha theme for yazi
+  xdg.configFile."yazi/theme.toml".source = "${catppuccinYazi}/mocha/catppuccin-mocha-lavender.toml";
+
+  # Yazi opener configuration (separate from theme)
   xdg.configFile."yazi/yazi.toml".text = ''
     [opener]
     # Define how to open PDFs
