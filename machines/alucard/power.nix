@@ -13,7 +13,8 @@
   powerManagement.enable = true;
 
   # Configure power management policies
-  powerManagement.powertop.enable = true;  # Intel CPU power management tool
+  # Disabled to improve boot time - TLP already handles power management effectively
+  powerManagement.powertop.enable = false;  # Intel CPU power management tool
   
   # Systemd logind power management settings
   services.logind = {
