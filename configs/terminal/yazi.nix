@@ -3,8 +3,8 @@ let
   catppuccinYazi = pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "yazi";
-    rev = "4da08049c135b406ddaaafb0c8eb4201d7da866e";
-    sha256 = "sha256-VQLbBn8pP1SXs2/lNDlp/ILfDz29J/qN9EkP2hKQDdU=";
+    rev = "main";
+    sha256 = "sha256-zkL46h1+U9ThD4xXkv1uuddrlQviEQD3wNZFRgv7M8Y=";
   };
 in
 {
@@ -22,7 +22,7 @@ in
   };
 
   # Catppuccin Mocha theme for yazi
-  xdg.configFile."yazi/theme.toml".source = "${catppuccinYazi}/mocha/catppuccin-mocha-lavender.toml";
+  xdg.configFile."yazi/theme.toml".source = lib.mkForce "${catppuccinYazi}/mocha/catppuccin-mocha-lavender.toml";
 
   # Yazi opener configuration (separate from theme)
   xdg.configFile."yazi/yazi.toml".text = ''

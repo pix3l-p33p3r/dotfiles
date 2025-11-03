@@ -383,8 +383,7 @@
 	# |                           GUI APPLICATIONS                             |
 	# ============================================================================
 	# Development
-	# cursor is now installed via home-manager (see homes/pixel-peeper/default.nix)
-	cursor-cli # Cursor CLI
+		cursor-cli # Cursor CLI
 
 	# Browsers
 		qutebrowser # Keyboard-driven browser
