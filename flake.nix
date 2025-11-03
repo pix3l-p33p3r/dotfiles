@@ -9,7 +9,6 @@
       # Don't follow our nixpkgs - let lanzaboote use its own tested version
       # inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +30,7 @@
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, flake-parts, home-manager, stylix, nur, zen-browser, sops-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, ... }@inputs: {
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
