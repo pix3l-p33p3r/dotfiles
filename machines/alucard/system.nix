@@ -25,13 +25,6 @@
   nix.settings.cores = 0; # 0 = use all available cores per job
   nix.settings.auto-optimise-store = true; # Automatically deduplicate store
   
-  # Automatic garbage collection (weekly)
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
-  
   # System-wide binary caches
   nix.settings.substituters = [
     "https://cache.nixos.org"
