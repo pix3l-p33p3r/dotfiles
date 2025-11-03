@@ -15,7 +15,7 @@
     fzf # Fuzzy finder
     tree # Directory tree
     trashy # Trash utility
-    yazi # File manager
+    # yazi - managed via programs.yazi in yazi.nix
 
     # System Information
     macchina # System information
