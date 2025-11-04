@@ -50,6 +50,24 @@
   boot.initrd = {
     systemd.enable = true;
     verbose = false;  # Hide verbose initrd messages
+    
+    # ───── Initrd Performance Optimizations ─────
+    
+    # Use faster LZ4 compression for initrd (faster decompression than default)
+    # LZ4 provides better decompression speed with minimal size increase
+    compression = "lz4";
+    
+    # Preload Intel graphics driver for better Plymouth performance
+    # This enables hardware acceleration for the boot splash screen
+    kernelModules = [ "i915" ];
+    
+    # Support for network boot and remote unlocking (if needed)
+    # Disabled by default for faster boot, enable if you need network in initrd
+    # network.enable = false;
+    
+    # Support for additional filesystems (if needed)
+    # Only include what's necessary to reduce initrd size
+    supportedFilesystems = [ "ext4" "vfat" "btrfs" ];
   };
 
   # ───── Silent Boot Configuration ─────
