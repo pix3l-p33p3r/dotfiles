@@ -52,7 +52,7 @@
       
       # CPU frequency limits
       CPU_MAX_PERF_ON_AC = 100;
-      CPU_MAX_PERF_ON_BAT = 60;
+      CPU_MAX_PERF_ON_BAT = 50;  # favor battery life slightly more
       CPU_MIN_PERF_ON_BAT = 20;
       
       # CPU boosting
@@ -79,6 +79,22 @@
       # WiFi power saving
       WIFI_PWR_ON_AC = "off";
       WIFI_PWR_ON_BAT = "on";
+
+      # PCIe runtime power management
+      RUNTIME_PM_ON_AC = "on";
+      RUNTIME_PM_ON_BAT = "auto";
+
+      # USB autosuspend (blacklist devices if any issues)
+      USB_AUTOSUSPEND = 1;
+
+      # Audio power saving
+      SOUND_POWER_SAVE_ON_AC = 0;
+      SOUND_POWER_SAVE_ON_BAT = 1;
+      SOUND_POWER_SAVE_CONTROLLER = "Y";
+
+      # PCIe ASPM policy
+      PCIE_ASPM_ON_AC = "default";
+      PCIE_ASPM_ON_BAT = "powersupersave";
       
       # Battery charge thresholds (20% start, 80% stop)
       # Helps extend battery lifespan by avoiding full charge cycles
@@ -89,6 +105,13 @@
 
   # ───── Power Daemon Conflicts ─────
   # TLP and power-profiles-daemon conflict - using TLP exclusively
-  services.thermald.enable = false;  # TLP handles thermal management
+  services.thermald.enable = true;   # Complement TLP on Intel platforms
   services.power-profiles-daemon.enable = false;  # Disabled to avoid conflict with TLP
+
+  # ───── System76 Scheduler (CFS profiles) ─────
+  # Improves interactivity under load
+  services.system76-scheduler = {
+    enable = true;
+    settings.cfsProfiles.enable = true;
+  };
 }
