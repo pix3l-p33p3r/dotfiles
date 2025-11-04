@@ -28,6 +28,12 @@
     # |                            DOCUMENT TOOLS                              |
     # ============================================================================
     pandoc # Universal document converter
+    texlive.combined.scheme-full # Full TeX Live
+    nodePackages.katex # KaTeX CLI and assets for HTML math
+    nodePackages.mermaid-cli # mmdc: Mermaid CLI for diagrams
+    graphviz # dot: Graphviz for diagrams
+    pandoc-crossref # Cross-references for pandoc
+    tectonic # Fast LaTeX engine (optional alternative to texlive engines)
     poppler # PDF rendering library and utilities
     resvg # SVG renderer
     # Note: zathura is installed in zathura.nix
