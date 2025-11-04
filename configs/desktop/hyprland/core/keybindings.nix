@@ -66,6 +66,12 @@ in
 	"$mod SHIFT, k, movewindow, u"
 	"$mod SHIFT, j, movewindow, d"
 
+	# Resize active window (horizontal/vertical)
+	"$mod CTRL, h, resizeactive, -20 0"
+	"$mod CTRL, l, resizeactive, 20 0"
+	"$mod CTRL, k, resizeactive, 0 -20"
+	"$mod CTRL, j, resizeactive, 0 20"
+
 	"$mod, 1, workspace, 1"
 	"$mod, 2, workspace, 2"
 	"$mod, 3, workspace, 3"
