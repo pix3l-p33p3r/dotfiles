@@ -1,13 +1,14 @@
 # Docker & Container Runtime Configuration
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Enable Docker daemon
   virtualisation.docker.enable = true;
   
-  # Enable Docker daemon on boot
-  virtualisation.docker.enableOnBoot = true;
+  # Disable Docker daemon on boot for faster startup (~775ms savings)
+  # Docker uses socket activation, so it will start automatically when first accessed
+  virtualisation.docker.enableOnBoot = false;
   
   # Docker packages
   virtualisation.docker.package = pkgs.docker;

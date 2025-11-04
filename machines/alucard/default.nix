@@ -18,7 +18,7 @@
       ./programs.nix
       
       # Hardware-specific
-      ./graphics.nix
+      ./hardware-acceleration.nix
       ./audio.nix
       ./bluetooth.nix
       ./power.nix

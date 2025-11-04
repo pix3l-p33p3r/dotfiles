@@ -7,15 +7,20 @@
   
   # Allows NixOS to manage EFI variables, necessary for systemd-boot to work.
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Faster boot timeout
+  boot.loader.timeout = 2;  # 2 second bootloader menu (was default 5)
 
   # ───── Lanzaboote (Secure Boot with UKI) ─────
   # Builds signed Unified Kernel Images and integrates with systemd-boot.
   boot.lanzaboote.enable = true;
 
-  # sbctl is provided via machines/alucard/programs.nix systemPackages
-  # Use sbctl for key management and UKI signing
+  # Enable sbctl program for Secure Boot key management
+  # This ensures sbctl is properly integrated and available for signing
+  programs.sbctl.enable = true;
 
   # Where sbctl will store and read your PK/KEK/db bundle
+  # Lanzaboote will automatically sign all kernels during rebuilds using these keys
   boot.lanzaboote.pkiBundle = "/var/lib/sbctl";
 
   # ───── Firmware updates with fwupd ─────
@@ -26,24 +31,78 @@
   # Install firmware packages for Intel microcode
   hardware.enableRedistributableFirmware = true;
 
-  # ───── Boot Performance Optimizations ─────
+  # ───── Plymouth (Graphical Boot Splash) ─────
   
-  # Silent boot for faster startup
+  # Catppuccin Plymouth theme (matches system theme)
+  catppuccin.plymouth.enable = true;
+  catppuccin.plymouth.flavor = "mocha";  # Matches your desktop theme
+  
+  # Alternative themes (if you want to switch):
+  # boot.plymouth = {
+  #   enable = true;
+  #   theme = "breeze";   # KDE Breeze
+  #   theme = "bgrt";     # ThinkPad logo
+  #   theme = "spinner";  # Simple spinner
+  # };
+  
+  # Modern systemd-based initrd with Plymouth support
+  boot.initrd = {
+    systemd.enable = true;
+    verbose = false;  # Hide verbose initrd messages
+  };
+
+  # ───── Silent Boot Configuration ─────
+  
   boot.kernelParams = [
+    # Silent boot - hide boot messages
     "quiet"           # Reduce boot messages
-    "loglevel=3"      # Show only errors
-    "systemd.show_status=auto"  # Auto-hide systemd status
-    "rd.udev.log_level=3"       # Reduce udev verbosity
+    "splash"          # Enable splash screen (Plymouth)
+    "loglevel=3"      # Show only errors (3 = err)
+    
+    # Systemd boot messages
+    "systemd.show_status=false"  # Hide systemd status
+    "rd.systemd.show_status=false"  # Hide systemd status in initrd
+    
+    # Udev messages
+    "rd.udev.log_level=3"  # Reduce udev verbosity in initrd
+    "udev.log_priority=3"  # Reduce udev messages
+    
+    # VGA/Framebuffer - keep current mode for smooth transition
+    "vga=current"
+    "fbcon=nodefer"   # Defer framebuffer console to avoid flickering
   ];
   
-  # Faster boot timeout
-  boot.loader.timeout = 1;  # 1 second bootloader menu (was default 5)
+  # Suppress console log messages (0 = only emergency messages)
+  boot.consoleLogLevel = 0;
+  
+  # ───── Boot Performance Optimizations ─────
   
   # Enable parallel service startup
   systemd.services = {
     # Delay non-critical firmware updates to after boot
     fwupd.wantedBy = lib.mkForce [];
     fwupd-refresh.wantedBy = lib.mkForce [];
+    
+    # Delay powertop if it's still enabled (should be disabled, but just in case)
+    powertop = {
+      wantedBy = lib.mkForce [];
+      after = [ "graphical.target" ];
+    };
+    
+    # Explicitly disable orphaned nixos-upgrade service (leftover from old config)
+    # This service is trying to access /home/pixel-peeper/wow which doesn't exist
+    # and is blocking boot for ~79 seconds
+    nixos-upgrade = {
+      enable = false;
+      wantedBy = lib.mkForce [];
+    };
   };
+  
+  # ───── Plymouth Packages ─────
+  # Note: Catppuccin Plymouth packages are automatically included by the module
+  # No need to manually install plymouth or theme packages
+  
+  # ───── Optional: Hibernation Support ─────
+  # Uncomment and set your swap partition UUID if using hibernation:
+  # boot.resumeDevice = "/dev/disk/by-uuid/YOUR-SWAP-UUID";
 }
-
