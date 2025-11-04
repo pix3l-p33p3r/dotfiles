@@ -24,10 +24,21 @@ alias mkdir="mkdir -p"
 
 alias o="xdg-open"
 alias tm=tmux
+alias ta='tmux attach -t'
+alias tn='tmux new -s'
+alias tls='tmux ls'
 alias path='echo -e ${PATH//:/\\n}'
 alias pg="ping 1.0.0.1 -c 5"
 alias vi=nvim
 alias e="$EDITOR"
+
+# Taskwarrior / Timewarrior
+alias t='task'
+alias tw='timew'
+alias tstart='timew start'
+alias tstop='timew stop'
+alias tday='timew day'
+alias tweek='timew week'
 
 # nix aliases
 alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
