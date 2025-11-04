@@ -35,6 +35,8 @@
   # Install Cursor AI Editor v2.0.34 (using custom AppImage wrapper)
   home.packages = [
     (pkgs.callPackage ../../configs/editors/cursor.nix {})
+    pkgs.texlive.combined.scheme-full
+    pkgs.katex
   ];
 
   home.username = "pixel-peeper";
