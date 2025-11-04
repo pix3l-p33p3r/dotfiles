@@ -99,7 +99,11 @@
   # Note: Catppuccin Plymouth packages are automatically included by the module
   # No need to manually install plymouth or theme packages
   
-  # ───── Optional: Hibernation Support ─────
-  # Uncomment and set your swap partition UUID if using hibernation:
-  # boot.resumeDevice = "/dev/disk/by-uuid/YOUR-SWAP-UUID";
+  # ───── Hibernation Support ─────
+  # Note: Hibernation is NOT available with zram swap (see swap.nix)
+  # Zram uses compressed RAM, which is not persistent across reboots
+  # To enable hibernation, you would need to:
+  #   1. Create a disk swap partition (>= RAM size)
+  #   2. Disable zram in swap.nix
+  #   3. Set boot.resumeDevice = "/dev/disk/by-uuid/YOUR-SWAP-UUID"
 }
