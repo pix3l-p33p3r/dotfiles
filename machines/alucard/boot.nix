@@ -84,11 +84,7 @@
     fwupd.wantedBy = lib.mkForce [];
     fwupd-refresh.wantedBy = lib.mkForce [];
     
-    # Delay powertop if it's still enabled (should be disabled, but just in case)
-    powertop = {
-      wantedBy = lib.mkForce [];
-      after = [ "graphical.target" ];
-    };
+    # Note: powertop is disabled in power.nix, no need to configure it here
     
     # Explicitly disable orphaned nixos-upgrade service (leftover from old config)
     # This service is trying to access /home/pixel-peeper/wow which doesn't exist
