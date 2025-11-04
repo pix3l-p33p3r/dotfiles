@@ -28,8 +28,8 @@
       level-zero           # oneAPI Level Zero loader
       
       # Additional codec support
-      intel-media-sdk # Intel Media SDK (Quick Sync)
-      vpl-gpu-rt      # Intel VPL GPU runtime (newer than Media SDK)
+      # intel-media-sdk # Deprecated (insecure, end-of-life, multiple CVEs)
+      vpl-gpu-rt      # Intel VPL GPU runtime (modern replacement for Media SDK)
     ];
     
     extraPackages32 = with pkgs.driversi686Linux; [
