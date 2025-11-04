@@ -146,12 +146,18 @@ This combo provides frictionless task and time tracking from the terminal.
 - CLI-first mindset aligns with my tmux-centric environment
 
 ### What's configured here
-- Packages: `taskwarrior`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server` (in `configs/productivity/task-timewarrior.nix`)
-- Hook: `~/.task/hooks/on-modify.timewarrior` (installed from upstream)
+- Packages: `taskwarrior2`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server`, `jq` (in `configs/productivity/task-timewarrior.nix`)
+- Hook: `~/.task/hooks/on-modify.timewarrior` (created inline - Timewarrior package doesn't include it)
+  - Parses task JSON using `jq`, queries task status, auto-starts/stops time tracking
 - Aliases: quick `task` and `timew` helpers for daily use (in `configs/terminal/zsh/config/conf.d/102-aliases.zsh`)
 - tmux: `configs/terminal/tmux.nix` with Catppuccin theme + plugins + keybinds
   - `catppuccin.tmux.enable = true` handles theming only
   - `programs.tmux` in `tmux.nix` handles behavior (keybinds, plugins, settings)
+
+### Technical notes
+- Using `taskwarrior2` (not `taskwarrior`) - package renamed in nixpkgs
+- Hook created inline because Timewarrior package doesn't bundle the hook file
+- `jq` included for JSON parsing in the hook script
 
 ### tmux integration ideas (current/optional)
 - Status line: show current Timewarrior activity (e.g., `timew get dom.active.tag.1`), elapsed time
