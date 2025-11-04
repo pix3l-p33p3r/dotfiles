@@ -212,6 +212,8 @@
     spotify # Music streaming
     syncthing # File synchronization
     taskwarrior3 # Task management
+    timewarrior # Time tracking
+    tmux # Terminal multiplexer
 
     # ============================================================================
     # |                                 AI                                    |
