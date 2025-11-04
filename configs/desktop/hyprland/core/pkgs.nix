@@ -211,7 +211,7 @@
     puffin # RSS reader
     spotify # Music streaming
     syncthing # File synchronization
-    taskwarrior3 # Task management
+    # taskwarrior3 removed - using taskwarrior2 in productivity module for Timewarrior hook compatibility
 
     # ============================================================================
     # |                                 AI                                    |
