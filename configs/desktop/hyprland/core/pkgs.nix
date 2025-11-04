@@ -2,10 +2,10 @@
 {
   # Import modular package configurations
   imports = [
-    ../../../../development/pkgs.nix
-    ../../../../devops/pkgs.nix
-    ../../../../security/pkgs.nix
-    ../../../../media/pkgs.nix
+    ../../../development/pkgs.nix
+    ../../../devops/pkgs.nix
+    ../../../security/pkgs.nix
+    ../../../media/pkgs.nix
   ];
 
   home.packages = with pkgs; [
