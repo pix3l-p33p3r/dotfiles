@@ -2,7 +2,7 @@
 {
   # CLI tools for tasks and time tracking
   home.packages = with pkgs; [
-    taskwarrior
+    taskwarrior2
     timewarrior
     taskwarrior-tui
     timew-sync-server
