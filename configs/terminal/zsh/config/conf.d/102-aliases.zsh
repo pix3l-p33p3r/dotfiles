@@ -34,11 +34,11 @@ alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 
 alias update="nix flake update && fastfetch"
 
-# NixOS system rebuild
-alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' --fast --no-reexec"
+# NixOS system rebuild (optimized for speed)
+alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' --no-reexec --no-build-output"
 
 # Home Manager rebuild (optimized for speed)
-alias hms="home-manager switch --flake '$HOME/dotfiles#pixel-peeper@alucard' --fast"
+alias hms="home-manager switch --flake '$HOME/dotfiles#pixel-peeper@alucard'"
 
 # Full upgrade: update flake, rebuild system and home-manager, then clean
 alias upgrade="cd $HOME/dotfiles && nix flake update && nrs && hms && clean && fastfetch"
