@@ -16,12 +16,12 @@ Modular NixOS system configuration for alucard, organized for maintainability an
 alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
-├── boot.nix                 # Bootloader, Secure Boot (Lanzaboote) & Firmware (fwupd)
+├── boot.nix                 # Bootloader, Secure Boot (Lanzaboote), Plymouth & Firmware (fwupd)
 ├── system.nix               # Core settings, services
 ├── locale.nix               # Timezone, internationalization
 ├── users.nix                # User accounts, shell
 ├── programs.nix             # System programs (Firefox, nm-applet)
-├── graphics.nix             # Intel drivers, VA-API, Vulkan
+├── hardware-acceleration.nix # Intel drivers, VA-API, Vulkan, OpenCL
 ├── audio.nix                # Pipewire, ALSA
 ├── bluetooth.nix            # Bluetooth, Blueman
 ├── x11.nix                  # X11 compatibility
@@ -36,9 +36,11 @@ alucard/
 
 **System**
 - **Secure Boot**: Lanzaboote with UKI
+- **Boot Experience**: Plymouth graphical splash (Catppuccin Mocha) with silent boot
 - **Encryption**: LUKS disk encryption
 - **CPU**: Intel with microcode updates
-- **Graphics**: Intel integrated with VA-API hardware acceleration
+- **Graphics**: Intel integrated with VA-API/Vulkan/OpenCL hardware acceleration
+- **Hardware Acceleration**: GuC/HuC firmware, Quick Sync, compute runtime
 - **Firmware Updates**: fwupd service for BIOS, EC, and Intel ME updates
 
 **Services**

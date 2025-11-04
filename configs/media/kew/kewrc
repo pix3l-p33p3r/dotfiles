@@ -41,7 +41,7 @@ trackTitleAsWindowTitle=1
 
 # Theme's go in ~/.config/kew/themes (on Linux/FreeBSD/Android), 
 # and ~/Library/Preferences/kew/themes (on macOS), 
-theme=
+theme=~/.config/kew/themes/catppuccin.theme
 
 # Color Mode is:
 # 0 = 16-bit color palette from default theme, 
