@@ -5,6 +5,7 @@
     taskwarrior
     timewarrior
     taskwarrior-tui
+    timew-sync-server
   ];
 
   # Taskwarrior + Timewarrior integration hook and configs

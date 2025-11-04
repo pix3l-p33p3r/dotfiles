@@ -69,3 +69,6 @@ alias tw='timew'
 alias twday='timew summary :day'
 alias tww='timew summary :week'
 alias twg='timew gaps :week'
+
+# Timewarrior sync server
+alias twsync='timew-sync-server serve'
