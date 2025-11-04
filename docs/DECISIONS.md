@@ -141,14 +141,17 @@ I evaluated Zellij as a modern terminal workspace manager but decided to keep tm
 This combo provides frictionless task and time tracking from the terminal.
 
 ### Why?
-- Native integration: Timewarrior’s `on-modify` hook reacts to Taskwarrior events
+- Native integration: Timewarrior's `on-modify` hook reacts to Taskwarrior events
 - Zero-click flow: starting/stopping a task auto-starts/stops the timer
 - CLI-first mindset aligns with my tmux-centric environment
 
-### What’s configured here
-- Packages: `taskwarrior`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server`
+### What's configured here
+- Packages: `taskwarrior`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server` (in `configs/productivity/task-timewarrior.nix`)
 - Hook: `~/.task/hooks/on-modify.timewarrior` (installed from upstream)
-- Aliases: quick `task` and `timew` helpers for daily use
+- Aliases: quick `task` and `timew` helpers for daily use (in `configs/terminal/zsh/config/conf.d/102-aliases.zsh`)
+- tmux: `configs/terminal/tmux.nix` with Catppuccin theme + plugins + keybinds
+  - `catppuccin.tmux.enable = true` handles theming only
+  - `programs.tmux` in `tmux.nix` handles behavior (keybinds, plugins, settings)
 
 ### tmux integration ideas (current/optional)
 - Status line: show current Timewarrior activity (e.g., `timew get dom.active.tag.1`), elapsed time
@@ -156,7 +159,7 @@ This combo provides frictionless task and time tracking from the terminal.
 - Session presets: tmuxp file to open editor + task TUI + logs in one command
 
 ### Why not Taskwarrior3 (Rust)?
-- The standard on-modify hook protocol differs; Timewarrior’s hook won’t work out of the box
+- The standard on-modify hook protocol differs; Timewarrior's hook won't work out of the box
 - Would require custom wrappers and loses the frictionless auto-tracking
 
 ---
