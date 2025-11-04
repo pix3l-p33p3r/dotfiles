@@ -55,7 +55,7 @@
     
     # Use faster LZ4 compression for initrd (faster decompression than default)
     # LZ4 provides better decompression speed with minimal size increase
-    compression = "lz4";
+    compressor = "lz4";
     
     # Preload Intel graphics driver for better Plymouth performance
     # This enables hardware acceleration for the boot splash screen
