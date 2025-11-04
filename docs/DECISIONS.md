@@ -99,3 +99,72 @@ Configured Nix to maximize build performance and minimize disk usage.
 - Secrets management: `secrets/README.md`
 - Font configuration: `docs/FONTS.md`
 
+
+---
+
+## Tmux vs Zellij
+
+### Decision: Stick with tmux
+
+I evaluated Zellij as a modern terminal workspace manager but decided to keep tmux as the daily driver.
+
+### Why?
+
+**My Setup & Priorities:**
+- SSH-first workflow; tmux is ubiquitous on remote systems (no extra install or config)
+- Scriptability and stability over novelty; mature plugin ecosystem
+- Tight integration with existing aliases, Hyprland keybinds, and CLI tools
+
+**Pros of tmux:**
+- Battle-tested, low overhead, available everywhere (servers, containers, CI)
+- Rich scripting (shell-first), tmuxp/tmuxinator session definitions
+- Works seamlessly inside any terminal (Kitty) and over SSH
+- Easier interop with tools like Taskwarrior/Timewarrior for status lines and hooks
+
+**Pros of Zellij (acknowledged):**
+- Safer defaults, smart layouts, built-in UI features
+- Plugin system (WASM) with modern ergonomics
+
+**Cons (for my use case):**
+- Not guaranteed to exist on servers; increases friction in remote work
+- Different keybindings/workflows; retraining cost with little tangible gain
+- Plugin/story still evolving; fewer battle-tested integrations
+
+**ROI:** tmux wins on portability, stability, and automation for my workflow.
+
+---
+
+## Taskwarrior + Timewarrior + tmux (Legendary Combo)
+
+### Decision: Classic Taskwarrior 2.x + Timewarrior with on-modify hook
+
+This combo provides frictionless task and time tracking from the terminal.
+
+### Why?
+- Native integration: Timewarrior’s `on-modify` hook reacts to Taskwarrior events
+- Zero-click flow: starting/stopping a task auto-starts/stops the timer
+- CLI-first mindset aligns with my tmux-centric environment
+
+### What’s configured here
+- Packages: `taskwarrior`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server`
+- Hook: `~/.task/hooks/on-modify.timewarrior` (installed from upstream)
+- Aliases: quick `task` and `timew` helpers for daily use
+
+### tmux integration ideas (current/optional)
+- Status line: show current Timewarrior activity (e.g., `timew get dom.active.tag.1`), elapsed time
+- Dedicated pane: pin `taskwarrior-tui` in a tmux window for live backlog view
+- Session presets: tmuxp file to open editor + task TUI + logs in one command
+
+### Why not Taskwarrior3 (Rust)?
+- The standard on-modify hook protocol differs; Timewarrior’s hook won’t work out of the box
+- Would require custom wrappers and loses the frictionless auto-tracking
+
+---
+
+## Room for Improvement
+
+- tmux status integration: add a tiny script for Timewarrior current activity and duration in `status-right`
+- Session automation: provide a `tmuxp` profile that auto-launches editor + `taskwarrior-tui` + a notes pane
+- Reports: add `haskellPackages.pandoc-crossref`-powered templated weekly reports combining `timew summary` and top tasks
+- Sync: optionally run `timew-sync-server` as a user service for background availability
+- Backups: periodically export `~/.task` and `~/.timewarrior` to encrypted storage via a `systemd --user` timer
