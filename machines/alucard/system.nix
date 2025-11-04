@@ -1,6 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
+  # ───── Catppuccin Theme (NixOS-level) ─────
+  # Global theme configuration for system-level components
+  catppuccin.flavor = "mocha";
+  catppuccin.accent = "lavender";
+  
   # ───── Allow unfree packages ─────
   nixpkgs.config.allowUnfree = true;
 
