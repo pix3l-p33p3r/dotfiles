@@ -106,10 +106,8 @@
 
   # ───── OpenCL Support ─────
   # Enable Intel OpenCL runtime for compute workloads
-  hardware.opengl.extraPackages = with pkgs; [
-    intel-compute-runtime
-    intel-ocl
-  ];
+  # Note: OpenCL packages are already included in hardware.graphics.extraPackages above
+  # This section is kept for documentation purposes
 
   # ───── User Groups for Hardware Access ─────
   users.users.pixel-peeper.extraGroups = [
