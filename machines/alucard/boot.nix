@@ -15,13 +15,14 @@
   # Builds signed Unified Kernel Images and integrates with systemd-boot.
   boot.lanzaboote.enable = true;
 
-  # Enable sbctl program for Secure Boot key management
-  # This ensures sbctl is properly integrated and available for signing
-  programs.sbctl.enable = true;
-
   # Where sbctl will store and read your PK/KEK/db bundle
   # Lanzaboote will automatically sign all kernels during rebuilds using these keys
   boot.lanzaboote.pkiBundle = "/var/lib/sbctl";
+  
+  # Install sbctl for Secure Boot key management (manual operations)
+  environment.systemPackages = with pkgs; [
+    sbctl  # Secure Boot key management tool
+  ];
 
   # ───── Firmware updates with fwupd ─────
   
