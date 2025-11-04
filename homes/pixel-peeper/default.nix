@@ -3,6 +3,7 @@
     ../../configs/desktop/hyprland
     ../../configs/editors/cursor-config.nix
     ../../configs/productivity/task-timewarrior.nix
+    ../../configs/terminal/tmux.nix
     ./catppuccin.nix
     ./sops.nix
   ];
