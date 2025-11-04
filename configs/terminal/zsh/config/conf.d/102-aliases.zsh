@@ -32,8 +32,6 @@ alias e="$EDITOR"
 # nix aliases
 alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 
-alias update="nix flake update && fastfetch"
-
 # NixOS system rebuild (optimized for speed)
 alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' --no-reexec --no-build-output"
 
