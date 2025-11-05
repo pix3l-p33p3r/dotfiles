@@ -169,3 +169,32 @@ Keeping the same frictionless workflow, now on Taskwarrior 3.
 - Reports: add `haskellPackages.pandoc-crossref`-powered templated weekly reports combining `timew summary` and top tasks
 - Sync: optionally run `timew-sync-server` as a user service for background availability
 - Backups: periodically export `~/.task` and `~/.timewarrior` to encrypted storage via a `systemd --user` timer
+
+---
+
+## Filesystem: ext4 vs Btrfs (on NVMe, NixOS desktop)
+
+### Decision: Prefer Btrfs with subvolumes + zstd compression
+
+For this laptop (NVMe 256 GB), development-heavy workflow, frequent Nix rebuilds, and need for fast rollbacks and lower write amplification, Btrfs is the best fit.
+
+### Why?
+- Snapshots & rollbacks: enables instant pre/post `nixos-rebuild` rollbacks.
+- Compression (zstd): reduces writes and space, speeds many desktop/dev workloads.
+- Subvolumes: isolate `/`, `/home`, `/nix`, `/var/log`, `/.snapshots` for clarity and maintenance.
+- Health: NVMe is healthy (0 media errors, ~5% wear), so Btrfs’ features outweigh ext4’s simplicity.
+
+### Recommended layout
+- Subvolumes: `@` (root), `@home`, `@nix`, `@var_log`, `@snapshots` (optionally `@cache`).
+- Mount options (per mount): `compress-force=zstd:3,ssd,noatime,space_cache=v2,autodefrag,discard=async`.
+- TRIM: keep weekly TRIM via `services.fstrim.enable = true;` (complements or replaces `discard=async`).
+
+### If staying on ext4
+- Keep zram swap (already configured) and low swappiness.
+- Use `noatime,lazytime,commit=60` and enable `services.fstrim.enable = true;`.
+
+### Migration path
+- Non-destructive: ext4 → Btrfs in-place using `btrfs-convert` (keeps an ext4 rollback image until you drop it).
+- Fresh install: create Btrfs, define subvolumes, restore `/home`, then `nixos-install` using the flake.
+
+See `MIGRATE-EXT4-TO-BTRFS.md` at repo root for detailed, step-by-step instructions, safety notes, and rollback procedure.
