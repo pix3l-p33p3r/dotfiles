@@ -21,7 +21,7 @@
     rmpc # Rust MPD client (config in rmpc.nix)
     kew # Terminal music player (config in kew.nix)
     mpd # Music Player Daemon
-    tplay # Terminal music player
+    tplay # Terminal video player in ascii art
     termusic # Terminal music player
     yt-dlp # YouTube and video downloader
     spotdl # Spotify downloader
