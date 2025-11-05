@@ -6,8 +6,6 @@
     # ============================================================================
     # Video & Audio Processing
     ffmpeg # Media converter and processing
-    yt-dlp # YouTube and video downloader
-    spotdl # Spotify downloader
     
     # Image Manipulation
     imagemagick # Image manipulation suite
@@ -19,11 +17,15 @@
     # Audio Visualization
     cava # Audio visualizer for terminal
     
-    # Music Players & Daemon
+    # Music Players & Daemon & downloaders & streaming
     rmpc # Rust MPD client (config in rmpc.nix)
     kew # Terminal music player (config in kew.nix)
     mpd # Music Player Daemon
     tplay # Terminal music player
+    termusic # Terminal music player
+    yt-dlp # YouTube and video downloader
+    spotdl # Spotify downloader
+    spotify # Music streaming
     
     # ============================================================================
     # |                            DOCUMENT TOOLS                              |
