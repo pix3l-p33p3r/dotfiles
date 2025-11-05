@@ -5,6 +5,6 @@
   # Disable stale disk swap and use compressed RAM swap
   swapDevices = lib.mkForce [];
   zramSwap.enable = true;
-  zramSwap.memoryPercent = 25;  # Use 25% of RAM for zram swap
+  zramSwap.memoryPercent = 15;  # Use 15% of RAM for zram swap (less aggressive)
 }
 
