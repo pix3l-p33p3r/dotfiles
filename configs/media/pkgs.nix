@@ -23,6 +23,7 @@
     rmpc # Rust MPD client (config in rmpc.nix)
     kew # Terminal music player (config in kew.nix)
     mpd # Music Player Daemon
+    tplay # Terminal music player
     
     # ============================================================================
     # |                            DOCUMENT TOOLS                              |
