@@ -101,6 +101,9 @@
     yazi # File manager
     zoxide # Smart cd
 
+    Caligula # iso image burner like dd
+    ddrescueview # ddrescue viewer
+
     # Development TUI
     lazygit # Git TUI
     lazysql # SQL database TUI
