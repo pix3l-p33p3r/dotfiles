@@ -30,8 +30,7 @@
     exiftool # Metadata viewing
   ];
 
-  # User services required by Thunar plugins (thumbnails)
-  services.tumbler.enable = true;  # Thumbnailer daemon
+  # Thumbnailer is enabled at system level (services.tumbler)
 
   # ============================================================================
   # |                    THUNAR DECLARATIVE CONFIGURATION                    |
