@@ -59,10 +59,9 @@
   # ───── CUPS ─────
   services.printing.enable = true;
 
-  # ───── Removable media (Thunar mounts, Trash, MTP/SMB via GVFS) ─────
-  services.gvfs.enable = true;      # virtual filesystem (SMB, MTP, Trash, etc.)
-  services.udisks2.enable = true;   # disk mounting backend
-  security.polkit.enable = true;    # required for udisks2 auth prompts
-  services.tumbler.enable = true;   # thumbnailer daemon for Thunar
+  # ───── Removable media backends ─────
+  services.udisks2.enable = true;   # disk mounting backend (system)
+  security.polkit.enable = true;    # required for udisks2 auth prompts (system)
+
 }
 
