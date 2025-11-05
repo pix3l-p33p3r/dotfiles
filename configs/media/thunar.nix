@@ -14,9 +14,13 @@
 
     # Thumbnail Generator
     xfce.tumbler # Remote thumbnail service for Thunar
+    ffmpegthumbnailer # Video thumbnails for Tumbler
 
     # Virtual Filesystem Support (GVFS)
     gvfs # Trash support, mounting, remote filesystems (SMB, FTP, MTP, etc.)
+
+    # Archive Frontend for thunar-archive-plugin
+    xarchiver # Provides create/extract UI used by thunar-archive-plugin
 
     # Icon Theming
     papirus-folders # Papirus folder recoloring tool
