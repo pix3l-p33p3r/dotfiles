@@ -29,7 +29,7 @@
     # |                        EMBEDDED & HARDWARE                              |
     # ============================================================================
     # Embedded Development
-    gcc-arm-embedded # ARM cross-compiler
+    # gcc-arm-embedded # ARM cross-compiler (temporarily removed due to env collisions)
     openocd # On-chip debugging
     qemu # Virtualization platform
 
@@ -101,7 +101,7 @@
     yazi # File manager
     zoxide # Smart cd
 
-    Caligula # iso image burner like dd
+    # Caligula # iso image burner like dd (package not found)
     ddrescueview # ddrescue viewer
 
     # Development TUI
