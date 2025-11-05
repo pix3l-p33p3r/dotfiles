@@ -36,6 +36,11 @@ in
     text = [
       { run = 'nvim "$@"', block = true, desc = "Edit in Neovim" }
     ]
+
+    # Markdown (preview in terminal with glow)
+    markdown = [
+      { run = 'glow "$@"', block = true, desc = "Preview with glow" }
+    ]
     
     # Images
     image = [
@@ -62,7 +67,9 @@ in
     rules = [
       { mime = "application/pdf", use = "pdf" },
       { mime = "application/epub+zip", use = "pdf" },
+      { mime = "text/markdown", use = "markdown" },
       { mime = "text/*", use = "text" },
+      { name = "*.md", use = "markdown" },
       { mime = "image/*", use = "image" },
       { mime = "video/*", use = "video" },
       { mime = "audio/*", use = "video" },
