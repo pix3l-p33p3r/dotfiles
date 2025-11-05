@@ -65,5 +65,14 @@
   services.gvfs.enable = true;      # GVFS daemons (Trash/SMB/MTP, volume monitor)
   services.tumbler.enable = true;   # Thumbnailer daemon for Thunar
 
+  # Reduce swapping aggressiveness
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+    "vm.vfs_cache_pressure" = 50;
+  };
+
+  # Proactive OOM killer to reduce heavy swapping
+  services.systemd-oomd.enable = true;
+
 }
 
