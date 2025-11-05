@@ -72,7 +72,7 @@
   };
 
   # Proactive OOM killer to reduce heavy swapping
-  services.systemd-oomd.enable = true;
+  systemd.oomd.enable = true;
 
 }
 
