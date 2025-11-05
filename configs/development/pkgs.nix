@@ -19,6 +19,26 @@
     pkg-config # Package configuration
     gnumake # Build automation tool
 
+    # Compilers & Toolchains
+    gcc # C/C++ compiler
+    clang # LLVM/Clang compiler
+    llvm # LLVM toolchain
+    lld # LLVM linker
+    binutils # GNU binutils (ld, objdump, etc.)
+    gdb # GNU debugger
+    nasm # Netwide assembler (x86)
+    yasm # Yet another assembler (x86)
+    riscv64-embedded-gcc # RISC-V cross toolchain
+
+    # Languages
+    rustc # Rust compiler
+    zig # Zig compiler
+    ghc # Haskell compiler
+    nim # Nim compiler
+    go # Go compiler
+    python3 # Python interpreter
+    lua # Lua interpreter
+
     # Package Managers
     cargo # Rust package manager
     go # Go compiler
