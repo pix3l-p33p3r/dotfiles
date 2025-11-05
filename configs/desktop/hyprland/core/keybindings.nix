@@ -4,7 +4,7 @@ let
 	loginctl cliphist rofi rofi-menu rofi-cliphist hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
-	hyprpanel hyprlock hypridle hyprpaper;
+	hyprpanel hyprlock hypridle hyprpaper hyprshot record_start record_stop;
 in
 {
   exec-once = [
@@ -55,6 +55,11 @@ in
 	"$mod, g, exec, $browser --new-tab https://mail.google.com"
 	"$mod, c, exec, cursor"
 	"$mod, v, exec, vesktop"
+
+	# Screenshots & Recording
+	"$mod, Print, exec, ${hyprshot} -m region -o ~/Pictures/Screenshots"
+	"$mod SHIFT, Print, exec, ${record_start}"
+	"$mod CTRL, Print, exec, ${record_stop}"
 
 	"$mod, l, movefocus, r"
 	"$mod, h, movefocus, l"

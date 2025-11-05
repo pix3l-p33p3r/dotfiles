@@ -140,6 +140,7 @@
     hyprpicker # Hyprland color picker
     hyprpanel # Hyprland panel
     hyprshot # Hyprland screenshot tool
+    wf-recorder # Wayland screen recorder
     hyprsunset # Hyprland night light
     hyprutils # Hyprland utilities
     hyprcursor # Hyprland cursor
