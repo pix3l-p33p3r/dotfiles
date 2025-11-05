@@ -28,6 +28,9 @@ in
   services.poweralertd.enable = true;
   services.network-manager-applet.enable = true;
 
+  # Polkit agent (required for GUI auth prompts e.g., udisks mounts in Thunar)
+  services.lxqt-policykit.enable = true;
+
   # MPD (Music Player Daemon) as a user service for rmpc/kew
   services.mpd = {
     enable = true;
