@@ -23,9 +23,6 @@
 
   programs.atuin.enable = true;
   programs.home-manager.enable = true;
-  
-  # Automatically backup files before Home Manager overwrites them
-  home-manager.backupFileExtension = "backup";
 
   # Zen Browser (twilight) enabled; Firefox remains default browser
   programs.zen-browser = {
