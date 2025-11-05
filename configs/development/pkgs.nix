@@ -21,14 +21,14 @@
 
     # Compilers & Toolchains
     gcc # C/C++ compiler
-    clang # LLVM/Clang compiler
+    # clang # LLVM/Clang compiler (removed to avoid ld conflict with gcc)
     llvm # LLVM toolchain
     lld # LLVM linker
     binutils # GNU binutils (ld, objdump, etc.)
     gdb # GNU debugger
     nasm # Netwide assembler (x86)
     yasm # Yet another assembler (x86)
-    riscv64-embedded-gcc # RISC-V cross toolchain
+    # gcc-riscv64-embedded # RISC-V cross toolchain (temporarily removed due to attr rename)
 
     # Languages
     rustc # Rust compiler

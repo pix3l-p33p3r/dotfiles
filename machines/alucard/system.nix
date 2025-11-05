@@ -63,6 +63,7 @@
   services.udisks2.enable = true;   # disk mounting backend (system)
   security.polkit.enable = true;    # required for udisks2 auth prompts (system)
   services.gvfs.enable = true;      # GVFS daemons (Trash/SMB/MTP, volume monitor)
+  services.tumbler.enable = true;   # Thumbnailer daemon for Thunar
 
 }
 

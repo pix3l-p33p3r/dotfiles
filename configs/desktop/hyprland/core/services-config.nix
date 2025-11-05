@@ -29,7 +29,7 @@ in
   services.network-manager-applet.enable = true;
 
   # Polkit agent (required for GUI auth prompts e.g., udisks mounts in Thunar)
-  services.lxqt-policykit.enable = true;
+  services.polkit-gnome.enable = true;
 
   # MPD (Music Player Daemon) as a user service for rmpc/kew
   services.mpd = {
