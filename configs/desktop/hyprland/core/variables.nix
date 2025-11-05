@@ -51,6 +51,9 @@
   hyprsunset = "${pkgs.hyprsunset}/bin/hyprsunset";
   hyprutils = "${pkgs.hyprutils}/bin/hyprutils";
 
+  # Helper: show system keybindings in a pager
+  show_keybinds = ''${pkgs.kitty}/bin/kitty -e ${pkgs.glow}/bin/glow -p "$HOME/dotfiles/docs/SHORTCUTS.md"'';
+
   # Clipboard and utilities
   wl-clip-persist = "${pkgs.wl-clip-persist}/bin/wl-clip-persist";
   cliphist = "${pkgs.cliphist}/bin/cliphist";
