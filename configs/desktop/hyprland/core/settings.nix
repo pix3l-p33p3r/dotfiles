@@ -89,8 +89,7 @@ in
     "float,class:org.gnome.seahorse.Application"
     "size 900 700,class:org.gnome.seahorse.Application"
 
-    "float,class:[tT]hunar"
-    "size 900 600,class:[tT]hunar"
+    "tile,class:[tT]hunar"
 
     "float,class:nm-connection-editor"
     "size 900 600,class:nm-connection-editor"

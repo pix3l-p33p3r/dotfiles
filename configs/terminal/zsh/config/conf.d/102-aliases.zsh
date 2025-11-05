@@ -22,7 +22,7 @@ alias cd="z"
 alias grep="grep --color=auto"
 alias mkdir="mkdir -p"
 
-alias o="xdg-open"
+alias o="thunar ."
 alias tm=tmux
 alias path='echo -e ${PATH//:/\\n}'
 alias pg="ping 1.0.0.1 -c 5"
