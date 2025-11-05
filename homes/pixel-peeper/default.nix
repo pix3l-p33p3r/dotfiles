@@ -24,6 +24,22 @@
   programs.atuin.enable = true;
   programs.home-manager.enable = true;
 
+  # Faster shutdown of user services to avoid long stop jobs
+  xdg.configFile."systemd/user.conf.d/10-timeouts.conf".text = ''
+    [Manager]
+    DefaultTimeoutStopSec=10s
+  '';
+
+  # Provide minimal hypridle config to prevent crash loops on shutdown
+  xdg.configFile."hypr/hypridle.conf".text = ''
+    general {
+      lock_cmd =
+      before_sleep_cmd =
+      after_sleep_cmd =
+      ignore_dbus_inhibit = true
+    }
+  '';
+
   # Zen Browser (twilight) enabled; Firefox remains default browser
   programs.zen-browser = {
     enable = true;
