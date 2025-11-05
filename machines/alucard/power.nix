@@ -108,6 +108,4 @@
   services.thermald.enable = true;   # Complement TLP on Intel platforms
   services.power-profiles-daemon.enable = false;  # Disabled to avoid conflict with TLP
 
-  # ───── System76 Scheduler (disabled for ThinkPad) ─────
-  services.system76-scheduler.enable = false;
 }
