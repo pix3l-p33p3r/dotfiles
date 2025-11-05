@@ -46,6 +46,8 @@
   hypridle = "${pkgs.hypridle}/bin/hypridle";
   hyprpaper = "${pkgs.hyprpaper}/bin/hyprpaper";
   hyprshot = "${pkgs.hyprshot}/bin/hyprshot";
+  record_start = ''${pkgs.wf-recorder}/bin/wf-recorder -g "$(${pkgs.slurp}/bin/slurp)" -f ~/Videos/rec_$(date +%Y%m%d_%Hh%Mm%Ss).mp4'';
+  record_stop = "${pkgs.procps}/bin/pkill -INT wf-recorder";
   hyprsunset = "${pkgs.hyprsunset}/bin/hyprsunset";
   hyprutils = "${pkgs.hyprutils}/bin/hyprutils";
 
