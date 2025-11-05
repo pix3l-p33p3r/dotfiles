@@ -30,6 +30,10 @@
     exiftool # Metadata viewing
   ];
 
+  # User services required by Thunar plugins (GVFS volume monitor, thumbnails)
+  services.gvfs.enable = true;     # GVFS daemons (Trash, SMB/MTP, volume monitor)
+  services.tumbler.enable = true;  # Thumbnailer daemon
+
   # ============================================================================
   # |                    THUNAR DECLARATIVE CONFIGURATION                    |
   # ============================================================================
