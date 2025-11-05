@@ -136,37 +136,29 @@ I evaluated Zellij as a modern terminal workspace manager but decided to keep tm
 
 ## Taskwarrior + Timewarrior + tmux (Legendary Combo)
 
-### Decision: Classic Taskwarrior 2.x + Timewarrior with on-modify hook
+### Decision: Switch to Taskwarrior 3 + Timewarrior with official on-modify hook
 
-This combo provides frictionless task and time tracking from the terminal.
+Keeping the same frictionless workflow, now on Taskwarrior 3.
 
 ### Why?
-- Native integration: Timewarrior's `on-modify` hook reacts to Taskwarrior events
-- Zero-click flow: starting/stopping a task auto-starts/stops the timer
-- CLI-first mindset aligns with my tmux-centric environment
+- Time tracking is paramount: the `on-modify` hook continues to auto-start/stop Timewarrior
+- Taskwarrior 3 improvements while preserving CLI-first flow and TUI compatibility
+- Official Timewarrior hook is used directly from the package (no custom script)
 
 ### What's configured here
-- Packages: `taskwarrior2`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server`, `jq` (in `configs/productivity/task-timewarrior.nix`)
-- Hook: `~/.task/hooks/on-modify.timewarrior` (created inline - Timewarrior package doesn't include it)
-  - Parses task JSON using `jq`, queries task status, auto-starts/stops time tracking
-- Aliases: quick `task` and `timew` helpers for daily use (in `configs/terminal/zsh/config/conf.d/102-aliases.zsh`)
+- Packages: `taskwarrior3`, `timewarrior`, `taskwarrior-tui`, `timew-sync-server` (in `configs/productivity/task-timewarrior.nix`)
+- Hook: `~/.task/hooks/on-modify.timewarrior` sourced from `${pkgs.timewarrior}/share/doc/timew/ext/on-modify.timewarrior`
+- Aliases: quick `task` and `timew` helpers (in `configs/terminal/zsh/config/conf.d/102-aliases.zsh`)
 - tmux: `configs/terminal/tmux.nix` with Catppuccin theme + plugins + keybinds
-  - `catppuccin.tmux.enable = true` handles theming only
-  - `programs.tmux` in `tmux.nix` handles behavior (keybinds, plugins, settings)
 
 ### Technical notes
-- Using `taskwarrior2` (not `taskwarrior`) - package renamed in nixpkgs
-- Hook created inline because Timewarrior package doesn't bundle the hook file
-- `jq` included for JSON parsing in the hook script
+- `.taskrc` remains in `$HOME` for compatibility with tools (including Taskwarrior-TUI)
+- The upstream hook handles the integration; no `jq` dependency needed
 
 ### tmux integration ideas (current/optional)
 - Status line: show current Timewarrior activity (e.g., `timew get dom.active.tag.1`), elapsed time
 - Dedicated pane: pin `taskwarrior-tui` in a tmux window for live backlog view
 - Session presets: tmuxp file to open editor + task TUI + logs in one command
-
-### Why not Taskwarrior3 (Rust)?
-- The standard on-modify hook protocol differs; Timewarrior's hook won't work out of the box
-- Would require custom wrappers and loses the frictionless auto-tracking
 
 ---
 
