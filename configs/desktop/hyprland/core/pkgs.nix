@@ -130,7 +130,6 @@
     wander # Terminal wanderer game
     tui-journal # Journal TUI
     tftui # Terminal file transfer TUI
-    # spotify-tui # Spotify TUI client - package not available
 
     # ============================================================================
     # |                              WAYLAND DESKTOP                           |
@@ -213,7 +212,6 @@
     # Productivity
     hackgregator # RSS aggregator
     puffin # RSS reader
-    spotify # Music streaming
     syncthing # File synchronization
     # taskwarrior3 # Task management - commented: conflicts with taskwarrior2 (using taskwarrior2 in productivity module for Timewarrior hook compatibility)
 
