@@ -13,10 +13,78 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
-      fsType = "ext4";
-    };
+  # Btrfs filesystem with subvolumes
+  # Note: This will be active after migration from ext4 to btrfs
+  # Migration steps are documented in MIGRATE-EXT4-TO-BTRFS.md
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
+    fsType = "btrfs";
+    options = [
+      "compress-force=zstd:3"
+      "ssd"
+      "noatime"
+      "space_cache=v2"
+      "autodefrag"
+      "discard=async"
+      "subvol=@"
+    ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
+    fsType = "btrfs";
+    options = [
+      "compress-force=zstd:3"
+      "ssd"
+      "noatime"
+      "space_cache=v2"
+      "autodefrag"
+      "discard=async"
+      "subvol=@home"
+    ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
+    fsType = "btrfs";
+    options = [
+      "compress-force=zstd:3"
+      "ssd"
+      "noatime"
+      "space_cache=v2"
+      "autodefrag"
+      "discard=async"
+      "subvol=@nix"
+    ];
+  };
+
+  fileSystems."/var/log" = {
+    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
+    fsType = "btrfs";
+    options = [
+      "compress-force=zstd:3"
+      "ssd"
+      "noatime"
+      "space_cache=v2"
+      "autodefrag"
+      "discard=async"
+      "subvol=@var_log"
+    ];
+  };
+
+  fileSystems."/.snapshots" = {
+    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
+    fsType = "btrfs";
+    options = [
+      "compress-force=zstd:3"
+      "ssd"
+      "noatime"
+      "space_cache=v2"
+      "autodefrag"
+      "discard=async"
+      "subvol=@snapshots"
+    ];
+  };
 
   boot.initrd.luks.devices."luks-77036ffc-3333-4526-bbe8-c0a6ca58e92e".device = "/dev/disk/by-uuid/77036ffc-3333-4526-bbe8-c0a6ca58e92e";
 
