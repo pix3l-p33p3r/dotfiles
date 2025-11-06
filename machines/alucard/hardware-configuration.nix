@@ -88,6 +88,26 @@
 
   boot.initrd.luks.devices."luks-77036ffc-3333-4526-bbe8-c0a6ca58e92e".device = "/dev/disk/by-uuid/77036ffc-3333-4526-bbe8-c0a6ca58e92e";
 
+  # Additional /data partition (LUKS encrypted Btrfs on nvme0n1p3)
+  # UUID will be provided by migration script - update after running migration
+  # boot.initrd.luks.devices."crypt-data" = {
+  #   device = "/dev/disk/by-uuid/DATA-PARTITION-UUID";
+  #   allowDiscards = true;
+  # };
+
+  # fileSystems."/data" = {
+  #   device = "/dev/mapper/crypt-data";
+  #   fsType = "btrfs";
+  #   options = [
+  #     "compress-force=zstd:3"
+  #     "ssd"
+  #     "noatime"
+  #     "space_cache=v2"
+  #     "autodefrag"
+  #     "discard=async"
+  #   ];
+  # };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/B2A2-DA6A";
       fsType = "vfat";
