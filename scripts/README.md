@@ -75,6 +75,29 @@ sudo ROOT_PARTITION=/dev/nvme0n1p3 LUKS_UUID=your-uuid ./scripts/migrate-ext4-to
 
 **See:** `MIGRATE-EXT4-TO-BTRFS.md` for detailed documentation and manual steps.
 
+### `backup-before-migration.sh`
+
+Creates a backup of critical and important files before migration:
+- **Critical**: SSH keys, GPG keys, Taskwarrior/Timewarrior data, JoplinBackup
+- **Important** (full mode): Documents, Pictures, Videos, Music, Downloads, configs
+
+**Usage:**
+```bash
+# Minimal backup (critical files only, ~50-100MB):
+./scripts/backup-before-migration.sh
+
+# Full backup (includes personal files, ~5-10GB):
+BACKUP_MODE=full ./scripts/backup-before-migration.sh
+
+# Custom destination:
+BACKUP_DEST=/path/to/external/drive ./scripts/backup-before-migration.sh
+```
+
+**Important:** 
+- Run this BEFORE migration
+- Copy backup to external storage (USB drive, cloud, etc.)
+- Backup is stored in `~/backup-pre-migration-TIMESTAMP/`
+
 ## Running Scripts
 
 All scripts should be run from the dotfiles repository root:
@@ -87,6 +110,8 @@ sudo ./scripts/script-name.sh
 ## Permissions
 
 - `nix-cleaner.sh`: No sudo required (operates on user's Nix profile)
+- `backup-before-migration.sh`: No sudo required (creates user backups)
 - `setup-secure-boot.sh`: Requires sudo (manages system configuration and firmware)
 - `cleanup-legacy-boot.sh`: Requires sudo (modifies `/boot/EFI` directory)
+- `migrate-ext4-to-btrfs.sh`: Requires sudo (filesystem migration, run from live ISO)
 
