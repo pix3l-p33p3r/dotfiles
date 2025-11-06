@@ -47,6 +47,32 @@ sudo ./scripts/cleanup-legacy-boot.sh
 sudo mv /boot/EFI/backup-YYYYMMDD-HHMMSS/nixos /boot/EFI/nixos
 ```
 
+### `migrate-ext4-to-btrfs.sh`
+
+Automates the in-place migration from ext4 to Btrfs filesystem:
+1. Unlocks LUKS encrypted device
+2. Converts ext4 to Btrfs (non-destructive)
+3. Creates subvolumes (@, @home, @nix, @var_log, @snapshots)
+4. Moves data to subvolumes
+5. Rebuilds NixOS configuration
+
+**Usage:**
+```bash
+# From NixOS live ISO:
+sudo ./scripts/migrate-ext4-to-btrfs.sh
+
+# With custom settings:
+sudo ROOT_PARTITION=/dev/nvme0n1p3 LUKS_UUID=your-uuid ./scripts/migrate-ext4-to-btrfs.sh
+```
+
+**Important:** 
+- Run this from a NixOS live ISO (same or newer than your system)
+- Backup critical data before starting
+- Your ext4 filesystem is preserved as `ext2_saved` for rollback
+- The migration is non-destructive but requires careful execution
+
+**See:** `MIGRATE-EXT4-TO-BTRFS.md` for detailed documentation and manual steps.
+
 ## Running Scripts
 
 All scripts should be run from the dotfiles repository root:
