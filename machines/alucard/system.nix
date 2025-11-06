@@ -74,5 +74,9 @@
   # Proactive OOM killer to reduce heavy swapping
   systemd.oomd.enable = true;
 
+  # ───── Btrfs Maintenance ─────
+  # Weekly TRIM for btrfs (complements discard=async mount option)
+  services.fstrim.enable = true;
+
 }
 
