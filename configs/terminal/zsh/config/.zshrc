@@ -40,5 +40,8 @@ else
 fi
 unset _comp_path
 
+# Carapace completions
+source <(carapace _carapace)
+
 # Timezsh end
 if [ -n "${ZSH_DEBUGRC+1}" ]; then zprof; fi
