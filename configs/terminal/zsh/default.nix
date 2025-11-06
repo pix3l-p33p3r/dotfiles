@@ -6,6 +6,8 @@
     # ============================================================================
     # Shell Enhancement
     atuin # Shell history search
+    carapace # Multi-shell completion system
+    nushell # Structured data shell for data-intensive tasks
     zoxide # Smart cd
 
     # File Operations
