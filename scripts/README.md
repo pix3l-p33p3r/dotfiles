@@ -54,7 +54,8 @@ Automates the in-place migration from ext4 to Btrfs filesystem:
 2. Converts ext4 to Btrfs (non-destructive)
 3. Creates subvolumes (@, @home, @nix, @var_log, @snapshots)
 4. Moves data to subvolumes
-5. Rebuilds NixOS configuration
+5. Optionally sets up encrypted /data partition on nvme0n1p3 (separate LUKS password)
+6. Rebuilds NixOS configuration
 
 **Usage:**
 ```bash
@@ -70,6 +71,7 @@ sudo ROOT_PARTITION=/dev/nvme0n1p3 LUKS_UUID=your-uuid ./scripts/migrate-ext4-to
 - Backup critical data before starting
 - Your ext4 filesystem is preserved as `ext2_saved` for rollback
 - The migration is non-destructive but requires careful execution
+- `/data` partition uses separate LUKS password (you'll be prompted for both at boot)
 
 **See:** `MIGRATE-EXT4-TO-BTRFS.md` for detailed documentation and manual steps.
 

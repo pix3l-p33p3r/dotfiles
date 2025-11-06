@@ -255,7 +255,8 @@ setup_data_partition() {
     # Create LUKS container
     log_info "Creating LUKS encrypted container on ${DATA_PARTITION}..."
     log_warning "You will be prompted to set a password for the /data partition"
-    log_info "You can use the same password as your root partition or a different one"
+    log_info "This password can be different from your root partition password"
+    log_info "At boot, you'll be prompted for both passwords separately"
     
     if ! confirm "Proceed with creating LUKS container on ${DATA_PARTITION}"; then
         log_info "Skipping /data partition setup"
