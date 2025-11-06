@@ -15,9 +15,11 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration (adjust if needed)
-ROOT_PARTITION="${ROOT_PARTITION:-/dev/nvme0n1p3}"
+ROOT_PARTITION="${ROOT_PARTITION:-/dev/nvme0n1p2}"  # Main encrypted partition (p2)
+DATA_PARTITION="${DATA_PARTITION:-/dev/nvme0n1p3}"  # Additional partition for /data
 LUKS_UUID="${LUKS_UUID:-77036ffc-3333-4526-bbe8-c0a6ca58e92e}"
 LUKS_MAPPER="${LUKS_MAPPER:-cryptroot}"
+DATA_LUKS_MAPPER="${DATA_LUKS_MAPPER:-crypt-data}"
 DOTFILES_PATH="${DOTFILES_PATH:-/home/pixel-peeper/dotfiles}"
 FLAKE_CONFIG="${FLAKE_CONFIG:-alucard}"
 
@@ -77,10 +79,11 @@ identify_partitions() {
     lsblk -f
     echo
     log_info "Detected root partition: ${ROOT_PARTITION}"
+    log_info "Detected data partition: ${DATA_PARTITION}"
     log_info "LUKS UUID: ${LUKS_UUID}"
     
-    if ! confirm "Is this correct? You can set ROOT_PARTITION and LUKS_UUID environment variables if different"; then
-        log_error "Please set ROOT_PARTITION and LUKS_UUID environment variables and rerun"
+    if ! confirm "Is this correct? You can set ROOT_PARTITION, DATA_PARTITION, and LUKS_UUID environment variables if different"; then
+        log_error "Please set environment variables and rerun"
         exit 1
     fi
 }
@@ -227,6 +230,101 @@ verify_migration() {
     log_success "Verification complete"
 }
 
+setup_data_partition() {
+    log_info "Setting up /data partition on ${DATA_PARTITION}..."
+    
+    # Check if partition is already encrypted/formatted
+    if blkid "$DATA_PARTITION" | grep -q "TYPE="; then
+        log_warning "${DATA_PARTITION} appears to already be formatted"
+        if ! confirm "Continue anyway (will overwrite existing data)"; then
+            log_info "Skipping /data partition setup"
+            return 0
+        fi
+    fi
+    
+    # Check if already unlocked
+    if [[ -e "/dev/mapper/${DATA_LUKS_MAPPER}" ]]; then
+        log_warning "Data LUKS device already unlocked at /dev/mapper/${DATA_LUKS_MAPPER}"
+        if confirm "Use existing unlock"; then
+            local device="/dev/mapper/${DATA_LUKS_MAPPER}"
+        else
+            cryptsetup luksClose "$DATA_LUKS_MAPPER" || true
+        fi
+    fi
+    
+    # Create LUKS container
+    log_info "Creating LUKS encrypted container on ${DATA_PARTITION}..."
+    log_warning "You will be prompted to set a password for the /data partition"
+    log_info "You can use the same password as your root partition or a different one"
+    
+    if ! confirm "Proceed with creating LUKS container on ${DATA_PARTITION}"; then
+        log_info "Skipping /data partition setup"
+        return 0
+    fi
+    
+    cryptsetup luksFormat "$DATA_PARTITION" || {
+        log_error "Failed to create LUKS container"
+        exit 1
+    }
+    
+    log_info "Unlocking LUKS container..."
+    cryptsetup luksOpen "$DATA_PARTITION" "$DATA_LUKS_MAPPER" || {
+        log_error "Failed to unlock LUKS container"
+        exit 1
+    }
+    
+    local device="/dev/mapper/${DATA_LUKS_MAPPER}"
+    
+    # Format as Btrfs
+    log_info "Formatting as Btrfs..."
+    mkfs.btrfs -L data "$device" || {
+        log_error "Failed to format Btrfs"
+        exit 1
+    }
+    
+    # Get UUID for NixOS config
+    local data_uuid
+    data_uuid=$(blkid -s UUID -o value "$DATA_PARTITION")
+    
+    # Create /data mount point and mount
+    if [[ -d "$MOUNT_NEWROOT" ]]; then
+        mkdir -p "$MOUNT_NEWROOT/data"
+        mount -o compress-force=zstd:3,ssd,noatime,space_cache=v2,autodefrag,discard=async "$device" "$MOUNT_NEWROOT/data" || {
+            log_error "Failed to mount /data"
+            exit 1
+        }
+        
+        log_success "/data partition set up and mounted"
+        log_info "Data partition UUID: ${data_uuid}"
+        log_info "Add this to your NixOS configuration:"
+        echo
+        cat << EOF
+  # Additional /data partition (LUKS encrypted)
+  boot.initrd.luks.devices."${DATA_LUKS_MAPPER}" = {
+    device = "/dev/disk/by-uuid/${data_uuid}";
+    allowDiscards = true;
+  };
+
+  fileSystems."/data" = {
+    device = "/dev/mapper/${DATA_LUKS_MAPPER}";
+    fsType = "btrfs";
+    options = [
+      "compress-force=zstd:3"
+      "ssd"
+      "noatime"
+      "space_cache=v2"
+      "autodefrag"
+      "discard=async"
+    ];
+  };
+EOF
+        echo
+    else
+        log_warning "Mount point not available, /data will need to be configured after reboot"
+        log_info "Data partition UUID: ${data_uuid}"
+    fi
+}
+
 rebuild_nixos() {
     log_info "Preparing to rebuild NixOS..."
     
@@ -286,7 +384,8 @@ This script will:
 2. Convert ext4 to Btrfs (non-destructive)
 3. Create subvolumes (@, @home, @nix, @var_log, @snapshots)
 4. Move data to subvolumes
-5. Rebuild NixOS configuration
+5. Set up encrypted /data partition on ${DATA_PARTITION} (optional)
+6. Rebuild NixOS configuration
 
 ${YELLOW}IMPORTANT:${NC}
 - Run this from a NixOS live ISO
@@ -309,6 +408,12 @@ EOF
     create_subvolumes
     move_data_to_subvolumes
     verify_migration
+    
+    if confirm "Set up /data partition on ${DATA_PARTITION} (encrypted Btrfs)"; then
+        setup_data_partition
+    else
+        log_info "Skipping /data partition setup"
+    fi
     
     if confirm "Rebuild NixOS now"; then
         rebuild_nixos
