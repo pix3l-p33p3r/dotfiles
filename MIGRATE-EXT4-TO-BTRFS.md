@@ -278,6 +278,3 @@ This yields the cleanest filesystem history but requires a proper backup/restore
 - `discard=async` is safe on modern kernels; weekly `fstrim` is also enabled as an alternative/complement.
 
 If you want me to execute the migration on this machine, say “Proceed” and I’ll run it step-by-step with you.
-
-
-
