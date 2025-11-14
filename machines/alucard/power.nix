@@ -108,4 +108,36 @@
   services.thermald.enable = true;   # Complement TLP on Intel platforms
   services.power-profiles-daemon.enable = false;  # Disabled to avoid conflict with TLP
 
+  # ───── ThinkFan Fan Control ─────
+  # Enable manual fan control for ThinkPad laptops
+  services.thinkfan = {
+    enable = true;
+
+    sensors = [
+      {
+        type = "tpacpi";
+        query = "/proc/acpi/ibm/thermal";
+        indices = [ 0 ];
+      }
+    ];
+
+    fans = [
+      {
+        type = "tpacpi";
+        query = "/proc/acpi/ibm/fan";
+      }
+    ];
+
+    levels = [
+      [ 0 0 55 ]
+      [ 1 48 60 ]
+      [ 2 50 61 ]
+      [ 3 52 63 ]
+      [ 4 56 65 ]
+      [ 5 59 66 ]
+      [ 7 63 78 ]
+      [ 127 75 32767 ]
+    ];
+  };
+
 }
