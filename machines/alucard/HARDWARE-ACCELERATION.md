@@ -63,12 +63,13 @@ mpv --hwdec=auto video.mp4
 ### Firefox
 Already configured via environment variables:
 - `MOZ_DISABLE_RDD_SANDBOX=1` - Enable VA-API
-- `MOZ_X11_EGL=1` - Use EGL for XWayland
+- Firefox uses native Wayland (no X11/XWayland needed)
 
 Verify in Firefox:
 1. Visit `about:support`
 2. Search for "Graphics"
 3. Look for "WEBRENDER" and "VA-API"
+4. Check "Window Protocol" should show "wayland"
 
 ### Chromium/Chrome
 Add to launch flags:
