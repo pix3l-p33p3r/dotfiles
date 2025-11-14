@@ -48,16 +48,23 @@
   networking.networkmanager.enable = true;
 
   # Avoid long boot waits for network-online
-  systemd.services."NetworkManager-wait-online".enable = false;
+  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [];
+
+  # ───── SystemD Services Edits ─────
+  services.journald.extraConfig = "SystemMaxUse=50M";
 
   # ───── Hostname ─────
   networking.hostName = "alucard";
 
   # ───── OpenSSH ─────
+    # Enable socket activation for OpenSSH
+  services.openssh.startWhenNeeded = true;
   services.openssh.enable = true;
 
   # ───── CUPS ─────
+  # Enable socket activation for CUPS printing service
   services.printing.enable = true;
+  services.printing.startWhenNeeded = true;
 
   # ───── Removable media backends ─────
   services.udisks2.enable = true;   # disk mounting backend (system)
@@ -74,8 +81,8 @@
   # Proactive OOM killer to reduce heavy swapping
   systemd.oomd.enable = true;
 
-  # ───── Btrfs Maintenance ─────
-  # Weekly TRIM for btrfs (complements discard=async mount option)
+  # ───── Filesystem Maintenance ─────
+  # Weekly TRIM for ext4 (helps maintain SSD performance)
   services.fstrim.enable = true;
 
 }
