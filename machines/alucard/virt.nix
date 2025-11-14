@@ -1,8 +1,10 @@
 # Virtualization Configuration (QEMU/KVM)
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  # Enable libvirt daemon for managing VMs
   virtualisation.libvirtd.enable = true;
+  
+  # Don't start libvirtd on boot, use socket activation (libvirtd supports socket activation by default)
+  systemd.services.libvirt-guests.wantedBy = lib.mkForce []; # Disable guest shutdown
 }

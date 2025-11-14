@@ -9,7 +9,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   
   # Faster boot timeout
-  boot.loader.timeout = 2;  # 2 second bootloader menu (was default 5)
+  boot.loader.timeout = 1;  # 1 second bootloader menu (was default 5)
 
   # ───── Lanzaboote (Secure Boot with UKI) ─────
   # Builds signed Unified Kernel Images and integrates with systemd-boot.
@@ -53,8 +53,8 @@
     
     # ───── Initrd Performance Optimizations ─────
     
-    # Use zstd for initrd compression (fast and widely supported)
-    compressor = "zstd";
+    # Use lz4 for initrd compression (fastest decompression, slightly larger initrd)
+    compressor = "lz4";
     
     # Preload Intel graphics driver for better Plymouth performance
     # This enables hardware acceleration for the boot splash screen
@@ -71,23 +71,29 @@
 
   # ───── Silent Boot Configuration ─────
   
-  boot.kernelParams = [
-    # Silent boot - hide boot messages
-    "quiet"           # Reduce boot messages
-    "splash"          # Enable splash screen (Plymouth)
-    "loglevel=3"      # Show only errors (3 = err)
-    
-    # Systemd boot messages
-    "systemd.show_status=false"  # Hide systemd status
-    "rd.systemd.show_status=false"  # Hide systemd status in initrd
-    
-    # Udev messages
-    "rd.udev.log_level=3"  # Reduce udev verbosity in initrd
-    "udev.log_priority=3"  # Reduce udev messages
-    
-    # VGA/Framebuffer - keep current mode for smooth transition
-    "vga=current"
-    "fbcon=nodefer"   # Defer framebuffer console to avoid flickering
+  # Use mkMerge to avoid duplicate attribute definition errors for boot.kernelParams
+  boot.kernelParams = lib.mkMerge [
+    [
+      # Silent boot - hide boot messages
+      "quiet"           # Reduce boot messages
+      "splash"          # Enable splash screen (Plymouth)
+      "loglevel=3"      # Show only errors (3 = err)
+
+      # Systemd boot messages
+      "systemd.show_status=false"      # Hide systemd status
+      "rd.systemd.show_status=false"   # Hide systemd status in initrd
+
+      # Udev messages
+      "rd.udev.log_level=3"  # Reduce udev verbosity in initrd
+      "udev.log_priority=3"  # Reduce udev messages
+
+      # VGA/Framebuffer - keep current mode for smooth transition
+      "vga=current"
+      "fbcon=nodefer"   # Defer framebuffer console to avoid flickering
+
+      # Disable legacy serial port probing to fix initrd delay
+      "8250.nr_uarts=0"
+    ]
   ];
   
   # Suppress console log messages (0 = only emergency messages)
