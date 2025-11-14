@@ -8,17 +8,38 @@ let
   # Official Catppuccin SDDM theme from nixpkgs
   # Customized for Mocha flavor with Lavender accent
   # Reference: https://github.com/catppuccin/sddm
-  # Time format includes seconds (HH:mm:ss for 24-hour format)
-  catppuccinSDDM = pkgs.catppuccin-sddm.override {
+  baseTheme = pkgs.catppuccin-sddm.override {
     flavor = "mocha";
     accent = "lavender";  # Matches your system accent
     font = "JetBrainsMono Nerd Font";
     fontSize = "11";
     background = wallpaper;
     loginBackground = true;  # Show background around login panel
-    # Add seconds to time format if supported
-    timeFormat = "hh:mm:ss";  # 12-hour format with seconds
   };
+  
+  # Custom theme with seconds added to time format
+  # Patches the QML files to include seconds (hh:mm:ss)
+  catppuccinSDDM = pkgs.runCommand "catppuccin-sddm-with-seconds" {} ''
+    # Create proper directory structure
+    mkdir -p $out/share/sddm/themes
+    
+    # Copy the base theme (find the theme directory name)
+    THEME_DIR=$(find ${baseTheme}/share/sddm/themes -mindepth 1 -maxdepth 1 -type d | head -1)
+    THEME_NAME=$(basename "$THEME_DIR")
+    cp -r "$THEME_DIR" $out/share/sddm/themes/
+    chmod -R +w $out
+    
+    # Find and patch QML files to add seconds to time format
+    # Replace "hh:mm" with "hh:mm:ss" and "HH:mm" with "HH:mm:ss"
+    find $out/share/sddm/themes -name "*.qml" -type f -exec sed -i \
+      -e 's/"hh:mm"/"hh:mm:ss"/g' \
+      -e 's/"HH:mm"/"HH:mm:ss"/g' \
+      -e "s/'hh:mm'/'hh:mm:ss'/g" \
+      -e "s/'HH:mm'/'HH:mm:ss'/g" \
+      -e 's/Qt\.formatTime(\([^,]*\),\s*"hh:mm")/Qt.formatTime(\1, "hh:mm:ss")/g' \
+      -e 's/Qt\.formatTime(\([^,]*\),\s*"HH:mm")/Qt.formatTime(\1, "HH:mm:ss")/g' \
+      {} +
+  '';
   
   # Copy avatar to a location accessible by SDDM
   # SDDM needs the avatar in a system-accessible location
