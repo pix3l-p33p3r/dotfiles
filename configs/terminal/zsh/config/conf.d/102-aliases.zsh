@@ -35,8 +35,11 @@ alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 # NixOS system rebuild (optimized for speed)
 alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' -j 7 --no-reexec --no-build-output"
 
-# Home Manager rebuild (optimized for speed)
-alias hms="home-manager switch --flake '$HOME/dotfiles#pixel-peeper@alucard' -b backup"
+# Home Manager rebuild (creates timestamped backup suffix to avoid collisions)
+hms() {
+  local backup_suffix="backup-$(date +%Y%m%d-%H%M%S)"
+  home-manager switch --flake "$HOME/dotfiles#pixel-peeper@alucard" -b "$backup_suffix"
+}
 
 alias update="cd $HOME/dotfiles && nix flake update"
 
