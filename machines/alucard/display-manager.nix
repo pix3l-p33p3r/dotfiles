@@ -46,6 +46,9 @@ in
     enable = true;
     # Use Wayland backend for better performance and security
     wayland.enable = true;
+    # Use KDE SDDM package (includes Qt5 dependencies automatically)
+    # Qt5, Qt Graphical Effects, Qt SVG, and Qt Quick Controls 2 are included
+    package = pkgs.kdePackages.sddm;
     # Theme name from the package (catppuccin-sddm-corners)
     theme = "catppuccin-sddm-corners";
   };
