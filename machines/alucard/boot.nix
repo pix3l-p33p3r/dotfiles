@@ -53,8 +53,16 @@
     
     # ───── Initrd Performance Optimizations ─────
     
-    # Use lz4 whene you switch to btrfsfor initrd compression (fastest decompression, slightly larger initrd)
-    compressor = "zstd";
+    # Use lz4 for initrd compression (fastest decompression, slightly larger initrd)
+    # Note: This is for initrd compression, not filesystem compression
+    # Filesystem compression (lz4) requires btrfs, but initrd compression works with any filesystem
+    compressor = "lz4";
+    
+    # Ensure lz4 binary is available for systemd initrd
+    # This makes the lz4 package available during initrd build and runtime
+    systemd.extraBin = {
+      lz4 = "${pkgs.lz4}/bin/lz4";
+    };
     
     # Preload Intel graphics driver for better Plymouth performance
     # This enables hardware acceleration for the boot splash screen
