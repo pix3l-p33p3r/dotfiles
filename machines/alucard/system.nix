@@ -47,8 +47,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Avoid long boot waits for network-online
-  systemd.services.NetworkManager-wait-online.wantedBy = lib.mkForce [];
+  # Avoid long boot waits for network-online (timeout after 2 seconds)
+  systemd.services.NetworkManager-wait-online.serviceConfig.TimeoutStartSec = "2s";
 
   # ───── SystemD Services Edits ─────
   services.journald.extraConfig = "SystemMaxUse=50M";
