@@ -25,7 +25,6 @@
       ./swap.nix
       
       # Display system
-      ./x11.nix
       ./wayland.nix
       ./security.nix
       ./secrets.nix
