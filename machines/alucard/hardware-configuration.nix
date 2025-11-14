@@ -13,111 +13,18 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # Btrfs filesystem with subvolumes
-  # Note: This will be active after migration from ext4 to btrfs
-  # Migration steps are documented in MIGRATE-EXT4-TO-BTRFS.md
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
-    fsType = "btrfs";
-    options = [
-      "compress-force=zstd:3"
-      "ssd"
-      "noatime"
-      "space_cache=v2"
-      "autodefrag"
-      "discard=async"
-      "subvol=@"
-    ];
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
-    fsType = "btrfs";
-    options = [
-      "compress-force=zstd:3"
-      "ssd"
-      "noatime"
-      "space_cache=v2"
-      "autodefrag"
-      "discard=async"
-      "subvol=@home"
-    ];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
-    fsType = "btrfs";
-    options = [
-      "compress-force=zstd:3"
-      "ssd"
-      "noatime"
-      "space_cache=v2"
-      "autodefrag"
-      "discard=async"
-      "subvol=@nix"
-    ];
-  };
-
-  fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
-    fsType = "btrfs";
-    options = [
-      "compress-force=zstd:3"
-      "ssd"
-      "noatime"
-      "space_cache=v2"
-      "autodefrag"
-      "discard=async"
-      "subvol=@var_log"
-    ];
-  };
-
-  fileSystems."/.snapshots" = {
-    device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
-    fsType = "btrfs";
-    options = [
-      "compress-force=zstd:3"
-      "ssd"
-      "noatime"
-      "space_cache=v2"
-      "autodefrag"
-      "discard=async"
-      "subvol=@snapshots"
-    ];
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/2e7ad58f-0050-41e7-a3ff-e89223879c2f";
+      fsType = "ext4";
+    };
 
   boot.initrd.luks.devices."luks-77036ffc-3333-4526-bbe8-c0a6ca58e92e".device = "/dev/disk/by-uuid/77036ffc-3333-4526-bbe8-c0a6ca58e92e";
-
-  # Additional /data partition (LUKS encrypted Btrfs on nvme0n1p3)
-  # UUID will be provided by migration script - update after running migration
-  # boot.initrd.luks.devices."crypt-data" = {
-  #   device = "/dev/disk/by-uuid/DATA-PARTITION-UUID";
-  #   allowDiscards = true;
-  # };
-
-  # fileSystems."/data" = {
-  #   device = "/dev/mapper/crypt-data";
-  #   fsType = "btrfs";
-  #   options = [
-  #     "compress-force=zstd:3"
-  #     "ssd"
-  #     "noatime"
-  #     "space_cache=v2"
-  #     "autodefrag"
-  #     "discard=async"
-  #   ];
-  # };
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/B2A2-DA6A";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
-
-  # swapDevices configured in system.nix (zramSwap). Removing stale disk swap.
-  # swapDevices =
-  #   [ { device = "/dev/disk/by-uuid/4ddcdaa0-0e40-4162-8460-5a0969bc4c45"; }
-  #   ]; 
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
