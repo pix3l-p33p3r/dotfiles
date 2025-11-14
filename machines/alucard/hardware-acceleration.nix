@@ -124,9 +124,10 @@
 
   # ───── Additional Optimizations ─────
   
-  # Enable RC6 power saving (should be on by default, but explicit is good)
-  boot.extraModprobeConfig = ''
+  # Ensure required modprobe options are applied for both Intel graphics and ThinkPad fan control
+  boot.extraModprobeConfig = lib.mkForce ''
     options i915 enable_guc=3 enable_fbc=1 enable_psr=1 fastboot=1
+    options thinkpad_acpi experimental=1 fan_control=1
   '';
 
   # ───── Verification Commands ─────
