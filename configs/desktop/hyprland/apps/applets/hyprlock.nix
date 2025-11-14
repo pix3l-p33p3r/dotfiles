@@ -1,8 +1,10 @@
 { pkgs, inputs, wallpaper, ... }:
 
 let
-  # Avatar path
-  avatar = "${inputs.self}/assets/avatar/ryuma_pixel-peeper.png";
+  # Copy paths to Nix store so hyprlock can access them at runtime
+  # hyprlock needs actual file paths, not Nix path references
+  wallpaperPath = "${pkgs.copyPathToStore wallpaper}";
+  avatarPath = "${pkgs.copyPathToStore (inputs.self + "/assets/avatar/ryuma_pixel-peeper.png")}";
 in
 {
   home.packages = [ pkgs.hyprlock ];
@@ -82,7 +84,7 @@ in
       # BACKGROUND
       background {
           monitor = eDP-1
-          path = ${wallpaper}
+          path = ${wallpaperPath}
           blur_passes = 3
           blur_size = 7
           noise = 0.02
@@ -92,7 +94,7 @@ in
           color = $base
       }
       
-      # TIME
+      # TIME (with seconds)
       label {
           monitor = eDP-1
           text = cmd[update:1000] date "+%H:%M:%S"
@@ -131,7 +133,7 @@ in
       # USER AVATAR
       image {
           monitor = eDP-1
-          path = ${avatar}
+          path = ${avatarPath}
           size = 250
           rounding = 120
           border_size = 3
