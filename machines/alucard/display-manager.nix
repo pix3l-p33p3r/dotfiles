@@ -48,12 +48,11 @@ in
     wayland.enable = true;
     # Theme name from the package (catppuccin-sddm-corners)
     theme = "catppuccin-sddm-corners";
-    # Qt5 dependencies required by catppuccin-sddm-corners theme
-    # As per https://github.com/khaneliman/catppuccin-sddm-corners/#dependencies
-    extraPackages = with pkgs.libsForQt5; [
-      qt5.qtgraphicaleffects
-      qt5.qtsvg
-      qt5.qtquickcontrols2
+    # Qt6 dependencies - SDDM has been updated to Qt6 in recent nixpkgs
+    # The theme should work with Qt6 equivalents
+    extraPackages = with pkgs.kdePackages; [
+      qtsvg
+      qtdeclarative
     ];
   };
   
