@@ -26,6 +26,7 @@
       
       # Display system
       ./wayland.nix
+      ./display-manager.nix
       ./security.nix
       ./secrets.nix
       
