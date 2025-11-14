@@ -75,7 +75,7 @@
     
     # Hardware video decode acceleration
     MOZ_DISABLE_RDD_SANDBOX = "1";  # Firefox hardware acceleration
-    MOZ_X11_EGL = "1";               # Firefox EGL on X11/XWayland
+    # MOZ_X11_EGL removed - Firefox uses native Wayland (XWayland available for legacy apps)
     
     # General acceleration hints
     LIBVA_MESSAGING_LEVEL = "1";    # VA-API logging (0=off, 1=errors, 2=all)
