@@ -70,8 +70,9 @@
   catppuccin.rofi.enable = true;
 
   # Hyprland components
-  catppuccin.hyprland.enable = true;
-  catppuccin.hyprlock.enable = true;
+  # catppuccin.hyprland.enable = true;
+  # catppuccin.hyprlock.enable = true;
+  # testing
 
   # Qt theming via Kvantum
   catppuccin.kvantum.enable = true;
