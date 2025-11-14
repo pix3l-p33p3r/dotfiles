@@ -38,7 +38,7 @@ alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' -j 7 --no-
 # Home Manager rebuild (optimized for speed)
 alias hms="home-manager switch --flake '$HOME/dotfiles#pixel-peeper@alucard' -b backup"
 
-alias update="cd $HOME/dotfiles && nix flake update && fastfetch"
+alias update="cd $HOME/dotfiles && nix flake update"
 
 # Full upgrade: update flake, rebuild system and home-manager, then clean
 alias upgrade="cd $HOME/dotfiles && nrs && hms && clean && fastfetch"
