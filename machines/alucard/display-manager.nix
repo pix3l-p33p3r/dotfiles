@@ -46,11 +46,15 @@ in
     enable = true;
     # Use Wayland backend for better performance and security
     wayland.enable = true;
-    # Use KDE SDDM package (includes Qt5 dependencies automatically)
-    # Qt5, Qt Graphical Effects, Qt SVG, and Qt Quick Controls 2 are included
-    package = pkgs.kdePackages.sddm;
     # Theme name from the package (catppuccin-sddm-corners)
     theme = "catppuccin-sddm-corners";
+    # Qt5 dependencies required by catppuccin-sddm-corners theme
+    # As per https://github.com/khaneliman/catppuccin-sddm-corners/#dependencies
+    extraPackages = with pkgs.libsForQt5; [
+      qt5.qtgraphicaleffects
+      qt5.qtsvg
+      qt5.qtquickcontrols2
+    ];
   };
   
   # ───── Copy Avatar for SDDM User Icon ─────
