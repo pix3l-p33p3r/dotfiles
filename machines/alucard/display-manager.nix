@@ -4,64 +4,18 @@ let
   # Get paths from flake
   wallpaper = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
   avatar = inputs.self + "/assets/avatar/ryuma_pixel-peeper.png";
-  
-  # Official Catppuccin SDDM theme from nixpkgs
-  # Customized for Mocha flavor with Lavender accent
-  # Reference: https://github.com/catppuccin/sddm
-  baseTheme = pkgs.catppuccin-sddm.override {
-    flavor = "mocha";
-    accent = "lavender";  # Matches your system accent
-    font = "JetBrainsMono Nerd Font";
-    fontSize = "11";
-    background = wallpaper;
-    loginBackground = true;  # Show background around login panel
-  };
-  
-  # Custom theme with seconds added to time format
-  # Patches the QML files to include seconds (hh:mm:ss)
-  catppuccinSDDM = pkgs.runCommand "catppuccin-sddm-with-seconds" {} ''
-    # Create proper directory structure
-    mkdir -p $out/share/sddm/themes
-    
-    # Copy the base theme (find the theme directory name)
-    THEME_DIR=$(find ${baseTheme}/share/sddm/themes -mindepth 1 -maxdepth 1 -type d | head -1)
-    THEME_NAME=$(basename "$THEME_DIR")
-    cp -r "$THEME_DIR" $out/share/sddm/themes/
-    chmod -R +w $out
-    
-    # Find and patch QML files to add seconds to time format
-    # Replace "hh:mm" with "hh:mm:ss" and "HH:mm" with "HH:mm:ss"
-    find $out/share/sddm/themes -name "*.qml" -type f -exec sed -i \
-      -e 's/"hh:mm"/"hh:mm:ss"/g' \
-      -e 's/"HH:mm"/"HH:mm:ss"/g' \
-      -e "s/'hh:mm'/'hh:mm:ss'/g" \
-      -e "s/'HH:mm'/'HH:mm:ss'/g" \
-      -e 's/Qt\.formatTime(\([^,]*\),\s*"hh:mm")/Qt.formatTime(\1, "hh:mm:ss")/g' \
-      -e 's/Qt\.formatTime(\([^,]*\),\s*"HH:mm")/Qt.formatTime(\1, "HH:mm:ss")/g' \
-      {} +
-  '';
-  
-  # Copy avatar to a location accessible by SDDM
-  # SDDM needs the avatar in a system-accessible location
-  avatarPackage = pkgs.runCommand "sddm-avatar" {} ''
-    mkdir -p $out/share/sddm/faces
-    cp ${avatar} $out/share/sddm/faces/pixel-peeper.face.icon
-  '';
 in
 {
   # ───── SDDM Display Manager ─────
-  # Lightweight, fast display manager with official Catppuccin Mocha theme
+  # Using catppuccin/nix module for clean configuration
+  # Reference: https://nix.catppuccin.com/options/25.05/nixos/catppuccin.sddm/
   # Auto-launches Hyprland after login
-  # Theme: https://github.com/catppuccin/sddm
   
   services.displayManager.sddm = {
     enable = true;
     
     # Use Wayland backend for better performance and security
     wayland.enable = true;
-    
-    # Use official Catppuccin Mocha theme with Lavender accent
-    theme = "catppuccin-mocha-lavender";
     
     # Use KDE SDDM package (required for proper theme support)
     package = pkgs.kdePackages.sddm;
@@ -75,30 +29,62 @@ in
         InputMethod = "";
         EnableHiDPI = true;
       };
-      
-      Theme = {
-        Current = "catppuccin-mocha-lavender";
-      };
     };
   };
   
-  # ───── Install Official Catppuccin SDDM Theme ─────
-  # This installs the theme package with our customizations
-  # Wallpaper and avatar are configured via the override
-  environment.systemPackages = [ catppuccinSDDM avatarPackage ];
+  # ───── Catppuccin SDDM Configuration ─────
+  # Using the official catppuccin/nix module
+  # Options: https://nix.catppuccin.com/options/25.05/nixos/catppuccin.sddm/
+  catppuccin.sddm = {
+    enable = true;
+    flavor = "mocha";
+    accent = "lavender";  # Matches your system accent
+    font = "JetBrainsMono Nerd Font";
+    fontSize = "11";
+    background = wallpaper;  # Your custom wallpaper
+    loginBackground = true;  # Show background around login panel
+    userIcon = true;  # Enable user icon display
+    clockEnabled = true;  # Enable clock (will be patched to show seconds)
+  };
+  
+  # ───── Override Theme Package to Add Seconds ─────
+  # The catppuccin module creates a theme package, we override it to patch QML files for seconds
+  # This is done at build time, not runtime, so it's more reliable
+  nixpkgs.overlays = [
+    (final: prev: {
+      # Override the catppuccin-sddm package to add seconds
+      catppuccin-sddm = prev.catppuccin-sddm.overrideAttrs (oldAttrs: {
+        postInstall = (oldAttrs.postInstall or "") + ''
+          # Patch QML files to add seconds to time format
+          find $out/share/sddm/themes -name "*.qml" -type f -exec sed -i \
+            -e 's/"hh:mm"/"hh:mm:ss"/g' \
+            -e 's/"HH:mm"/"HH:mm:ss"/g' \
+            -e "s/'hh:mm'/'hh:mm:ss'/g" \
+            -e "s/'HH:mm'/'HH:mm:ss'/g" \
+            {} +
+        '';
+      });
+    })
+  ];
   
   # ───── Copy Avatar for SDDM User Icon ─────
   # SDDM looks for user icons in /var/lib/AccountsService/icons/
-  # We'll create a systemd service to copy the avatar on boot
+  # Also supports ~/.face.icon or FacesDir/username.face.icon
   systemd.services.sddm-avatar = {
     description = "Copy user avatar for SDDM";
     wantedBy = [ "multi-user.target" ];
     before = [ "display-manager.service" ];
     serviceConfig.Type = "oneshot";
     script = ''
+      # Copy to AccountsService location
       mkdir -p /var/lib/AccountsService/icons
       cp ${avatar} /var/lib/AccountsService/icons/pixel-peeper
       chmod 644 /var/lib/AccountsService/icons/pixel-peeper
+      
+      # Also copy to user's home directory for catppuccin.sddm.userIcon
+      mkdir -p /home/pixel-peeper
+      cp ${avatar} /home/pixel-peeper/.face.icon
+      chmod 644 /home/pixel-peeper/.face.icon
     '';
   };
   
