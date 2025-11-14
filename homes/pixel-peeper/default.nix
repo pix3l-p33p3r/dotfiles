@@ -1,4 +1,4 @@
-{ inputs, wallpaper, pkgs, lib, ... }@all: {
+{ config, inputs, wallpaper, pkgs, lib, ... }@all: {
   imports = [
     ../../configs/desktop/hyprland
     ../../configs/editors/cursor-config.nix
@@ -23,6 +23,15 @@
 
   programs.atuin.enable = true;
   programs.home-manager.enable = true;
+
+  # Remove legacy backups that block xdg.mimeApps from updating mimeapps.list
+  home.activation.removeLegacyMimeappsBackup =
+    lib.hm.dag.entryBefore [ "linkGeneration" ] ''
+      backup="${config.xdg.configHome}/mimeapps.list.backup"
+      if [ -e "$backup" ]; then
+        rm -f "$backup"
+      fi
+    '';
 
   # Faster shutdown of user services to avoid long stop jobs
   xdg.configFile."systemd/user.conf.d/10-timeouts.conf".text = ''
