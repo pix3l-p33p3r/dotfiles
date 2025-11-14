@@ -24,8 +24,7 @@ alucard/
 ├── hardware-acceleration.nix # Intel drivers, VA-API, Vulkan, OpenCL
 ├── audio.nix                # Pipewire, ALSA
 ├── bluetooth.nix            # Bluetooth, Blueman
-├── x11.nix                  # X11 compatibility
-├── wayland.nix              # Hyprland window manager
+├── wayland.nix              # Hyprland window manager (XWayland auto-enabled)
 ├── security.nix             # PAM, D-Bus, Dconf
 ├── docker.nix               # Docker container runtime
 ├── virt.nix                 # Virtualization (QEMU/KVM/libvirt)
@@ -51,8 +50,8 @@ alucard/
 - **Firmware**: fwupd for automatic hardware firmware updates
 
 **Display**
-- **Wayland**: Hyprland compositor
-- **X11**: Compatibility layer for legacy apps
+- **Wayland**: Hyprland compositor (pure Wayland, no X11 server)
+- **XWayland**: Automatically available for legacy apps via Hyprland
 - **Bluetooth**: Blueman manager
 
 ## 🔧 Customization

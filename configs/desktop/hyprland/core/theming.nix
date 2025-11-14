@@ -3,7 +3,6 @@
 	# Cursor size/source of truth (Catppuccin provides theme, HM sets size)
 	home.pointerCursor = {
 		size = 24;
-		x11.enable = true;
 	};
 
 	gtk = {
