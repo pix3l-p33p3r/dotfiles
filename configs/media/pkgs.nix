@@ -1,30 +1,4 @@
-{ pkgs, lib, ... }:
-let
-  # Override tplay to include FFmpeg and OpenSSL development libraries
-  # tplay needs FFmpeg headers, OpenSSL, and pkg-config to build properly
-  # The build script looks for headers in /usr/include, so we need to set
-  # the proper include paths via environment variables
-  tplay-with-ffmpeg = pkgs.tplay.overrideAttrs (oldAttrs: {
-    nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [
-      pkgs.pkg-config
-      pkgs.ffmpeg.dev
-      pkgs.openssl.dev
-    ];
-    buildInputs = (oldAttrs.buildInputs or []) ++ [
-      pkgs.ffmpeg
-      pkgs.openssl
-    ];
-    # Set environment variables to help the build script find FFmpeg and OpenSSL
-    preBuild = ''
-      export PKG_CONFIG_PATH="${lib.makeSearchPath "lib/pkgconfig" [ pkgs.ffmpeg.dev pkgs.openssl.dev ]}"
-      export FFMPEG_DIR="${pkgs.ffmpeg.dev}"
-      export OPENSSL_DIR="${pkgs.openssl.dev}"
-      export C_INCLUDE_PATH="${lib.makeSearchPath "include" [ pkgs.ffmpeg.dev pkgs.openssl.dev ]}"
-      export CPLUS_INCLUDE_PATH="${lib.makeSearchPath "include" [ pkgs.ffmpeg.dev pkgs.openssl.dev ]}"
-      export NIX_CFLAGS_COMPILE="-I${pkgs.ffmpeg.dev}/include -I${pkgs.openssl.dev}/include"
-    '' + (oldAttrs.preBuild or "");
-  });
-in
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     # ============================================================================
@@ -47,7 +21,6 @@ in
     rmpc # Rust MPD client (config in rmpc.nix)
     kew # Terminal music player (config in kew.nix)
     mpd # Music Player Daemon
-    tplay-with-ffmpeg # Terminal video player in ascii art (with FFmpeg dev libs)
     termusic # Terminal music player
     yt-dlp # YouTube and video downloader
     spotdl # Spotify downloader
