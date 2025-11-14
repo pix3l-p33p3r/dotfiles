@@ -53,8 +53,8 @@
     
     # ───── Initrd Performance Optimizations ─────
     
-    # Use lz4 for initrd compression (fastest decompression, slightly larger initrd)
-    compressor = "lz4";
+    # Use lz4 whene you switch to btrfsfor initrd compression (fastest decompression, slightly larger initrd)
+    compressor = "zstd";
     
     # Preload Intel graphics driver for better Plymouth performance
     # This enables hardware acceleration for the boot splash screen
