@@ -1,105 +1,34 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
-  # Catppuccin Mocha color palette
-  colors = {
-    base = "#1e1e2e";
-    mantle = "#181825";
-    crust = "#11111b";
-    surface0 = "#313244";
-    surface1 = "#45475a";
-    surface2 = "#585b70";
-    text = "#cdd6f4";
-    subtext1 = "#bac2de";
-    subtext0 = "#a6adc8";
-    lavender = "#b4befe";
-    blue = "#89b4fa";
-    red = "#f38ba8";
+  # Get paths from flake
+  wallpaper = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
+  avatar = inputs.self + "/assets/avatar/ryuma_pixel-peeper.png";
+  
+  # Official Catppuccin SDDM theme from nixpkgs
+  # Customized for Mocha flavor with Lavender accent
+  # Reference: https://github.com/catppuccin/sddm
+  catppuccinSDDM = pkgs.catppuccin-sddm.override {
+    flavor = "mocha";
+    accent = "lavender";  # Matches your system accent
+    font = "JetBrainsMono Nerd Font";
+    fontSize = "11";
+    background = wallpaper;
+    loginBackground = true;  # Show background around login panel
   };
   
-  # Create a minimal Catppuccin Mocha themed SDDM theme
-  # Using a simple approach that works with SDDM's theme system
-  catppuccinTheme = pkgs.runCommand "sddm-catppuccin-mocha" {} ''
-    mkdir -p $out/share/sddm/themes/catppuccin-mocha
-    
-    cat > $out/share/sddm/themes/catppuccin-mocha/theme.conf << EOF
-    [General]
-    type=image
-    color=${colors.base}
-    font=JetBrainsMono Nerd Font
-    fontSize=11
-    
-    [Background]
-    color=${colors.base}
-    mode=scale
-    type=image
-    
-    [Users]
-    iconTheme=
-    avatarFont=JetBrainsMono Nerd Font
-    avatarFontSize=56
-    avatarBackgroundColor=${colors.mantle}
-    avatarRadius=50
-    
-    [UserList]
-    avatarBackgroundColor=${colors.mantle}
-    avatarRadius=50
-    
-    [Login]
-    font=JetBrainsMono Nerd Font
-    fontSize=11
-    textColor=${colors.text}
-    passwordFont=JetBrainsMono Nerd Font
-    passwordFontSize=11
-    passwordColor=${colors.text}
-    passwordBackgroundColor=${colors.surface0}
-    passwordBorderColor=${colors.surface1}
-    passwordBorderRadius=8
-    passwordMarginTop=10
-    passwordPadding=10
-    
-    [Time]
-    font=JetBrainsMono Nerd Font
-    fontSize=48
-    color=${colors.text}
-    format="hh:mm:ss"
-    
-    [Date]
-    font=JetBrainsMono Nerd Font
-    fontSize=18
-    color=${colors.subtext1}
-    format="dddd, MMMM d, yyyy"
-    
-    [Welcome]
-    font=JetBrainsMono Nerd Font
-    fontSize=14
-    color=${colors.lavender}
-    
-    [ErrorMessage]
-    font=JetBrainsMono Nerd Font
-    fontSize=11
-    color=${colors.red}
-    backgroundColor=${colors.surface0}
-    padding=10
-    borderRadius=8
-    
-    [Button]
-    font=JetBrainsMono Nerd Font
-    fontSize=11
-    textColor=${colors.text}
-    textColorHover=${colors.base}
-    backgroundColor=${colors.surface0}
-    backgroundColorHover=${colors.lavender}
-    backgroundColorPressed=${colors.blue}
-    borderRadius=8
-    padding=10
-    EOF
+  # Copy avatar to a location accessible by SDDM
+  # SDDM needs the avatar in a system-accessible location
+  avatarPackage = pkgs.runCommand "sddm-avatar" {} ''
+    mkdir -p $out/share/sddm/faces
+    cp ${avatar} $out/share/sddm/faces/pixel-peeper.face.icon
   '';
 in
 {
   # ───── SDDM Display Manager ─────
-  # Lightweight, fast display manager with Catppuccin Mocha theme
+  # Lightweight, fast display manager with official Catppuccin Mocha theme
   # Auto-launches Hyprland after login
+  # Theme: https://github.com/catppuccin/sddm
   
   services.displayManager.sddm = {
     enable = true;
@@ -107,10 +36,11 @@ in
     # Use Wayland backend for better performance and security
     wayland.enable = true;
     
-    # Use Catppuccin Mocha theme
-    # Note: If the custom theme doesn't work, SDDM will fall back to default
-    # You can change this to "maldives" (minimal, fast) if needed
-    theme = "catppuccin-mocha";
+    # Use official Catppuccin Mocha theme with Lavender accent
+    theme = "catppuccin-mocha-lavender";
+    
+    # Use KDE SDDM package (required for proper theme support)
+    package = pkgs.kdePackages.sddm;
     
     # Settings for SDDM
     settings = {
@@ -123,19 +53,29 @@ in
       };
       
       Theme = {
-        Current = "catppuccin-mocha";
+        Current = "catppuccin-mocha-lavender";
       };
     };
   };
   
-  # ───── Install Catppuccin Mocha Theme ─────
-  environment.systemPackages = [ catppuccinTheme ];
+  # ───── Install Official Catppuccin SDDM Theme ─────
+  # This installs the theme package with our customizations
+  environment.systemPackages = [ catppuccinSDDM avatarPackage ];
   
-  # ───── SDDM Theme Directory ─────
-  # Ensure theme directory exists
-  systemd.tmpfiles.rules = [
-    "d /run/current-system/sw/share/sddm/themes 0755 root root -"
-  ];
+  # ───── Copy Avatar for SDDM User Icon ─────
+  # SDDM looks for user icons in /var/lib/AccountsService/icons/
+  # We'll create a systemd service to copy the avatar on boot
+  systemd.services.sddm-avatar = {
+    description = "Copy user avatar for SDDM";
+    wantedBy = [ "multi-user.target" ];
+    before = [ "display-manager.service" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      mkdir -p /var/lib/AccountsService/icons
+      cp ${avatar} /var/lib/AccountsService/icons/pixel-peeper
+      chmod 644 /var/lib/AccountsService/icons/pixel-peeper
+    '';
+  };
   
   # ───── Ensure Hyprland Session is Available ─────
   # SDDM will automatically detect Hyprland session from programs.hyprland.enable
