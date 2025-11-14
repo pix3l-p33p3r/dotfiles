@@ -90,7 +90,7 @@ let
     TimeSize="48"
     TimeIsBold="true"
     TimeOpacity="1.0"
-    TimeFormat="HH:mm:ss"
+    TimeFormat="hh:mm:ss"
     EOF
   '';
 in
