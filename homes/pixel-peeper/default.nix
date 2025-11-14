@@ -24,9 +24,6 @@
   programs.atuin.enable = true;
   programs.home-manager.enable = true;
 
-  # Ensure Home Manager backups use a predictable extension to avoid collisions
-  home-manager.backupFileExtension = ".bak";
-
   # Faster shutdown of user services to avoid long stop jobs
   xdg.configFile."systemd/user.conf.d/10-timeouts.conf".text = ''
     [Manager]
