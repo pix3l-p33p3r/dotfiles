@@ -51,13 +51,10 @@
     systemd.enable = true;
     verbose = false;
     
-    # Use lz4 for initrd compression (fastest decompression)
-    compressor = "lz4";
-    
-    # Ensure lz4 binary is available in systemd initrd
-    systemd.extraBin = {
-      lz4 = "${pkgs.lz4}/bin/lz4";
-    };
+    # Use zstd for initrd compression (good balance of speed and size)
+    # Note: lz4 has compatibility issues with systemd initrd (resolves to dev package)
+    # zstd is more reliable and still very fast
+    compressor = "zstd";
     
     # Preload Intel graphics driver for Plymouth
     kernelModules = [ "i915" ];
