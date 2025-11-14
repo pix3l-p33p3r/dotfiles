@@ -49,31 +49,20 @@
   # Modern systemd-based initrd with Plymouth support
   boot.initrd = {
     systemd.enable = true;
-    verbose = false;  # Hide verbose initrd messages
+    verbose = false;
     
-    # ───── Initrd Performance Optimizations ─────
-    
-    # Use lz4 for initrd compression (fastest decompression, slightly larger initrd)
-    # Note: This is for initrd compression, not filesystem compression
-    # Filesystem compression (lz4) requires btrfs, but initrd compression works with any filesystem
+    # Use lz4 for initrd compression (fastest decompression)
     compressor = "lz4";
     
-    # Ensure lz4 binary is available for systemd initrd
-    # This makes the lz4 package available during initrd build and runtime
+    # Ensure lz4 binary is available in systemd initrd
     systemd.extraBin = {
       lz4 = "${pkgs.lz4}/bin/lz4";
     };
     
-    # Preload Intel graphics driver for better Plymouth performance
-    # This enables hardware acceleration for the boot splash screen
+    # Preload Intel graphics driver for Plymouth
     kernelModules = [ "i915" ];
     
-    # Support for network boot and remote unlocking (if needed)
-    # Disabled by default for faster boot, enable if you need network in initrd
-    # network.enable = false;
-    
-    # Support for additional filesystems (if needed)
-    # Only include what's necessary to reduce initrd size
+    # Filesystem support
     supportedFilesystems = [ "ext4" "vfat" "btrfs" ];
   };
 
