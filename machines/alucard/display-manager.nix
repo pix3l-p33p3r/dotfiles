@@ -5,19 +5,12 @@ let
   wallpaper = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
   avatar = inputs.self + "/assets/avatar/ryuma_pixel-peeper.png";
   
-  # Base theme from catppuccin module
-  # We'll create a custom version that patches time format and positioning
-  baseTheme = pkgs.catppuccin-sddm.override {
-    flavor = "mocha";
-    accent = "lavender";
-    font = "JetBrainsMono Nerd Font";
-    fontSize = "11";
-    background = wallpaper;
-    loginBackground = true;
-  };
+  # Use catppuccin-sddm-corners theme from nixpkgs
+  # Reference: https://github.com/khaneliman/catppuccin-sddm-corners
+  baseTheme = pkgs.catppuccin-sddm-corners;
   
-  # Custom theme with seconds and left-aligned login panel
-  customSDDMTheme = pkgs.runCommand "catppuccin-sddm-custom" {
+  # Custom theme with configuration for wallpaper, avatar, time format, and positioning
+  customSDDMTheme = pkgs.runCommand "catppuccin-sddm-corners-custom" {
     buildInputs = [ pkgs.python3 ];
   } ''
     # Create directory structure
@@ -26,8 +19,27 @@ let
     # Find and copy the base theme
     THEME_DIR=$(find ${baseTheme}/share/sddm/themes -mindepth 1 -maxdepth 1 -type d | head -1)
     THEME_NAME=$(basename "$THEME_DIR")
+    echo "Theme name: $THEME_NAME" >&2
     cp -r "$THEME_DIR" $out/share/sddm/themes/
     chmod -R +w $out
+    
+    # Store theme name for reference
+    echo "$THEME_NAME" > $out/theme-name
+    
+    # Copy wallpaper to theme backgrounds directory if it doesn't exist
+    mkdir -p $out/share/sddm/themes/$THEME_NAME/backgrounds
+    cp ${pkgs.copyPathToStore wallpaper} $out/share/sddm/themes/$THEME_NAME/backgrounds/wallpaper.jpg
+    
+    # Patch theme.conf with our settings
+    THEME_CONF="$out/share/sddm/themes/$THEME_NAME/theme.conf"
+    if [ -f "$THEME_CONF" ]; then
+      # Read current theme.conf and patch it
+      sed -i \
+        -e "s|\"Background\":.*|\"Background\": \"backgrounds/wallpaper.jpg\"|" \
+        -e "s|\"Font\":.*|\"Font\": \"JetBrainsMono Nerd Font\"|" \
+        -e "s|\"TimeFormat\":.*|\"TimeFormat\": \"HH:mm:ss\"|" \
+        "$THEME_CONF"
+    fi
     
     # Patch QML files for:
     # 1. Add seconds to time format (hh:mm -> hh:mm:ss)
@@ -44,7 +56,6 @@ let
     python3 << 'PYTHON_SCRIPT'
 import os
 import re
-import glob
 
 # Find all QML files
 qml_files = []
@@ -98,8 +109,8 @@ PYTHON_SCRIPT
 in
 {
   # ───── SDDM Display Manager ─────
-  # Using catppuccin/nix module for clean configuration
-  # Reference: https://nix.catppuccin.com/options/25.05/nixos/catppuccin.sddm/
+  # Using catppuccin-sddm-corners theme from nixpkgs
+  # Reference: https://github.com/khaneliman/catppuccin-sddm-corners
   # Auto-launches Hyprland after login
   
   services.displayManager.sddm = {
@@ -108,11 +119,13 @@ in
     # Use Wayland backend for better performance and security
     wayland.enable = true;
     
-    # Use KDE SDDM package (required for proper theme support)
+    # Use KDE SDDM package (includes Qt5 dependencies automatically)
+    # Qt5, Qt Graphical Effects, Qt SVG, and Qt Quick Controls 2 are included
     package = pkgs.kdePackages.sddm;
     
-    # Use our custom theme with seconds and left positioning
-    theme = "catppuccin-mocha-lavender";
+    # Use our custom theme based on catppuccin-sddm-corners
+    # Theme name is "catppuccin" (from the package structure)
+    theme = "catppuccin";
     
     # Settings for SDDM
     settings = {
@@ -125,21 +138,20 @@ in
       };
       
       Theme = {
-        Current = "catppuccin-mocha-lavender";
+        Current = "catppuccin";
       };
     };
   };
   
   # ───── Catppuccin SDDM Configuration ─────
-  # Using the official catppuccin/nix module
-  # Options: https://nix.catppuccin.com/options/25.05/nixos/catppuccin.sddm/
-  # Note: We disable the module's theme installation and use our custom one instead
+  # Disable the official catppuccin/nix module theme
+  # We're using catppuccin-sddm-corners instead
   catppuccin.sddm = {
-    enable = false;  # Disable to use our custom theme
+    enable = false;
   };
   
   # ───── Install Custom SDDM Theme ─────
-  # Our custom theme with seconds and left-aligned login panel
+  # Our custom theme with wallpaper, avatar, seconds, and left-aligned login panel
   environment.systemPackages = [ customSDDMTheme ];
   
   # ───── Copy Avatar for SDDM User Icon ─────
