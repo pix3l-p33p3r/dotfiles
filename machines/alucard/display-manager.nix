@@ -44,6 +44,8 @@ in
   # Configure SDDM with the theme
   services.displayManager.sddm = {
     enable = true;
+    # Use Wayland backend for better performance and security
+    wayland.enable = true;
     # Theme name from the package (catppuccin-sddm-corners)
     theme = "catppuccin-sddm-corners";
   };
