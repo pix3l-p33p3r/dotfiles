@@ -14,7 +14,7 @@ let
     configTemplate;
   
   # Read the mocha.conf color definitions file
-  mochaConf = builtins.readFile (../core/mocha.conf);
+  mochaConf = builtins.readFile (../../core/mocha.conf);
 in
 {
   # Official Catppuccin Mocha color definitions
