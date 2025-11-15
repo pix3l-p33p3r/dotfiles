@@ -237,18 +237,20 @@
     "gnome-shell": {
       "flake": false,
       "locked": {
-        "lastModified": 1748186689,
-        "narHash": "sha256-UaD7Y9f8iuLBMGHXeJlRu6U1Ggw5B9JnkFs3enZlap0=",
+        "host": "gitlab.gnome.org",
+        "lastModified": 1762869044,
+        "narHash": "sha256-nwm/GJ2Syigf7VccLAZ66mFC8mZJFqpJmIxSGKl7+Ds=",
         "owner": "GNOME",
         "repo": "gnome-shell",
-        "rev": "8c88f917db0f1f0d80fa55206c863d3746fa18d0",
-        "type": "github"
+        "rev": "680e3d195a92203f28d4bf8c6e8bb537cc3ed4ad",
+        "type": "gitlab"
       },
       "original": {
+        "host": "gitlab.gnome.org",
         "owner": "GNOME",
-        "ref": "48.2",
+        "ref": "gnome-49",
         "repo": "gnome-shell",
-        "type": "github"
+        "type": "gitlab"
       }
     },
     "home-manager": {
@@ -384,11 +386,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1763232643,
-        "narHash": "sha256-yW0zPZTMkkSwgfLkJk8ac7Ed0Wq+vX27dZEAJkKlz/Q=",
+        "lastModified": 1763249553,
+        "narHash": "sha256-Js20N0A4+/52hJKwjBKqQpKgfeqBRaXzmgjsiIXzaQk=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "fd390fb6c49e9cf2cecc2515abf4714559df25dd",
+        "rev": "f085c96ee022a6679e4488b6eb33814a47a1a79c",
         "type": "github"
       },
       "original": {
@@ -455,7 +457,6 @@
         "lanzaboote": "lanzaboote",
         "nixpkgs": "nixpkgs_3",
         "nur": "nur",
-        "sddm-catppuccin": "sddm-catppuccin",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "zen-browser": "zen-browser"
@@ -479,26 +480,6 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "sddm-catppuccin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1742912907,
-        "narHash": "sha256-nQImL5eDMENNDCXEqgrL2eszWXtBpbVlzjMxNdpxZlQ=",
-        "owner": "khaneliman",
-        "repo": "catppuccin-sddm-corners",
-        "rev": "10831dea7298bd1c3262a7f48417b5af1b92ed99",
-        "type": "github"
-      },
-      "original": {
-        "owner": "khaneliman",
-        "repo": "catppuccin-sddm-corners",
         "type": "github"
       }
     },
@@ -543,11 +524,11 @@
         "tinted-zed": "tinted-zed"
       },
       "locked": {
-        "lastModified": 1762264356,
-        "narHash": "sha256-QVfC53Ri+8n3e7Ujx9kq6all3+TLBRRPRnc6No5qY5w=",
+        "lastModified": 1763245881,
+        "narHash": "sha256-0q+4x1Gx3AMIRV8MIN2/WOJOAVMtfqnkY1m3k0iIDkI=",
         "owner": "danth",
         "repo": "stylix",
-        "rev": "647bb8dd96a206a1b79c4fd714affc88b409e10b",
+        "rev": "29dc3dd858c507bfd1038716197f84f40e41f28d",
         "type": "github"
       },
       "original": {
