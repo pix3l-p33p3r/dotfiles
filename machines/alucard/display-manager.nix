@@ -6,12 +6,19 @@ let
 in
 {
   # ───── SDDM Display Manager ─────
-  # Using catppuccin-sddm-corners theme from upstream flake
-  # Reference: https://github.com/khaneliman/catppuccin-sddm-corners
+  # Using official catppuccin-sddm theme from nixpkgs
+  # Reference: https://github.com/catppuccin/sddm
   
-  # Install theme from flake
+  # Install and configure Catppuccin SDDM theme (Mocha flavor with Mauve accent)
   environment.systemPackages = [
-    inputs.sddm-catppuccin.packages.${pkgs.hostPlatform.system}.catppuccin-sddm-corners
+    (pkgs.catppuccin-sddm.override {
+      flavor = "mocha";
+      accent = "mauve";
+      font = "JetBrainsMono Nerd Font";
+      fontSize = "9";
+      background = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
+      loginBackground = true;
+    })
   ];
   
   # Configure SDDM with the theme
@@ -19,8 +26,9 @@ in
     enable = true;
     # Use Wayland backend for better performance and security
     wayland.enable = true;
-    # Theme name from the flake package
-    theme = "catppuccin-sddm-corners";
+    # Theme name matches the flavor and accent from override
+    theme = "catppuccin-mocha-mauve";
+    package = pkgs.kdePackages.sddm;
   };
   
   # ───── Copy Avatar for SDDM User Icon ─────
@@ -45,11 +53,8 @@ in
   };
   
   # ───── Catppuccin SDDM Configuration ─────
-  # Disable the official catppuccin/nix module theme
-  # We're using catppuccin-sddm-corners instead
-  # catppuccin.sddm = {
-  #   enable = false;
-  # };
+  # Using official catppuccin-sddm package directly (not the nix module)
+  # The theme is configured via environment.systemPackages override above
   
   # ───── Ensure Hyprland Session is Available ─────
   # SDDM will automatically detect Hyprland session from programs.hyprland.enable
