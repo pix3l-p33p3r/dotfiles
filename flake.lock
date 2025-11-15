@@ -455,6 +455,7 @@
         "lanzaboote": "lanzaboote",
         "nixpkgs": "nixpkgs_3",
         "nur": "nur",
+        "sddm-catppuccin": "sddm-catppuccin",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "zen-browser": "zen-browser"
@@ -478,6 +479,26 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sddm-catppuccin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1742912907,
+        "narHash": "sha256-nQImL5eDMENNDCXEqgrL2eszWXtBpbVlzjMxNdpxZlQ=",
+        "owner": "khaneliman",
+        "repo": "catppuccin-sddm-corners",
+        "rev": "10831dea7298bd1c3262a7f48417b5af1b92ed99",
+        "type": "github"
+      },
+      "original": {
+        "owner": "khaneliman",
+        "repo": "catppuccin-sddm-corners",
         "type": "github"
       }
     },

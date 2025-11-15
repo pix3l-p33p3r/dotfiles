@@ -28,9 +28,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sddm-catppuccin = {
+      url = "github:khaneliman/catppuccin-sddm-corners";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, sddm-catppuccin, ... }@inputs: {
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
