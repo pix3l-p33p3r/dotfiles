@@ -13,14 +13,12 @@ in
   # - Login form (username/password/login) in center-left
   # - Session panel + Power/Reboot/Sleep buttons grouped in bottom-left
   
-  # Custom SDDM theme built from local files
-  customSddmTheme = (import ../../configs/desktop/sddm/custom-theme.nix {
-    inherit pkgs lib inputs;
-  });
-  
   # Install custom SDDM theme and required Qt5 dependencies
   environment.systemPackages = with pkgs; [
-    customSddmTheme
+    # Custom SDDM theme built from local files
+    (import ../../configs/desktop/sddm/custom-theme.nix {
+      inherit pkgs lib inputs;
+    })
     # Qt5 dependencies for SDDM themes
     qt5.qtgraphicaleffects  # Qt5 Graphical Effects
     qt5.qtsvg               # Qt5 SVG support
