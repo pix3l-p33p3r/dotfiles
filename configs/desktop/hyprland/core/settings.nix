@@ -78,7 +78,9 @@ in
 
   # plugins = [ ];
   windowrulev2 = [
+    "workspace 1,class:kitty"
     "workspace 2,class:firefox"
+    "workspace 3,class:cursor"
 
     "float,class:alacritty-float"
     "center,class:alacritty-float"
