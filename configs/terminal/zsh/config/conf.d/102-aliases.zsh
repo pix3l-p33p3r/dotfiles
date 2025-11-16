@@ -44,7 +44,7 @@ hms() {
 alias update="cd $HOME/dotfiles && nix flake update"
 
 # Full upgrade: update flake, rebuild system and home-manager, then clean
-alias upgrade="cd $HOME/dotfiles && nrs && hms && clean && fastfetch"
+alias upgrade="cd $HOME/dotfiles && nrs && hms && clean && clear && fastfetch"
 
 alias check="nix flake check"
 
