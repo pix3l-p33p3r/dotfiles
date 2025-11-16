@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 {
   # Enable GPG with declarative configuration
-  # Home Manager will automatically configure pinentry when enable = true
   programs.gpg = {
     enable = true;
     settings = {
@@ -11,6 +10,20 @@
       auto-key-retrieve = true;
       use-agent = true;
     };
+  };
+
+  # Configure GPG agent to use pinentry
+  # Home Manager's programs.gpg doesn't expose agentSettings directly,
+  # so we configure gpg-agent.conf manually
+  home.file.".gnupg/gpg-agent.conf" = {
+    text = ''
+      # GPG Agent configuration for pinentry
+      pinentry-program ${pkgs.pinentry-curses}/bin/pinentry-curses
+      
+      # Default cache timeout (in seconds)
+      default-cache-ttl 600
+      max-cache-ttl 7200
+    '';
   };
 
   # Import GPG private key from SOPS at activation time
