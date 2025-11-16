@@ -32,7 +32,7 @@
   "menus.media.displayTime": true,
   "menus.media.displayTimeTooltip": true,
   "theme.bar.buttons.systray.enableBorder": false,
-  "menus.dashboard.powermenu.avatar.image": "/home/pixel-peeper/dotfiles/assets/avatar/ryuma_pixel-peeper.png",
+  "menus.dashboard.powermenu.avatar.image": "/home/pixel-peeper/dotfiles/assets/avatar/ryuma.png",
   "menus.dashboard.stats.enabled": false,
   "menus.dashboard.shortcuts.enabled": true,
   "menus.dashboard.directories.enabled": false,

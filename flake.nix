@@ -46,7 +46,7 @@
     # ===== Standalone Home Manager Configuration =====
     homeConfigurations."pixel-peeper@alucard" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg"; };
+      extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/alucard.jpg"; };
       modules = [
         ./homes/pixel-peeper
         catppuccin.homeModules.catppuccin

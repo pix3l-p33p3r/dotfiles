@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="pixel-peeper avatar" src="./assets/avatar/ryuma_pixel-peeper.png" width="120px" />
+    <img alt="pixel-peeper avatar" src="./assets/avatar/ryuma.png" width="120px" />
 </div>
 
 <br>
@@ -103,7 +103,6 @@ dotfiles/
 │   ├── browsers/            # Firefox, Chromium
 │   └── media/               # MPV, Zathura, MPD
 ├── 🖼️ assets/               # Static assets
-│   ├── ASCII/               # ASCII art logos
 │   ├── avatar/              # Profile images
 │   └── wallpapers/          # Desktop backgrounds
 ├── 🔧 scripts/              # Utility scripts

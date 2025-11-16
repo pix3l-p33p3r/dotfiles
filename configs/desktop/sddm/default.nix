@@ -5,7 +5,7 @@ let
   themeSource = ./catppuccin;
   
   # Custom background (can be overridden)
-  customBackground = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
+  customBackground = inputs.self + "/assets/wallpapers/alucard.jpg";
 in
 
 pkgs.stdenv.mkDerivation {

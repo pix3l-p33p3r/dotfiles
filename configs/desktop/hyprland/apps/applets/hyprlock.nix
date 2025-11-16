@@ -4,7 +4,7 @@ let
   # Copy wallpaper to Nix store so hyprlock can access it at runtime
   wallpaperPath = "${pkgs.copyPathToStore wallpaper}";
   # Copy avatar to Nix store so hyprlock can access it at runtime
-  avatarPath = "${pkgs.copyPathToStore (inputs.self + "/assets/avatar/ryuma_pixel-peeper.png")}";
+  avatarPath = "${pkgs.copyPathToStore (inputs.self + "/assets/avatar/ryuma.png")}";
   
   # Read the template config file and substitute placeholders with actual paths
   configTemplate = builtins.readFile (./hyprlock.conf);
