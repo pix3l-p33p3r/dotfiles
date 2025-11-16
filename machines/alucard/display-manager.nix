@@ -3,35 +3,31 @@
 let
   # Get paths from flake
   avatar = inputs.self + "/assets/avatar/ryuma_pixel-peeper.png";
-  
-  # Custom SDDM theme built from local files
-  # Theme files are in configs/desktop/sddm/catppuccin/
-  # You can customize theme.conf, Main.qml, and component QML files there
-  customSddmTheme = (import ../../configs/desktop/sddm/default.nix {
-    inherit pkgs lib inputs;
-  });
 in
 {
   # ───── SDDM Display Manager ─────
-  # Using custom catppuccin-sddm-corners theme from local files
-  # Reference: https://github.com/khaneliman/catppuccin-sddm-corners
-  # Theme files are in: configs/desktop/sddm/catppuccin/
-  # Customize theme.conf, Main.qml, or component QML files as needed
+  # Using official catppuccin-sddm theme from nixpkgs
+  # Reference: https://github.com/catppuccin/sddm
   
-  # Install custom SDDM theme (built from local files)
-  # Also install Qt6 compatibility package for Qt5Compat.GraphicalEffects
-  environment.systemPackages = with pkgs; [
-    customSddmTheme
-    qt6.qt5compat  # Required for Qt5Compat.GraphicalEffects in Qt6-based SDDM
+  # Install and configure Catppuccin SDDM theme (Mocha flavor with Mauve accent)
+  environment.systemPackages = [
+    (pkgs.catppuccin-sddm.override {
+      flavor = "mocha";
+      accent = "mauve";
+      font = "JetBrainsMono Nerd Font";
+      fontSize = "9";
+      background = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
+      loginBackground = true;
+    })
   ];
   
-  # Configure SDDM with the custom theme
+  # Configure SDDM with the theme
   services.displayManager.sddm = {
     enable = true;
     # Use Wayland backend for better performance and security
     wayland.enable = true;
-    # Theme name from our custom build
-    theme = "catppuccin-sddm-corners";
+    # Theme name matches the flavor and accent from override
+    theme = "catppuccin-mocha-mauve";
     package = pkgs.kdePackages.sddm;
   };
   
