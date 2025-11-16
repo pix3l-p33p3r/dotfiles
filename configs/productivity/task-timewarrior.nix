@@ -17,7 +17,7 @@
         default.command=next
         color=on
         news.read=all
-        report.next.columns=id,project,priority,due.relative,age,description
+        report.next.columns=id,project,priority,due.relative,entry.age,description
         report.next.labels=ID,Project,Pri,Due,Age,Description
         rule.precedence.color=due,blocked,active,scheduled,keyword,project,tag,uda,priority
         theme=dark-256
