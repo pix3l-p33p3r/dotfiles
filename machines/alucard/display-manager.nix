@@ -3,37 +3,37 @@
 let
   # Get paths from flake
   avatar = inputs.self + "/assets/avatar/ryuma_pixel-peeper.png";
+  
+  # Custom SDDM theme built from local files
+  # Theme files are in configs/desktop/sddm/catppuccin/
+  # You can customize theme.conf, Main.qml, and component QML files there
+  customSddmTheme = (import ../../configs/desktop/sddm/default.nix {
+    inherit pkgs lib inputs;
+  });
 in
 {
   # ───── SDDM Display Manager ─────
-  # Using official catppuccin-sddm theme from nixpkgs
-  # Reference: https://github.com/catppuccin/sddm
+  # Using custom catppuccin-sddm-corners theme from local files
+  # Reference: https://github.com/khaneliman/catppuccin-sddm-corners
+  # Theme files are in: configs/desktop/sddm/catppuccin/
+  # Customize theme.conf, Main.qml, or component QML files as needed
   
-  # Install and configure Catppuccin SDDM theme (Mocha flavor with Mauve accent)
+  # Install custom SDDM theme (built from local files)
   environment.systemPackages = [
-    (pkgs.catppuccin-sddm.override {
-      flavor = "mocha";
-      accent = "mauve";
-      font = "JetBrainsMono Nerd Font";
-      fontSize = "9";
-      background = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
-      loginBackground = true;
-    })
+    customSddmTheme
   ];
   
-  # Configure SDDM with the theme
+  # Configure SDDM with the custom theme
   services.displayManager.sddm = {
     enable = true;
     # Use Wayland backend for better performance and security
     wayland.enable = true;
-    # Theme name matches the flavor and accent from override
-    theme = "catppuccin-mocha-mauve";
+    # Theme name from our custom build
+    theme = "catppuccin-sddm-corners";
     package = pkgs.kdePackages.sddm;
   };
   
-  # ───── Copy Avatar for SDDM User Icon ─────
-  # SDDM looks for user icons in /var/lib/AccountsService/icons/
-  # Also supports ~/.face.icon or FacesDir/username.face.icon
+
   systemd.services.sddm-avatar = {
     description = "Copy user avatar for SDDM";
     wantedBy = [ "multi-user.target" ];
@@ -51,13 +51,5 @@ in
       chmod 644 /home/pixel-peeper/.face.icon
     '';
   };
-  
-  # ───── Catppuccin SDDM Configuration ─────
-  # Using official catppuccin-sddm package directly (not the nix module)
-  # The theme is configured via environment.systemPackages override above
-  
-  # ───── Ensure Hyprland Session is Available ─────
-  # SDDM will automatically detect Hyprland session from programs.hyprland.enable
-  # No additional configuration needed - it's handled by the wayland.nix module
 }
 
