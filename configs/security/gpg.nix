@@ -5,7 +5,7 @@
     enable = true;
     # Configure pinentry for secure passphrase entry
     # Use pinentry-curses for terminal, or pinentry-gtk/qt for GUI
-    pinentryFlavor = "curses"; # Change to "gtk2" or "qt" if you prefer GUI
+    pinentryPackage = pkgs.pinentry-curses; # Change to pkgs.pinentry-gtk2 or pkgs.pinentry-qt if you prefer GUI
     settings = {
       # Standard GPG settings
       default-key = ""; # Will be determined from imported keys
