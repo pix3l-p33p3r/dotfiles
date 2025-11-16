@@ -6,33 +6,33 @@ let
 in
 {
   # ───── SDDM Display Manager ─────
-  # Using official catppuccin-sddm theme from nixpkgs
-  # Reference: https://github.com/catppuccin/sddm
+  # Using custom catppuccin-sddm theme with repositioned elements
+  # Layout:
+  # - Clock (H:M:S format) in top-left
+  # - Avatar in top-left (below clock)
+  # - Login form (username/password/login) in center-left
+  # - Session panel + Power/Reboot/Sleep buttons grouped in bottom-left
   
-  # Install and configure Catppuccin SDDM theme (Mocha flavor with Mauve accent)
-  # Also install required Qt5 dependencies for SDDM themes
+  # Custom SDDM theme built from local files
+  customSddmTheme = (import ../../configs/desktop/sddm/custom-theme.nix {
+    inherit pkgs lib inputs;
+  });
+  
+  # Install custom SDDM theme and required Qt5 dependencies
   environment.systemPackages = with pkgs; [
-    (catppuccin-sddm.override {
-      flavor = "mocha";
-      accent = "mauve";
-      font = "JetBrainsMono Nerd Font";
-      fontSize = "9";
-      background = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
-      loginBackground = true;
-      userIcon = true;  # Enable user icon/avatar display
-    })
+    customSddmTheme
     # Qt5 dependencies for SDDM themes
     qt5.qtgraphicaleffects  # Qt5 Graphical Effects
     qt5.qtsvg               # Qt5 SVG support
     qt5.qtquickcontrols2    # Qt5 Quick Controls 2
   ];
   
-  # Configure SDDM with the theme
+  # Configure SDDM with the custom theme
   services.displayManager.sddm = {
     enable = true;
     # Use Wayland backend for better performance and security
     wayland.enable = true;
-    # Theme name matches the flavor and accent from override
+    # Theme name from custom build
     theme = "catppuccin-mocha-mauve";
     package = pkgs.kdePackages.sddm;
   };
