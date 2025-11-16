@@ -25,8 +25,10 @@ in
 	"${wl-paste} --watch ${cliphist} store"
 	"${wl-clip-persist} --clipboard both"
 
-	# Terminal
-	"$terminal"
+	# Apps on login - launch on specific workspaces
+	"[workspace 1 silent] $terminal"
+	"[workspace 2 silent] $browser"
+	"[workspace 3 silent] cursor"
 
   ];
 
