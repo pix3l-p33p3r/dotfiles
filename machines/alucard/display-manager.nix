@@ -19,8 +19,10 @@ in
   # Customize theme.conf, Main.qml, or component QML files as needed
   
   # Install custom SDDM theme (built from local files)
-  environment.systemPackages = [
+  # Also install Qt6 compatibility package for Qt5Compat.GraphicalEffects
+  environment.systemPackages = with pkgs; [
     customSddmTheme
+    qt6.qt5compat  # Required for Qt5Compat.GraphicalEffects in Qt6-based SDDM
   ];
   
   # Configure SDDM with the custom theme
