@@ -3,9 +3,8 @@
 let
   # Copy wallpaper to Nix store so hyprlock can access it at runtime
   wallpaperPath = "${pkgs.copyPathToStore wallpaper}";
-  # Use home directory path for avatar - it's already copied there by SDDM service
-  # Hyprlock works better with home directory paths than Nix store paths for user files
-  avatarPath = "$HOME/dotfiles/assets/avatar/ryuma_pixel-peeper.png";
+  # Copy avatar to Nix store so hyprlock can access it at runtime
+  avatarPath = "${pkgs.copyPathToStore (inputs.self + "/assets/avatar/ryuma_pixel-peeper.png")}";
   
   # Read the template config file and substitute placeholders with actual paths
   configTemplate = builtins.readFile (./hyprlock.conf);
