@@ -6,7 +6,7 @@
     enable = true;
     settings = {
       # Standard GPG settings
-      default-key = ""; # Will be determined from imported keys
+      # default-key is not set yet - will be set after key is generated
       keyserver = "keys.openpgp.org";
       auto-key-retrieve = true;
       use-agent = true;
