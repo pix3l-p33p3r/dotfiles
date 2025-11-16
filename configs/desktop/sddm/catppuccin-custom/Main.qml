@@ -23,7 +23,7 @@ Item {
     fillMode: Image.PreserveAspectCrop
     visible: config.CustomBackground == "true" ? true : false
     z: 1
-    source: config.Background
+    source: Qt.resolvedUrl(config.Background)
     asynchronous: false
     cache: true
     mipmap: true
