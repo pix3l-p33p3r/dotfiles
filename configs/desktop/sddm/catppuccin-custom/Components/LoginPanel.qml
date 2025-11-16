@@ -150,8 +150,8 @@ Item {
     }
   }
 
-  // Session panel in bottom-left
-  Column {
+  // Session panel and Power buttons (Power, Reboot, Sleep) grouped in bottom-left
+  Row {
     spacing: 8
     anchors {
       bottom: parent.bottom
@@ -162,17 +162,6 @@ Item {
     SessionPanel {
       id: sessionPanel
     }
-  }
-
-  // Power buttons (Power, Reboot, Sleep) in bottom-right
-  Column {
-    spacing: 8
-    anchors {
-      bottom: parent.bottom
-      right: parent.right
-      rightMargin: 10
-    }
-    z: 5
     PowerButton {
       id: powerButton
     }

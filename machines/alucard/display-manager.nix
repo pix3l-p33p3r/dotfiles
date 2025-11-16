@@ -2,7 +2,7 @@
 
 let
   # Get paths from flake
-  avatar = inputs.self + "/assets/avatar/ryuma_pixel-peeper.png";
+  avatar = inputs.self + "/assets/avatar/ryuma.png";
 in
 {
   # ───── SDDM Display Manager ─────

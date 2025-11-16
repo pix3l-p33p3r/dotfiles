@@ -4,8 +4,10 @@ let
   # Local theme source directory
   themeSource = ./catppuccin-custom;
   
-  # Custom background
-  customBackground = inputs.self + "/assets/wallpapers/hellsing-4200x2366-19239.jpg";
+  # Custom background - copy to nix store for reproducible path
+  # This ensures the exact store path is used, making the build reproducible
+  customBackground = pkgs.copyPathToStore 
+    (inputs.self + "/assets/wallpapers/alucard.jpg");
 in
 
 pkgs.stdenv.mkDerivation {
@@ -20,9 +22,11 @@ pkgs.stdenv.mkDerivation {
     # Copy all theme files
     cp -r * $out/share/sddm/themes/catppuccin-mocha-mauve/
     
-    # Copy custom background to backgrounds directory
-    mkdir -p $out/share/sddm/themes/catppuccin-mocha-mauve/backgrounds
-    cp ${customBackground} $out/share/sddm/themes/catppuccin-mocha-mauve/backgrounds/custom-background.jpg
+    # Inject the full nix store path to the wallpaper into theme.conf
+    # This ensures reproducibility - the exact store path will be baked in
+    substituteInPlace $out/share/sddm/themes/catppuccin-mocha-mauve/theme.conf \
+      --replace 'Background="backgrounds/custom-background.jpg"' \
+                "Background=\"${customBackground}\""
     
     # Make sure all files are readable
     chmod -R 755 $out/share/sddm/themes/catppuccin-mocha-mauve
