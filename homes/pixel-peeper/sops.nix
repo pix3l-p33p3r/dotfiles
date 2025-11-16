@@ -16,10 +16,9 @@
       "obsidian/base_url" = {
         path = "${config.home.homeDirectory}/.config/sops-secrets/obsidian-base-url";
       };
-      # Temporarily commented out until GPG key is generated and added to SOPS
-      # "gpg/private_key" = {
-      #   path = "${config.home.homeDirectory}/.config/sops-secrets/gpg-private-key.asc";
-      # };
+      "gpg/private_key" = {
+        path = "${config.home.homeDirectory}/.config/sops-secrets/gpg-private-key.asc";
+      };
     };
   };
 }
