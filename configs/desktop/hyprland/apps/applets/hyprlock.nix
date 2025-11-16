@@ -1,10 +1,11 @@
 { pkgs, inputs, wallpaper, ... }:
 
 let
-  # Copy paths to Nix store so hyprlock can access them at runtime
-  # hyprlock needs actual file paths, not Nix path references
+  # Copy wallpaper to Nix store so hyprlock can access it at runtime
   wallpaperPath = "${pkgs.copyPathToStore wallpaper}";
-  avatarPath = "${pkgs.copyPathToStore (inputs.self + "/assets/avatar/ryuma_pixel-peeper.png")}";
+  # Use home directory path for avatar - it's already copied there by SDDM service
+  # Hyprlock works better with home directory paths than Nix store paths for user files
+  avatarPath = "$HOME/dotfiles/assets/avatar/ryuma_pixel-peeper.png";
   
   # Read the template config file and substitute placeholders with actual paths
   configTemplate = builtins.readFile (./hyprlock.conf);
