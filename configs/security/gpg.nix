@@ -28,29 +28,27 @@
 
   # Import GPG private key from SOPS at activation time
   # Runs after secrets are decrypted (writeBoundary)
-  # Temporarily disabled until GPG key is generated and added to SOPS
-  # Uncomment after adding gpg/private_key to secrets/users/pixel-peeper.yaml
-  # home.activation.importGpgKey = lib.hm.dag.entryAfter ["writeBoundary"] ''
-  #   GPG_KEY_FILE="${config.sops.secrets."gpg/private_key".path}"
-  #   
-  #   if [ -f "$GPG_KEY_FILE" ]; then
-  #     echo "Importing GPG private key from SOPS..."
-  #     $DRY_RUN_CMD mkdir -p "$HOME/.gnupg"
-  #     
-  #     # Import the key if it exists
-  #     $DRY_RUN_CMD ${pkgs.gnupg}/bin/gpg --batch --import "$GPG_KEY_FILE" 2>/dev/null || {
-  #       # Key might already exist, which is fine
-  #       echo "Note: GPG key may already be imported (this is normal)"
-  #     }
-  #     
-  #     # Ensure proper permissions on GPG directory
-  #     $DRY_RUN_CMD chmod 700 "$HOME/.gnupg" || true
-  #     
-  #     echo "GPG key import complete"
-  #   else
-  #     echo "Warning: GPG private key file not found at $GPG_KEY_FILE"
-  #     echo "Add your GPG private key to secrets/users/pixel-peeper.yaml under 'gpg.private_key'"
-  #   fi
-  # '';
+  home.activation.importGpgKey = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    GPG_KEY_FILE="${config.sops.secrets."gpg/private_key".path}"
+    
+    if [ -f "$GPG_KEY_FILE" ]; then
+      echo "Importing GPG private key from SOPS..."
+      $DRY_RUN_CMD mkdir -p "$HOME/.gnupg"
+      
+      # Import the key if it exists
+      $DRY_RUN_CMD ${pkgs.gnupg}/bin/gpg --batch --import "$GPG_KEY_FILE" 2>/dev/null || {
+        # Key might already exist, which is fine
+        echo "Note: GPG key may already be imported (this is normal)"
+      }
+      
+      # Ensure proper permissions on GPG directory
+      $DRY_RUN_CMD chmod 700 "$HOME/.gnupg" || true
+      
+      echo "GPG key import complete"
+    else
+      echo "Warning: GPG private key file not found at $GPG_KEY_FILE"
+      echo "Add your GPG private key to secrets/users/pixel-peeper.yaml under 'gpg.private_key'"
+    fi
+  '';
 }
 
