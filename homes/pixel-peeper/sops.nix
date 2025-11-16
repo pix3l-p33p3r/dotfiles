@@ -16,6 +16,9 @@
       "obsidian/base_url" = {
         path = "${config.home.homeDirectory}/.config/sops-secrets/obsidian-base-url";
       };
+      "gpg/private_key" = {
+        path = "${config.home.homeDirectory}/.config/sops-secrets/gpg-private-key.asc";
+      };
     };
   };
 }
