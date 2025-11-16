@@ -31,9 +31,7 @@ in
     package = pkgs.kdePackages.sddm;
   };
   
-  # ───── Copy Avatar for SDDM User Icon ─────
-  # SDDM looks for user icons in /var/lib/AccountsService/icons/
-  # Also supports ~/.face.icon or FacesDir/username.face.icon
+
   systemd.services.sddm-avatar = {
     description = "Copy user avatar for SDDM";
     wantedBy = [ "multi-user.target" ];
@@ -51,13 +49,5 @@ in
       chmod 644 /home/pixel-peeper/.face.icon
     '';
   };
-  
-  # ───── Catppuccin SDDM Configuration ─────
-  # Using official catppuccin-sddm package directly (not the nix module)
-  # The theme is configured via environment.systemPackages override above
-  
-  # ───── Ensure Hyprland Session is Available ─────
-  # SDDM will automatically detect Hyprland session from programs.hyprland.enable
-  # No additional configuration needed - it's handled by the wayland.nix module
 }
 
