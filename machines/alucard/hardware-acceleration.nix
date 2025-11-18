@@ -11,7 +11,6 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true; # Enable 32-bit support for Steam/Wine compatibility
-    
     extraPackages = with pkgs; [
       # Intel Media Driver (iHD) - Modern driver for Broadwell and newer
       intel-media-driver # LIBVA_DRIVER_NAME=iHD

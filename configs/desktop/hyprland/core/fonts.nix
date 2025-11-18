@@ -4,13 +4,14 @@
     # Base Noto family
     noto-fonts
     noto-fonts-cjk-sans
+    noto-fonts-color-emoji
     
     # Emoji support
     nerd-fonts.noto              # Nerd Fonts patched Noto with emoji
     
     # Adobe Source Han fonts (CJK coverage)
     source-han-sans
-  source-han-serif
+    source-han-serif
     
     # System & icon fonts
     cantarell-fonts
