@@ -56,11 +56,6 @@
   # ───── Hostname ─────
   networking.hostName = "alucard";
 
-  # ───── OpenSSH ─────
-    # Enable socket activation for OpenSSH
-  services.openssh.startWhenNeeded = true;
-  services.openssh.enable = true;
-
   # ───── CUPS ─────
   # Enable socket activation for CUPS printing service
   services.printing.enable = true;
