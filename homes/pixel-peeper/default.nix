@@ -4,6 +4,9 @@
     ../../configs/editors/cursor-config.nix
     ../../configs/productivity/task-timewarrior.nix
     ../../configs/terminal/tmux.nix
+    ../../configs/security/pkgs.nix
+    ../../configs/security/keepassxc.nix
+    ../../configs/security/gpg.nix
     ./catppuccin.nix
     ./sops.nix
   ];

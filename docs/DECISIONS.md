@@ -68,6 +68,31 @@ home-manager switch --flake .#pixel-peeper@alucard  # User
 
 ---
 
+## Secrets & OpSec Posture
+
+### Decision: Split automation vs. interactive secrets
+
+**Automation (SOPS + age):**
+- All machine/user secrets that must rehydrate automatically (git signing key, API tokens, desktop services) live in `secrets/` and are decrypted via `sops-nix` during activation. The same single-age key (at `~/.config/sops/age/keys.txt`) is shared by Home Manager and the host, so rotation is a one-time operation for both layers. [[Mic92/sops-nix](https://github.com/Mic92/sops-nix)]
+- The private age key never enters git; it’s stored offline and mirrored inside KeePassXC for recovery. When rotating either the age or GPG keys, export temporary ASCII armor, update the relevant SOPS YAML, re-key, then delete the exports—with KeePassXC holding the new passphrases.
+- `home.activation.ensureAgeKey` fails early if the key is missing so rebuilds remind me to pull it from KeePassXC before secrets are needed.
+
+**Interactive (KeePassXC):**
+- KeePassXC remains the source of truth for anything that should require manual approval: master password, OTP seeds, SSH/LUKS passphrases, the textual age key, and recovery notes. The desktop session autostarts KeePassXC, and the bundled SSH agent exposes its socket at `~/.local/share/keepassxc/ssh-agent` which all SSH clients consume.
+- SSH clients (`ssh`, git over SSH, etc.) talk to that socket via `IdentityAgent`/`SSH_AUTH_SOCK`, providing the “approve each use” flow without running a second agent.
+
+**Transport security (OpenSSH hardening):**
+- The system OpenSSH daemon only accepts public-key auth, disables root/password/KbdInteractive logins, and restricts Ciphers/Kex/MACs to the hardened lists recommended by the NixOS SSH guide so forwarded agents from KeePassXC stay protected. [[NixOS SSH hardening guide](https://wiki.nixos.org/wiki/SSH)]
+
+**Rotation workflow:**
+1. Unlock KeePassXC, duplicate the Age/GPG entries, and note the new passphrases.
+2. Export keys temporarily, update the encrypted SOPS files, run `home-manager switch` and `nixos-rebuild test`, then delete the exports.
+3. Update KeePassXC with the new blobs and keep the old entries archived for rollbacks.
+
+This split keeps automation unattended (SOPS/age) while every manual secret continues to require KeePassXC approval, aligning with the intended privacy posture. [[ryantm/agenix](https://github.com/ryantm/agenix)]
+
+---
+
 ## Nix Build Optimizations
 
 ### Decision: Enable Parallel Builds & Auto-Optimization

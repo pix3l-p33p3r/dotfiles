@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   # SOPS secrets management for Home Manager
   sops = {
@@ -18,5 +18,28 @@
       };
     };
   };
+
+  # Ensure the age key used by both Home Manager and system-level sops-nix
+  # exists locally. The private key itself lives outside git (copy it out of
+  # KeePassXC when provisioning a new machine) but we still enforce sane
+  # permissions here so rebuilds fail fast if the key is missing.
+  home.activation.ensureAgeKey =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      AGE_KEY_FILE="${config.sops.age.keyFile}"
+      AGE_KEY_DIR="$(dirname "$AGE_KEY_FILE")"
+
+      $DRY_RUN_CMD mkdir -p "$AGE_KEY_DIR"
+
+      if [ ! -s "$AGE_KEY_FILE" ]; then
+        cat <<'EOF'
+[opsec] Missing age key used for SOPS decryption.
+Copy the existing key material from the KeePassXC entry
+("Age private key") into $AGE_KEY_FILE before re-running the build.
+EOF
+        exit 1
+      fi
+
+      $DRY_RUN_CMD chmod 600 "$AGE_KEY_FILE"
+    '';
 }
 
