@@ -32,8 +32,8 @@ in
   services.openssh = {
     enable = true;
     startWhenNeeded = true;
-    logLevel = "VERBOSE";
     settings = {
+      LogLevel = "VERBOSE";
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
@@ -47,9 +47,9 @@ in
       MaxSessions = 2;
       ClientAliveInterval = 120;
       ClientAliveCountMax = 2;
-      Ciphers = lib.concatStringsSep "," hardeningCiphers;
-      Macs = lib.concatStringsSep "," hardeningMacs;
-      KexAlgorithms = lib.concatStringsSep "," hardeningKex;
+      Ciphers = hardeningCiphers;
+      Macs = hardeningMacs;
+      KexAlgorithms = hardeningKex;
     };
   };
 
