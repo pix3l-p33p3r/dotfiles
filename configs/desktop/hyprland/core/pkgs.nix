@@ -130,7 +130,7 @@
     wander # Terminal wanderer game
     tui-journal # Journal TUI
     tftui # Terminal file transfer TUI
-    bluettui # Bluetooth TUI
+    bluetui # Bluetooth TUI
 
     # ============================================================================
     # |                              WAYLAND DESKTOP                           |
