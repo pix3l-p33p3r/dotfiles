@@ -26,17 +26,18 @@
     '';
   };
 
-  # Import GPG private key from SOPS at activation time
+  # Import GPG private key from SOPS at activation time (if configured)
   # Runs after secrets are decrypted (writeBoundary)
   home.activation.importGpgKey = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    GPG_KEY_FILE="${config.sops.secrets."gpg/private_key".path}"
+    # Check if GPG secret is configured in SOPS
+    GPG_SECRET_PATH="${toString (config.sops.secrets."gpg/private_key" or { path = ""; }).path}"
     
-    if [ -f "$GPG_KEY_FILE" ]; then
+    if [ -n "$GPG_SECRET_PATH" ] && [ -f "$GPG_SECRET_PATH" ]; then
       echo "Importing GPG private key from SOPS..."
       $DRY_RUN_CMD mkdir -p "$HOME/.gnupg"
       
       # Import the key if it exists
-      $DRY_RUN_CMD ${pkgs.gnupg}/bin/gpg --batch --import "$GPG_KEY_FILE" 2>/dev/null || {
+      $DRY_RUN_CMD ${pkgs.gnupg}/bin/gpg --batch --import "$GPG_SECRET_PATH" 2>/dev/null || {
         # Key might already exist, which is fine
         echo "Note: GPG key may already be imported (this is normal)"
       }
@@ -46,8 +47,7 @@
       
       echo "GPG key import complete"
     else
-      echo "Warning: GPG private key file not found at $GPG_KEY_FILE"
-      echo "Add your GPG private key to secrets/users/pixel-peeper.yaml under 'gpg.private_key'"
+      echo "GPG key not configured in SOPS (optional - add 'gpg/private_key' to homes/pixel-peeper/sops.nix and secrets/users/pixel-peeper.yaml if needed)"
     fi
   '';
 }
