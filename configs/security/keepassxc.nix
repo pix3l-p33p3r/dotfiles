@@ -3,35 +3,7 @@ let
   sshAgentSocket = "${config.home.homeDirectory}/.local/share/keepassxc/ssh-agent";
 in
 {
-  programs.ssh = {
-    enable = true;
-    # Backup existing SSH config if it exists
-    extraConfig = ''
-      IdentityAgent ${sshAgentSocket}
-
-      Host *
-        ForwardAgent yes
-        IdentityFile ~/.ssh/id_ed25519
-        PreferredAuthentications publickey
-      ServerAliveInterval 30
-      ServerAliveCountMax 3
-    '';
-  };
-
-  # Backup and remove existing SSH config (Home Manager will create new one)
-  home.activation.backupSshConfig = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
-    SSH_CONFIG="${config.home.homeDirectory}/.ssh/config"
-    SSH_BACKUP="${config.home.homeDirectory}/.ssh/config.pre-keepassxc"
-    if [ -f "$SSH_CONFIG" ]; then
-      if [ ! -f "$SSH_BACKUP" ]; then
-        echo "Backing up existing SSH config to $SSH_BACKUP"
-        $DRY_RUN_CMD cp "$SSH_CONFIG" "$SSH_BACKUP" || true
-      fi
-      echo "Removing old SSH config to allow Home Manager to manage it"
-      $DRY_RUN_CMD rm -f "$SSH_CONFIG" || true
-    fi
-  '';
-
+  # Set SSH_AUTH_SOCK environment variable for KeePassXC SSH agent
   home.sessionVariables.SSH_AUTH_SOCK = sshAgentSocket;
 
   xdg.configFile."environment.d/20-keepassxc-ssh-agent.conf".text = ''

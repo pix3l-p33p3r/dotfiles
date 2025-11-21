@@ -5,8 +5,10 @@
     ../../configs/productivity/task-timewarrior.nix
     ../../configs/terminal/tmux.nix
     ../../configs/security/pkgs.nix
+    ../../configs/security/ssh.nix
     ../../configs/security/keepassxc.nix
     ../../configs/security/gpg.nix
+    ../../configs/development/git.nix
     ./catppuccin.nix
     ./sops.nix
   ];

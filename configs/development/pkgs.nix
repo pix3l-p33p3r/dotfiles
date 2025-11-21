@@ -9,6 +9,7 @@
     git-lfs # Git large file storage
     git-crypt # Git encryption
     git-secrets # Git secrets scanner
+    delta # Git diff viewer (better than default diff)
     gh # GitHub CLI
     glab # GitLab CLI
 
