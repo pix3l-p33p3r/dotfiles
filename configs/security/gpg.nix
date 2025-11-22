@@ -12,13 +12,19 @@
     };
   };
 
-  # Configure GPG agent to use pinentry
+  # Configure GPG agent to use GUI pinentry for Wayland/Hyprland
   # Home Manager's programs.gpg doesn't expose agentSettings directly,
   # so we configure gpg-agent.conf manually
+  # Use pinentry-gnome3 for GUI prompts (works with Wayland)
+  home.packages = with pkgs; [
+    pinentry-gnome3
+  ];
+  
   home.file.".gnupg/gpg-agent.conf" = {
     text = ''
       # GPG Agent configuration for pinentry
-      pinentry-program ${pkgs.pinentry-curses}/bin/pinentry-curses
+      # Use GUI pinentry for Wayland/Hyprland (works in lazygit, terminals, etc.)
+      pinentry-program ${pkgs.pinentry-gnome3}/bin/pinentry-gnome3
       
       # Default cache timeout (in seconds)
       default-cache-ttl 600
