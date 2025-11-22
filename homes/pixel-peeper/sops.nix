@@ -16,10 +16,11 @@
       "obsidian/base_url" = {
         path = "${config.home.homeDirectory}/.config/sops-secrets/obsidian-base-url";
       };
-      # GPG private key can be added to secrets/users/pixel-peeper.yaml under 'gpg.private_key'
-      # "gpg/private_key" = {
-      #   path = "${config.home.homeDirectory}/.config/sops-secrets/gpg-private-key.asc";
-      # };
+      # GPG private key (optional - add to secrets/users/pixel-peeper.yaml under 'gpg.private_key' if needed)
+      "gpg/private_key" = {
+        path = "${config.home.homeDirectory}/.config/sops-secrets/gpg-private-key.asc";
+        sopsFile = ../../secrets/users/pixel-peeper.yaml;
+      };
     };
   };
 

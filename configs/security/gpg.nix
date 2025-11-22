@@ -53,7 +53,8 @@
       
       echo "GPG key import complete"
     else
-      echo "GPG key not configured in SOPS (optional - add 'gpg/private_key' to homes/pixel-peeper/sops.nix and secrets/users/pixel-peeper.yaml if needed)"
+      # GPG key is optional - silently skip if not configured
+      :
     fi
   '';
 }
