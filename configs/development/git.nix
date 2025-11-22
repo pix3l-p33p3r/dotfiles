@@ -141,6 +141,10 @@
       push.autoSetupRemote = true;
       commit.gpgsign = true;
       user.signingKey = "6334D8CA23365A72";
+      # Git automatically respects the remote URL:
+      # - If cloned with HTTPS (https://github.com/user/repo), uses HTTPS for push/pull
+      # - If cloned with SSH (git@github.com:user/repo), uses SSH for push/pull
+      # No URL rewriting needed - git uses the remote URL as configured
       
       alias = {
         # add

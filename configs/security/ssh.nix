@@ -2,44 +2,63 @@
 let
   # KeePassXC SSH agent socket (defined in keepassxc.nix)
   sshAgentSocket = "${config.home.homeDirectory}/.local/share/keepassxc/ssh-agent";
+  
+  # Generate SSH config content (same as programs.ssh would generate, but as a regular file)
+  sshConfigContent = ''
+    # SSH configuration managed by Home Manager
+    # Generated declaratively with proper permissions
+    
+    # Global settings
+    IdentityAgent ${sshAgentSocket}
+    
+    # GitHub-specific configuration
+    Host github.com
+        Hostname ssh.github.com
+        Port 443
+        User git
+        IdentityFile ~/.ssh/id_ed25519
+        IdentitiesOnly yes
+        ForwardAgent yes
+    
+    # 1337 School vogsphere configuration
+    Host vogsphere-v2-bg.1337.ma
+        Hostname vogsphere-v2-bg.1337.ma
+        User git
+        Port 22
+        IdentityFile ~/.ssh/id_ed25519
+        ForwardAgent yes
+    
+    # Default settings for all other hosts
+    Host *
+        ForwardAgent yes
+        IdentityFile ~/.ssh/id_ed25519
+        ServerAliveInterval 30
+        ServerAliveCountMax 3
+  '';
 in
 {
-  programs.ssh = {
-    enable = true;
-    # Disable default config to have full control
-    enableDefaultConfig = false;
-    # Use KeePassXC SSH agent globally
-    extraConfig = ''
-      IdentityAgent ${sshAgentSocket}
-    '';
-    # Define host-specific configurations
-    matchBlocks = {
-      # GitHub-specific configuration
-      "github.com" = {
-        hostname = "ssh.github.com";
-        port = 443;
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
-        identitiesOnly = true;
-        forwardAgent = true;
-      };
-      # 1337 School vogsphere configuration
-      "vogsphere-v2-bg.1337.ma" = {
-        hostname = "vogsphere-v2-bg.1337.ma";
-        user = "git";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
-        forwardAgent = true;
-      };
-      # Default settings for all other hosts
-      "*" = {
-        forwardAgent = true;
-        identityFile = "~/.ssh/id_ed25519";
-        serverAliveInterval = 30;
-        serverAliveCountMax = 3;
-      };
-    };
+  # Create SSH config as a regular file with proper permissions (not a symlink)
+  # This avoids permission issues with Nix store symlinks
+  # Using home.file instead of programs.ssh to create a regular file, not a symlink
+  home.file.".ssh/config" = {
+    text = sshConfigContent;
+    # Home Manager will set appropriate permissions automatically
   };
+  
+  # Ensure .ssh directory has correct permissions
+  home.activation.ensureSshDir = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
+    SSH_DIR="${config.home.homeDirectory}/.ssh"
+    $DRY_RUN_CMD mkdir -p "$SSH_DIR"
+    $DRY_RUN_CMD chmod 700 "$SSH_DIR" || true
+  '';
+  
+  # Fix SSH config permissions after it's created
+  home.activation.fixSshConfigPermissions = lib.hm.dag.entryAfter ["checkLinkTargets"] ''
+    SSH_CONFIG="${config.home.homeDirectory}/.ssh/config"
+    if [ -f "$SSH_CONFIG" ]; then
+      $DRY_RUN_CMD chmod 600 "$SSH_CONFIG" || true
+    fi
+  '';
 
   # Restore SSH private key from SOPS (declarative recovery)
   home.activation.importSshKey = lib.hm.dag.entryAfter ["writeBoundary"] ''
@@ -71,16 +90,18 @@ in
     fi
   '';
 
-  # Backup and remove existing SSH config (Home Manager will create new one)
+  # Backup existing SSH config if it exists and is not managed by us
   home.activation.backupSshConfig = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
     SSH_CONFIG="${config.home.homeDirectory}/.ssh/config"
-    SSH_BACKUP="${config.home.homeDirectory}/.ssh/config.pre-keepassxc"
-    if [ -f "$SSH_CONFIG" ]; then
+    SSH_BACKUP="${config.home.homeDirectory}/.ssh/config.pre-hm"
+    
+    # Only backup if it's a symlink (old Home Manager style) or doesn't match our content
+    if [ -L "$SSH_CONFIG" ] || ([ -f "$SSH_CONFIG" ] && ! grep -q "SSH configuration managed by Home Manager" "$SSH_CONFIG" 2>/dev/null); then
       if [ ! -f "$SSH_BACKUP" ]; then
         echo "Backing up existing SSH config to $SSH_BACKUP"
-        $DRY_RUN_CMD cp "$SSH_CONFIG" "$SSH_BACKUP" || true
+        $DRY_RUN_CMD cp "$SSH_CONFIG" "$SSH_BACKUP" 2>/dev/null || true
       fi
-      echo "Removing old SSH config to allow Home Manager to manage it"
+      # Remove old config (symlink or old file) - Home Manager will create new one
       $DRY_RUN_CMD rm -f "$SSH_CONFIG" || true
     fi
   '';
