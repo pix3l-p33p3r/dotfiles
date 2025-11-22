@@ -28,9 +28,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-catppuccin-plymouth = {
+      url = "github:GGetsov/nixos-catppuccin-plymouth";
+      flake = false;
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: {
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";

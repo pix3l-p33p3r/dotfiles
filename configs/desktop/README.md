@@ -10,13 +10,13 @@
 
 Complete Hyprland desktop environment with Catppuccin theming and productivity tools.
 
-## 🏗️ Structure
+## Structure
 
 ```
 desktop/hyprland/
 ├── default.nix              # Main entry point
 ├── core/                    # Core configurations
-│   ├── hyprland.nix         # Hyprland window manager
+│   ├── hyprland.nix         # Window manager
 │   ├── keybindings.nix      # Keybindings
 │   ├── settings.nix         # Window settings
 │   ├── theming.nix          # GTK/Icon themes
@@ -37,35 +37,17 @@ desktop/hyprland/
     └── imv.nix              # Image viewer
 ```
 
-## ✨ Features
+## Features
 
-**Hyprland Stack**
-- **Window Manager**: Dynamic tiling with animations
-- **Applets**: hyprpanel (bar), hyprlock (secure lock), hypridle (idle), hyprpaper (wallpapers)
-- **Launcher**: Rofi with Catppuccin theme
-- **Utilities**: hyprpicker (color), hyprshot (screenshots), grimblast
+**Hyprland Stack:** Dynamic tiling, hyprpanel (bar), hyprlock (secure lock), hypridle (idle), hyprpaper (wallpapers), Rofi launcher, hyprpicker/hyprshot utilities
 
-**Theming**
-- **Theme**: Catppuccin Mocha across all apps
-- **Icons**: Papirus with Catppuccin Mocha
-- **Cursor**: Hyprcursor
-- **GTK**: Adw-gtk3 dark theme
+**Theming:** Catppuccin Mocha, Papirus icons, Hyprcursor, Adw-gtk3 dark theme
 
-**Fonts**
-- **Code**: JetBrainsMono Nerd Font
-- **terminal**: FiraCode Nerd Font
-- **UI**: Noto Sans with CJK support
-- **Emoji**: Noto Nerd Font
-- **CJK**: Source Han Sans/Serif
-- **Fallbacks**: Liberation (Arial/Times alternatives), DejaVu
+**Fonts:** Code (JetBrainsMono Nerd Font), Terminal (FiraCode Nerd Font), UI (Noto Sans + CJK), Emoji (Noto Nerd Font), Fallbacks (Liberation, DejaVu)
 
-**Wayland Tools**
-- **Clipboard**: wl-clipboard with cliphist history
-- **Screenshots**: grim + slurp + grimblast
-- **Color Picker**: hyprpicker
-- **File Picker**: zenity
+**Wayland Tools:** wl-clipboard + cliphist, grim + slurp + grimblast, hyprpicker, zenity
 
-## ⌨️ Keybindings
+## Keybindings
 
 | Action | Keybind |
 |--------|---------|
@@ -80,36 +62,26 @@ desktop/hyprland/
 | Clipboard | `Super + Shift + V` |
 | Color Picker | `Super + Shift + C` |
 
-See `core/keybindings.nix` for full list.
+Full list: `core/keybindings.nix` | See also: [docs/SHORTCUTS.md](../../docs/SHORTCUTS.md)
 
-## 📦 Packages
+## Packages
 
-**Hyprland Tools**: hyprland, hyprpanel, hyprlock, hypridle, hyprpaper, hyprpicker, hyprshot, hyprsunset, hyprutils, hyprcursor  
-**Wayland Utils**: wl-clipboard, wl-clip-persist, grim, slurp, grimblast, cliphist, wl-color-picker  
-**Development**: LSP, TreeSitter, Copilot, containers, K8s, security tools  
-**Media**: MPV, Zathura, MPD, cava, imv  
+**Hyprland:** hyprland, hyprpanel, hyprlock, hypridle, hyprpaper, hyprpicker, hyprshot, hyprsunset, hyprutils, hyprcursor  
+**Wayland Utils:** wl-clipboard, wl-clip-persist, grim, slurp, grimblast, cliphist, wl-color-picker  
+**Development:** LSP, TreeSitter, Copilot, containers, K8s, security tools  
+**Media:** MPV, Zathura, MPD, cava, imv
 
-Full catalog in `core/pkgs.nix`.
+Full catalog: `core/pkgs.nix`
 
-## 🎨 Themes
+## Themes
 
-All apps use **Catppuccin Mocha**:
-- Terminal: Kitty, Tmux, Yazi
-- Development: LazyGit, GitUI
-- Media: MPV, IMV, Zathura, Cava
-- System: Btop, Bat, Eza, FZF
-- Launcher: Rofi
+All apps use **Catppuccin Mocha:** Terminal (Kitty, Tmux, Yazi), Development (LazyGit, GitUI), Media (MPV, IMV, Zathura, Cava), System (Btop, Bat, Eza, FZF), Launcher (Rofi)
 
-## 🔧 Customization
+## Customization
 
-Edit configuration files:
-- **Keybindings**: `core/keybindings.nix`
-- **Settings**: `core/settings.nix`
-- **Theme**: `core/theming.nix`
-- **Fonts**: `core/fonts.nix`
-- **Packages**: `core/pkgs.nix`
+Edit: `core/keybindings.nix` (keybinds), `core/settings.nix` (settings), `core/theming.nix` (theme), `core/fonts.nix` (fonts), `core/pkgs.nix` (packages)
 
-## 📚 Resources
+## Resources
 
 - [Hyprland](https://hyprland.org/)
 - [Catppuccin](https://github.com/catppuccin/catppuccin)

@@ -23,106 +23,45 @@
 </div>
 <br>
 
-**A modern NixOS and Home Manager configuration** for a beautiful and productive
-development environment. It provides a structured way to manage your system
-with Hyprland, comprehensive dev tools, and consistent Catppuccin theming.
+**Modern NixOS and Home Manager configuration** for a productive development environment. Hyprland-centric with comprehensive dev tools and Catppuccin Mocha theming.
 
-**Features:**
+## Installation
 
-- 💻 Hyprland-centric: Preconfigured Hyprland ecosystem (hyprpanel, hyprlock, etc.)
-- 🎨 Catppuccin Mocha: Consistent theming across desktop, terminal, and apps
-- 🛠️ Dev Stack: LSP, TreeSitter, Copilot, containers, K8s, security tools
-- ⌨️ Vim-like: Unified keybindings in Hyprland and Neovim
-
-## 🚀 Installation
-
-1. **Clone this repository:**
-
+1. **Clone repository:**
 ```sh
 git clone https://github.com/pix3l-p33p3r/dotfiles.git ~/.config/nixos
 cd ~/.config/nixos
 ```
 
-2. **Copy and customize the host:**
+2. **Copy and customize host:**
+   - Copy `machines/alucard` to match your hostname
+   - Update `variables.nix`
 
-Copy `machines/alucard` to match your hostname and update `variables.nix`.
-
-3. **Add hardware configuration:**
-
-Generate and copy your `hardware-configuration.nix` into your host folder:
-
+3. **Add hardware config:**
 ```sh
 sudo nixos-generate-config --show-hardware-config > machines/your-hostname/hardware-configuration.nix
 ```
 
-4. **Update flake.nix:**
+4. **Update `flake.nix`:** Register new host under `nixosConfigurations`
 
-Register your new host under `nixosConfigurations`.
-
-5. **Build the system:**
-
+5. **Build system:**
 ```sh
-# Build NixOS system configuration
 sudo nixos-rebuild switch --flake .#your-hostname
-
-# Build Home Manager configuration (user environment)
 nix run home-manager/master -- switch --flake .#your-username@your-hostname
 ```
 
 6. **Clean old generations (optional):**
-
 ```sh
 ./scripts/nix-cleaner.sh
 ```
 
-> **Note:** This configuration uses **standalone Home Manager**. System and user environments are managed separately. See [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md) for details.
+> **Note:** Uses **standalone Home Manager**. See [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md).
 
-## 🏗️ Architecture
+## Architecture
 
-```
-dotfiles/
-├── 🖥️ machines/              # NixOS system configurations
-│   └── alucard/             # Host-specific modules
-│       ├── boot.nix         # Secure Boot (Lanzaboote) & firmware
-│       ├── system.nix       # Core system settings
-│       ├── audio.nix        # Pipewire audio
-│       ├── graphics.nix     # GPU drivers & acceleration
-│       ├── wayland.nix      # Hyprland window manager
-│       └── ...              # Other modules
-├── 👤 homes/                 # Home Manager user configurations
-│   └── pixel-peeper/        # User-specific settings
-│       ├── catppuccin.nix   # Theme configuration
-│       └── default.nix      # Home Manager entry point
-├── 🎨 configs/              # Application configurations
-│   ├── desktop/
-│   │   └── hyprland/        # Hyprland + applets (hyprpanel, hyprlock)
-│   ├── terminal/
-│   │   ├── kitty.nix        # Terminal emulator
-│   │   ├── nvim/            # Neovim configuration
-│   │   └── zsh/             # Zsh shell configuration
-│   ├── browsers/            # Firefox, Chromium
-│   └── media/               # MPV, Zathura, MPD
-├── 🖼️ assets/               # Static assets
-│   ├── avatar/              # Profile images
-│   └── wallpapers/          # Desktop backgrounds
-├── 🔧 scripts/              # Utility scripts
-│   ├── nix-cleaner.sh       # Clean Nix generations
-│   ├── setup-secure-boot.sh # Secure Boot setup
-│   └── cleanup-legacy-boot.sh
-├── 🔐 secrets/              # Encrypted secrets (SOPS + Age)
-│   ├── hosts/               # Host-level secrets
-│   └── users/               # User-level secrets
-├── 📚 docs/                 # Documentation
-│   ├── INDEX.md             # Documentation index (start here!)
-│   ├── DECISIONS.md         # Tooling decisions (Git, Home Manager)
-│   ├── HOME-MANAGER.md      # Home Manager guide
-│   ├── MCP-SETUP.md         # Cursor AI MCP configuration
-│   └── FONTS.md             # Font reference
-├── flake.nix                # Nix flake configuration
-└── LICENSE                  # License file
-```
+`machines/` (NixOS system) → `homes/` (Home Manager user) → `configs/` (apps) → `assets/`, `scripts/`, `secrets/`, `docs/`
 
-## ⌨️ Keybindings
+## Keybindings
 
 | Action | Keybind |
 |--------|---------|
@@ -134,36 +73,25 @@ dotfiles/
 | Fullscreen | `Super + Shift + F` |
 | Lock screen | `Super + Escape` |
 
-See `configs/desktop/hyprland/core/keybindings.nix` for full list.
+See [docs/SHORTCUTS.md](docs/SHORTCUTS.md) for full list.
 
-## 🛠️ Stack
+## Stack
 
-**Desktop**: Hyprland, hyprpanel, rofi, hyprlock, hyprpaper  
-**Terminal**: Kitty, Zsh (Zap), Neovim, tmux, yazi  
-**Dev Tools**: LSP, TreeSitter, Copilot, lazygit, terraform, k9s  
-**Security**: trivy, semgrep, nuclei, ffuf, vault, sops  
-**Media**: MPV, Zathura, MPD, cava, imv  
+**Desktop:** Hyprland, hyprpanel, rofi, hyprlock, hyprpaper  
+**Terminal:** Kitty, Zsh (Zap), Neovim, tmux, yazi  
+**Dev Tools:** LSP, TreeSitter, Copilot, lazygit, terraform, k9s  
+**Security:** trivy, semgrep, nuclei, ffuf, vault, sops  
+**Media:** MPV, Zathura, MPD, cava, imv
 
-Full package catalog in `configs/desktop/hyprland/core/pkgs.nix`.
+Package catalog: `configs/desktop/hyprland/core/pkgs.nix`
 
-## 📚 Documentation
+## Documentation
 
-### Start Here
-- **[📖 Documentation Index](docs/INDEX.md)** - Complete navigation guide to all docs
+**Start here:** [docs/INDEX.md](docs/INDEX.md)
 
-### Quick Links
-| Topic | Guide |
-|-------|-------|
-| 🏠 **Getting Started** | [HOME-MANAGER.md](docs/HOME-MANAGER.md) |
-| 🖥️ **System Config** | [machines/alucard/README.md](machines/alucard/README.md) |
-| 🎨 **Desktop (Hyprland)** | [configs/desktop/README.md](configs/desktop/README.md) |
-| ✏️ **Cursor AI + MCP** | [configs/editors/README.md](configs/editors/README.md), [MCP-SETUP.md](docs/MCP-SETUP.md) |
-| 🔐 **Secrets (SOPS)** | [secrets/README.md](secrets/README.md) |
-| ⚙️ **Terminal (Neovim, Zsh)** | [nvim](configs/terminal/nvim/README.md), [zsh](configs/terminal/zsh/README.md) |
-| 🛠️ **Scripts** | [scripts/README.md](scripts/README.md) |
-| 💡 **Decisions & Architecture** | [DECISIONS.md](docs/DECISIONS.md) |
+Quick links: [HOME-MANAGER.md](docs/HOME-MANAGER.md) | [System Config](machines/alucard/README.md) | [Desktop](configs/desktop/README.md) | [Secrets](secrets/README.md) | [Decisions](docs/DECISIONS.md)
 
-## 📄 License
+## License
 
 GNU General Public License v3.0 - see [LICENSE](LICENSE) file.
 

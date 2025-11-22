@@ -8,139 +8,72 @@
 
 # Machine Configuration Structure
 
-Modular NixOS system configuration for alucard, organized for maintainability and clarity.
+Modular NixOS system configuration for alucard, organized for maintainability.
 
-## 📁 Modules
+## Modules
 
 ```
 alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
-├── boot.nix                 # Bootloader, Secure Boot (Lanzaboote), Plymouth & Firmware (fwupd)
+├── boot.nix                 # Secure Boot (Lanzaboote), Plymouth, firmware
 ├── system.nix               # Core settings, services
 ├── locale.nix               # Timezone, internationalization
 ├── users.nix                # User accounts, shell
-├── programs.nix             # System programs (Firefox, nm-applet)
+├── programs.nix             # System programs
 ├── hardware-acceleration.nix # Intel drivers, VA-API, Vulkan, OpenCL
 ├── audio.nix                # Pipewire, ALSA
 ├── bluetooth.nix            # Bluetooth, Blueman
-├── wayland.nix              # Hyprland window manager (XWayland auto-enabled)
+├── wayland.nix              # Hyprland (XWayland auto-enabled)
 ├── security.nix             # PAM, D-Bus, Dconf
 ├── docker.nix               # Docker container runtime
 ├── virt.nix                 # Virtualization (QEMU/KVM/libvirt)
 └── maint.nix                # Auto-updates, GC, optimization
 ```
 
-## ⚙️ Key Components
+## Key Components
 
-**System**
-- **Secure Boot**: Lanzaboote with UKI
-- **Boot Experience**: Plymouth graphical splash (Catppuccin Mocha) with silent boot
-- **Encryption**: LUKS disk encryption
-- **CPU**: Intel with microcode updates
-- **Graphics**: Intel integrated with VA-API/Vulkan/OpenCL hardware acceleration
-- **Hardware Acceleration**: GuC/HuC firmware, Quick Sync, compute runtime
-- **Firmware Updates**: fwupd service for BIOS, EC, and Intel ME updates
+**System:** Secure Boot (Lanzaboote/UKI), Plymouth, LUKS, Intel microcode, HW acceleration, fwupd  
+**Services:** NetworkManager, OpenSSH, UPower, Pipewire, Docker, QEMU/KVM/libvirt  
+**Display:** Hyprland (Wayland), XWayland, Blueman
 
-**Services**
-- **Networking**: NetworkManager, OpenSSH
-- **Power**: UPower, power-profiles-daemon
-- **Media**: Pipewire audio stack
-- **Containers**: Docker, QEMU/KVM virtualization
-- **Firmware**: fwupd for automatic hardware firmware updates
+## Customization
 
-**Display**
-- **Wayland**: Hyprland compositor (pure Wayland, no X11 server)
-- **XWayland**: Automatically available for legacy apps via Hyprland
-- **Bluetooth**: Blueman manager
+**Add service:** Edit `system.nix` → `services.myservice.enable = true;`
 
-## 🔧 Customization
+**Create module:**
+1. Create `machines/alucard/mymodule.nix`
+2. Add to `default.nix` imports: `./mymodule.nix`
 
-### Adding a Service
-
-Add to `system.nix`:
-```nix
-services.myservice.enable = true;
-```
-
-### Creating a New Module
-
-1. Create `machines/alucard/mymodule.nix`:
-```nix
-{ config, pkgs, ... }:
-{
-  # Your configuration here
-}
-```
-
-2. Add to `default.nix` imports:
-```nix
-imports = [
-  # ...
-  ./mymodule.nix
-];
-```
-
-## 🔍 Troubleshooting
+## Troubleshooting
 
 ```bash
-# Check configuration for errors
-nix flake check --show-trace
-
-# Validate a module
-nix-instantiate --eval ./default.nix
-
-# Build without switching
-sudo nixos-rebuild build --flake .#alucard
+nix flake check --show-trace        # Check for errors
+nix-instantiate --eval ./default.nix # Validate module
+sudo nixos-rebuild build --flake .#alucard  # Build without switching
 ```
 
-### Firmware Updates
-
-The system uses `fwupd` for managing firmware updates:
-
+**Firmware updates (fwupd):**
 ```bash
-# Check available firmware updates
-fwupdmgr get-updates
-
-# Apply firmware updates
-sudo fwupdmgr update
-
-# Check firmware device status
-fwupdmgr get-devices
-
-# View firmware update history
-fwupdmgr get-history
+fwupdmgr get-updates    # Check available updates
+sudo fwupdmgr update    # Apply updates
+fwupdmgr get-devices    # Device status
 ```
 
-**Supported Hardware:**
-- Embedded Controller (EC)
-- Intel Management Engine (ME)
-- System Firmware (BIOS/UEFI)
-
-### Secure Boot Issues
-
-If `sbctl verify` shows unsigned kernels:
-
+**Secure Boot issues:**
 ```bash
-# Check Secure Boot status
-sudo sbctl status
-
-# Verify all boot entries
-sudo sbctl verify
-
-# Check boot loader status
-sudo bootctl status
-
-# Clean up legacy boot entries (if using Lanzaboote)
-sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh
+sudo sbctl status       # Check status
+sudo sbctl verify       # Verify boot entries
+sudo bootctl status     # Boot loader status
+sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
 ```
 
-**Common Issues:**
-- **Unsigned kernels in `/boot/EFI/nixos/`**: Legacy entries from pre-Lanzaboote setup. Remove or sign them.
-- **Keys not enrolled**: Run `sudo sbctl enroll-keys -m` after `sbctl create-keys`
-- **Rebuild after key enrollment**: `sudo nixos-rebuild switch --flake .#alucard`
+**Common issues:**
+- Unsigned kernels in `/boot/EFI/nixos/`: Legacy entries, remove or sign
+- Keys not enrolled: `sudo sbctl enroll-keys -m` after `sbctl create-keys`
+- Rebuild after key enrollment: `sudo nixos-rebuild switch --flake .#alucard`
 
-## 📊 Service Overview
+## Service Overview
 
 | Service | Module | Config |
 |---------|--------|--------|
@@ -152,9 +85,16 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh
 | Docker | `docker.nix` | `virtualisation.docker.enable` |
 | libvirt | `virt.nix` | `virtualisation.libvirtd.enable` |
 
-## 💡 Benefits
+## Benefits
 
-- **Separation of Concerns** - Each module handles a specific aspect
+- **Separation of Concerns** - Each module handles specific aspect
 - **Easier Navigation** - Find settings by category
 - **Better Maintainability** - Modify one area without affecting others
 - **Cleaner Git History** - Targeted diffs
+
+---
+
+**See Also:**
+- [PLYMOUTH-SETUP.md](PLYMOUTH-SETUP.md) - Boot splash configuration
+- [HARDWARE-ACCELERATION.md](HARDWARE-ACCELERATION.md) - Intel GPU setup
+- [CATPPUCCIN-SYSTEM.md](CATPPUCCIN-SYSTEM.md) - Theme configuration

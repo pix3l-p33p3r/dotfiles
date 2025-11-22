@@ -1,117 +1,108 @@
 # Documentation Index
 
-Complete guide to navigating the NixOS dotfiles documentation.
+Complete navigation guide for NixOS dotfiles documentation.
 
-## 📚 Core Documentation
+## Core Documentation
 
-### Getting Started
-- **[Main README](../README.md)** - Repository overview, installation, and quick start
-- **[HOME-MANAGER.md](HOME-MANAGER.md)** - Standalone Home Manager configuration guide
+**Getting Started:**
+- [README.md](../README.md) - Repository overview, installation, quick start
+- [HOME-MANAGER.md](HOME-MANAGER.md) - Standalone Home Manager guide
 
-### Configuration Guides
-- **[MCP-SETUP.md](MCP-SETUP.md)** - Model Context Protocol setup for Cursor AI (with SOPS encryption)
+**Architecture & Decisions:**
+- [DECISIONS.md](DECISIONS.md) - Core decisions (Git, Home Manager, Secrets, Nix optimizations)
+- [DECISIONS-TOOLING.md](DECISIONS-TOOLING.md) - Tool choices (tmux, Taskwarrior, filesystem)
 
-### Architecture & Decisions
-- **[DECISIONS.md](DECISIONS.md)** - Why Git over jj, why standalone Home Manager, Nix optimizations
+**Configuration Guides:**
+- [MCP-SETUP.md](MCP-SETUP.md) - Model Context Protocol setup for Cursor AI (SOPS encryption)
+- [SHORTCUTS.md](SHORTCUTS.md) - Keybinds and aliases reference
+- [MIGRATE-EXT4-TO-BTRFS.md](MIGRATE-EXT4-TO-BTRFS.md) - Filesystem migration guide
 
-### Font Reference
-Quick reference for configured fonts:
-- **Code/Editor**: JetBrainsMono Nerd Font (Neovim/Cursor)
-- **Terminal**: FiraCode Nerd Font (Kitty)
-- **Obsidian**: Iosevka Nerd Font
-- **UI (GTK)**: Cantarell
+**Security:**
+- [secrets/README.md](../secrets/README.md) - SOPS + Age secrets management
 
-### Security
-- **[secrets/README.md](../secrets/README.md)** - SOPS + Age secrets management guide
+## Component Documentation
 
----
+**Desktop:**
+- [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland configuration
 
-## 📁 Component Documentation
+**Applications:**
+- [configs/editors/README.md](../configs/editors/README.md) - Cursor AI editor setup
+- [configs/terminal/nvim/README.md](../configs/terminal/nvim/README.md) - Neovim configuration
+- [configs/terminal/zsh/README.md](../configs/terminal/zsh/README.md) - Zsh shell configuration
 
-### Desktop Environment
-- **[configs/desktop/README.md](../configs/desktop/README.md)** - Hyprland window manager configuration
+**System:**
+- [machines/alucard/README.md](../machines/alucard/README.md) - Host-specific system configuration
+- [machines/alucard/PLYMOUTH-SETUP.md](../machines/alucard/PLYMOUTH-SETUP.md) - Boot splash configuration
+- [machines/alucard/HARDWARE-ACCELERATION.md](../machines/alucard/HARDWARE-ACCELERATION.md) - Intel GPU acceleration
+- [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theme configuration
+- [scripts/README.md](../scripts/README.md) - Utility scripts
 
-### Applications
-- **[configs/editors/README.md](../configs/editors/README.md)** - Cursor AI editor setup
-- **[configs/terminal/nvim/README.md](../configs/terminal/nvim/README.md)** - Neovim configuration
-- **[configs/terminal/zsh/README.md](../configs/terminal/zsh/README.md)** - Zsh shell configuration
+## Quick Navigation
 
-### System
-- **[machines/alucard/README.md](../machines/alucard/README.md)** - Host-specific system configuration
-- **[scripts/README.md](../scripts/README.md)** - Utility scripts documentation
-
----
-
-## 🗺️ Quick Navigation
-
-### I want to...
-
-**Set up a new machine:**
-1. [Main README](../README.md) - Installation guide
+**Set up new machine:**
+1. [README.md](../README.md) - Installation
 2. [HOME-MANAGER.md](HOME-MANAGER.md) - Configure Home Manager
 
 **Configure Cursor AI:**
 1. [configs/editors/README.md](../configs/editors/README.md) - Editor setup
-2. [MCP-SETUP.md](MCP-SETUP.md) - Enable MCP capabilities
+2. [MCP-SETUP.md](MCP-SETUP.md) - MCP capabilities
 
 **Manage secrets:**
-1. [secrets/README.md](../secrets/README.md) - SOPS encryption guide
+1. [secrets/README.md](../secrets/README.md) - SOPS encryption
 2. [MCP-SETUP.md](MCP-SETUP.md#security) - Encrypted MCP secrets
 
-**Customize my desktop:**
-1. [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland configuration
-2. See "Font Reference" section above for font choices
+**Customize desktop:**
+1. [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland
+2. [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theming
 
-**Understand the architecture:**
-1. [Main README](../README.md) - Complete system overview
-2. [DECISIONS.md](DECISIONS.md) - Why things are configured this way
+**Understand architecture:**
+1. [README.md](../README.md) - System overview
+2. [DECISIONS.md](DECISIONS.md) - Configuration rationale
 
----
-
-## 📖 Documentation Structure
+## Documentation Structure
 
 ```
 docs/
-├── INDEX.md                    # This file - navigation guide
-├── DECISIONS.md                # Tooling decisions (Git, Home Manager, Nix optimizations)
-├── HOME-MANAGER.md             # Standalone Home Manager guide
-└── MCP-SETUP.md                # Cursor MCP setup + future ideas
+├── INDEX.md                    # This file
+├── DECISIONS.md                # Core decisions
+├── DECISIONS-TOOLING.md        # Tool choices
+├── HOME-MANAGER.md             # Home Manager guide
+├── MCP-SETUP.md                # Cursor MCP setup
+├── SHORTCUTS.md                # Keybinds reference
+└── MIGRATE-EXT4-TO-BTRFS.md    # Filesystem migration
+
+machines/alucard/
+├── README.md                   # System configuration
+├── PLYMOUTH-SETUP.md           # Boot splash
+├── HARDWARE-ACCELERATION.md    # GPU acceleration
+└── CATPPUCCIN-SYSTEM.md        # Theming
 
 configs/
-├── desktop/README.md           # Hyprland setup
-├── editors/README.md           # Cursor/editors
-├── terminal/
-│   ├── nvim/README.md          # Neovim configuration
-│   └── zsh/README.md           # Zsh configuration
+├── desktop/README.md            # Hyprland
+├── editors/README.md            # Cursor
+└── terminal/
+    ├── nvim/README.md          # Neovim
+    └── zsh/README.md            # Zsh
 
-machines/alucard/README.md      # System configuration
-scripts/README.md               # Utility scripts
+scripts/README.md                # Utility scripts
 secrets/README.md               # Secrets management
 ```
 
----
-
-## 🔍 Search Tips
-
-Use `grep` to search across documentation:
+## Search Tips
 
 ```bash
-# Search all docs for a topic
+# Search all docs
 grep -r "search-term" docs/
 
-# Search configuration docs
+# Search config docs
 grep -r "search-term" configs/*/README.md
 
-# Find all mentions of a package
+# Find package mentions
 grep -r "package-name" .
 ```
 
-Or use the built-in Neovim Telescope search:
-- `<leader>ff` - Find files
-- `<leader>fg` - Live grep
-- `<leader>fh` - Help tags
+**Neovim Telescope:** `<leader>ff` (find files), `<leader>fg` (live grep), `<leader>fh` (help tags)
 
 ---
 
-**Last Updated**: 2025-11-03
-
+**Font Reference:** Code/Editor (JetBrainsMono Nerd Font), Terminal (FiraCode Nerd Font), UI (Cantarell)

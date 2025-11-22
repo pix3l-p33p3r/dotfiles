@@ -1,241 +1,86 @@
-# Intel Hardware Acceleration Guide
+# Intel Hardware Acceleration
 
 Complete hardware acceleration setup for Intel integrated graphics on Alucard (ThinkPad).
 
-## 🚀 What's Enabled
+## What's Enabled
 
-### Video Decode/Encode (VA-API)
-- **H.264** (AVC) - decode & encode
-- **H.265** (HEVC) - decode & encode  
-- **VP8** - decode
-- **VP9** - decode & encode
-- **AV1** - decode (on newer Intel GPUs)
+**Video (VA-API):** H.264/HEVC decode+encode, VP8/VP9 decode+encode, AV1 decode (newer GPUs)  
+**Graphics APIs:** Vulkan, OpenGL, OpenCL  
+**Drivers:** iHD (intel-media-driver), Level Zero, Intel Compute Runtime
 
-### Graphics APIs
-- **Vulkan** - Modern graphics API (gaming, compute)
-- **OpenGL** - Legacy graphics API
-- **OpenCL** - GPU compute workloads
+**Configuration:** `machines/alucard/hardware-acceleration.nix`
 
-### Drivers
-- **iHD** (intel-media-driver) - Modern VA-API driver for Gen8+
-- **Level Zero** - oneAPI compute runtime
-- **Intel Compute Runtime** - OpenCL support
-
-## 🔍 Verification Commands
-
-After rebuilding, verify your setup:
+## Verification
 
 ```bash
-# VA-API (Video Acceleration)
-vainfo
-# Expected: "iHD driver" with H264/HEVC decode/encode
-
-# VDPAU (via VA-API)
-vdpauinfo
-# Expected: VDPAU capabilities through VA-API backend
-
-# Vulkan
-vulkaninfo --summary
-# Expected: Intel Vulkan driver detected
-
-# OpenCL
-clinfo
-# Expected: Intel OpenCL platform
-
-# GPU monitoring
-intel_gpu_top
-# Expected: Real-time GPU stats (Video/Render/Blitter engines)
-
-# OpenGL
-glxinfo | grep "OpenGL renderer"
-# Expected: Mesa Intel graphics info
+vainfo              # Should show "iHD driver" with H264/HEVC
+vulkaninfo --summary # Intel Vulkan driver
+clinfo              # Intel OpenCL platform
+intel_gpu_top       # Real-time GPU stats
 ```
 
-## 🎬 Application Configuration
+## Application Setup
 
-### MPV (Already Configured)
-Hardware acceleration is enabled by default in `configs/media/mpv.nix`:
+**MPV:** Already configured in `configs/media/mpv.nix` with `--hwdec=auto`
+
+**Firefox:** VA-API enabled via env vars, native Wayland. Verify: `about:support` → Graphics → VA-API
+
+**Chromium:** Launch with `--enable-features=VaapiVideoDecoder,VaapiVideoEncoder --use-gl=egl --enable-zero-copy`
+
+**FFmpeg:**
 ```bash
-mpv --hwdec=auto video.mp4
-# Monitor with: intel_gpu_top (Video engine should show usage)
+ffmpeg -hwaccel vaapi -i input.mp4 output.mp4           # Decode
+ffmpeg -i input.mp4 -c:v h264_vaapi -b:v 2M output.mp4  # Encode
+ffmpeg -i input.mp4 -c:v h264_qsv -preset veryslow output.mp4  # QSV
 ```
 
-### Firefox
-Already configured via environment variables:
-- `MOZ_DISABLE_RDD_SANDBOX=1` - Enable VA-API
-- Firefox uses native Wayland (no X11/XWayland needed)
+**OBS/VLC:** Enable VAAPI encoding/decoding in settings
 
-Verify in Firefox:
-1. Visit `about:support`
-2. Search for "Graphics"
-3. Look for "WEBRENDER" and "VA-API"
-4. Check "Window Protocol" should show "wayland"
+## Performance
 
-### Chromium/Chrome
-Add to launch flags:
-```bash
-chromium --enable-features=VaapiVideoDecoder,VaapiVideoEncoder \
-         --use-gl=egl \
-         --enable-zero-copy
-```
+**Without HW accel:** 4K HEVC ~60-80% CPU, high battery drain  
+**With HW accel:** 4K HEVC ~5-10% CPU (GPU handles it), minimal battery drain
 
-### OBS Studio
-Enable in Settings → Advanced:
-- VAAPI encoding for H.264/HEVC
+Expected battery improvement: **30-50%** during video playback.
 
-### FFmpeg
-Use hardware acceleration in commands:
-```bash
-# Decode with VA-API
-ffmpeg -hwaccel vaapi -i input.mp4 output.mp4
+## Troubleshooting
 
-# Encode with VA-API (H.264)
-ffmpeg -i input.mp4 -c:v h264_vaapi -b:v 2M output.mp4
-
-# Encode with Quick Sync (QSV)
-ffmpeg -i input.mp4 -c:v h264_qsv -preset veryslow output.mp4
-```
-
-### VLC
-1. Tools → Preferences → Input/Codecs
-2. Hardware-accelerated decoding: **VA-API video decoder**
-
-## ⚡ Performance Impact
-
-**Without Hardware Acceleration:**
-- 4K HEVC: ~60-80% CPU usage
-- 1080p AVC: ~30-40% CPU usage
-- Battery drain: High
-- Heat: Significant
-
-**With Hardware Acceleration:**
-- 4K HEVC: ~5-10% CPU usage (handled by GPU)
-- 1080p AVC: ~2-5% CPU usage
-- Battery drain: Minimal
-- Heat: Minimal
-
-## 🔧 Troubleshooting
-
-### VA-API not working?
-
-Check driver loaded:
+**VA-API not working:**
 ```bash
 echo $LIBVA_DRIVER_NAME  # Should be "iHD"
-vainfo
+groups $USER             # Should include "video" and "render"
+ls -l /dev/dri/          # Should show card0 and renderD128
 ```
 
-### Permission denied errors?
+**Firefox not using HW accel:**
+- Check `about:config`: `media.ffmpeg.vaapi.enabled = true`
+- Verify in `about:support` → Media section
 
-Verify user groups:
+**GPU not detected:**
 ```bash
-groups pixel-peeper  # Should include "video" and "render"
-ls -l /dev/dri/       # Should show card0 and renderD128
+lspci | grep VGA        # Should show Intel graphics
+lsmod | grep i915       # Should show i915 module loaded
 ```
 
-### Firefox not using hardware acceleration?
-
-1. Check `about:config`:
-   - `media.ffmpeg.vaapi.enabled` = true
-   - `media.ffvpx.enabled` = false
-   - `media.navigator.mediadatadecoder_vpx_enabled` = true
-
-2. Check `about:support` for VA-API in "Media" section
-
-### Intel GPU not detected?
+## Monitoring
 
 ```bash
-lspci | grep VGA
-# Should show Intel graphics
-
-lsmod | grep i915
-# Should show i915 module loaded
+intel_gpu_top          # Best option - real-time stats
+nvtop --gpu intel      # Alternative
 ```
 
-## 📊 Monitoring GPU Usage
+Engines: Render/3D, Video (decode/encode), VideoEnhance, Blitter
 
-Real-time monitoring:
-```bash
-# Intel GPU top (best option)
-intel_gpu_top
+## Supported Generations
 
-# Alternative: radeontop (cross-GPU support)
-radeontop
-
-# nvtop (supports Intel)
-nvtop --gpu intel
-```
-
-Expected engines:
-- **Render/3D** - Gaming, desktop compositing
-- **Video** - Hardware video decode/encode
-- **VideoEnhance** - Video post-processing
-- **Blitter** - Memory copy operations
-
-## 🎮 Gaming Performance
-
-Hardware acceleration also benefits:
-- **Wine/Proton** - DirectX translation
-- **Steam** - Vulkan/OpenGL games
-- **Native games** - Better performance
-
-## 🔋 Power Savings
-
-Hardware acceleration significantly reduces:
-- CPU usage (offloaded to GPU)
-- Power consumption (GPU more efficient)
-- Heat generation (lower overall load)
-- Fan noise (cooler system)
-
-Expected battery life improvement: **30-50%** during video playback
-
-## 🛠️ Advanced Configuration
-
-### Force specific VA-API driver
-
-In `hardware-acceleration.nix`, change:
-```nix
-LIBVA_DRIVER_NAME = "iHD";   # Modern (default)
-# or
-LIBVA_DRIVER_NAME = "i965";  # Legacy (pre-Broadwell)
-```
-
-### Enable GuC/HuC debug logging
-
-```bash
-sudo dmesg | grep -i "guc\|huc"
-# Should show GuC/HuC firmware loaded
-```
-
-### Check supported codecs
-
-```bash
-vainfo | grep -A 20 "VAEntrypointVLD\|VAEntrypointEncSlice"
-```
-
-## 📝 Configuration Files
-
-Hardware acceleration is configured in:
-- **System**: `machines/alucard/hardware-acceleration.nix`
-- **MPV**: `configs/media/mpv.nix`
-- **Environment**: Automatic via NixOS
-
-## 🆘 Need Help?
-
-Check Intel GPU generation:
-```bash
-lspci -v | grep -A 10 VGA
-```
-
-Supported generations:
-- **Gen8+** (Broadwell and newer) - Full support
+- **Gen8+** (Broadwell and newer) - Full support with iHD
 - **Gen7** (Haswell) - Limited support
 - **Gen6 and older** - Use i965 driver
 
 ---
 
-**Status**: ✅ Fully Configured  
-**Driver**: iHD (intel-media-driver)  
-**VA-API**: Enabled  
-**Vulkan**: Enabled  
-**OpenCL**: Enabled
+**See Also:**
+- [hardware-acceleration.nix](../hardware-acceleration.nix) - Configuration
+- [mpv.nix](../../configs/media/mpv.nix) - MPV setup
 
+**Status:** ✅ Fully Configured | **Driver:** iHD | **VA-API:** Enabled | **Vulkan:** Enabled | **OpenCL:** Enabled

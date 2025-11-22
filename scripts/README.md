@@ -73,7 +73,7 @@ sudo ROOT_PARTITION=/dev/nvme0n1p3 LUKS_UUID=your-uuid ./scripts/migrate-ext4-to
 - The migration is non-destructive but requires careful execution
 - `/data` partition uses separate LUKS password (you'll be prompted for both at boot)
 
-**See:** `MIGRATE-EXT4-TO-BTRFS.md` for detailed documentation and manual steps.
+**See:** [MIGRATE-EXT4-TO-BTRFS.md](../docs/MIGRATE-EXT4-TO-BTRFS.md) for detailed documentation and manual steps.
 
 ### `backup-before-migration.sh`
 
