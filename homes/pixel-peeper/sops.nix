@@ -21,6 +21,11 @@
         path = "${config.home.homeDirectory}/.config/sops-secrets/gpg-private-key.asc";
         sopsFile = ../../secrets/users/pixel-peeper.yaml;
       };
+      # SSH private key (declarative recovery - add to secrets/users/pixel-peeper.yaml under 'ssh.private_key')
+      "ssh/private_key" = {
+        path = "${config.home.homeDirectory}/.config/sops-secrets/ssh-private-key";
+        sopsFile = ../../secrets/users/pixel-peeper.yaml;
+      };
     };
   };
 
