@@ -2,30 +2,24 @@
 
 ## Cursor AI Editor
 
-### Current Installation (Custom Package)
+### Current Installation (`pkgs.code-cursor-fhs`)
 
-The configuration now installs Cursor version **2.0.34** using a custom Nix package that wraps the official AppImage:
+On the `testing` branch Cursor is provided directly from **nixpkgs**:
 
 ```nix
 home.packages = [
-  (pkgs.callPackage ../../configs/editors/cursor.nix {})
+  pkgs.code-cursor-fhs
 ];
 
 ```
 
-This is defined in `cursor.nix` and provides proper desktop integration, icons, and application launcher entries.
+`code-cursor-fhs` ships upstream Cursor inside an FHS environment so the embedded browser, webviews, and VS Code extensions all work out of the box (no AppImage wrangling).
 
-### Updating Cursor
+### Legacy Custom Package (still available)
 
-To update to a newer version:
+`configs/editors/cursor.nix` remains in the repo in case we need to pin an AppImage manually:
 
-1. Get the new AppImage URL from [Cursor downloads](https://cursor.com/download)
-2. Fetch the SHA256 hash:
-   ```bash
-   nix-prefetch-url "https://downloads.cursor.com/production/COMMIT_HASH/linux/x64/Cursor-VERSION-x86_64.AppImage"
-   ```
-3. Update `cursor.nix`: version, url, and sha256
-4. Rebuild: `hms` or `upgrade`
+To update that fallback package, repeat the AppImage steps below only if nixpkgs lags behind or the FHS build breaks.
 
 ### MCP (Model Context Protocol) Configuration 🎯
 
