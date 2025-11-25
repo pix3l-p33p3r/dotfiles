@@ -64,9 +64,9 @@
     };
   };
 
-  # Install Cursor AI Editor v2.0.34 (using custom AppImage wrapper)
+  # Install Cursor AI Editor via nixpkgs (FHS build for better extension compat)
   home.packages = [
-    (pkgs.callPackage ../../configs/editors/cursor.nix {})
+    pkgs.code-cursor-fhs
   ];
 
   home.username = "pixel-peeper";
