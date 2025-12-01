@@ -57,6 +57,7 @@ in
 	"$mod, g, exec, $browser --new-tab https://mail.google.com"
 	"$mod, c, exec, cursor"
 	"$mod, v, exec, vesktop"
+	"$mod, z, exec, keepassxc"
 
 	# Help: show all keybindings
 	"$mod, F1, exec, ${show_keybinds}"
