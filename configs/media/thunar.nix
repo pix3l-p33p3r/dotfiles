@@ -5,12 +5,12 @@
   # ============================================================================
   home.packages = with pkgs; [
     # Thunar File Manager
-    xfce.thunar
+    thunar
 
     # Official XFCE Thunar Plugins
-    xfce.thunar-archive-plugin # Create and extract archives
-    xfce.thunar-media-tags-plugin # ID3 tags and media metadata support
-    xfce.thunar-volman # Automatic management of removable devices
+    thunar-archive-plugin # Create and extract archives
+    thunar-media-tags-plugin # ID3 tags and media metadata support
+    thunar-volman # Automatic management of removable devices
 
     # Thumbnail Generator
     xfce.tumbler # Remote thumbnail service for Thunar
@@ -135,7 +135,7 @@
         <name>Open as Root</name>
         <submenu></submenu>
         <unique-id>1234567890123456-2</unique-id>
-        <command>pkexec ${pkgs.xfce.thunar}/bin/thunar %f</command>
+        <command>pkexec ${pkgs.thunar}/bin/thunar %f</command>
         <description>Open folder with root privileges</description>
         <range></range>
         <patterns>*</patterns>

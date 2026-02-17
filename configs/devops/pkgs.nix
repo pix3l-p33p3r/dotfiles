@@ -59,7 +59,8 @@
     awscli2 # AWS command line
     azure-cli # Azure command line
     google-cloud-sdk # Google Cloud SDK
-    amazon-ecs-cli # Amazon ECS CLI
+    # amazon-ecs-cli # Amazon ECS CLI # FUCKING DEPRICATED IN FAVOR OF AWS Copilot CLI.
+    copilot-cli
     acr-cli # Azure Container Registry CLI
 
     # VPS Providers

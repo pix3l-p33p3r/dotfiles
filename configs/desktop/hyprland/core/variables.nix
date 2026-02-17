@@ -2,7 +2,7 @@
 {
   # Terminal and core applications
   kitty = "${pkgs.kitty}/bin/kitty";
-  thunar = "${pkgs.xfce.thunar}/bin/thunar";
+  thunar = "${pkgs.thunar}/bin/thunar";
   firefox = "${pkgs.firefox}/bin/firefox";
 
   # Audio control
