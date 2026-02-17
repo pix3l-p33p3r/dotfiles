@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   home.packages = with pkgs; [
     # ============================================================================
@@ -85,21 +85,20 @@
     direnv # Environment management
   ];
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    dotDir = "${config.xdg.configHome}/zsh";
+    history.path = "${config.xdg.configHome}/zsh/.zsh_history";
+  };
 
   home.sessionVariables = {
-    ZDOTDIR = "$HOME/.config/zsh";
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
 
-  # Add local bin to PATH
-  home.sessionPath = [ "$HOME/.local/bin" ];
-
-  home.file = {
-    ".config/zsh" = {
-      source = ./config;
-      recursive = true;
-    };
+  # This ensures your existing config files are linked correctly
+  home.file.".config/zsh" = {
+    source = ./config;
+    recursive = true;
   };
 }
