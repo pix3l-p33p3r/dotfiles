@@ -77,29 +77,29 @@ in
   };
 
   # plugins = [ ];
-  windowrulev2 = [
-    "float,class:alacritty-float"
-    "center,class:alacritty-float"
-    "size 900 600,class:alacritty-float"
+  windowrule = [
+    "float on, match:class kitty-float"
+    "center on, match:class kitty-float"
+    "size 900 600, match:class kitty-float"
 
-    "float,class:.blueman-manager-wrapped"
+    "float on, match:class .blueman-manager-wrapped"
 
-    "float,class:org.gnome.seahorse.Application"
-    "size 900 700,class:org.gnome.seahorse.Application"
+    "float on, match:class org.gnome.seahorse.Application"
+    "size 900 700, match:class org.gnome.seahorse.Application"
 
-    "tile,class:[tT]hunar"
+    "tile on, match:class [tT]hunar"
 
-    "float,class:nm-connection-editor"
-    "size 900 600,class:nm-connection-editor"
+    "float on, match:class nm-connection-editor"
+    "size 900 600, match:class nm-connection-editor"
 
-    "float,class:org.pulseaudio.pavucontrol"
-    "size 900 600,class:org.pulseaudio.pavucontrol"
+    "float on, match:class org.pulseaudio.pavucontrol"
+    "size 900 600, match:class org.pulseaudio.pavucontrol"
 
-    "float,class:pavucontrol"
-    "center,class:pavucontrol"
-    "size 700 500,class:pavucontrol"
+    "float on, match:class pavucontrol"
+    "center on, match:class pavucontrol"
+    "size 700 500, match:class pavucontrol"
 
-    "idleinhibit focus,class:mpv"
-    "idleinhibit focus,class:org.pwmt.zathura"
+    "idle_inhibit focus, match:class mpv"
+    "idle_inhibit focus, match:class org.pwmt.zathura"
   ];
 }
