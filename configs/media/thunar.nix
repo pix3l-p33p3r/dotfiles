@@ -13,7 +13,7 @@
     thunar-volman # Automatic management of removable devices
 
     # Thumbnail Generator
-    xfce.tumbler # Remote thumbnail service for Thunar
+    tumbler # Remote thumbnail service for Thunar
     ffmpegthumbnailer # Video thumbnails for Tumbler
 
     # Virtual Filesystem Support (GVFS)
