@@ -2,6 +2,7 @@
   imports = [
     ../../configs/desktop/hyprland
     ../../configs/editors/cursor-config.nix
+    ../../configs/browsers/chrome.nix
     ../../configs/productivity/task-timewarrior.nix
     ../../configs/terminal/tmux.nix
     ../../configs/security/pkgs.nix

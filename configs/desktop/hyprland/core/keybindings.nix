@@ -17,7 +17,6 @@ in
 
 	# Applets
 	"${hyprpaper}"
-	"${hyprpanel}"
 	"${hypridle}"
 	
 	# Clipboard

@@ -44,5 +44,8 @@
   "theme.bar.buttons.modules.cpuTemp.enableBorder": false,
   "menus.power.lowBatteryNotification": true,
   "theme.bar.buttons.workspaces.enableBorder": false,
-  "theme.bar.buttons.windowtitle.enableBorder": false
+  "theme.bar.buttons.windowtitle.enableBorder": false,
+  "menus.dashboard.shortcuts.left.shortcut1.command": "pavucontrol",
+  "menus.dashboard.shortcuts.left.shortcut1.icon": "󰕾",
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Volume Control"
 }
