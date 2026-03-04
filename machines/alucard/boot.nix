@@ -38,72 +38,58 @@ in
 	# ───── Plymouth (Graphical Boot Splash) ─────
 	
 	# Custom Plymouth theme with password entry support using two-step module
-	# Combines assets from nixos-catppuccin-plymouth with two-step module for visible password field
+	# Combines assets from nixos-catppuccin-plymouth with dialog assets from the default
+	# spinner theme so the two-step module can render the LUKS password prompt
 	nixpkgs.overlays = [
 		(self: super: {
 			catppuccin_plymouth_password = super.stdenv.mkDerivation rec {
 				pname = "catppuccin-plymouth-password";
-				version = "0.0.1";
+				version = "0.0.2";
 				src = "${inputs.nixos-catppuccin-plymouth}/src/theme";
 
-				buildInputs = [ super.git ];
+				dontUnpack = true;
+				dontBuild = true;
 
-				unpackPhase = ''
-				'';
+				installPhase = let
+					themeDir = "$out/share/plymouth/themes/catppuccin-password";
+					spinnerDir = "${super.plymouth}/share/plymouth/themes/spinner";
+				in ''
+					mkdir -p ${themeDir}
 
-				configurePhase = ''
-					mkdir -p $out/share/plymouth/themes/catppuccin-password
-				'';
+					# Animation frames from the catppuccin theme
+					cp -r ${src}/*png ${themeDir}/ 2>/dev/null || true
 
-				buildPhase = ''
-				'';
+					# Password dialog assets required by the two-step module
+					for asset in bullet.png entry.png lock.png capslock.png keyboard.png keymap-render.png; do
+						if [ -f "${spinnerDir}/$asset" ]; then
+							cp "${spinnerDir}/$asset" ${themeDir}/
+						fi
+					done
 
-				installPhase = ''
-					# Copy all PNG assets from the base theme
-					cp -r ${src}/*png $out/share/plymouth/themes/catppuccin-password/ 2>/dev/null || true
-					
-					# Create .plymouth config file using two-step module (has built-in password entry)
-					cat > $out/share/plymouth/themes/catppuccin-password/catppuccin-password.plymouth <<THEMEEOF
+					cat > ${themeDir}/catppuccin-password.plymouth <<THEMEEOF
 [Plymouth Theme]
 Name=catppuccin-password
 Description=Catppuccin Mocha with visible LUKS password entry
 ModuleName=two-step
 
 [two-step]
-# Font configuration
 Font=Noto Sans 13
 TitleFont=Noto Sans Bold 34
-
-# Image directory
-ImageDir=$out/share/plymouth/themes/catppuccin-password
-
-# Dialog positioning (password entry box) - centered
+ImageDir=${themeDir}
 DialogHorizontalAlignment=.5
 DialogVerticalAlignment=.5
-
-# Title positioning (above password box)
 TitleHorizontalAlignment=.5
 TitleVerticalAlignment=.4
-
-# Animation/throbber positioning (below password box)
 HorizontalAlignment=.5
 VerticalAlignment=.6
-
-# Watermark positioning (optional, bottom of screen)
 WatermarkHorizontalAlignment=.5
 WatermarkVerticalAlignment=.92
-
-# Visual effects
 Transition=fade
 TransitionDuration=0.25
-
-# Colors (Catppuccin Mocha)
 BackgroundStartColor=0x1e1e2e
 BackgroundEndColor=0x11111b
 ProgressBarBackgroundColor=0x313244
 ProgressBarForegroundColor=0xb4befe
-
-# Text configuration
 MessageBelowAnimation=true
 Title=The Bird of Hermes is my name
 SubTitle=eating my own wings to make me tame
@@ -123,9 +109,6 @@ ProgressBarShowPercentComplete=true
 Title=Applying updates...
 SubTitle=Keep the machine powered
 THEMEEOF
-					
-					# Make files executable
-					chmod +x $out/share/plymouth/themes/catppuccin-password/catppuccin-password.plymouth
 				'';
 			};
 		})
@@ -136,8 +119,8 @@ THEMEEOF
 		themePackages = [ pkgs.catppuccin_plymouth_password ];
 		theme = "catppuccin-password";
 		extraConfig = ''
-			ShowDelay=0
-			DeviceScale=1.2
+ShowDelay=0
+DeviceScale=1.2
 		'';
 	};
 
@@ -179,6 +162,7 @@ THEMEEOF
 		# Silent boot - hide boot messages
 		"quiet"           # Reduce boot messages
 		"splash"          # Enable splash screen (Plymouth)
+		"plymouth.use-simpledrm"  # Render on EFI framebuffer immediately (no 8s wait)
 		"loglevel=3"      # Show only errors (3 = err)
 
 		# Systemd boot messages

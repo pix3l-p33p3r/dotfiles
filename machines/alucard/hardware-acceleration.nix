@@ -51,8 +51,6 @@
     # Enable Framebuffer Compression (FBC) for power saving
     "i915.enable_fbc=1"
     
-    # Faster GPU context switching
-    "i915.fastboot=1"
   ];
 
   # ───── Kernel Modules ─────
@@ -125,7 +123,7 @@
   
   # Ensure required modprobe options are applied for both Intel graphics and ThinkPad fan control
   boot.extraModprobeConfig = lib.mkForce ''
-    options i915 enable_guc=3 enable_fbc=1 enable_psr=1 fastboot=1
+    options i915 enable_guc=3 enable_fbc=1 enable_psr=1
     options thinkpad_acpi experimental=1 fan_control=1
   '';
 
