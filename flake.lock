@@ -380,11 +380,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1772622423,
-        "narHash": "sha256-VSmKjTP3R+JZXCRWRs9zg8E7KitbqTUvKRKHD27bdJw=",
+        "lastModified": 1772623356,
+        "narHash": "sha256-h4A1FGBEQaAgfsHwQnLRh5sws92M9RNwHwWAP9QywUI=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "9b89c4cfcc4bb613d9bfc952ef5ce4ef0c364079",
+        "rev": "3dccd5c1a41acc2074cc1c628f7a33796cd013ef",
         "type": "github"
       },
       "original": {
