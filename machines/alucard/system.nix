@@ -48,7 +48,7 @@
   networking.networkmanager.enable = true;
 
   # Keep wait-online, but cap it to 0.5s to avoid long rebuild/boot delays.
-  systemd.services.NetworkManager-wait-online.serviceConfig.TimeoutStartSec = "500ms";
+  systemd.services.NetworkManager-wait-online.serviceConfig.TimeoutStartSec = "150ms";
 
   # ───── SystemD Services Edits ─────
   services.journald.extraConfig = "SystemMaxUse=50M";
