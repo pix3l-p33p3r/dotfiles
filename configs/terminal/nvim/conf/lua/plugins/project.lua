@@ -19,7 +19,9 @@ return {
 
 			-- Table of lsp clients to ignore by name
 			-- eg: { "efm", ... }
-			ignore_lsp = {},
+			lsp = {
+				ignore = {},
+			},
 
 			-- Don't calculate root dir on specific directories
 			-- Ex: { "~/.cargo/*", ... }
