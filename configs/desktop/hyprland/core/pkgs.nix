@@ -6,6 +6,7 @@
     ../../../devops/pkgs.nix
     ../../../security/pkgs.nix
     ../../../media/pkgs.nix
+    ../../../docs/pkgs.nix
   ];
 
   home.packages = with pkgs; [
