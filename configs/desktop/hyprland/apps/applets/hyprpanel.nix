@@ -9,8 +9,8 @@
   systemd.user.services.hyprpanel = {
     Unit = {
       Description = "Hyprland status bar";
-      PartOf = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
+      PartOf = [ "hyprland-session.target" ];
+      After = [ "hyprland-session.target" ];
     };
     Service = {
       Type = "simple";
@@ -19,7 +19,7 @@
       RestartSec = 3;
     };
     Install = {
-      WantedBy = [ "graphical-session.target" ];
+      WantedBy = [ "hyprland-session.target" ];
     };
   };
 }
