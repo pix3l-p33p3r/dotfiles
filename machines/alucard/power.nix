@@ -37,9 +37,9 @@
   };
 
   # ───── CPU Governor ─────
-  # Set default CPU frequency scaling governor
-  # Options: ondemand, conservative, performance, powersave, schedutil
-  powerManagement.cpuFreqGovernor = lib.mkDefault "schedutil";
+  # intel_pstate driver only supports "performance" and "powersave" governors;
+  # TLP overrides this per AC/battery state anyway.
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   # ───── TLP Power Management ─────
   # Advanced power management for laptops
