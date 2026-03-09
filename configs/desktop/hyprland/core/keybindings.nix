@@ -56,7 +56,7 @@ in
 	"$mod, g, exec, $browser --new-tab https://mail.google.com"
 	"$mod, c, exec, cursor"
 	"$mod, v, exec, vesktop"
-	"$mod, z, exec, keepassxc"
+	"$mod, k, exec, keepassxc"
 
 	# Help: show all keybindings
 	"$mod, F1, exec, ${show_keybinds}"
@@ -66,19 +66,19 @@ in
 	"$mod SHIFT, Print, exec, ${record_start}"
 	"$mod CTRL, Print, exec, ${record_stop}"
 
-	"$mod, l, movefocus, r"
+	"$mod, semicolon, movefocus, r"
 	"$mod, h, movefocus, l"
-	"$mod, k, movefocus, u"
+	"$mod, l, movefocus, u"
 	"$mod, j, movefocus, d"
 
-	"$mod SHIFT, l, movewindow, r"
+	"$mod SHIFT, semicolon, movewindow, r"
 	"$mod SHIFT, h, movewindow, l"
 	"$mod SHIFT, k, movewindow, u"
 	"$mod SHIFT, j, movewindow, d"
 
 	# Resize active window (horizontal/vertical)
 	"$mod CTRL, h, resizeactive, -20 0"
-	"$mod CTRL, l, resizeactive, 20 0"
+	"$mod CTRL, semicolon, resizeactive, 20 0"
 	"$mod CTRL, k, resizeactive, 0 -20"
 	"$mod CTRL, j, resizeactive, 0 20"
 
