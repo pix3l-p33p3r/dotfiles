@@ -20,7 +20,7 @@ in appimageTools.wrapType2 {
   multiPkgs = null; # Use default multiPkgs
   extraPkgs = pkgs: (appimageTools.defaultFhsEnvArgs.multiPkgs pkgs) ++ (with pkgs; [
     # Core libraries
-    xorg.libxshmfence
+    libxshmfence
     # For native modules
     python3
     gcc
