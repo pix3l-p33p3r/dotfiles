@@ -1,4 +1,8 @@
-{ config, inputs, wallpaper, pkgs, lib, ... }@all: {
+{ config, inputs, wallpaper, pkgs, lib, ... }@all:
+let
+  cursorPkg = pkgs.callPackage ../../configs/editors/cursor.nix {};
+in
+{
   imports = [
     ../../configs/desktop/hyprland
     ../../configs/editors/cursor-config.nix
@@ -65,9 +69,10 @@
     };
   };
 
-  # Install Cursor AI Editor via nixpkgs (FHS build for better extension compat)
+  # Install editors
   home.packages = [
-    pkgs.code-cursor-fhs
+    cursorPkg
+    pkgs.zed-editor
   ];
 
   home.username = "pixel-peeper";
