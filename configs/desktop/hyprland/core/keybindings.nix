@@ -4,7 +4,7 @@ let
 	loginctl cliphist rofi rofi-menu rofi-cliphist hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
-	hyprpanel hyprlock hypridle hyprpaper hyprshot record_start record_stop show_keybinds;
+	hyprpanel hyprlock hyprpaper hyprshot record_start record_stop show_keybinds;
 in
 {
   exec-once = [
@@ -17,7 +17,6 @@ in
 
 	# Applets
 	"${hyprpaper}"
-	"${hypridle}"
 	
 	# Clipboard
 	"sleep 3; ${cliphist} wipe"

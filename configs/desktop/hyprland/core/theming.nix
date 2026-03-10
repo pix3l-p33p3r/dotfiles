@@ -23,9 +23,7 @@
 
   # Ensure Papirus folder color matches Catppuccin Mocha Lavender (GTK module removed upstream)
   home.activation.setPapirusFolders = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if command -v papirus-folders >/dev/null 2>&1; then
-      papirus-folders -C cat-mocha-lavender --theme Papirus-Dark || true
-    fi
+    ${pkgs.catppuccin-papirus-folders}/bin/papirus-folders -C cat-mocha-lavender --theme Papirus-Dark || true
   '';
 
 	stylix = {
