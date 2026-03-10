@@ -20,7 +20,7 @@
       ]
     },
     "GitKraken": {
-      "command": "/home/pixel-peeper/.config/Cursor/User/globalStorage/eamodio.gitlens/gk",
+      "command": "$HOME/.config/Cursor/User/globalStorage/eamodio.gitlens/gk",
       "type": "stdio",
       "name": "GitKraken",
       "args": [
@@ -36,7 +36,7 @@
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/home/pixel-peeper/dotfiles"
+        "$HOME/dotfiles"
       ]
     }
   }
