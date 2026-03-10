@@ -116,7 +116,7 @@
     speedtest-cli # Internet speed test
 
     # Database TUI Tools
-    mycli # MySQL CLI
+    # mycli # MySQL CLI (temporarily disabled: nixpkgs runtime dep mismatch on sqlglot 27.*)
     pgcli # PostgreSQL CLI
     litecli # SQLite CLI
     usql # Universal SQL CLI
