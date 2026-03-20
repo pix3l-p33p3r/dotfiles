@@ -28,24 +28,25 @@ desktop/hyprland/
 │   └── xdg.nix              # XDG configuration
 └── apps/                    # Desktop applications
     ├── applets/             # Status bar, lockscreen, etc.
-    │   ├── hyprpanel.nix    # Status bar
+    │   ├── hyprpanel.nix    # Status bar (systemd service)
     │   ├── hyprlock.nix     # Lock screen
     │   ├── hypridle.nix     # Idle daemon
     │   ├── rofi.nix         # App launcher
     │   └── hyprpaper.nix    # Wallpaper daemon
-    ├── battop.nix           # Battery monitor
     └── imv.nix              # Image viewer
 ```
 
 ## Features
 
-**Hyprland Stack:** Dynamic tiling, hyprpanel (bar), hyprlock (secure lock), hypridle (idle), hyprpaper (wallpapers), Rofi launcher, hyprpicker/hyprshot utilities
+**Hyprland Stack:** Dynamic tiling, hyprpanel (bar, systemd service), hyprlock (secure lock), hypridle (idle), hyprpaper (wallpapers), Rofi launcher, hyprpicker/hyprshot utilities, hyprsunset (night light)
+
+**Window rules:** Migrated to v3 syntax (Hyprland 0.53+). Window animations disabled for snappier feel.
 
 **Theming:** Catppuccin Mocha, Papirus icons, Hyprcursor, Adw-gtk3 dark theme
 
 **Fonts:** Code (JetBrainsMono Nerd Font), Terminal (FiraCode Nerd Font), UI (Noto Sans + CJK), Emoji (Noto Nerd Font), Fallbacks (Liberation, DejaVu)
 
-**Wayland Tools:** wl-clipboard + cliphist, grim + slurp + grimblast, hyprpicker, zenity
+**Wayland Tools:** wl-clipboard + cliphist, grim + slurp + grimblast, hyprpicker, wf-recorder, zenity
 
 ## Keybindings
 

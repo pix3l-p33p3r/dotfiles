@@ -17,25 +17,32 @@ alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
 ├── boot.nix                 # Secure Boot (Lanzaboote), Plymouth, firmware
-├── system.nix               # Core settings, services
+├── system.nix               # Core settings, NetworkManager, OpenSSH
 ├── locale.nix               # Timezone, internationalization
-├── users.nix                # User accounts, shell
+├── users.nix                # User accounts, shell, groups
 ├── programs.nix             # System programs
 ├── hardware-acceleration.nix # Intel drivers, VA-API, Vulkan, OpenCL
+├── graphics.nix             # Intel Mesa, GPU config
 ├── audio.nix                # Pipewire, ALSA
-├── bluetooth.nix            # Bluetooth, Blueman
+├── bluetooth.nix            # Bluez, Blueman
+├── power.nix                # TLP, intel_pstate powersave governor
+├── swap.nix                 # zram swap configuration
 ├── wayland.nix              # Hyprland (XWayland auto-enabled)
-├── security.nix             # PAM, D-Bus, Dconf
+├── display-manager.nix      # SDDM display manager
+├── security.nix             # PAM, Polkit, D-Bus, Dconf
+├── secrets.nix              # SOPS/Age key paths
 ├── docker.nix               # Docker container runtime
-├── virt.nix                 # Virtualization (QEMU/KVM/libvirt)
+├── virt.nix                 # QEMU/KVM/libvirt (socket-activated)
 └── maint.nix                # Auto-updates, GC, optimization
 ```
 
 ## Key Components
 
-**System:** Secure Boot (Lanzaboote/UKI), Plymouth, LUKS, Intel microcode, HW acceleration, fwupd  
-**Services:** NetworkManager, OpenSSH, UPower, Pipewire, Docker, QEMU/KVM/libvirt  
-**Display:** Hyprland (Wayland), XWayland, Blueman
+**Boot:** Secure Boot (Lanzaboote/UKI), Plymouth (Catppuccin), LUKS, Intel microcode, fwupd  
+**Hardware:** Intel VA-API, Vulkan, OpenCL, Mesa, intel_pstate powersave governor  
+**Services:** NetworkManager, OpenSSH, UPower, Pipewire, Docker, QEMU/KVM/libvirt (socket-activated)  
+**Display:** SDDM, Hyprland (Wayland), XWayland, Blueman  
+**Security:** SOPS/Age secrets, PAM, Polkit
 
 ## Customization
 
@@ -77,13 +84,21 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
 
 | Service | Module | Config |
 |---------|--------|--------|
+| Lanzaboote | `boot.nix` | Secure Boot UKI signing |
+| Plymouth | `boot.nix` | Catppuccin boot splash |
+| fwupd | `boot.nix` | `services.fwupd.enable` |
 | NetworkManager | `system.nix` | `networking.networkmanager.enable` |
 | OpenSSH | `system.nix` | `services.openssh.enable` |
+| SDDM | `display-manager.nix` | Display manager |
 | Pipewire | `audio.nix` | Audio stack |
+| Bluetooth | `bluetooth.nix` | Bluez + Blueman |
 | Hyprland | `wayland.nix` | `programs.hyprland.enable` |
-| fwupd | `boot.nix` | `services.fwupd.enable` |
+| Intel GPU | `hardware-acceleration.nix` | VA-API, Vulkan, OpenCL |
+| TLP | `power.nix` | `intel_pstate` powersave governor |
+| zram | `swap.nix` | Compressed swap in RAM |
 | Docker | `docker.nix` | `virtualisation.docker.enable` |
-| libvirt | `virt.nix` | `virtualisation.libvirtd.enable` |
+| libvirt | `virt.nix` | `virtualisation.libvirtd.enable` (socket-activated) |
+| SOPS | `secrets.nix` | Age key paths for secret decryption |
 
 ## Benefits
 

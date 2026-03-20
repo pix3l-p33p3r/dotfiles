@@ -23,7 +23,7 @@
 </div>
 <br>
 
-**Modern NixOS and Home Manager configuration** for a productive development environment. Hyprland-centric with comprehensive dev tools and Catppuccin Mocha theming.
+**Modern NixOS and Home Manager configuration** for a productive development environment. Hyprland-centric with comprehensive dev tools and Catppuccin Mocha theming. Secure Boot via Lanzaboote, SOPS/Age encrypted secrets, and Stylix-driven system-wide theming.
 
 ## Installation
 
@@ -61,6 +61,8 @@ nix run home-manager/master -- switch --flake .#your-username@your-hostname
 
 `machines/` (NixOS system) → `homes/` (Home Manager user) → `configs/` (apps) → `assets/`, `scripts/`, `secrets/`, `docs/`
 
+**Flake inputs:** nixpkgs (unstable), home-manager, catppuccin/nix, stylix, lanzaboote, sops-nix, zen-browser, NUR, nixos-catppuccin-plymouth
+
 ## Keybindings
 
 | Action | Keybind |
@@ -72,16 +74,22 @@ nix run home-manager/master -- switch --flake .#your-username@your-hostname
 | Move window | `Super + Shift + H/J/K/L` |
 | Fullscreen | `Super + Shift + F` |
 | Lock screen | `Super + Escape` |
+| KeePassXC | `Super + K` |
 
 See [docs/SHORTCUTS.md](docs/SHORTCUTS.md) for full list.
 
 ## Stack
 
-**Desktop:** Hyprland, hyprpanel, rofi, hyprlock, hyprpaper  
-**Terminal:** Kitty, Zsh (Zap), Neovim, tmux, yazi  
-**Dev Tools:** LSP, TreeSitter, Copilot, lazygit, terraform, k9s  
-**Security:** trivy, semgrep, nuclei, ffuf, vault, sops  
-**Media:** MPV, Zathura, MPD, cava, imv
+**Desktop:** Hyprland, hyprpanel, rofi, hyprlock, hyprpaper, hyprsunset  
+**Editors:** Cursor AI, Zed, Neovim  
+**Terminal:** Kitty, Zsh (Zap), tmux, yazi, atuin  
+**Browsers:** Chrome (declarative, GPU accel), Zen Browser (twilight), Librewolf, Qutebrowser  
+**Dev Tools:** LSP, TreeSitter, Copilot, lazygit, lazysql, terraform, k9s  
+**DevOps:** Docker, Kubernetes, Helm, Terraform, Ansible, AWS/Azure/GCP CLIs  
+**Security:** trivy, semgrep, nuclei, ffuf, vault, sops, KeePassXC, ProtonVPN  
+**AI:** gemini-cli, fabric-ai  
+**Media:** MPV, Zathura, MPD, cava, imv, Spotify, yt-dlp  
+**Productivity:** Taskwarrior 3, Timewarrior, Obsidian, Joplin, LibreOffice
 
 Package catalog: `configs/desktop/hyprland/core/pkgs.nix`
 
@@ -89,7 +97,7 @@ Package catalog: `configs/desktop/hyprland/core/pkgs.nix`
 
 **Start here:** [docs/INDEX.md](docs/INDEX.md)
 
-Quick links: [HOME-MANAGER.md](docs/HOME-MANAGER.md) | [System Config](machines/alucard/README.md) | [Desktop](configs/desktop/README.md) | [Secrets](secrets/README.md) | [Decisions](docs/DECISIONS.md)
+Quick links: [HOME-MANAGER.md](docs/HOME-MANAGER.md) | [System Config](docs/machines/alucard/README.md) | [Desktop](docs/configs/desktop/README.md) | [Notes & Tasks](docs/NOTES-AND-TASKS.md) | [Secrets](docs/secrets/README.md) | [Decisions](docs/DECISIONS.md)
 
 ## License
 

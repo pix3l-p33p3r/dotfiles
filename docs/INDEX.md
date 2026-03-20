@@ -14,6 +14,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 
 **Configuration Guides:**
 - [MCP-SETUP.md](MCP-SETUP.md) - Model Context Protocol setup for Cursor AI (SOPS encryption)
+- [NOTES-AND-TASKS.md](NOTES-AND-TASKS.md) - Notes, task management, and time tracking system
 - [SHORTCUTS.md](SHORTCUTS.md) - Keybinds and aliases reference
 - [MIGRATE-EXT4-TO-BTRFS.md](MIGRATE-EXT4-TO-BTRFS.md) - Filesystem migration guide
 
@@ -55,6 +56,10 @@ Complete navigation guide for NixOS dotfiles documentation.
 1. [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland
 2. [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theming
 
+**Notes & task tracking:**
+1. [NOTES-AND-TASKS.md](NOTES-AND-TASKS.md) - Full system overview
+2. [DECISIONS-TOOLING.md](DECISIONS-TOOLING.md) - Why Taskwarrior + Timewarrior
+
 **Understand architecture:**
 1. [README.md](../README.md) - System overview
 2. [DECISIONS.md](DECISIONS.md) - Configuration rationale
@@ -68,6 +73,7 @@ docs/
 ├── DECISIONS-TOOLING.md        # Tool choices
 ├── HOME-MANAGER.md             # Home Manager guide
 ├── MCP-SETUP.md                # Cursor MCP setup
+├── NOTES-AND-TASKS.md          # Notes & task management
 ├── SHORTCUTS.md                # Keybinds reference
 └── MIGRATE-EXT4-TO-BTRFS.md    # Filesystem migration
 

@@ -1,5 +1,17 @@
 # Editor Configurations
 
+## Editors
+
+| Editor | Package | Role |
+|--------|---------|------|
+| Cursor AI | `pkgs.code-cursor-fhs` (custom `cursor.nix`) | Primary IDE with AI/MCP |
+| Zed | `pkgs.zed-editor` | Secondary editor |
+| Neovim | `programs.neovim` (Lazy.nvim) | Terminal editor |
+
+All three are installed via `homes/pixel-peeper/default.nix`.
+
+---
+
 ## Cursor AI Editor
 
 ### Current Installation (`pkgs.code-cursor-fhs`)
@@ -37,16 +49,16 @@ home.file.".cursor/mcp.json" = {
 ```
 
 **Configured MCP Servers**:
-- **NixOS** - Package search, options, and flake operations (The Enlightened Way™)
-- **Obsidian** - Second brain integration (API key encrypted with SOPS + Age)
+- **NixOS** - Package search, options, and flake operations
 - **GitKraken** - Git operations
 - **Filesystem** - Dotfiles access
 
+> Obsidian MCP was removed. Secrets for remaining servers are encrypted with SOPS + Age.
+
 **Security Features**:
-- 🔐 Obsidian API key encrypted with SOPS + Age
-- 🔑 Secrets stored in `secrets/users/pixel-peeper.yaml` (encrypted)
-- 🏗️ Automatic decryption during Home Manager build
-- 📝 Age key location: `~/.config/sops/age/keys.txt`
+- Secrets stored in `secrets/users/pixel-peeper.yaml` (encrypted)
+- Automatic decryption during Home Manager build
+- Age key location: `~/.config/sops/age/keys.txt`
 
 The configuration automatically deploys to `~/.cursor/mcp.json` on `home-manager switch`.
 
@@ -71,4 +83,10 @@ See `docs/MCP-SETUP.md` for detailed documentation and `secrets/README.md` for S
 
 **Issue**: Can't download AppImage  
 **Solution**: Check network connectivity or download from browser at https://cursor.com/download
+
+---
+
+## Zed Editor
+
+Installed as `pkgs.zed-editor` alongside Cursor. No custom configuration yet -- uses defaults. Added as a lightweight alternative for quick editing sessions.
 
