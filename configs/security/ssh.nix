@@ -7,10 +7,11 @@ let
   sshConfigContent = ''
     # SSH configuration managed by Home Manager
     # Generated declaratively with proper permissions
-    
-    # Global settings
-    IdentityAgent ${sshAgentSocket}
-    
+
+    # KeePassXC agent only when its socket exists (otherwise use default $SSH_AUTH_SOCK / key file)
+    Match exec "test -S ${sshAgentSocket}"
+        IdentityAgent ${sshAgentSocket}
+
     # GitHub-specific configuration
     Host github.com
         Hostname ssh.github.com
@@ -35,29 +36,21 @@ let
         ServerAliveInterval 30
         ServerAliveCountMax 3
   '';
+
+  # home.file would symlink into /nix/store; OpenSSH rejects that (wrong owner / perms).
+  sshConfigFile = pkgs.writeText "hm-ssh-config" sshConfigContent;
 in
 {
-  # Create SSH config as a regular file with proper permissions (not a symlink)
-  # This avoids permission issues with Nix store symlinks
-  # Using home.file instead of programs.ssh to create a regular file, not a symlink
-  home.file.".ssh/config" = {
-    text = sshConfigContent;
-    # Home Manager will set appropriate permissions automatically
-  };
-  
   # Ensure .ssh directory has correct permissions
   home.activation.ensureSshDir = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
     SSH_DIR="${config.home.homeDirectory}/.ssh"
     $DRY_RUN_CMD mkdir -p "$SSH_DIR"
     $DRY_RUN_CMD chmod 700 "$SSH_DIR" || true
   '';
-  
-  # Fix SSH config permissions after it's created
-  home.activation.fixSshConfigPermissions = lib.hm.dag.entryAfter ["checkLinkTargets"] ''
-    SSH_CONFIG="${config.home.homeDirectory}/.ssh/config"
-    if [ -f "$SSH_CONFIG" ]; then
-      $DRY_RUN_CMD chmod 600 "$SSH_CONFIG" || true
-    fi
+
+  # Install a real ~/.ssh/config (mode 600, owned by you) on every activation
+  home.activation.installSshConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    $DRY_RUN_CMD install -m 600 ${sshConfigFile} "${config.home.homeDirectory}/.ssh/config"
   '';
 
   # Restore SSH private key from SOPS (declarative recovery)

@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 {
+  # Wires Git HTTPS to `gh auth git-credential` (same as `gh auth setup-git`).
+  programs.gh.enable = true;
+
   # Git commit message template
   home.file.".config/git/template" = {
     enable = true;
@@ -128,8 +131,6 @@
     ];
 
     settings = {
-      credential."https://github.com".helper = "!/home/pixel-peeper/.nix-profile/bin/gh auth git-credential";
-      credential."https://gist.github.com".helper = "!/home/pixel-peeper/.nix-profile/bin/gh auth git-credential";
       user = {
         email = "pix3l-p33p3r@proton.me";
         name = "pixel-peeper";
