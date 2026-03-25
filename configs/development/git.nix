@@ -112,6 +112,7 @@
 
   programs.git = {
     enable = true;
+    lfs.enable = true;
 
     # Conditional config for 1337 School (vogsphere)
     includes = [
@@ -127,6 +128,8 @@
     ];
 
     settings = {
+      credential."https://github.com".helper = "!/home/pixel-peeper/.nix-profile/bin/gh auth git-credential";
+      credential."https://gist.github.com".helper = "!/home/pixel-peeper/.nix-profile/bin/gh auth git-credential";
       user = {
         email = "pix3l-p33p3r@proton.me";
         name = "pixel-peeper";
