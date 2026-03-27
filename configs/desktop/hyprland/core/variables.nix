@@ -52,7 +52,7 @@
             profiles="orbit"
           fi
 
-          options=$(printf '%s\n' $profiles; printf '%s\n' "New Window" "Private Window")
+          options=$(printf '%s\n' "$profiles"; printf '%s\n' "New Window" "Private Window")
           choice=$(printf '%s\n' "$options" | rofi -dmenu -p " Firefox" -i)
 
           case "$choice" in
