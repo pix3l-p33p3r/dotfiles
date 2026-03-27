@@ -1,7 +1,7 @@
 { variables, ... }:
 let
   inherit (variables) 
-	loginctl cliphist rofi rofi-menu rofi-cliphist hyprpicker volume_up volume_down 
+	loginctl cliphist rofi rofi-menu rofi-cliphist rofi-firefox hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
 	hyprpanel hyprlock hyprpaper hyprshot record_start record_stop show_keybinds;
@@ -51,6 +51,7 @@ in
 
 	"$mod, f, exec, $file_manager"
 	"$mod, b, exec, $browser"
+	"$mod SHIFT, b, exec, ${rofi-firefox}"
 	"$mod, x, exec, $browser --new-tab https://x.com"
 	"$mod, g, exec, $browser --new-tab https://mail.google.com"
 	"$mod, c, exec, cursor"

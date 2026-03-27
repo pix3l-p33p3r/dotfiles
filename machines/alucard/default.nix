@@ -36,6 +36,7 @@
       
       # Networking
       ./vpn.nix
+      ./dns.nix
 
       # Maintenance
       ./maint.nix

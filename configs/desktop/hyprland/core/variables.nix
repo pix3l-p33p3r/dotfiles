@@ -38,6 +38,34 @@
   rofi-cliphist = "${pkgs.rofi}/bin/rofi -dmenu -i";
   menu = "${pkgs.rofi}/bin/rofi -show drun -show-icons";
 
+  rofi-firefox =
+    let
+      script = pkgs.writeShellApplication {
+        name = "rofi-firefox";
+        runtimeInputs = [ pkgs.rofi pkgs.firefox ];
+        text = ''
+          PROFILES_INI="$HOME/.mozilla/firefox/profiles.ini"
+
+          if [ -f "$PROFILES_INI" ]; then
+            profiles=$(grep -E '^Name=' "$PROFILES_INI" | sed 's/^Name=//' | sort -u)
+          else
+            profiles="orbit"
+          fi
+
+          options=$(printf '%s\n' $profiles; printf '%s\n' "New Window" "Private Window")
+          choice=$(printf '%s\n' "$options" | rofi -dmenu -p " Firefox" -i)
+
+          case "$choice" in
+            "New Window")     firefox --new-window ;;
+            "Private Window") firefox --private-window ;;
+            "")               exit 0 ;;
+            *)                firefox -P "$choice" ;;
+          esac
+        '';
+      };
+    in
+    "${script}/bin/rofi-firefox";
+
   # Hyprland ecosystem
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
