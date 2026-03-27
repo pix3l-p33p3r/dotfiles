@@ -178,7 +178,7 @@
     networkmanager # Network management daemon
     networkmanagerapplet # NetworkManager applet
     wifi-qr # Generate WiFi QR codes
-    protonvpn-gui
+    proton-vpn
 
     # ============================================================================
     # |                           GUI APPLICATIONS                             |

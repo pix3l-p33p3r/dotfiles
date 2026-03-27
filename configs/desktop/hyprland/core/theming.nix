@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 {
 	# Cursor size/source of truth (Catppuccin provides theme, HM sets size)
 	home.pointerCursor = {
@@ -11,6 +11,9 @@
 			package = pkgs.catppuccin-papirus-folders;
 			name = "Papirus-Dark";
 		};
+
+		# HM ≥26.05 defaults gtk4 theme separately; keep GTK3/GTK4 aligned with Stylix until stateVersion migrates.
+		gtk4.theme = config.gtk.theme;
 
 		gtk3.extraConfig = {
 			gtk-application-prefer-dark-theme = true;

@@ -216,6 +216,8 @@
     userDirs = {
       enable = true;
       createDirectories = true;
+      # HM ≥26.05 defaults to false; we already export XDG_* dirs in home.sessionVariables below.
+      setSessionVariables = false;
 
       # Define standard XDG user directories
       desktop = "${config.home.homeDirectory}/Desktop";

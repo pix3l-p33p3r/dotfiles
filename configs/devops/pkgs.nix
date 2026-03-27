@@ -61,7 +61,7 @@
     google-cloud-sdk # Google Cloud SDK
     # amazon-ecs-cli # Amazon ECS CLI # FUCKING DEPRICATED IN FAVOR OF AWS Copilot CLI.
     copilot-cli
-    acr-cli # Azure Container Registry CLI
+    # acr-cli: temporarily removed — nixpkgs 0.18.1 tests fail on current Go (ParseDuration error type mismatch in purge_test.go).
 
     # VPS Providers
     doctl # DigitalOcean CLI
