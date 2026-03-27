@@ -34,6 +34,9 @@
       ./docker.nix
       ./virt.nix
       
+      # Networking
+      ./vpn.nix
+
       # Maintenance
       ./maint.nix
     ];
