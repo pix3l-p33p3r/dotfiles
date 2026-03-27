@@ -7,6 +7,7 @@ in
     ../../configs/desktop/hyprland
     ../../configs/editors/cursor-config.nix
     ../../configs/browsers/chrome.nix
+    ../../configs/browsers/zen-browser.nix
     ../../configs/productivity/task-timewarrior.nix
     ../../configs/terminal/tmux.nix
     ../../configs/security/pkgs.nix
@@ -58,16 +59,6 @@ in
       ignore_dbus_inhibit = true
     }
   '';
-
-  # Zen Browser (twilight) enabled; Firefox remains default browser
-  programs.zen-browser = {
-    enable = true;
-    # No spaces/containers for now
-    profiles.default = {
-      # TODO: add extensions via extensions.packages once source list is decided
-      extensions.packages = [];
-    };
-  };
 
   # Install editors
   home.packages = [
