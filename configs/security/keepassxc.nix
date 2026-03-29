@@ -10,15 +10,6 @@ in
     SSH_AUTH_SOCK=${sshAgentSocket}
   '';
 
-  xdg.configFile."autostart/keepassxc.desktop".text = ''
-    [Desktop Entry]
-    Type=Application
-    Name=KeePassXC
-    Comment=Unlock KeePassXC for OTP/secrets and expose the SSH agent socket
-    Exec=${pkgs.keepassxc}/bin/keepassxc --lock
-    X-GNOME-Autostart-enabled=true
-  '';
-
   # Ensure KeepassXC has a place to drop its SSH agent socket and leave a
   # reminder documenting what belongs there (the actual database lives outside git).
   home.activation.ensureKeePassSocketDir =

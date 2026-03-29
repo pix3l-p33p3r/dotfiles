@@ -27,6 +27,7 @@ in
 	"[workspace 1 silent] $terminal"
 	"[workspace 2 silent] $browser"
 	"[workspace 3 silent] cursor"
+	"[workspace 4 silent] keepassxc"
 
   ];
 
