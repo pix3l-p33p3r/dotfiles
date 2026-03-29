@@ -1,4 +1,10 @@
 { config, pkgs, lib, ... }:
+let
+  # nixpkgs hard-codes cat-mocha-blue; patch the installPhase at build time for lavender.
+  catppuccinPapirusFoldersLavender = pkgs.catppuccin-papirus-folders.overrideAttrs (old: {
+    installPhase = builtins.replaceStrings [ "cat-mocha-blue" ] [ "cat-mocha-lavender" ] old.installPhase;
+  });
+in
 {
 	# Cursor size/source of truth (Catppuccin provides theme, HM sets size)
 	home.pointerCursor = {
@@ -8,7 +14,7 @@
 	gtk = {
 		enable = true;
 		iconTheme = {
-			package = pkgs.catppuccin-papirus-folders;
+			package = catppuccinPapirusFoldersLavender;
 			name = "Papirus-Dark";
 		};
 
@@ -24,10 +30,6 @@
 		};
 	};
 
-  # Ensure Papirus folder color matches Catppuccin Mocha Lavender (GTK module removed upstream)
-  home.activation.setPapirusFolders = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ${pkgs.catppuccin-papirus-folders}/bin/papirus-folders -C cat-mocha-lavender --theme Papirus-Dark || true
-  '';
 
 	stylix = {
 
