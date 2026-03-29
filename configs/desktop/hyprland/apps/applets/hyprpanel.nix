@@ -1,9 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  home.file = {
-    ".config/hyprpanel/config.json".source = ./hyprpanel/config/config.json;
-    ".config/hyprpanel/modules.json".source = ./hyprpanel/config/modules.json;
+  # Use XDG config path (not home.file under .config) to avoid symlink edge cases
+  # that produced ELOOP for hyprpanel reading config.json.
+  xdg.configFile = {
+    "hyprpanel/config.json".source = ./hyprpanel/config/config.json;
+    "hyprpanel/modules.json".source = ./hyprpanel/config/modules.json;
   };
 
   systemd.user.services.hyprpanel = {

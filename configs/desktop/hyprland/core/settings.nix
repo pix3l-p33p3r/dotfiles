@@ -88,6 +88,11 @@ in
   };
 
   # plugins = [ ];
+  # Cursor is Electron on Wayland — GlassIt/xprop does not apply; compositor opacity shows wallpaper through the whole window (text included). Tune the first value (focused) / second (unfocused).
+  windowrulev2 = [
+    "opacity 0.92 override 0.86 override, class:^(cursor)$"
+  ];
+
   windowrule = [
     "float on, match:class kitty-float"
     "center on, match:class kitty-float"

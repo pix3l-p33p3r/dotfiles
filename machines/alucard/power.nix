@@ -28,10 +28,10 @@
         # Handle power button action
         HandlePowerKey = "suspend";
         HandlePowerKeyLongPress = "poweroff";
-        
-        # Additional power key handling
-        SuspendKey = "suspend";
-        HibernateKey = "hibernate";
+
+        # Sleep / hibernate keys (systemd uses Handle*, not SuspendKey/HibernateKey)
+        HandleSuspendKey = "suspend";
+        HandleHibernateKey = "hibernate";
       };
     };
   };

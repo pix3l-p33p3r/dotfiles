@@ -44,6 +44,9 @@
   # Enable nix-ld for compatibility with dynamically linked executables (required for MCP-NixOS server)
   programs.nix-ld.enable = true;
 
+  # wsdd: GVFS / network shares use this for WS-Discovery; silences gvfsd-wsdd "Failed to spawn wsdd"
+  environment.systemPackages = [ pkgs.wsdd ];
+
   # Enable networking
   networking.networkmanager.enable = true;
 

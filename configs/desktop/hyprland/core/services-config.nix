@@ -1,4 +1,4 @@
-{ variables, ... }:
+{ variables, pkgs, lib, ... }:
 let
   inherit (variables) 
     pidof hyprctl brightnessctl systemctl ;
@@ -28,6 +28,10 @@ in
   };
 
   services.poweralertd.enable = true;
+  # Skip startup broadcast: without a notification daemon ready, poweralertd can exit
+  # with "could not send state update notification: No route to host" and restart-loop.
+  systemd.user.services.poweralertd.Service.ExecStart =
+    lib.mkForce "${pkgs.poweralertd}/bin/poweralertd -s";
   services.network-manager-applet.enable = true;
 
   # Polkit agent (required for GUI auth prompts e.g., udisks mounts in Thunar)

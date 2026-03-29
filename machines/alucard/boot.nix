@@ -44,7 +44,7 @@ in
 		(self: super: {
 			catppuccin_plymouth_password = super.stdenv.mkDerivation rec {
 				pname = "catppuccin-plymouth-password";
-				version = "0.0.2";
+				version = "0.0.3";
 				src = "${inputs.nixos-catppuccin-plymouth}/src/theme";
 
 				dontUnpack = true;
@@ -56,8 +56,13 @@ in
 				in ''
 					mkdir -p ${themeDir}
 
-					# Animation frames from the catppuccin theme
-					cp -r ${src}/*png ${themeDir}/ 2>/dev/null || true
+					# Catppuccin ships nixos-*.png for the script module; two-step uses
+					# throbber-NNNN.png for the looping boot animation (same pattern as spinner).
+					i=1
+					for srcimg in $(ls ${src}/nixos-*.png | sort -V); do
+						cp "$srcimg" "${themeDir}/$(printf 'throbber-%04d.png' "$i")"
+						i=$((i + 1))
+					done
 
 					# Password dialog assets required by the two-step module
 					for asset in bullet.png entry.png lock.png capslock.png keyboard.png keymap-render.png; do
@@ -162,7 +167,7 @@ DeviceScale=1.2
 		# Silent boot - hide boot messages
 		"quiet"           # Reduce boot messages
 		"splash"          # Enable splash screen (Plymouth)
-		"plymouth.use-simpledrm"  # Render on EFI framebuffer immediately (no 8s wait)
+		# Omit plymouth.use-simpledrm: conflicts with i915 early-KMS on some Intel laptops
 		"loglevel=3"      # Show only errors (3 = err)
 
 		# Systemd boot messages

@@ -1,10 +1,10 @@
-{ pkgs, inputs, wallpaper, ... }:
+{ pkgs, lib, inputs, wallpaper, ... }:
 let
   variables = import ./variables.nix { inherit pkgs inputs wallpaper; };
   submapsConfig = import ./submaps.nix { inherit variables; };
   keybindings = import ./keybindings.nix { inherit variables; };
   settings = import ./settings.nix { inherit variables keybindings; };
-  servicesConfig = import ./services-config.nix { inherit variables; };
+  servicesConfig = import ./services-config.nix { inherit variables pkgs lib; };
 in
 {
   wayland.windowManager.hyprland.enable = true;
