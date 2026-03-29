@@ -20,10 +20,9 @@ in
   services.gnome-keyring = {
     enable = true;
     components = [
-      "secrets"
-      # ssh component removed: it overrides SSH_AUTH_SOCK to /run/user/1000/gcr/ssh
+      # secrets removed: KeePassXC owns the Freedesktop Secret Service API.
+      # ssh removed: it overrides SSH_AUTH_SOCK to /run/user/1000/gcr/ssh
       # but never creates that socket, killing the KeePassXC agent setup.
-      # KeePassXC handles SSH auth via ~/.local/share/keepassxc/ssh-agent instead.
     ];
   };
 
