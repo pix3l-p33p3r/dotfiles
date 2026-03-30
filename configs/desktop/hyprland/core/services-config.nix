@@ -17,14 +17,10 @@ in
     ];
   };
 
-  services.gnome-keyring = {
-    enable = true;
-    components = [
-      # secrets removed: KeePassXC owns the Freedesktop Secret Service API.
-      # ssh removed: it overrides SSH_AUTH_SOCK to /run/user/1000/gcr/ssh
-      # but never creates that socket, killing the KeePassXC agent setup.
-    ];
-  };
+  # gnome-keyring disabled: KeePassXC owns both the SSH agent and the
+  # Freedesktop Secret Service API. Keeping gnome-keyring running (even with
+  # no components) triggers a warning in KeePassXC and risks SSH_AUTH_SOCK hijack.
+  services.gnome-keyring.enable = false;
 
   services.poweralertd.enable = true;
   # Skip startup broadcast: without a notification daemon ready, poweralertd can exit
