@@ -11,15 +11,22 @@
   
   # Age key file location
   sops.age.keyFile = "/home/pixel-peeper/.config/sops/age/keys.txt";
-  
-  # Example secret definitions
-  # Uncomment and modify as needed
-  
+
+  # ───── VPN ─────
+  # Decrypted at activation time to /run/secrets/vpn/ipsec_secrets
+  # Consumed by services.strongswan.secrets in vpn.nix
+  sops.secrets."ipsec_secrets" = {
+    owner = "root";
+    group = "root";
+    mode = "0600";
+  };
+
+  # ───── Inactive examples ─────
+
   # sops.secrets."ssh/host_key_ed25519" = {
   #   owner = "root";
   #   group = "systemd-network";
   #   mode = "0400";
-  #   # path = config.services.openssh.hostKeys[0].path;
   # };
   
   # sops.secrets."wireguard/private_key" = {
@@ -32,13 +39,6 @@
   #   owner = config.users.users.pixel-peeper.name;
   #   group = config.users.users.pixel-peeper.group;
   #   mode = "0400";
-  # };
-  
-  # sops.secrets."database/postgresql_password" = {
-  #   owner = "postgres";
-  #   group = "postgres";
-  #   mode = "0400";
-  #   sopsFile = ./../../secrets/hosts/alucard.yaml;
   # };
 }
 
