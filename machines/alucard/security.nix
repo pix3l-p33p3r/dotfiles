@@ -28,6 +28,11 @@ in
   # ───── Security & PAM ─────
   security.pam.services.hyprlock = {};
 
+  # Prevent gnome-keyring's PAM module from injecting SSH_AUTH_SOCK=/run/user/*/gcr/ssh
+  # at login — KeePassXC owns the SSH agent socket instead.
+  security.pam.services.login.gnomeKeyring = false;
+  security.pam.services.sddm.gnomeKeyring = false;
+
   # ───── OpenSSH hardening ─────
   services.openssh = {
     enable = true;
