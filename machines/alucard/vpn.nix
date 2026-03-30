@@ -10,52 +10,59 @@
   ];
 
   # ───── strongswan — IKEv1 Aggressive + XAuth + Config Mode ─────
-  # Target: ACS VPN gateway at REDACTED_VPN_GATEWAY
   # Protocol: IPsec IKEv1 Aggressive, PSK + XAuth, Config Mode IP assignment
   # Phase 1: AES256/SHA256/DH14, lifetime 86400s, DPD + NAT-T enabled
   # Phase 2: AES256/SHA256/DH14 (PFS), lifetime 43200s
-  services.strongswan = {
-    enable = true;
-    secrets = [ config.sops.secrets."ipsec_secrets".path ];
+  #
+  # Connection parameters (gateway IP, XAuth identity) are injected at
+  # activation time via sops.templates — never stored in plaintext.
+  sops.templates."ipsec.conf" = {
+    owner = "root";
+    group = "root";
+    mode  = "0600";
+    content = ''
+      config setup
+          charondebug="ike 2, knl 1, cfg 1"
+          uniqueids=no
+
+      conn ACS-POC
+          keyexchange=ikev1
+          authby=xauthpsk
+          aggressive=yes
+
+          ike=aes256-sha256-modp2048!
+          ikelifetime=86400s
+
+          esp=aes256-sha256-modp2048!
+          lifetime=43200s
+          rekey=yes
+
+          right=${config.sops.placeholder."vpn/gateway_ip"}
+          rightid=%any
+          rightsubnet=0.0.0.0/0
+
+          left=%defaultroute
+          leftid=%myid
+          leftsourceip=%config
+
+          dpdaction=restart
+          dpddelay=30s
+          dpdtimeout=120s
+
+          type=tunnel
+          auto=add
+
+          xauth=client
+          xauth_identity=${config.sops.placeholder."vpn/xauth_identity"}
+    '';
   };
 
-  # NixOS strongswan module only exposes `enable`, `secrets`, and `ca` —
-  # raw ipsec.conf is placed via environment.etc instead.
-  environment.etc."ipsec.conf".text = ''
-    config setup
-        charondebug="ike 2, knl 1, cfg 1"
-        uniqueids=no
+  environment.etc."ipsec.conf".source = config.sops.templates."ipsec.conf".path;
 
-    conn ACS-POC
-        keyexchange=ikev1
-        authby=xauthpsk
-        aggressive=yes
-
-        ike=aes256-sha256-modp2048!
-        ikelifetime=86400s
-
-        esp=aes256-sha256-modp2048!
-        lifetime=43200s
-        rekey=yes
-
-        right=REDACTED_VPN_GATEWAY
-        rightid=%any
-        rightsubnet=0.0.0.0/0
-
-        left=%defaultroute
-        leftid=%myid
-        leftsourceip=%config
-
-        dpdaction=restart
-        dpddelay=30s
-        dpdtimeout=120s
-
-        type=tunnel
-        auto=add
-
-        xauth=client
-        xauth_identity=REDACTED_VPN_IDENTITY
-  '';
+  services.strongswan = {
+    enable  = true;
+    secrets = [ config.sops.secrets."ipsec_secrets".path ];
+  };
 
   # IKE (500), NAT-T (4500), and ESP (proto 50) for the IPsec data plane
   networking.firewall = lib.mkMerge [

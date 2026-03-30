@@ -13,12 +13,25 @@
   sops.age.keyFile = "/home/pixel-peeper/.config/sops/age/keys.txt";
 
   # ───── VPN ─────
-  # Decrypted at activation time to /run/secrets/vpn/ipsec_secrets
+  # Decrypted at activation time to /run/secrets/ipsec_secrets
   # Consumed by services.strongswan.secrets in vpn.nix
   sops.secrets."ipsec_secrets" = {
     owner = "root";
     group = "root";
     mode = "0600";
+  };
+
+  # VPN connection parameters — interpolated into ipsec.conf via sops.templates
+  sops.secrets."vpn/xauth_identity" = {
+    owner = "root";
+    group = "root";
+    mode = "0400";
+  };
+
+  sops.secrets."vpn/gateway_ip" = {
+    owner = "root";
+    group = "root";
+    mode = "0400";
   };
 
   # ───── Inactive examples ─────
