@@ -95,6 +95,9 @@ in
     "center on, match:class kitty-float"
     "size 900 600, match:class kitty-float"
 
+    # ACS Zen — opens on workspace 5 (tiled, like any normal window)
+    "workspace 5, match:class ^(acs-zen)$"
+
     "float on, match:class .blueman-manager-wrapped"
 
     "float on, match:class org.gnome.seahorse.Application"

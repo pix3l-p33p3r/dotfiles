@@ -34,6 +34,25 @@
       executable = true;
     };
   };
+
+  programs.zsh.shellAliases = {
+    # Taskwarrior
+    t     = "task";
+    ta    = "task add";
+    tt    = "task +PENDING limit:20";
+    td    = "task done";
+    tdel  = "task delete";
+    tmod  = "task modify";
+
+    # Timewarrior
+    tstart  = "timew start";
+    tstop   = "timew stop";
+    tw      = "timew";
+    twday   = "timew summary :day";
+    tww     = "timew summary :week";
+    twg     = "timew gaps :week";
+    twsync  = "timew-sync-server serve";
+  };
 }
 
 

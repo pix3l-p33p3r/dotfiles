@@ -21,17 +21,32 @@
     mode = "0600";
   };
 
-  # VPN connection parameters — interpolated into ipsec.conf via sops.templates
+  # VPN connection parameters — interpolated into ipsec.conf via sops.templates.
+  # Root-owned: only consumed as sops.placeholder values, not read directly.
   sops.secrets."vpn/xauth_identity" = {
     owner = "root";
     group = "root";
-    mode = "0400";
+    mode  = "0400";
   };
 
   sops.secrets."vpn/gateway_ip" = {
     owner = "root";
     group = "root";
-    mode = "0400";
+    mode  = "0400";
+  };
+
+  # SSH target — read at runtime by acs-rofi and acs-work scripts.
+  # Owned by pixel-peeper so user-space scripts can cat them.
+  sops.secrets."vpn/ssh_host" = {
+    owner = "pixel-peeper";
+    group = "users";
+    mode  = "0400";
+  };
+
+  sops.secrets."vpn/ssh_user" = {
+    owner = "pixel-peeper";
+    group = "users";
+    mode  = "0400";
   };
 
   # ───── Inactive examples ─────

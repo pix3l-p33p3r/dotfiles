@@ -1,18 +1,15 @@
-# ls
+# ── ls / eza ──────────────────────────────────────────────────────────────
 local ls=eza
 alias eza="$ls --icons"
 alias {l,ls}="$ls"
 alias lsa="$ls -lah"
 alias ll="$ls -lh"
 
-# Stack
+# ── Directory stack ────────────────────────────────────────────────────────
 alias d='dirs -v'
 for index ({1..9}) alias "$index"="cd +${index}"; unset index
 
-# to check if vpn works
-alias myip="curl icanhazip.com"
-
-# Sanity flags
+# ── Sanity flags ───────────────────────────────────────────────────────────
 alias cp="cp -ri"
 alias rm="rm -i"
 alias df='df -h'
@@ -22,56 +19,14 @@ alias cd="z"
 alias grep="grep --color=auto"
 alias mkdir="mkdir -p"
 
+# ── General shortcuts ──────────────────────────────────────────────────────
 alias o="thunar ."
 alias tm=tmux
 alias path='echo -e ${PATH//:/\\n}'
 alias pg="ping 1.0.0.1 -c 5"
+alias myip="curl icanhazip.com"
 alias vi=nvim
 alias e="$EDITOR"
 
-# nix aliases
-alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
-
-# NixOS system rebuild (optimized for speed)
-alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' -j 7 --no-reexec --no-build-output"
-
-# Home Manager rebuild (creates timestamped backup suffix to avoid collisions)
-hms() {
-  local backup_suffix="backup-$(date +%Y%m%d-%H%M%S)"
-  home-manager switch --flake "$HOME/dotfiles#pixel-peeper@alucard" -b "$backup_suffix"
-}
-
-alias update="cd $HOME/dotfiles && nix flake update"
-
-# Full upgrade: update flake, rebuild system and home-manager, then clean
-alias upgrade="cd $HOME/dotfiles && nrs && hms && clean && clear && fastfetch"
-
-alias check="nix flake check"
-
-# extra nix helpers
-alias nsize="nix path-info -Sh /run/current-system"
-alias nsearch="nix search nixpkgs"
-alias nwhy="nix why-depends"
-alias nfdiff="nix flake diff"
-alias nbuild="cd $HOME/dotfiles && nix build .#"
-alias mcp="nix run github:utensils/mcp-nixos"
-
-
+# ── Debug ─────────────────────────────────────────────────────────────────
 alias timezsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
-
-# Taskwarrior / Timewarrior
-alias t=task
-alias ta='task add'
-alias tt='task +PENDING limit:20'
-alias td='task done'
-alias tdel='task delete'
-alias tmod='task modify'
-alias tstart='timew start'
-alias tstop='timew stop'
-alias tw='timew'
-alias twday='timew summary :day'
-alias tww='timew summary :week'
-alias twg='timew gaps :week'
-
-# Timewarrior sync server
-alias twsync='timew-sync-server serve'
