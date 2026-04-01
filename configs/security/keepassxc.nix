@@ -11,13 +11,4 @@ in
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.local/share/keepassxc"
     '';
-
-  xdg.configFile."keepassxc/README-opsec.md".text = ''
-    # KeePassXC OpSec Notes
-
-    - KeePassXC owns interactive secrets (master password, OTP seeds, SSH/LUKS passphrases).
-    - Enable SSH Agent integration: KeePassXC → Preferences → SSH Agent.
-    - Set the socket path to ${sshAgentSocket}.
-    - Store the age private key and recovery passphrases in this database.
-  '';
 }

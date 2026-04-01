@@ -20,16 +20,17 @@ Complete navigation guide for NixOS dotfiles documentation.
 
 **Security:**
 - [secrets/README.md](../secrets/README.md) - SOPS + Age secrets management
+- [configs/security/KEEPASSXC.md](configs/security/KEEPASSXC.md) - KeePassXC setup and opsec notes
 
 ## Component Documentation
 
 **Desktop:**
-- [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland configuration
+- [configs/desktop/README.md](configs/desktop/README.md) - Hyprland configuration
 
 **Applications:**
-- [configs/editors/README.md](../configs/editors/README.md) - Cursor AI editor setup
-- [configs/terminal/nvim/README.md](../configs/terminal/nvim/README.md) - Neovim configuration
-- [configs/terminal/zsh/README.md](../configs/terminal/zsh/README.md) - Zsh shell configuration
+- [configs/editors/README.md](configs/editors/README.md) - Cursor AI editor setup
+- [configs/terminal/nvim/README.md](configs/terminal/nvim/README.md) - Neovim configuration
+- [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Zsh shell configuration
 
 **System:**
 - [machines/alucard/README.md](../machines/alucard/README.md) - Host-specific system configuration
@@ -45,7 +46,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 2. [HOME-MANAGER.md](HOME-MANAGER.md) - Configure Home Manager
 
 **Configure Cursor AI:**
-1. [configs/editors/README.md](../configs/editors/README.md) - Editor setup
+1. [configs/editors/README.md](configs/editors/README.md) - Editor setup
 2. [MCP-SETUP.md](MCP-SETUP.md) - MCP capabilities
 
 **Manage secrets:**
@@ -53,7 +54,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 2. [MCP-SETUP.md](MCP-SETUP.md#security) - Encrypted MCP secrets
 
 **Customize desktop:**
-1. [configs/desktop/README.md](../configs/desktop/README.md) - Hyprland
+1. [configs/desktop/README.md](configs/desktop/README.md) - Hyprland
 2. [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theming
 
 **Notes & task tracking:**
@@ -74,8 +75,17 @@ docs/
 ├── HOME-MANAGER.md             # Home Manager guide
 ├── MCP-SETUP.md                # Cursor MCP setup
 ├── NOTES-AND-TASKS.md          # Notes & task management
+├── PRODUCTIVITY-SYSTEM.md      # GTD/4D productivity methodology
 ├── SHORTCUTS.md                # Keybinds reference
-└── MIGRATE-EXT4-TO-BTRFS.md    # Filesystem migration
+├── MIGRATE-EXT4-TO-BTRFS.md    # Filesystem migration
+└── configs/
+    ├── desktop/README.md       # Hyprland
+    ├── editors/README.md       # Cursor
+    ├── security/
+    │   └── KEEPASSXC.md        # KeePassXC setup and opsec
+    └── terminal/
+        ├── nvim/README.md      # Neovim
+        └── zsh/README.md       # Zsh
 
 machines/alucard/
 ├── README.md                   # System configuration
@@ -83,15 +93,8 @@ machines/alucard/
 ├── HARDWARE-ACCELERATION.md    # GPU acceleration
 └── CATPPUCCIN-SYSTEM.md        # Theming
 
-configs/
-├── desktop/README.md            # Hyprland
-├── editors/README.md            # Cursor
-└── terminal/
-    ├── nvim/README.md          # Neovim
-    └── zsh/README.md            # Zsh
-
 scripts/README.md                # Utility scripts
-secrets/README.md               # Secrets management
+secrets/README.md                # Secrets management
 ```
 
 ## Search Tips

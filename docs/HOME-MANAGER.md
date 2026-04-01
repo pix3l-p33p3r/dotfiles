@@ -63,12 +63,7 @@ home-manager switch --flake .#pixel-peeper@alucard
 
 ## Aliases
 
-Consider adding these to your shell configuration:
-
-```bash
-alias nrs='sudo nixos-rebuild switch --flake /home/pixel-peeper/dotfiles#alucard'
-alias hms='home-manager switch --flake /home/pixel-peeper/dotfiles#pixel-peeper@alucard'
-```
+`nrs` and `hms` are already managed declaratively in `configs/terminal/zsh/config/conf.d/106-nix.zsh`.
 
 ## Troubleshooting
 
