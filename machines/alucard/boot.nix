@@ -203,6 +203,12 @@ DeviceScale=1.2
 	# Delay non-critical firmware updates to after boot
 	fwupd.wantedBy = lib.mkForce [];
 	fwupd-refresh.wantedBy = lib.mkForce [];
+
+	# Disable NM-wait-online: saves ~4s by not blocking graphical.target
+	# until a full network connection is established. NetworkManager still
+	# connects in the background; nothing in this config does a one-shot
+	# boot-time network operation that can't retry.
+	NetworkManager-wait-online.enable = false;
 	
 	# Note: powertop is disabled in power.nix, no need to configure it here
 	
