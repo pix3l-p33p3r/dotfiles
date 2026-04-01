@@ -35,6 +35,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 **System:**
 - [machines/alucard/README.md](../machines/alucard/README.md) - Host-specific system configuration
 - [machines/alucard/PLYMOUTH-SETUP.md](../machines/alucard/PLYMOUTH-SETUP.md) - Boot splash configuration
+- [machines/alucard/TPM2-LUKS.md](../machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
 - [machines/alucard/HARDWARE-ACCELERATION.md](../machines/alucard/HARDWARE-ACCELERATION.md) - Intel GPU acceleration
 - [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theme configuration
 - [scripts/README.md](../scripts/README.md) - Utility scripts
@@ -90,6 +91,7 @@ docs/
 machines/alucard/
 ├── README.md                   # System configuration
 ├── PLYMOUTH-SETUP.md           # Boot splash
+├── TPM2-LUKS.md                # TPM2 LUKS auto-unlock
 ├── HARDWARE-ACCELERATION.md    # GPU acceleration
 └── CATPPUCCIN-SYSTEM.md        # Theming
 

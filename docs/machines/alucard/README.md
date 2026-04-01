@@ -38,7 +38,7 @@ alucard/
 
 ## Key Components
 
-**Boot:** Secure Boot (Lanzaboote/UKI), Plymouth (Catppuccin), LUKS, Intel microcode, fwupd  
+**Boot:** Secure Boot (Lanzaboote/UKI), Plymouth (Catppuccin), LUKS + TPM2 auto-unlock, Intel microcode, fwupd  
 **Hardware:** Intel VA-API, Vulkan, OpenCL, Mesa, intel_pstate powersave governor  
 **Services:** NetworkManager, OpenSSH, UPower, Pipewire, Docker, QEMU/KVM/libvirt (socket-activated)  
 **Display:** SDDM, Hyprland (Wayland), XWayland, Blueman  
@@ -111,5 +111,6 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
 
 **See Also:**
 - [PLYMOUTH-SETUP.md](PLYMOUTH-SETUP.md) - Boot splash configuration
+- [TPM2-LUKS.md](TPM2-LUKS.md) - TPM2 LUKS auto-unlock setup
 - [HARDWARE-ACCELERATION.md](HARDWARE-ACCELERATION.md) - Intel GPU setup
 - [CATPPUCCIN-SYSTEM.md](CATPPUCCIN-SYSTEM.md) - Theme configuration

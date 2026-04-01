@@ -13,9 +13,12 @@ Custom Catppuccin-Alucard theme with enhanced LUKS prompts for Alucard.
 
 **LUKS Integration**:
 
-- Themed password prompts via `systemd-ask-password-plymouth`
+- TPM2 auto-unlock on normal boots — no password prompt shown
+- Themed password prompts via `systemd-ask-password-plymouth` as fallback (Secure Boot tampered, TPM seal broken)
 - 3 retry attempts, graceful console fallback
 - Requires `boot.initrd.systemd.enable = true`
+
+See [TPM2-LUKS.md](TPM2-LUKS.md) for the auto-unlock setup.
 
 ## 🔧 Implementation
 
@@ -80,8 +83,8 @@ systemctl status plymouth-start.service
 | Feature | Status |
 |---------|--------|
 | Lanzaboote/Secure Boot | ✅ Yes |
-| LUKS encryption | ✅ Yes (themed prompts) |
+| LUKS encryption | ✅ Yes (TPM2 auto-unlock + themed fallback prompts) |
 | Intel graphics | ✅ Yes (i915) |
 | Wayland/X11 | ✅ Yes |
 
-**Status**: ✅ Configured | **Theme**: Catppuccin-Alucard | **LUKS**: Themed prompts
+**Status**: ✅ Configured | **Theme**: Catppuccin-Alucard | **LUKS**: TPM2 auto-unlock (passphrase fallback)
