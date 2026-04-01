@@ -136,24 +136,30 @@ DeviceScale=1.2
 	boot.initrd = {
 	systemd.enable = true;  # Required for Plymouth + systemd-ask-password in initrd
 	verbose = false;
-	
+
 	# Use zstd for initrd compression (good balance of speed and size)
-	# Note: lz4 has compatibility issues with systemd initrd (resolves to dev package)
-	# zstd is more reliable and still very fast
 	compressor = "zstd";
-	
-	# Preload Intel graphics driver for Plymouth
-	kernelModules = [ "i915" ];
-	
+
+	# TPM2 support: tpm_tis is the driver for STM0125 (confirmed via lsmod)
+	# i915 for Plymouth early-KMS
+	kernelModules = [ "i915" "tpm_tis" ];
+
 	# Filesystem support
 	supportedFilesystems = [ "ext4" "vfat" "btrfs" ];
+
+	# Enable tpm2-tss in initrd so systemd-cryptsetup can use the TPM2 token
+	systemd.tpm2.enable = true;
 	};
 
 	boot.initrd.luks.devices.${luksDevice} = {
 	allowDiscards = true;
 	bypassWorkqueues = true;
 	preLVM = true;
+	# tpm2-device=auto: unlock via TPM2 when Secure Boot chain is valid (PCRs 0+7)
+	# Falls back to passphrase if TPM2 seal fails (e.g. Secure Boot disabled)
 	crypttabExtraOpts = [
+		"tpm2-device=auto"
+		"tpm2-pcrs=0+7"
 		"tries=3"
 		"x-systemd.device-timeout=0"
 	];
