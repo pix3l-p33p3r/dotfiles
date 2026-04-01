@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  networking.hostName = "alucard";
+
   # ───── Catppuccin Theme (NixOS-level) ─────
   # Global theme configuration for system-level components
   catppuccin.flavor = "mocha";
