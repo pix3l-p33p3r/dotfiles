@@ -2,11 +2,11 @@
 
 let
   pname = "cursor";
-  version = "2.6.12";
-  
+  version = "2.6.22";
+
   src = fetchurl {
-    url = "https://downloads.cursor.com/production/1917e900a0c4b0111dc7975777cfff60853059d3/linux/x64/Cursor-2.6.12-x86_64.AppImage";
-    sha256 = "16p9argal9zisyf4amms7zs3f8kllpcpi5948i5w98v3q843rys7";
+    url = "https://downloads.cursor.com/production/c6285feaba0ad62603f7c22e72f0a170dc8415a5/linux/x64/Cursor-2.6.22-x86_64.AppImage";
+    sha256 = "0242y0ln7fiy3mbl4ksqwmffs2r2dac0q3sxr0xry8h7j83dfqxf";
   };
 
   appimageContents = appimageTools.extractType2 {
