@@ -1,14 +1,8 @@
 { config, lib, pkgs, ... }:
 let
-  sshAgentSocket = "${config.home.homeDirectory}/.local/share/keepassxc/ssh-agent";
-
   # home.file symlinks into /nix/store; OpenSSH rejects that (wrong perms/owner).
   sshConfig = pkgs.writeText "hm-ssh-config" ''
     # Managed by Home Manager — do not edit directly
-
-    # Use KeePassXC as SSH agent when its socket is present
-    Match exec "test -S ${sshAgentSocket}"
-        IdentityAgent ${sshAgentSocket}
 
     Host github.com
         Hostname ssh.github.com

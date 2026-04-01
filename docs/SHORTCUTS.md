@@ -35,8 +35,12 @@ This document centralizes the main keyboard shortcuts and CLI aliases across the
   - Super + Ctrl + H/L: resize width −/+
   - Super + Ctrl + K/J: resize height −/+
 
+- Window cycling
+  - Super + Tab: cycle to next window (current workspace)
+  - Super + Shift + Tab: cycle to previous window (current workspace)
+
 - Workspaces
-  - Super + 1..0: switch workspace 1..10
+  - Super + 1..0: switch workspace 1..10 (no animation)
   - Super + Shift + 1..0: move window to workspace 1..10
   - Super + S: toggle special workspace "magic"
   - Super + Shift + S: move window to special workspace "magic"

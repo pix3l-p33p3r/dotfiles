@@ -4,15 +4,16 @@ KeePassXC owns all interactive secrets: master password, OTP seeds, SSH/LUKS pas
 
 ## SSH Agent Setup
 
-KeePassXC exposes an SSH agent socket that Home Manager points `SSH_AUTH_SOCK` at.
+On Linux, KeePassXC does **not** create its own SSH agent socket. It connects to an existing agent (at `$SSH_AUTH_SOCK`) and injects its stored SSH keys into it when the database is unlocked.
+
+`services.ssh-agent.enable = true` in `keepassxc.nix` starts a real `ssh-agent` systemd user service. KeePassXC auto-adds keys to it on database unlock. `AddKeysToAgent yes` in `~/.ssh/config` caches the key on first use, so you only enter the passphrase once per session.
 
 **One-time setup in KeePassXC:**
 
 1. Open KeePassXC → Preferences → SSH Agent
 2. Enable SSH Agent integration
-3. Set the socket path to `~/.local/share/keepassxc/ssh-agent`
-
-Once unlocked, `AddKeysToAgent yes` in `~/.ssh/config` caches the key for the session so you are not prompted repeatedly.
+3. Leave the SSH_AUTH_SOCK override blank (it reads from the environment automatically)
+4. Add your SSH key entry and enable "Add key to agent when database is opened"
 
 ## What to store
 
@@ -28,11 +29,11 @@ Once unlocked, `AddKeysToAgent yes` in `~/.ssh/config` caches the key for the se
 ## Architecture
 
 ```
-KeePassXC (unlocked at login)
-  └── SSH Agent socket: ~/.local/share/keepassxc/ssh-agent
-        ← SSH_AUTH_SOCK (set in keepassxc.nix)
-        ← ssh config: Match exec + IdentityAgent
-        ← AddKeysToAgent yes (caches key in-session)
+ssh-agent (systemd user service)
+  └── $SSH_AUTH_SOCK (set automatically in systemd user environment)
+        ← KeePassXC injects keys on database unlock
+        ← AddKeysToAgent yes caches key in agent on first use
+        ← all SSH clients use this socket transparently
 
 SOPS + age (automated, no interaction after boot)
   └── Age key: ~/.config/sops/age/keys.txt
@@ -41,8 +42,8 @@ SOPS + age (automated, no interaction after boot)
 
 ## Related config
 
-- `configs/security/keepassxc.nix` — sets `SSH_AUTH_SOCK`, ensures socket dir exists
-- `configs/security/ssh.nix` — `Match exec` block, `AddKeysToAgent yes`
+- `configs/security/keepassxc.nix` — enables `services.ssh-agent`
+- `configs/security/ssh.nix` — `AddKeysToAgent yes`, host entries
 - `configs/security/gpg.nix` — GPG agent (separate from SSH agent)
 - `secrets/` — SOPS-encrypted secrets decrypted at activation time
 

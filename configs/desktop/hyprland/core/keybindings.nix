@@ -59,6 +59,10 @@ in
 	"$mod, v, exec, vesktop"
 	"$mod, k, exec, keepassxc"
 
+	# Cycle through windows on current workspace
+	"$mod, Tab, cyclenext,"
+	"$mod SHIFT, Tab, cyclenext, prev"
+
 	# Help: show all keybindings
 	"$mod, F1, exec, ${show_keybinds}"
 

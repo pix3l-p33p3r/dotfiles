@@ -51,24 +51,7 @@
   networking.networkmanager.enable = true;
 
   # Cap wait-online so rebuild/boot do not hang forever; 4.2s balances quick switch vs. online checks.
-  systemd.services.NetworkManager-wait-online.serviceConfig.TimeoutStartSec = "4.2s";
-
-  # ───── SystemD Services Edits ─────
-  services.journald.extraConfig = "SystemMaxUse=50M";
-
-  # ───── Hostname ─────
-  networking.hostName = "alucard";
-
-  # ───── CUPS ─────
-  # Enable socket activation for CUPS printing service
-  services.printing.enable = true;
-  services.printing.startWhenNeeded = true;
-
-  # ───── Removable media backends ─────
-  services.udisks2.enable = true;   # disk mounting backend (system)
-  security.polkit.enable = true;    # required for udisks2 auth prompts (system)
-  services.gvfs.enable = true;      # GVFS daemons (Trash/SMB/MTP, volume monitor)
-  services.tumbler.enable = true;   # Thumbnailer daemon for Thunar
+  systemd.services.NetworkManager-wait-online.serviceConfig.TimeoutStartSec = false;
 
   # Reduce swapping aggressiveness
   boot.kernel.sysctl = {
