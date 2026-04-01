@@ -39,6 +39,9 @@
       ./vpn.nix
       ./dns.nix
 
+      # Security tooling
+      ./clamav.nix
+
       # Maintenance
       ./maint.nix
     ];
