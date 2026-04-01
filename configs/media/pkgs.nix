@@ -17,14 +17,15 @@
     # Audio Visualization
     cava # Audio visualizer for terminal
     
-    # Music Players & Daemon & downloaders & streaming
-    rmpc # Rust MPD client (config in rmpc.nix)
-    kew # Terminal music player (config in kew.nix)
-    mpd # Music Player Daemon
-    termusic # Terminal music player
-    yt-dlp # YouTube and video downloader
-    spotdl # Spotify downloader
-    spotify # Music streaming
+    # Music Players, Daemons, Downloaders & Streaming
+    rmpc      # Rust MPD client (see: rmpc.nix for config)
+    kew       # Terminal music player (see: kew.nix for config)
+    mpd       # Music Player Daemon
+    termusic  # Terminal music player
+    yt-dlp    # YouTube and video downloader
+    spotdl    # Spotify downloader
+    spotify   # Spotify client (streaming)
+    stremio-linux-shell # Stremio (replaces removed qt5-webengine stremio package)
     
     # ============================================================================
     # |                            DOCUMENT TOOLS                              |

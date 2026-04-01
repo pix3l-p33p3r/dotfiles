@@ -8,7 +8,9 @@ if [ -n "${ZSH_DEBUGRC+1}" ]; then zmodload zsh/zprof; fi
 source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
 # Loading config files
-for FILE in $(find "$ZDOTDIR/conf.d/" -type l -name '*.zsh' -exec basename {} \; | sort -n); do
+for FILE in $(
+  find "$ZDOTDIR/conf.d/" \( -type f -o -type l \) -name '*.zsh' -exec basename {} \; | sort -n
+); do
   source "$ZDOTDIR/conf.d/$FILE"
 done
 

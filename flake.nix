@@ -37,12 +37,17 @@
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: {
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: let
+    system = "x86_64-linux";
+    # Until nixpkgs includes nixpkgs#503035 (cargo vendor path layout).
+    pkgs = nixpkgs.legacyPackages.${system}.extend (import ./overlays/stremio-linux-shell.nix);
+  in {
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+      inherit system;
       specialArgs = { inherit inputs self; };
       modules = [
+        { nixpkgs.overlays = [ (import ./overlays/stremio-linux-shell.nix) ]; }
         ./machines/alucard
         sops-nix.nixosModules.sops
         lanzaboote.nixosModules.lanzaboote
@@ -52,7 +57,7 @@
     
     # ===== Standalone Home Manager Configuration =====
     homeConfigurations."pixel-peeper@alucard" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      inherit pkgs;
       extraSpecialArgs = { inherit inputs self; wallpaper = self + "/assets/wallpapers/alucard.jpg"; };
       modules = [
         ./homes/pixel-peeper
