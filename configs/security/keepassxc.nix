@@ -5,13 +5,11 @@
   # stored keys when the database is unlocked.
   services.ssh-agent.enable = true;
 
-  # Export the socket path to shell sessions. Use the explicit path so it
-  # works even when XDG_RUNTIME_DIR isn't yet set at the point this is sourced.
-  home.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/ssh-agent";
-
-  # Also set it in the systemd user environment so KeePassXC (which is
-  # typically launched via systemd/DBUS) can see it.
-  systemd.user.sessionVariables.SSH_AUTH_SOCK = "/run/user/1000/ssh-agent";
+  # services.ssh-agent sets SSH_AUTH_SOCK correctly in shell sessions via
+  # home.sessionVariables. We only need to propagate the path into the systemd
+  # user environment so KeePassXC (launched via D-Bus activation) can see it.
+  # %t is the systemd specifier for $XDG_RUNTIME_DIR (/run/user/<uid>).
+  systemd.user.sessionVariables.SSH_AUTH_SOCK = "%t/ssh-agent";
 
   home.activation.ensureKeePassSocketDir =
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''

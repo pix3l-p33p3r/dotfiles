@@ -3,7 +3,10 @@
   
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    catppuccin.url = "github:catppuccin/nix";
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       # Don't follow our nixpkgs - let lanzaboote use its own tested version
@@ -16,9 +19,6 @@
     stylix = {
       url = "github:danth/stylix/master";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nur = {
-      url = "github:nix-community/NUR";
     };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
@@ -37,17 +37,19 @@
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, nur, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: let
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: let
     system = "x86_64-linux";
-    # Until nixpkgs includes nixpkgs#503035 (cargo vendor path layout).
-    pkgs = nixpkgs.legacyPackages.${system}.extend (import ./overlays/stremio-linux-shell.nix);
+    # Single overlay list — shared by both NixOS and Home Manager so they
+    # can never diverge. Until nixpkgs includes nixpkgs#503035 (cargo vendor path layout).
+    overlays = [ (import ./overlays/stremio-linux-shell.nix) ];
+    pkgs = nixpkgs.legacyPackages.${system}.extend (builtins.head overlays);
   in {
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = { inherit inputs self; };
       modules = [
-        { nixpkgs.overlays = [ (import ./overlays/stremio-linux-shell.nix) ]; }
+        { nixpkgs.overlays = overlays; }
         ./machines/alucard
         sops-nix.nixosModules.sops
         lanzaboote.nixosModules.lanzaboote

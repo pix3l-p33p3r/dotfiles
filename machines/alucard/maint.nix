@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
-
+let
+  primaryUser = "pixel-peeper";
+in
 {
   # ───── Updates & maintenance ─────
   
@@ -8,7 +10,7 @@
   system.autoUpgrade = {
     enable = false; # Disabled to improve boot time (was taking 12+ seconds)
     allowReboot = false; # Do NOT automatically reboot the system after an upgrade
-    flake = "/home/pixel-peeper/dotfiles#alucard"; # Specify the Flake to use for the upgrade
+    flake = "${config.users.users.${primaryUser}.home}/dotfiles#alucard";
     dates = "03:00"; # Run at 3 AM when enabled (not at boot)
   };
 
@@ -16,7 +18,7 @@
   nix.gc = {
     automatic = true; # Enable automatic Garbage Collection
     dates = "Sun 03:00"; # Run GC every Sunday at 3 AM (not at boot)
-    persistent = false; # Don't run missed GC at boot
+    persistent = true; # Run missed GC at next boot if the scheduled window was skipped
     randomizedDelaySec = "1h"; # Randomize start time by up to 1 hour
 
     # Options passed to the 'nix store gc' command. Deletes old generations/files
@@ -24,13 +26,7 @@
     options = "--delete-older-than 20d"; 
   };
 
-  # Optimization of the Nix store
-  nix.optimise = {
-    automatic = true; # Enable automatic optimization
-
-    # Optimization performs hard-linking of identical files in the Nix store 
-    # to save disk space.
-    dates = ["weekly"]; # Run optimization weekly
-  };
+  # nix.settings.auto-optimise-store in system.nix already hard-links identical
+  # files after every build. A separate weekly nix.optimise job would be redundant.
 }
 

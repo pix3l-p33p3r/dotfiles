@@ -1,7 +1,7 @@
 { variables, ... }:
 let
   inherit (variables) 
-	loginctl cliphist rofi rofi-menu rofi-cliphist rofi-firefox hyprpicker volume_up volume_down 
+	cliphist rofi rofi-menu rofi-cliphist rofi-firefox hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
 	hyprpanel hyprlock hyprpaper hyprshot record_start record_stop show_keybinds;

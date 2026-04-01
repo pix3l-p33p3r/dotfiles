@@ -2,13 +2,13 @@
 
 alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
 
-# System rebuild — parallel jobs, skip unnecessary re-exec and build output
-alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' -j 7 --no-reexec --no-build-output"
+# System rebuild — delegate job count to nix.settings.max-jobs (auto), suppress output
+alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' --no-reexec --no-build-output"
 
 # Home Manager rebuild with a timestamped backup suffix to avoid collisions
 hms() {
   local backup_suffix="backup-$(date +%Y%m%d-%H%M%S)"
-  home-manager switch --flake "$HOME/dotfiles#pixel-peeper@alucard" -b "$backup_suffix"
+  home-manager switch --flake "$HOME/dotfiles#pixel-peeper@alucard" -b "$backup_suffix" --no-build-output
 }
 
 alias update="cd $HOME/dotfiles && nix flake update"

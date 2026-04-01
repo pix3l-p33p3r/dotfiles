@@ -1,8 +1,4 @@
-{ variables, pkgs, lib, ... }:
-let
-  inherit (variables) 
-    pidof hyprctl brightnessctl systemctl ;
-in
+{ config, pkgs, lib, ... }:
 {
   # System services
   services.blueman-applet.enable = true;
@@ -35,7 +31,7 @@ in
   # MPD (Music Player Daemon) as a user service for rmpc/kew
   services.mpd = {
     enable = true;
-    musicDirectory = "/home/pixel-peeper/Music";
+    musicDirectory = "${config.home.homeDirectory}/Music";
     network = {
       listenAddress = "127.0.0.1";
       port = 6600;

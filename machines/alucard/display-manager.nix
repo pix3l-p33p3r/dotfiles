@@ -1,8 +1,9 @@
 { config, pkgs, lib, inputs, ... }:
 
 let
-  # Get paths from flake
-  avatar = inputs.self + "/assets/avatar/ryuma.png";
+  primaryUser = "pixel-peeper";
+  primaryHome = config.users.users.${primaryUser}.home;
+  avatar      = inputs.self + "/assets/avatar/ryuma.png";
 in
 {
   # ───── SDDM Display Manager ─────
@@ -45,22 +46,21 @@ in
     script = ''
       # Copy to AccountsService location (used by SDDM)
       mkdir -p /var/lib/AccountsService/icons
-      cp ${avatar} /var/lib/AccountsService/icons/pixel-peeper
-      chmod 644 /var/lib/AccountsService/icons/pixel-peeper
+      cp ${avatar} /var/lib/AccountsService/icons/${primaryUser}
+      chmod 644 /var/lib/AccountsService/icons/${primaryUser}
       
       # Also copy to AccountsService FacesDir location
       mkdir -p /var/lib/AccountsService/faces
-      cp ${avatar} /var/lib/AccountsService/faces/pixel-peeper.face.icon
-      chmod 644 /var/lib/AccountsService/faces/pixel-peeper.face.icon
+      cp ${avatar} /var/lib/AccountsService/faces/${primaryUser}.face.icon
+      chmod 644 /var/lib/AccountsService/faces/${primaryUser}.face.icon
       
       # Copy to user's home directory (standard location)
-      mkdir -p /home/pixel-peeper
-      cp ${avatar} /home/pixel-peeper/.face.icon
-      chmod 644 /home/pixel-peeper/.face.icon
+      mkdir -p ${primaryHome}
+      cp ${avatar} ${primaryHome}/.face.icon
+      chmod 644 ${primaryHome}/.face.icon
       
       # Also create .face symlink (alternative name some themes use)
-      ln -sf /home/pixel-peeper/.face.icon /home/pixel-peeper/.face
-      chmod 644 /home/pixel-peeper/.face
+      ln -sf ${primaryHome}/.face.icon ${primaryHome}/.face
     '';
   };
 }

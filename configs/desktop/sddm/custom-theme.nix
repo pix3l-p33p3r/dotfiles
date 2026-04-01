@@ -28,8 +28,9 @@ pkgs.stdenv.mkDerivation {
       --replace 'Background="backgrounds/custom-background.jpg"' \
                 "Background=\"${customBackground}\""
     
-    # Make sure all files are readable
-    chmod -R 755 $out/share/sddm/themes/catppuccin-mocha-mauve
+    # Correct permissions: dirs 755, files 644
+    find $out/share/sddm/themes/catppuccin-mocha-mauve -type d -exec chmod 755 {} \;
+    find $out/share/sddm/themes/catppuccin-mocha-mauve -type f -exec chmod 644 {} \;
   '';
   
   meta = with lib; {

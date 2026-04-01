@@ -244,7 +244,9 @@
     XDG_CONFIG_HOME = config.xdg.configHome;
     XDG_DATA_HOME = config.xdg.dataHome;
     XDG_STATE_HOME = config.xdg.stateHome;
-    XDG_RUNTIME_DIR = "/run/user/$(id -u)";
+    # XDG_RUNTIME_DIR is intentionally omitted: pam_systemd sets it correctly
+    # at login (/run/user/<uid>). A manual override here would be a broken
+    # literal string since Nix does not evaluate shell expressions like $(id -u).
 
     # User directories
     XDG_DESKTOP_DIR = config.xdg.userDirs.desktop;

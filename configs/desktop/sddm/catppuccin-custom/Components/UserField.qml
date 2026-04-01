@@ -6,6 +6,7 @@ TextField {
   height: inputHeight
   width: inputWidth
   selectByMouse: true
+  hoverEnabled: true
   echoMode: TextInput.Normal
   selectionColor: "#6C7086"
   renderType: Text.NativeRendering

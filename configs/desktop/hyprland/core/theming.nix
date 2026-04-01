@@ -72,7 +72,7 @@ in
 			base0B = "a6e3a1"; # green
 			base0C = "94e2d5"; # teal
 			base0D = "89b4fa"; # blue
-			base0E = "b4befe"; # lavender
+			base0E = "cba6f7"; # mauve
 			base0F = "f2cdcd"; # flamingo
 		};
 

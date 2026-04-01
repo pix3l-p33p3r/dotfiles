@@ -106,14 +106,13 @@ Item {
     }
     onClicked: {
       sessionPopup.visible ? sessionPopup.close() : sessionPopup.open()
-      sessionButton.state = "pressed"
     }
   }
   Popup {
     id: sessionPopup
     width: inputWidth + padding * 2
-    x: (sessionButton.width + sessionList.spacing) * -7.6
-    y: -(contentHeight + padding * 2) + sessionButton.height
+    x: 0
+    y: -(contentHeight + padding * 2) - 4
     padding: inputHeight / 10
     background: Rectangle {
       radius: 5.4
@@ -128,21 +127,12 @@ Item {
       clip: true
     }
     enter: Transition {
-      ParallelAnimation {
-        NumberAnimation {
-          property: "opacity"
-          from: 0
-          to: 1
-          duration: 400
-          easing.type: Easing.OutExpo
-        }
-        NumberAnimation {
-          property: "x"
-          from: sessionPopup.x + (inputWidth * 0.1)
-          to: sessionPopup.x
-          duration: 500
-          easing.type: Easing.OutExpo
-        }
+      NumberAnimation {
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 400
+        easing.type: Easing.OutExpo
       }
     }
     exit: Transition {

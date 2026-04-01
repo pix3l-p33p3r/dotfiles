@@ -13,11 +13,11 @@ Item {
       source: Qt.resolvedUrl("../icons/sleep.svg")
       height: height
       width: width
-      color: "#11111B"
+      color: "#1E1E2E"
     }
     background: Rectangle {
       id: sleepButtonBg
-      color: "#F38BA8"
+      color: "#89b4fa"
       radius: 3
     }
     states: [
@@ -26,7 +26,7 @@ Item {
         when: sleepButton.hovered
         PropertyChanges {
           target: sleepButtonBg
-          color: "#F5E0DC"
+          color: "#b4befe"
         }
       }
     ]

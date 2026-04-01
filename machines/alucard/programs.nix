@@ -1,12 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  # ───── System Packages ─────
-  environment.systemPackages = with pkgs; [
-    neovim
-    home-manager
-  ];
-
   # ───── Firefox ─────
   programs.firefox.enable = true;
 

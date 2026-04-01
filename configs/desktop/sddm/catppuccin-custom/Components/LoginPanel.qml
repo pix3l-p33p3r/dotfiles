@@ -1,14 +1,13 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
-import "../assets"
 
 Item {
   property var user: userField.text
   property var password: passwordField.text
   property var session: sessionPanel.session
-  property var inputHeight: Screen.height * 0.032
-  property var inputWidth: Screen.width * 0.16
+  property real inputHeight: Screen.height * 0.040
+  property real inputWidth: Screen.width * 0.16
   Rectangle {
     id: loginBackground
     anchors {
@@ -32,7 +31,7 @@ Item {
     anchors {
       top: parent.top
       left: parent.left
-      topMargin: 150  // Position below clock
+      topMargin: Screen.height * 0.14
       leftMargin: 10
     }
     z: 5
@@ -110,31 +109,15 @@ Item {
           when: loginButton.down
           PropertyChanges {
             target: buttonBackground
-            color: "#A6ADC8"
-          }
-          PropertyChanges {
-            target: buttonText
+            color: "#a6adc8"
           }
         },
         State {
           name: "hovered"
-          when: loginButton.hovered
+          when: loginButton.hovered && !loginButton.down
           PropertyChanges {
             target: buttonBackground
-            color: "#A6ADC8"
-          }
-          PropertyChanges {
-            target: buttonText
-          }
-        },
-        State {
-          name: "enabled"
-          when: loginButton.enabled
-          PropertyChanges {
-            target: buttonBackground
-          }
-          PropertyChanges {
-            target: buttonText
+            color: "#a6adc8"
           }
         }
       ]

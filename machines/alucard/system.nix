@@ -6,7 +6,7 @@
   # ───── Catppuccin Theme (NixOS-level) ─────
   # Global theme configuration for system-level components
   catppuccin.flavor = "mocha";
-  catppuccin.accent = "lavender";
+  catppuccin.accent = "mauve";
   
   # ───── Allow unfree packages ─────
   nixpkgs.config.allowUnfree = true;
@@ -31,15 +31,29 @@
   nix.settings.max-jobs = "auto"; # Use all available cores
   nix.settings.cores = 0; # 0 = use all available cores per job
   nix.settings.auto-optimise-store = true; # Automatically deduplicate store
-  
+
+  # Give up on a substituter quickly so a slow/offline cache doesn't stall builds
+  nix.settings.connect-timeout = 5;
+
+  # Daemon scheduling — build jobs run at lower priority so the desktop
+  # stays responsive during a rebuild
+  nix.daemonCPUSchedPolicy = "batch";
+  nix.daemonIOSchedClass   = "idle";
+
   # System-wide binary caches
   nix.settings.substituters = [
     "https://cache.nixos.org"
     "https://catppuccin.cachix.org"
+    "https://nix-community.cachix.org"  # home-manager, sops-nix, and other nix-community projects
+    "https://lanzaboote.cachix.org"     # lanzaboote pre-built binaries
+    "https://zen-browser.cachix.org"    # zen-browser pre-built binaries
   ];
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSHY="
+    "lanzaboote.cachix.org-1:Nt9//zGmqkg67P7J4HZE5fJz6rKQX8a7YlBTHEPD0c="
+    "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
   ];
 
   # ───── nix-ld ─────

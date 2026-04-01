@@ -8,7 +8,7 @@ TextField {
   placeholderText: "Password"
   echoMode: TextInput.Password
   passwordCharacter: "•"
-  passwordMaskDelay: config.PasswordShowLastLetter
+  passwordMaskDelay: config.PasswordShowLastLetter || 0
   selectionColor: "#6C7086"
   renderType: Text.NativeRendering
   font {
@@ -17,7 +17,7 @@ TextField {
     bold: true
   }
   color: "#CDD6F4"
-  horizontalAlignment: TextInput.AlignHCenter
+  horizontalAlignment: Text.AlignHCenter
   background: Rectangle {
     id: passFieldBackground
     radius: 3

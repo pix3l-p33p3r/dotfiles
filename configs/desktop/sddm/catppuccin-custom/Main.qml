@@ -10,8 +10,6 @@ Item {
   Rectangle {
     id: background
     anchors.fill: parent
-    height: parent.height
-    width: parent.width
     z: 0
     color: "#1E1E2E"
   }

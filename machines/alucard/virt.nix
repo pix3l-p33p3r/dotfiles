@@ -4,8 +4,11 @@
 
 {
   virtualisation.libvirtd.enable = true;
-  
-  # Don't start libvirtd on boot, use socket activation (libvirtd supports socket activation by default)
+
+  # Use socket activation — libvirtd starts on demand when virsh/virt-manager connect.
+  # Removes libvirtd from the critical boot path (~1.9s saving).
+  # libvirtd.socket, libvirtd-ro.socket, libvirtd-admin.socket remain active.
+  systemd.services.libvirtd.wantedBy = lib.mkForce [];
   systemd.services.libvirt-guests.wantedBy = lib.mkForce []; # Disable guest shutdown
 
   # Upstream unit uses /usr/bin/sh, which doesn't exist on NixOS.
