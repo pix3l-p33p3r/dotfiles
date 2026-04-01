@@ -16,8 +16,8 @@ Modular NixOS system configuration for alucard, organized for maintainability.
 alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
-├── boot.nix                 # Secure Boot (Lanzaboote), Plymouth, firmware
-├── system.nix               # Core settings, NetworkManager, OpenSSH
+├── boot.nix                 # Secure Boot (Lanzaboote), Plymouth, TPM2, firmware
+├── system.nix               # Core settings, hostname, NetworkManager, sysctls
 ├── locale.nix               # Timezone, internationalization
 ├── users.nix                # User accounts, shell, groups
 ├── programs.nix             # System programs
@@ -29,10 +29,14 @@ alucard/
 ├── swap.nix                 # zram swap configuration
 ├── wayland.nix              # Hyprland (XWayland auto-enabled)
 ├── display-manager.nix      # SDDM display manager
-├── security.nix             # PAM, Polkit, D-Bus, Dconf
+├── security.nix             # PAM, AppArmor, OpenSSH hardening, D-Bus
+├── firewall.nix             # nftables firewall + network hardening sysctls
+├── clamav.nix               # ClamAV daemon, freshclam, daily scan timer
 ├── secrets.nix              # SOPS/Age key paths
 ├── docker.nix               # Docker container runtime
 ├── virt.nix                 # QEMU/KVM/libvirt (socket-activated)
+├── vpn.nix                  # IPsec VPN (strongSwan)
+├── dns.nix                  # DNS configuration
 └── maint.nix                # Auto-updates, GC, optimization
 ```
 
@@ -42,7 +46,7 @@ alucard/
 **Hardware:** Intel VA-API, Vulkan, OpenCL, Mesa, intel_pstate powersave governor  
 **Services:** NetworkManager, OpenSSH, UPower, Pipewire, Docker, QEMU/KVM/libvirt (socket-activated)  
 **Display:** SDDM, Hyprland (Wayland), XWayland, Blueman  
-**Security:** SOPS/Age secrets, PAM, Polkit
+**Security:** SOPS/Age secrets, PAM, AppArmor, nftables firewall, ClamAV, OpenSSH hardening
 
 ## Customization
 
@@ -78,7 +82,8 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
 **Common issues:**
 - Unsigned kernels in `/boot/EFI/nixos/`: Legacy entries, remove or sign
 - Keys not enrolled: `sudo sbctl enroll-keys -m` after `sbctl create-keys`
-- Rebuild after key enrollment: `sudo nixos-rebuild switch --flake .#alucard`
+- Rebuild after key enrollment: `sudo nixos-rebuild switch --flake '.#alucard'`
+- TPM2 unlock breaks after BIOS update: re-enroll with `systemd-cryptenroll` (see [TPM2-LUKS.md](TPM2-LUKS.md))
 
 ## Service Overview
 
@@ -99,6 +104,9 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
 | Docker | `docker.nix` | `virtualisation.docker.enable` |
 | libvirt | `virt.nix` | `virtualisation.libvirtd.enable` (socket-activated) |
 | SOPS | `secrets.nix` | Age key paths for secret decryption |
+| nftables firewall | `firewall.nix` | Default-deny, stealth drop, network sysctls |
+| AppArmor | `security.nix` | LSM, community profiles, non-killing mode |
+| ClamAV | `clamav.nix` | clamd + freshclam + daily scan at 03:00 |
 
 ## Benefits
 
@@ -112,5 +120,6 @@ sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
 **See Also:**
 - [PLYMOUTH-SETUP.md](PLYMOUTH-SETUP.md) - Boot splash configuration
 - [TPM2-LUKS.md](TPM2-LUKS.md) - TPM2 LUKS auto-unlock setup
+- [SECURITY.md](SECURITY.md) - AppArmor, firewall, ClamAV
 - [HARDWARE-ACCELERATION.md](HARDWARE-ACCELERATION.md) - Intel GPU setup
 - [CATPPUCCIN-SYSTEM.md](CATPPUCCIN-SYSTEM.md) - Theme configuration

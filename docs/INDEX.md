@@ -21,6 +21,8 @@ Complete navigation guide for NixOS dotfiles documentation.
 **Security:**
 - [secrets/README.md](../secrets/README.md) - SOPS + Age secrets management
 - [configs/security/KEEPASSXC.md](configs/security/KEEPASSXC.md) - KeePassXC setup and opsec notes
+- [machines/alucard/SECURITY.md](../machines/alucard/SECURITY.md) - AppArmor, firewall, ClamAV, SSH hardening
+- [machines/alucard/TPM2-LUKS.md](../machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
 
 ## Component Documentation
 
@@ -36,6 +38,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 - [machines/alucard/README.md](../machines/alucard/README.md) - Host-specific system configuration
 - [machines/alucard/PLYMOUTH-SETUP.md](../machines/alucard/PLYMOUTH-SETUP.md) - Boot splash configuration
 - [machines/alucard/TPM2-LUKS.md](../machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
+- [machines/alucard/SECURITY.md](../machines/alucard/SECURITY.md) - AppArmor, firewall, ClamAV, SSH hardening
 - [machines/alucard/HARDWARE-ACCELERATION.md](../machines/alucard/HARDWARE-ACCELERATION.md) - Intel GPU acceleration
 - [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theme configuration
 - [scripts/README.md](../scripts/README.md) - Utility scripts
@@ -92,6 +95,7 @@ machines/alucard/
 ├── README.md                   # System configuration
 ├── PLYMOUTH-SETUP.md           # Boot splash
 ├── TPM2-LUKS.md                # TPM2 LUKS auto-unlock
+├── SECURITY.md                 # AppArmor, firewall, ClamAV, SSH hardening
 ├── HARDWARE-ACCELERATION.md    # GPU acceleration
 └── CATPPUCCIN-SYSTEM.md        # Theming
 
