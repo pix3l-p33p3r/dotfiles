@@ -50,8 +50,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Cap wait-online so rebuild/boot do not hang forever; 4.2s balances quick switch vs. online checks.
-  systemd.services.NetworkManager-wait-online.serviceConfig.TimeoutStartSec = false;
+  # Disable wait-online so rebuilds and boots don't stall waiting for a network connection.
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   # Reduce swapping aggressiveness
   boot.kernel.sysctl = {

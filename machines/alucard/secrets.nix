@@ -5,11 +5,8 @@
   # Enable SOPS
   sops.defaultSopsFile = ./../../secrets/hosts/alucard.yaml;
   
-  # Use SSH key from home directory for age key decryption
-  # This allows automatic decryption during system rebuild
-  sops.age.sshKeyPaths = [ "/home/pixel-peeper/.ssh/id_ed25519" ];
-  
-  # Age key file location
+  # Age key for sops decryption. The SSH key is passphrase-protected so it
+  # cannot be used as an age key source during unattended system activation.
   sops.age.keyFile = "/home/pixel-peeper/.config/sops/age/keys.txt";
 
   # ───── VPN ─────
