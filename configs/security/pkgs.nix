@@ -25,8 +25,6 @@
     age # File encryption
     gopass # Password manager
     pass # Password store
-    keychain # SSH key management
-    gnupg # GNU Privacy Guard (GPG/PGP)
 
     # Security Analysis
     nuclei # Vulnerability scanner

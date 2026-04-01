@@ -1,17 +1,12 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   sshAgentSocket = "${config.home.homeDirectory}/.local/share/keepassxc/ssh-agent";
 in
 {
-  # Set SSH_AUTH_SOCK environment variable for KeePassXC SSH agent
+  # KeePassXC owns the SSH agent — SSH_AUTH_SOCK points to its socket.
+  # AddKeysToAgent in ssh.nix caches the key in-session once KeePassXC unlocks it.
   home.sessionVariables.SSH_AUTH_SOCK = sshAgentSocket;
 
-  xdg.configFile."environment.d/20-keepassxc-ssh-agent.conf".text = ''
-    SSH_AUTH_SOCK=${sshAgentSocket}
-  '';
-
-  # Ensure KeepassXC has a place to drop its SSH agent socket and leave a
-  # reminder documenting what belongs there (the actual database lives outside git).
   home.activation.ensureKeePassSocketDir =
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.local/share/keepassxc"
@@ -21,12 +16,8 @@ in
     # KeePassXC OpSec Notes
 
     - KeePassXC owns interactive secrets (master password, OTP seeds, SSH/LUKS passphrases).
-    - Enable the SSH Agent integration inside KeePassXC Preferences → SSH Agent.
-    - Set the socket path to ${sshAgentSocket} so the desktop session reuses the agent.
-    - Store the age private key string and recovery passphrases inside this database.
-    - When rotating age/GPG keys, export temporary ASCII armor files, re-encrypt with SOPS,
-      and then delete the temporary exports after verifying new entries.
+    - Enable SSH Agent integration: KeePassXC → Preferences → SSH Agent.
+    - Set the socket path to ${sshAgentSocket}.
+    - Store the age private key and recovery passphrases in this database.
   '';
 }
-
-
