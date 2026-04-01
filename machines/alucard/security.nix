@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   hardeningCiphers = [
     "chacha20-poly1305@openssh.com"
@@ -56,6 +56,15 @@ in
       Macs = hardeningMacs;
       KexAlgorithms = hardeningKex;
     };
+  };
+
+  # ───── AppArmor ─────
+  security.apparmor = {
+    enable = true;
+    # Don't kill unconfined processes — enforce only where profiles exist
+    killUnconfinedConfinables = false;
+    # Community profiles for common system utilities
+    packages = [ pkgs.apparmor-profiles ];
   };
 
   # ───── DCONF & GSETTINGS ─────

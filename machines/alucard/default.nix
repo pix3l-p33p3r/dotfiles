@@ -35,6 +35,7 @@
       ./virt.nix
       
       # Networking
+      ./firewall.nix
       ./vpn.nix
       ./dns.nix
 
