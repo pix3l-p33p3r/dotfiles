@@ -1,110 +1,45 @@
 { ... }:
 
 {
-  # ============================================================================
-  # Catppuccin Mocha Theme Configuration
-  # ============================================================================
-  # This file configures Catppuccin Mocha theme for all compatible applications
-  # in your system, providing a consistent and beautiful dark theme experience.
-
-  # Global Catppuccin configuration
   catppuccin.flavor = "mocha";
   catppuccin.accent = "lavender";
 
-
-  # ============================================================================
-  # CLI & System Tools
-  # ============================================================================
-  
-  # System monitoring & resource tools
   catppuccin.btop.enable = true;
-
-  # Command-line tools
   catppuccin.bat.enable = true;
-
   catppuccin.eza.enable = true;
-
   catppuccin.fzf.enable = true;
 
-  # ============================================================================
-  # Terminal & Shell
-  # ============================================================================
-  
-  # Terminal multiplexer
   catppuccin.tmux.enable = true;
-
-  # Terminal emulator
   catppuccin.kitty.enable = true;
   catppuccin.zsh-syntax-highlighting.enable = true;
   catppuccin.atuin.enable = true;
-  
-  # File manager (TUI)
-  # catppuccin.yazi.enable = true;  # Disabled: conflicts with programs.yazi in yazi.nix
+  # catppuccin.yazi.enable = true;  # conflicts with programs.yazi in yazi.nix
 
-  # ============================================================================
-  # Development Tools
-  # ============================================================================
-  
-  # Git tools
   catppuccin.lazygit.enable = true;
-
   # catppuccin.gitui.enable = true;
 
-  # ============================================================================
-  # Media & Documents
-  # ============================================================================
-  
-  # Document viewer
   catppuccin.zathura.enable = true;
-
-  # Media players
   catppuccin.mpv.enable = true;
-
   catppuccin.imv.enable = true;
 
-  # ============================================================================
-  # Wayland & Desktop Environment
-  # ============================================================================
-
-  # Application launcher
   catppuccin.rofi.enable = true;
-
-  # Hyprland components
   # catppuccin.hyprland.enable = true;
   # catppuccin.hyprlock.enable = true;
-  # testing
 
-  # Qt theming via Kvantum
   catppuccin.kvantum.enable = true;
-
-  # ============================================================================
-  # Audio & Media
-  # ============================================================================
-  
-  
-  # Audio visualizer
   catppuccin.cava.enable = true;
 
-  # ============================================================================
-  # Browsers & Web Applications
-  # ============================================================================
-
-  # Discord client (vesktop)
   catppuccin.vesktop.enable = true;
-
-  # Browsers
   catppuccin.qutebrowser.enable = true;
   catppuccin.librewolf.enable = true;
 
-  # Kubernetes TUI
   catppuccin.k9s.enable = true;
 
-  # Binary cache (optional) - enables faster builds via catppuccin.cachix.org
-  catppuccin.cache.enable = true;
+  # cache is configured system-wide in machines/alucard/system.nix;
+  # enabling here writes extra-trusted-public-keys to ~/.config/nix/nix.conf
+  # which breaks signature verification in Nix 2.31.x.
+  # catppuccin.cache.enable = true;
 
-  # Cursor theme
   catppuccin.cursors.enable = true;
-
-  # Catppuccin TTY theme
   # catppuccin.tty.enable = true;
 }

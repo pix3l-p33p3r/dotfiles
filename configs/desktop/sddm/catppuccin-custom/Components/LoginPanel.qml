@@ -109,7 +109,7 @@ Item {
           when: loginButton.down
           PropertyChanges {
             target: buttonBackground
-            color: "#a6adc8"
+            color: "#b890f5"
           }
         },
         State {
@@ -117,7 +117,7 @@ Item {
           when: loginButton.hovered && !loginButton.down
           PropertyChanges {
             target: buttonBackground
-            color: "#a6adc8"
+            color: "#d8bdfb"
           }
         }
       ]

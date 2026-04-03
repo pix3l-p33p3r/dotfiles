@@ -20,19 +20,27 @@ in
   ];
 
   programs.zsh.enable = true;
-
   programs.nix-search-tv.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
-  # Required for home-manager nix configuration
   nix.package = lib.mkDefault pkgs.nix;
+
+  # Nix 2.31.x bug: a trusted user's extra-trusted-public-keys replaces rather
+  # than supplements the daemon's system keys. Repeating all keys here ensures
+  # the full set is always active via ~/.config/nix/nix.conf.
+  nix.settings.extra-trusted-public-keys = [
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
+    "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
+  ];
 
   programs.atuin.enable = true;
   programs.home-manager.enable = true;
 
-  # Override home-manager's installPackages to use 'nix profile add' instead of
-  # the deprecated 'nix profile install' alias, silencing the upstream warning.
+  # Use 'nix profile add' instead of the deprecated 'nix profile install' alias.
   home.activation.installPackages = lib.mkForce (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     function nixReplaceProfile() {
       local oldNix="$(command -v nix)"
@@ -61,7 +69,7 @@ in
     unset INSTALL_CMD INSTALL_CMD_ACTUAL LIST_CMD REMOVE_CMD_SYNTAX
   '');
 
-  # Remove legacy backups that block xdg.mimeApps from updating mimeapps.list
+  # Prevents xdg.mimeApps from blocking on a legacy backup file.
   home.activation.removeLegacyMimeappsBackup =
     lib.hm.dag.entryBefore [ "linkGeneration" ] ''
       backup="${config.xdg.configHome}/mimeapps.list.backup"
@@ -70,13 +78,13 @@ in
       fi
     '';
 
-  # Faster shutdown of user services to avoid long stop jobs
+  # Keep stop jobs short to avoid hanging on shutdown.
   xdg.configFile."systemd/user.conf.d/10-timeouts.conf".text = ''
     [Manager]
     DefaultTimeoutStopSec=10s
   '';
 
-  # Provide minimal hypridle config to prevent crash loops on shutdown
+  # Minimal config to prevent hypridle crash-loops on shutdown.
   xdg.configFile."hypr/hypridle.conf".text = ''
     general {
       lock_cmd =
@@ -86,10 +94,10 @@ in
     }
   '';
 
-  # Install editors
   home.packages = [
     cursorPkg
     pkgs.zed-editor
+    pkgs.sl
   ];
 
   home.username = "pixel-peeper";
