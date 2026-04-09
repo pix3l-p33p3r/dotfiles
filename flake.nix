@@ -29,7 +29,9 @@
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # Don't follow our nixpkgs — sops-nix's Go vendor hash is computed
+      # against its own tested nixpkgs; overriding causes hash mismatches.
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-catppuccin-plymouth = {
       url = "github:GGetsov/nixos-catppuccin-plymouth";
