@@ -42,7 +42,7 @@
     prometheus # Metrics collection
     grafana # Metrics visualization
     loki # Log aggregation
-    promtail # Log shipping
+    grafana-alloy # Log/metric/trace shipping (promtail successor)
     prometheus-node-exporter # Node metrics
     cadvisor # Container metrics
 

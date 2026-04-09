@@ -60,6 +60,8 @@
 
   programs.neovim = {
     enable = true;
+    withRuby = false;
+    withPython3 = false;
 
     extraPackages = with pkgs; [
       # ============================================================================
@@ -101,7 +103,7 @@
       # |                            FORMATTERS                                   |
       # ============================================================================
       nixfmt # Nix formatter
-      nodePackages.prettier # JavaScript/TypeScript formatter
+      prettier # JavaScript/TypeScript formatter
       prettierd # Prettier daemon
       black # Python formatter
       stylua # Lua formatter

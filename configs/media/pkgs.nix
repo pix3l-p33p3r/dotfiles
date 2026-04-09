@@ -32,8 +32,8 @@
     # ============================================================================
     pandoc # Universal document converter
     texlive.combined.scheme-full # Full TeX Live
-    nodePackages.katex # KaTeX CLI and assets for HTML math
-    nodePackages.mermaid-cli # mmdc: Mermaid CLI for diagrams
+    katex # KaTeX CLI and assets for HTML math
+    mermaid-cli # mmdc: Mermaid CLI for diagrams
     graphviz # dot: Graphviz for diagrams
     haskellPackages.pandoc-crossref # Cross-references for pandoc
     tectonic # Fast LaTeX engine (optional alternative to texlive engines)
