@@ -53,11 +53,16 @@
   systemd.services.NetworkManager-wait-online.enable = false;
 
   boot.kernel.sysctl = {
-    "vm.swappiness" = 10;
+    "vm.swappiness" = 60;  # zram is fast compressed RAM — use it aggressively before OOM-killing
     "vm.vfs_cache_pressure" = 50;
   };
 
-  systemd.oomd.enable = true;
+  systemd.oomd = {
+    enable = true;
+    enableRootSlice = true;
+    enableSystemSlice = true;
+    enableUserSlices = true;
+  };
 
   # Weekly TRIM for SSD health.
   services.fstrim.enable = true;

@@ -53,12 +53,20 @@
     fangfrisch.enable = false;
   };
 
+  # Delay freshclam until DNS is ready — it queries current.cvd.clamav.net at
+  # startup and fails with NXDOMAIN if systemd-resolved isn't up yet.
+  systemd.services.clamav-freshclam = {
+    after = [ "network-online.target" "nss-lookup.target" ];
+    wants = [ "network-online.target" "nss-lookup.target" ];
+  };
+
   # ───── Daily scheduled scan ─────
   # Scans home directory and /etc; results logged to journald.
   # Runs at 03:00 when the laptop is likely idle.
   systemd.services.clamav-scan = {
     description = "ClamAV daily home scan";
-    after       = [ "clamav-daemon.service" ];
+    wants       = [ "network-online.target" ];
+    after       = [ "clamav-daemon.service" "network-online.target" ];
     requires    = [ "clamav-daemon.service" ];
 
     serviceConfig = {

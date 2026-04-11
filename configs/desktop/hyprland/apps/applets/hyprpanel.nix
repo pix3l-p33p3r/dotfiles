@@ -16,6 +16,7 @@
     };
     Service = {
       Type = "simple";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
       ExecStart = "${pkgs.hyprpanel}/bin/hyprpanel";
       Restart = "on-failure";
       RestartSec = 3;

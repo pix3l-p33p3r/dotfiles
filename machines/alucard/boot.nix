@@ -11,8 +11,8 @@ in
 	# Allows NixOS to manage EFI variables, necessary for systemd-boot to work.
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	# Skip bootloader menu entirely — hold Space at power-on to access it
-	boot.loader.timeout = 0;
+	# Show boot menu for 1 second — allows selecting previous NixOS generations
+	boot.loader.timeout = 1;
 
 	# ───── Lanzaboote (Secure Boot with UKI) ─────
 	# Builds signed Unified Kernel Images and integrates with systemd-boot.
@@ -192,14 +192,16 @@ DeviceScale=1
 		# Prevent i915 from doing a full mode-reset when it takes over from simpledrm;
 		# without this Plymouth sees a blank screen during the simpledrm→i915 handoff
 		"i915.fastboot=1"
-		"fbcon=nodefer"   # Defer framebuffer console to avoid flickering
-
 		# Disable legacy serial port probing to fix initrd delay
 		"8250.nr_uarts=0"
 
 		# Disable kernel and hardware watchdog — not needed on a laptop
 		"nowatchdog"
 		"nmi_watchdog=0"
+
+		# Give the i2c_designware controller more time to initialize so the
+		# Synaptics touchpad (SYNA800E) doesn't time out during cold boot
+		"i2c_designware.timeout_ms=1000"
 	]
 	];
 	

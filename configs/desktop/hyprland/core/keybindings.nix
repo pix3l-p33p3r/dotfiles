@@ -15,9 +15,6 @@ in
 	"systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
 	"systemctl --user restart xdg-desktop-portal.service"
 
-	# Applets
-	"${hyprpaper}"
-	
 	# Clipboard
 	"sleep 3; ${cliphist} wipe"
 	"${wl-paste} --watch ${cliphist} store"
