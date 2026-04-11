@@ -20,8 +20,10 @@
   nix.settings.cores = 0;
   nix.settings.auto-optimise-store = true;
 
-  # Give up on a slow/offline substituter quickly so builds don't stall.
-  nix.settings.connect-timeout = 5;
+  # Give up on unreachable substituters without stalling builds.
+  # 15s is needed because DoT DNS resolution counts against this budget --
+  # 5s was too tight and caused false timeout warnings on warm caches.
+  nix.settings.connect-timeout = 15;
 
   # Build jobs run at lower priority to keep the desktop responsive.
   nix.daemonCPUSchedPolicy = "batch";
