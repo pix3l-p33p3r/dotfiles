@@ -192,6 +192,9 @@ DeviceScale=1
 		# Prevent i915 from doing a full mode-reset when it takes over from simpledrm;
 		# without this Plymouth sees a blank screen during the simpledrm→i915 handoff
 		"i915.fastboot=1"
+		# PSR (Panel Self Refresh) triggers I2C bus arbitration failures on this
+		# ThinkPad, causing the SYNA800E touchpad to lock up after 10-15 minutes.
+		"i915.enable_psr=0"
 		# Disable legacy serial port probing to fix initrd delay
 		"8250.nr_uarts=0"
 

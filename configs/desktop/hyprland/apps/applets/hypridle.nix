@@ -9,7 +9,7 @@ in
 {
   home.packages = [ pkgs.hypridle ];
 
-  xdg.configFile."hypridle/hypridle.conf" = {
+  xdg.configFile."hypr/hypridle.conf" = {
     text = ''
     general {
       lock_cmd = ${pidof} hyprlock || ${hyprlock}

@@ -105,7 +105,7 @@
 
   # ───── Power Daemon Conflicts ─────
   # TLP and power-profiles-daemon conflict - using TLP exclusively
-  services.thermald.enable = true;   # Complement TLP on Intel platforms
+  services.thermald.enable = false;  # Incompatible with Tiger Lake (exits immediately with "Unsupported cpu model")
   services.power-profiles-daemon.enable = false;  # Disabled to avoid conflict with TLP
 
   # ───── ThinkFan Fan Control ─────

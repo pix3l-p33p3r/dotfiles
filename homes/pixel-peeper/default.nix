@@ -84,16 +84,6 @@ in
     DefaultTimeoutStopSec=10s
   '';
 
-  # Minimal config to prevent hypridle crash-loops on shutdown.
-  xdg.configFile."hypr/hypridle.conf".text = ''
-    general {
-      lock_cmd =
-      before_sleep_cmd =
-      after_sleep_cmd =
-      ignore_dbus_inhibit = true
-    }
-  '';
-
   home.packages = [
     cursorPkg
     pkgs.zed-editor
