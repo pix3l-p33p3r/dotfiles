@@ -35,6 +35,9 @@ in
 
 		enable = true;
 
+		# Own full config in hypr/hyprlock.conf (hyprlock ignores ~/.config/hyprlock/). Stylix would merge programs.hyprlock.settings.
+		targets.hyprlock.enable = false;
+
 		targets.zen-browser.profileNames = [ "default" ];
 
 

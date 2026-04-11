@@ -90,6 +90,12 @@ Configured Nix to maximize build performance and minimize disk usage.
 
 **ROI:** High - faster builds + automatic cleanup with minimal configuration.
 
+## ClamAV: deferred daemon start
+
+**Decision:** Remove `clamav-daemon` from `multi-user.target`, start it ~45s after boot via a timer, and drop nixpkgs’ `wants`/`after` on `clamav-freshclam` for clamd.
+
+**Why:** Upstream ties clamd after freshclam, so freshclam ran on every boot before clamd, adding several seconds to the critical path to `graphical.target`. The socket unit still allows activation on demand; the timer ensures the daemon is up shortly after login without blocking boot.
+
 ---
 
 **See Also:**

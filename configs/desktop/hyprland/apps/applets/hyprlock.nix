@@ -24,11 +24,15 @@ in
     force = true;
   };
 
-  # Config file: ./hyprlock.conf (template with @WALLPAPER_PATH@ and @AVATAR_PATH@ placeholders)
-  xdg.configFile."hyprlock/hyprlock.conf" = {
+  # Hyprlock only loads ~/.config/hypr/hyprlock.conf (Hyprutils::Path::findConfig), not hyprlock/hyprlock.conf.
+  # Template: @WALLPAPER_PATH@ and @AVATAR_PATH@ substituted above.
+  xdg.configFile."hypr/hyprlock.conf" = {
     text = configContent;
     force = true;
   };
+
+  # Stylix can merge programs.hyprlock.settings into the same path; keep declarative lock config only.
+  programs.hyprlock.enable = false;
 }
 
 
