@@ -82,11 +82,14 @@
   # ───── Daily scheduled scan ─────
   # Scans home directory and /etc; results logged to journald.
   # Runs at 03:00 when the laptop is likely idle.
+  # Order after the socket, not clamav-daemon.service: the service is deferred ~45s after boot,
+  # but the socket is in sockets.target. clamdscan --fdpass activates clamd via the socket.
+  # Requiring the .service made Persistent timer runs fail if they fired before the deferred daemon.
   systemd.services.clamav-scan = {
     description = "ClamAV daily home scan";
     wants       = [ "network-online.target" ];
-    after       = [ "clamav-daemon.service" "network-online.target" ];
-    requires    = [ "clamav-daemon.service" ];
+    after       = [ "clamav-daemon.socket" "network-online.target" ];
+    requires    = [ "clamav-daemon.socket" ];
 
     serviceConfig = {
       Type            = "oneshot";

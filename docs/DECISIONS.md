@@ -96,6 +96,8 @@ Configured Nix to maximize build performance and minimize disk usage.
 
 **Why:** Upstream ties clamd after freshclam, so freshclam ran on every boot before clamd, adding several seconds to the critical path to `graphical.target`. The socket unit still allows activation on demand; the timer ensures the daemon is up shortly after login without blocking boot.
 
+**Scheduled scan:** `clamav-scan.service` uses `Requires=`/`After=` `clamav-daemon.socket`, not `clamav-daemon.service`, so a `Persistent` timer firing soon after boot does not fail while the daemon unit is still deferred; `clamdscan --fdpass` starts clamd via socket activation when needed.
+
 ---
 
 **See Also:**
