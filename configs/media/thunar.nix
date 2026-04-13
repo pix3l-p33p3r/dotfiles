@@ -16,8 +16,8 @@
     tumbler # Remote thumbnail service for Thunar
     ffmpegthumbnailer # Video thumbnails for Tumbler
 
-    # Virtual Filesystem Support (GVFS)
-    gvfs # Trash support, mounting, remote filesystems (SMB, FTP, MTP, etc.)
+    # GVFS (also requires NixOS services.gvfs.enable for D-Bus + GIO_EXTRA_MODULES)
+    gvfs # Trash, removable media, smb:// ftp:// … (Thunar checks this at runtime)
 
     # Archive Frontend for thunar-archive-plugin
     xarchiver # Provides create/extract UI used by thunar-archive-plugin
