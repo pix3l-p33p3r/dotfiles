@@ -3,6 +3,14 @@
   # Notification daemon — required for libnotify (poweralertd, scripts). Stylix themes it via targets.mako.
   services.mako.enable = true;
 
+  # HM default runs `makoctl reload` on config change; during `nixos-rebuild`/`hm switch` there is often no
+  # Mako on the session bus yet → D-Bus noise: UnknownMethod /fr/emersion/Mako. Reload only when the unit is up.
+  xdg.configFile."mako/config".onChange = lib.mkForce ''
+    if [ -n "''${WAYLAND_DISPLAY:-}" ] && ${pkgs.systemd}/bin/systemctl --user is-active --quiet mako.service 2>/dev/null; then
+      ${pkgs.mako}/bin/makoctl reload 2>/dev/null || true
+    fi
+  '';
+
   systemd.user.services.mako = {
     Unit = {
       Description = "mako notification daemon";
