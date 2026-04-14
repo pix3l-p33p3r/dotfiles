@@ -1,34 +1,8 @@
 { config, pkgs, lib, ... }:
 {
-  # Notification daemon — required for libnotify (poweralertd, scripts). Stylix themes it via targets.mako.
-  services.mako.enable = true;
-
-  # HM default runs `makoctl reload` on config change; during `nixos-rebuild`/`hm switch` there is often no
-  # Mako on the session bus yet → D-Bus noise: UnknownMethod /fr/emersion/Mako. Reload only when the unit is up.
-  xdg.configFile."mako/config".onChange = lib.mkForce ''
-    if [ -n "''${WAYLAND_DISPLAY:-}" ] && ${pkgs.systemd}/bin/systemctl --user is-active --quiet mako.service 2>/dev/null; then
-      ${pkgs.mako}/bin/makoctl reload 2>/dev/null || true
-    fi
-  '';
-
-  systemd.user.services.mako = {
-    Unit = {
-      Description = "mako notification daemon";
-      PartOf = [ config.wayland.systemd.target ];
-      After = [ config.wayland.systemd.target ];
-      Before = [ "poweralertd.service" ];
-      ConditionEnvironment = "WAYLAND_DISPLAY";
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.mako}/bin/mako";
-      Restart = "on-failure";
-      RestartSec = 2;
-    };
-    Install = {
-      WantedBy = [ config.wayland.systemd.target ];
-    };
-  };
+  # hyprpanel IS the notification daemon (org.freedesktop.Notifications on the session bus).
+  # Do NOT run mako alongside it — whichever claims the D-Bus name first wins, and mako
+  # would prevent hyprpanel from receiving notifications (breaks history, theming, X buttons).
 
   # System services
   services.blueman-applet.enable = true;
@@ -49,9 +23,10 @@
   services.gnome-keyring.enable = false;
 
   services.poweralertd.enable = true;
-  # Skip startup broadcast; run after mako so libnotify has a D-Bus target ("Transport endpoint is not connected").
+  # -s: skip startup broadcast (avoids crash before the notification daemon is ready).
+  # Wait for hyprpanel which owns org.freedesktop.Notifications on this session.
   systemd.user.services.poweralertd = {
-    Unit.After = [ "mako.service" ];
+    Unit.After = [ "hyprpanel.service" ];
     Service.ExecStart = lib.mkForce "${pkgs.poweralertd}/bin/poweralertd -s";
   };
   services.network-manager-applet.enable = true;
