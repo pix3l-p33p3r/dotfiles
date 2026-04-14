@@ -37,6 +37,11 @@ in
     $DRY_RUN_CMD install -m 600 ${sshConfig} "${config.home.homeDirectory}/.ssh/config"
   '';
 
+  # Point the shell at the agent socket that systemd starts via ssh-agent.service.
+  # The systemd user environment stores it as the specifier "%t/ssh-agent" which only
+  # systemd services expand; zsh/login sessions need the concrete path.
+  home.sessionVariables.SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
+
   home.activation.importSshKey = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     SSH_SECRET_PATH="${toString (config.sops.secrets."ssh/private_key" or { path = ""; }).path}"
     SSH_KEY="${config.home.homeDirectory}/.ssh/id_ed25519"
