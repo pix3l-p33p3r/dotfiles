@@ -35,6 +35,9 @@ in
 
 		enable = true;
 
+		# Own hyprpaper preload/wallpaper in services.hyprpaper; Stylix would merge wallpaper entries and fight our flake image.
+		targets.hyprpaper.enable = false;
+
 		# Own full config in hypr/hyprlock.conf (hyprlock ignores ~/.config/hyprlock/). Stylix would merge programs.hyprlock.settings.
 		targets.hyprlock.enable = false;
 

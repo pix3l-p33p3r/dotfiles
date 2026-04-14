@@ -21,8 +21,7 @@ alucard/
 ├── locale.nix               # Timezone, internationalization
 ├── users.nix                # User accounts, shell, groups
 ├── programs.nix             # System programs
-├── hardware-acceleration.nix # Intel drivers, VA-API, Vulkan, OpenCL
-├── graphics.nix             # Intel Mesa, GPU config
+├── hardware-acceleration.nix # Intel drivers, VA-API, Vulkan, OpenCL (sole GPU module)
 ├── audio.nix                # Pipewire, ALSA
 ├── bluetooth.nix            # Bluez, Blueman
 ├── power.nix                # TLP, intel_pstate powersave governor

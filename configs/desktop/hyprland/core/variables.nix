@@ -1,5 +1,9 @@
 { pkgs, inputs, wallpaper, ... }:
 {
+  # GVfs GIO modules — without this, Hyprland-spawned apps do not see NixOS
+  # /etc/profile env and Thunar shows "gvfs is not available" (trash, devices, sftp).
+  gio_extra_modules = "${pkgs.gvfs}/lib/gio/modules";
+
   # Terminal and core applications
   kitty = "${pkgs.kitty}/bin/kitty";
   thunar = "${pkgs.thunar}/bin/thunar";

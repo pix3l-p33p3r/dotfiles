@@ -12,7 +12,7 @@ in
   xdg.configFile."hypr/hypridle.conf" = {
     text = ''
     general {
-      lock_cmd = ${pidof} hyprlock || ${hyprlock}
+      lock_cmd = ${pidof} hyprlock || ${hyprlock} --grace 30
       before_sleep_cmd = ${loginctl} lock-session
       after_sleep_cmd = ${hyprctl} dispatch dpms on
     }

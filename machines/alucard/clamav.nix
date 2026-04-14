@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   services.clamav = {
@@ -93,7 +93,10 @@
 
     serviceConfig = {
       Type            = "oneshot";
-      ExecStart       = "/run/current-system/sw/bin/clamdscan --fdpass --recursive --quiet /home /etc";
+      # Ensure clamd is up (socket path exists) before scanning; older runs failed with "Could not connect to clamd".
+      ExecStartPre    = "${pkgs.systemd}/bin/systemctl start clamav-daemon.service";
+      # --recursive was removed in newer clamdscan; directories are scanned recursively by default.
+      ExecStart       = "/run/current-system/sw/bin/clamdscan --fdpass --quiet /home /etc";
       Nice            = 19;      # lowest CPU priority
       IOSchedulingClass = "idle"; # lowest I/O priority
       User            = "root";

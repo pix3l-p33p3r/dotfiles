@@ -26,49 +26,43 @@ let
         vibrancy_darkness = 0.0
     }
 
+    # Grace period before password is required: pass --grace to hyprlock (hypridle lock_cmd), not here — removed from general in hyprlock 0.9+.
     general {
         hide_cursor = true
-        grace = 30
         ignore_empty_input = true
     }
 
     label {
         monitor =
         text = cmd[update:1000] echo "$(date +"%A")"
-        color = ''$text
+        color = rgba(cdd6f4d9)
         font_size = 90
         font_family = ''$fontDisplay
-        font_weight = bold
         position = 0, 350
         halign = center
         valign = center
-        opacity = 0.85
     }
 
     label {
         monitor =
         text = cmd[update:1000] echo "$(date +"%d %B")"
-        color = ''$text
+        color = rgba(cdd6f4d9)
         font_size = 40
         font_family = ''$fontDisplay
-        font_weight = bold
         position = 0, 250
         halign = center
         valign = center
-        opacity = 0.85
     }
 
     label {
         monitor =
         text = cmd[update:1000] echo " $(date +'- %I:%M -') "
-        color = ''$text
+        color = rgba(cdd6f4d9)
         font_size = 20
         font_family = ''$fontDisplay
-        font_weight = bold
         position = 0, 190
         halign = center
         valign = center
-        opacity = 0.85
     }
 
     image {
@@ -103,14 +97,12 @@ let
     label {
         monitor =
         text = cmd[update:60000] echo "''$USER"
-        color = ''$text
+        color = rgba(cdd6f4e6)
         font_size = 18
         font_family = ''$fontDisplay
-        font_weight = bold
         position = 0, -130
         halign = center
         valign = center
-        opacity = 0.9
     }
 
     input-field {
@@ -135,40 +127,37 @@ let
     label {
         monitor =
         text = 󰜉
-        color = ''$subtext0
+        color = rgba(a6adc8d9)
         font_size = 40
         font_family = ''$fontIcons
         onclick = reboot now
         position = 0, 100
         halign = center
         valign = bottom
-        opacity = 0.85
     }
 
     label {
         monitor =
         text = 󰐥
-        color = ''$subtext0
+        color = rgba(a6adc8d9)
         font_size = 40
         font_family = ''$fontIcons
         onclick = shutdown now
         position = 336, 100
         halign = center
         valign = bottom
-        opacity = 0.85
     }
 
     label {
         monitor =
         text = 󰤄
-        color = ''$subtext0
+        color = rgba(a6adc8d9)
         font_size = 40
         font_family = ''$fontIcons
         onclick = systemctl suspend
         position = -336, 100
         halign = center
         valign = bottom
-        opacity = 0.85
     }
   '';
 in

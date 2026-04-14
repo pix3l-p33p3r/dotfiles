@@ -1,86 +1,50 @@
-# Intel Hardware Acceleration
+# Intel Hardware Acceleration — Alucard
 
-Complete hardware acceleration setup for Intel integrated graphics on Alucard (ThinkPad).
+ThinkPad with Intel Gen12 Tiger Lake Iris Xe (TGL GT2), single iGPU, Hyprland/Wayland.
 
-## What's Enabled
+**NixOS config:** `machines/alucard/hardware-acceleration.nix` (sole GPU module — `graphics.nix` removed).
 
-**Video (VA-API):** H.264/HEVC decode+encode, VP8/VP9 decode+encode, AV1 decode (newer GPUs)  
-**Graphics APIs:** Vulkan, OpenGL, OpenCL  
-**Drivers:** iHD (intel-media-driver), Level Zero, Intel Compute Runtime
+## What's enabled
 
-**Configuration:** `machines/alucard/hardware-acceleration.nix`
+| Stack | Detail |
+|-------|--------|
+| VA-API | H.264/HEVC/VP8/VP9 decode+encode, AV1 decode; driver: **iHD** (`intel-media-driver`) |
+| Vulkan | Mesa iris |
+| OpenCL | Intel Compute Runtime (NEO) + Level Zero |
+| VDPAU | via `va_gl` (for legacy apps) |
 
 ## Verification
 
 ```bash
-vainfo              # Should show "iHD driver" with H264/HEVC
-vulkaninfo --summary # Intel Vulkan driver
-clinfo              # Intel OpenCL platform
-intel_gpu_top       # Real-time GPU stats
+vainfo              # "iHD driver" + codec list
+vulkaninfo --summary
+clinfo
+intel_gpu_top       # live engine stats (Video, Render/3D, Blitter…)
 ```
 
-## Application Setup
+A modest **Video %** in `intel_gpu_top` during 1080p playback is expected and correct.
 
-**MPV:** Already configured in `configs/media/mpv.nix` with `--hwdec=auto`
+## Application notes
 
-**Firefox:** VA-API enabled via env vars, native Wayland. Verify: `about:support` → Graphics → VA-API
+All apps inherit VA-API from NixOS session env (`LIBVA_DRIVER_NAME=iHD`, `VDPAU_DRIVER=va_gl`).
 
-**Chromium:** Launch with `--enable-features=VaapiVideoDecoder,VaapiVideoEncoder --use-gl=egl --enable-zero-copy`
+**mpv** — configured in `configs/media/mpv.nix` with `hwdec=auto-copy`, `vo=gpu-next`, Vulkan/Wayland context.
 
-**FFmpeg:**
-```bash
-ffmpeg -hwaccel vaapi -i input.mp4 output.mp4           # Decode
-ffmpeg -i input.mp4 -c:v h264_vaapi -b:v 2M output.mp4  # Encode
-ffmpeg -i input.mp4 -c:v h264_qsv -preset veryslow output.mp4  # QSV
-```
+**Firefox** — `MOZ_DISABLE_RDD_SANDBOX=1` set via NixOS. Check `about:support → Graphics` for `HARDWARE_VIDEO_DECODING: available`. Declarative `about:config` prefs are a deferred dotfiles task.
 
-**OBS/VLC:** Enable VAAPI encoding/decoding in settings
+**Chrome** — VA-API/Vulkan flags set in `configs/browsers/chrome.nix`.
 
-## Performance
+**ffmpeg** — picks up VA-API env; explicit encode: `ffmpeg -i in.mp4 -c:v h264_vaapi out.mp4`.
 
-**Without HW accel:** 4K HEVC ~60-80% CPU, high battery drain  
-**With HW accel:** 4K HEVC ~5-10% CPU (GPU handles it), minimal battery drain
-
-Expected battery improvement: **30-50%** during video playback.
+**VLC** — enable hardware-accelerated decoding in Preferences → Video → Output / Codec settings.
 
 ## Troubleshooting
 
-**VA-API not working:**
 ```bash
-echo $LIBVA_DRIVER_NAME  # Should be "iHD"
-groups $USER             # Should include "video" and "render"
-ls -l /dev/dri/          # Should show card0 and renderD128
+echo $LIBVA_DRIVER_NAME   # iHD
+groups                    # video render
+ls /dev/dri/              # card0, renderD128
+lsmod | grep i915
 ```
 
-**Firefox not using HW accel:**
-- Check `about:config`: `media.ffmpeg.vaapi.enabled = true`
-- Verify in `about:support` → Media section
-
-**GPU not detected:**
-```bash
-lspci | grep VGA        # Should show Intel graphics
-lsmod | grep i915       # Should show i915 module loaded
-```
-
-## Monitoring
-
-```bash
-intel_gpu_top          # Best option - real-time stats
-nvtop --gpu intel      # Alternative
-```
-
-Engines: Render/3D, Video (decode/encode), VideoEnhance, Blitter
-
-## Supported Generations
-
-- **Gen8+** (Broadwell and newer) - Full support with iHD
-- **Gen7** (Haswell) - Limited support
-- **Gen6 and older** - Use i965 driver
-
----
-
-**See Also:**
-- [hardware-acceleration.nix](../hardware-acceleration.nix) - Configuration
-- [mpv.nix](../../configs/media/mpv.nix) - MPV setup
-
-**Status:** ✅ Fully Configured | **Driver:** iHD | **VA-API:** Enabled | **Vulkan:** Enabled | **OpenCL:** Enabled
+Firefox VA-API: check `about:config` → `media.ffmpeg.vaapi` is `true`; `about:support → Media → codecSupportInfo` should list `HWDEC`.

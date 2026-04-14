@@ -1,5 +1,10 @@
 { pkgs, config, lib, ... }:
 {
+  # NixOS services.gvfs sets this globally, but Hyprland/SDDM sessions often skip
+  # login profile; without it Thunar cannot load trash:// computer:// sftp:// backends.
+  home.sessionVariables.GIO_EXTRA_MODULES = "${pkgs.gvfs}/lib/gio/modules";
+  systemd.user.sessionVariables.GIO_EXTRA_MODULES = "${pkgs.gvfs}/lib/gio/modules";
+
   # ============================================================================
   # |                      THUNAR FILE MANAGER - PACKAGES                    |
   # ============================================================================
