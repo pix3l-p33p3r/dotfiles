@@ -30,10 +30,11 @@
     # Icon Theming
     papirus-folders # Papirus folder recoloring tool
 
-    # Additional utilities for custom actions
+    # Additional utilities for custom actions (also on PATH; uca.xml uses store paths)
     file # File type identification
-    # exiftool, mat2 → configs/media/pkgs.nix
-    # picocrypt       → configs/desktop/hyprland/core/pkgs.nix
+    exiftool
+    mat2
+    picocrypt
   ];
 
   # Thumbnailer is enabled at system level (services.tumbler)
