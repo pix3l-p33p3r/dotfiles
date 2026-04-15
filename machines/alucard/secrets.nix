@@ -46,6 +46,17 @@
     mode  = "0400";
   };
 
+  # ───── Hotspot ─────
+  # WPA passphrase for the ap0 hostapd hotspot.
+  # Add to secrets: sops secrets/hosts/alucard.yaml
+  #   hotspot:
+  #     wpa_passphrase: "yourpassword"
+  sops.secrets."hotspot/wpa_passphrase" = {
+    owner = "root";
+    group = "root";
+    mode  = "0600";
+  };
+
   # ───── Inactive examples ─────
 
   # sops.secrets."ssh/host_key_ed25519" = {

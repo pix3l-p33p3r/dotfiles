@@ -38,6 +38,7 @@
       ./firewall.nix
       ./vpn.nix
       ./dns.nix
+      ./hotspot.nix
 
       # Security tooling
       ./clamav.nix

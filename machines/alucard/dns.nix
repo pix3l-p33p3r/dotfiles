@@ -2,7 +2,9 @@
 {
   # ───── System-wide DNS-over-TLS via Mullvad ─────
   # Uses the "base" resolver: blocks ads, trackers, and malware.
-  # Strict DoT — all queries are encrypted, no unencrypted fallback.
+  # Primary: Mullvad. Fallback: public DoT (still TLS, not plaintext) so a Mullvad
+  # blip or captive-portal phase does not leave resolution entirely dead (nix/store
+  # downloads need working DNS).
   #
   # DNS servers live under settings.Resolve (nixpkgs removed the old
   # services.resolved.dns top-level option).
@@ -16,7 +18,12 @@
       DNSOverTLS = "yes";
       DNSSEC = "no";
       Domains = [ "~." ];
-      FallbackDNS = [ ];
+      FallbackDNS = [
+        "1.1.1.1#cloudflare-dns.com"
+        "8.8.8.8#dns.google"
+        "1.0.0.1#cloudflare-dns.com"
+        "8.8.4.4#dns.google"
+      ];
     };
   };
 
