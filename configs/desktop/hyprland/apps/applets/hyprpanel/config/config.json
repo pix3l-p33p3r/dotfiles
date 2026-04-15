@@ -40,7 +40,6 @@
   "menus.volume.raiseMaximumVolume": true,
   "menus.clock.time.military": true,
   "menus.clock.weather.unit": "metric",
-  "menus.clock.weather.key": "0239ef1a0fef4c69b37113109261504",
   "menus.clock.weather.location": "Ben Guerir, Morocco",
   "menus.dashboard.controls.enabled": true,
   "theme.bar.buttons.modules.cpuTemp.enableBorder": true,

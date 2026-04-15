@@ -10,6 +10,10 @@
     
     # Define secrets to decrypt
     secrets = {
+      # OpenWeather / weatherapi-style key for Hyprpanel clock (not in git plaintext).
+      "hyprpanel/openweather_api_key" = {
+        path = "${config.home.homeDirectory}/.config/sops-secrets/hyprpanel-openweather-api-key";
+      };
       "obsidian/api_key" = {
         path = "${config.home.homeDirectory}/.config/sops-secrets/obsidian-api-key";
       };
