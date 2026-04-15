@@ -33,11 +33,7 @@
     "kvm-intel"
   ];
 
-  # Do not use mkForce here — it overrides iwlwifi tuning in system.nix.
-  boot.extraModprobeConfig = ''
-    options i915 enable_guc=3 enable_fbc=1 enable_psr=1
-    options thinkpad_acpi experimental=1 fan_control=1
-  '';
+  # Module options live in system.nix (single boot.extraModprobeConfig).
 
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME    = "iHD";

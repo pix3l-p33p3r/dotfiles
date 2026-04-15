@@ -78,9 +78,14 @@
     "iwlwifi.power_save=0"
   ];
 
-  # Belt-and-suspenders for any later modprobe reload path.
+  # Belt-and-suspenders for any later modprobe reload path. All `options …`
+  # lines live here so we do not rely on cross-file merges (and avoid mkForce
+  # dropping iwlwifi tuning). i915 / thinkpad lines: see
+  # docs/machines/alucard/HARDWARE-ACCELERATION.md.
   boot.extraModprobeConfig = ''
     options iwlwifi bt_coex_active=0 swcrypto=1 power_save=0
+    options i915 enable_guc=3 enable_fbc=1 enable_psr=1
+    options thinkpad_acpi experimental=1 fan_control=1
   '';
 
   boot.kernel.sysctl = {
