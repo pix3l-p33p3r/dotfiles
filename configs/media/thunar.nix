@@ -32,7 +32,8 @@
 
     # Additional utilities for custom actions
     file # File type identification
-    exiftool # Metadata viewing
+    # exiftool, mat2 → configs/media/pkgs.nix
+    # picocrypt       → configs/desktop/hyprland/core/pkgs.nix
   ];
 
   # Thumbnailer is enabled at system level (services.tumbler)
@@ -255,6 +256,78 @@
         <range></range>
         <patterns>*</patterns>
         <directories/>
+      </action>
+
+      <!-- ============================================================ -->
+      <!-- Security submenu actions                                     -->
+      <!-- ============================================================ -->
+
+      <!-- Secure Delete (rm + immediate TRIM) -->
+      <action>
+        <icon>edit-delete</icon>
+        <name>Secure Delete</name>
+        <submenu>Security</submenu>
+        <unique-id>1234567890123456-11</unique-id>
+        <command>${pkgs.kitty}/bin/kitty --hold sh -c 'echo "WARNING: This will permanently destroy the following file:" &amp;&amp; echo "  %n" &amp;&amp; echo "" &amp;&amp; echo "The NVMe will be told to wipe the freed blocks immediately." &amp;&amp; echo "There is NO recovery after this." &amp;&amp; echo "" &amp;&amp; printf "Type YES to confirm: " &amp;&amp; read confirm &amp;&amp; if [ "$confirm" = "YES" ]; then rm -f %f &amp;&amp; sudo ${pkgs.util-linux}/bin/fstrim -v / &amp;&amp; echo "" &amp;&amp; echo "Done. File destroyed and blocks trimmed."; else echo "Aborted."; fi'</command>
+        <description>Delete file and immediately TRIM freed NVMe blocks</description>
+        <range></range>
+        <patterns>*</patterns>
+        <audio-files/>
+        <image-files/>
+        <other-files/>
+        <text-files/>
+        <video-files/>
+      </action>
+
+      <!-- Strip Metadata (mat2) -->
+      <action>
+        <icon>document-edit</icon>
+        <name>Strip Metadata</name>
+        <submenu>Security</submenu>
+        <unique-id>1234567890123456-12</unique-id>
+        <command>${pkgs.kitty}/bin/kitty --hold sh -c '${pkgs.mat2}/bin/mat2 %f &amp;&amp; echo "" &amp;&amp; echo "Metadata stripped. Clean copy created alongside original."'</command>
+        <description>Remove all metadata from file (creates .cleaned copy)</description>
+        <range></range>
+        <patterns>*</patterns>
+        <audio-files/>
+        <image-files/>
+        <other-files/>
+        <text-files/>
+        <video-files/>
+      </action>
+
+      <!-- GPG Sign (detached, armored) -->
+      <action>
+        <icon>channel-secure-symbolic</icon>
+        <name>GPG Sign</name>
+        <submenu>Security</submenu>
+        <unique-id>1234567890123456-13</unique-id>
+        <command>${pkgs.kitty}/bin/kitty --hold sh -c '${pkgs.gnupg}/bin/gpg --armor --detach-sign %f &amp;&amp; echo "" &amp;&amp; echo "Signature created: %n.asc"'</command>
+        <description>Create a detached GPG signature (.asc)</description>
+        <range></range>
+        <patterns>*</patterns>
+        <audio-files/>
+        <image-files/>
+        <other-files/>
+        <text-files/>
+        <video-files/>
+      </action>
+
+      <!-- Encrypt with Picocrypt -->
+      <action>
+        <icon>security-high</icon>
+        <name>Encrypt (Picocrypt)</name>
+        <submenu>Security</submenu>
+        <unique-id>1234567890123456-14</unique-id>
+        <command>${pkgs.picocrypt}/bin/picocrypt %f</command>
+        <description>Encrypt file with Picocrypt (AES-256)</description>
+        <range></range>
+        <patterns>*</patterns>
+        <audio-files/>
+        <image-files/>
+        <other-files/>
+        <text-files/>
+        <video-files/>
       </action>
     </actions>
   '';
