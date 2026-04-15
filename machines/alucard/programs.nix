@@ -4,9 +4,6 @@
   # ───── Firefox ─────
   programs.firefox.enable = true;
 
-  # ───── Network Manager Applet ─────
-  programs.nm-applet = {
-    enable = true;
-    indicator = true;
-  };
+  # NetworkManager UI + secret agent: Home Manager enables services.network-manager-applet
+  # for pixel-peeper. NixOS programs.nm-applet would spawn a second nm-applet.
 }
