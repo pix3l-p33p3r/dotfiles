@@ -76,9 +76,11 @@
       KEYBOARD_BRIGHTNESS_ON_AC = 100;
       KEYBOARD_BRIGHTNESS_ON_BAT = 50;
       
-      # WiFi power saving
+      # WiFi power saving — kept off even on battery.  iwlwifi power_save causes
+      # "link timed out" and session-protection errors on the AX201 in dense AP
+      # environments; the ~0.3 W saving is not worth the connectivity loss.
       WIFI_PWR_ON_AC = "off";
-      WIFI_PWR_ON_BAT = "on";
+      WIFI_PWR_ON_BAT = "off";
 
       # PCIe runtime power management
       RUNTIME_PM_ON_AC = "on";
