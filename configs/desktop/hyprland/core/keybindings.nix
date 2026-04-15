@@ -14,6 +14,8 @@ in
 	"systemctl --user is-active xdg-desktop-portal-gtk.service && systemctl --user stop xdg-desktop-portal-gtk.service"
 	"systemctl --user is-active xdg-desktop-portal-hyprland.service && systemctl --user stop xdg-desktop-portal-hyprland.service"
 	"systemctl --user restart xdg-desktop-portal.service"
+	# NM Wi-Fi secrets agent (belt-and-suspenders with hyprland-session WantedBy above)
+	"systemctl --user start network-manager-applet.service"
 
 	# Clipboard
 	"sleep 3; ${cliphist} wipe"

@@ -30,6 +30,21 @@
     Service.ExecStart = lib.mkForce "${pkgs.poweralertd}/bin/poweralertd -s";
   };
   services.network-manager-applet.enable = true;
+  # Hyprland often reaches hyprland-session.target before graphical-session.target; bind the
+  # NM secret agent to both so "no agents were available" does not happen on Wi-Fi connect.
+  systemd.user.services.network-manager-applet = {
+    Unit = {
+      Description = "Network Manager applet";
+      Requires = [ "tray.target" ];
+      PartOf = lib.mkForce [ "graphical-session.target" "hyprland-session.target" ];
+      After = lib.mkForce [
+        "graphical-session.target"
+        "tray.target"
+        "hyprland-session.target"
+      ];
+    };
+    Install.WantedBy = lib.mkForce [ "graphical-session.target" "hyprland-session.target" ];
+  };
 
   # Polkit agent (required for GUI auth prompts e.g., udisks mounts in Thunar)
   services.polkit-gnome.enable = true;
