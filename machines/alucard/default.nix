@@ -41,6 +41,7 @@
 
       # Security tooling
       ./clamav.nix
+      ../../configs/security/polkit-fstrim.nix
 
       # Maintenance
       ./maint.nix
