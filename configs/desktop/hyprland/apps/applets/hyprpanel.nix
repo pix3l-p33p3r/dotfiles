@@ -9,7 +9,9 @@ in
     "hyprpanel/modules.json".text = builtins.readFile ./hyprpanel/config/modules.json;
   };
 
-  home.activation.hyprpanelConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  # After sops-nix: decrypted files under ~/.config/sops-secrets only exist once the
+  # user sops-nix unit has run (activation orders sops-nix after writeBoundary).
+  home.activation.hyprpanelConfig = lib.hm.dag.entryAfter [ "sops-nix" ] ''
     $DRY_RUN_CMD mkdir -p "${config.xdg.configHome}/hyprpanel"
     $DRY_RUN_CMD ${lib.getExe pkgs.jq} \
       --rawfile openweather_key "${config.sops.secrets."hyprpanel/openweather_api_key".path}" \
@@ -23,7 +25,7 @@ in
     Unit = {
       Description = "Hyprland status bar";
       PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" ];
+      After = [ "hyprland-session.target" "sops-nix.service" ];
     };
     Service = {
       Type = "simple";
