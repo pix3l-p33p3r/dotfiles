@@ -4,7 +4,7 @@
 # Stop the script if any command fails
 set -e
 
-echo "--- [USER] Step 1 of 4: Expiring Home Manager generations (keeping last 2) ---"
+echo "--- [USER] Step 1 of 5: Expiring Home Manager generations (keeping last 2) ---"
 # This keeps the current and previous generation, deleting all others.
 # We target the home-manager profile directly using nix-env.
 # This is the default XDG path for the home-manager profile.
@@ -20,13 +20,13 @@ else
 fi
 echo ""
 
-echo "--- [USER] Step 2 of 4: Cleaning other user generations ---"
+echo "--- [USER] Step 2 of 5: Cleaning other user generations ---"
 # This cleans up any other user-level profiles (e.g., from 'nix profile')
 nix-collect-garbage -d
 echo "Other user generations cleaned."
 echo ""
 
-echo "--- [ROOT] Step 3 of 4: Cleaning system generations & collecting garbage ---"
+echo "--- [ROOT] Step 3 of 5: Cleaning system generations & collecting garbage ---"
 echo "This will ask for your password."
 # As root, this cleans up old NixOS system generations AND
 # permanently deletes all unreferenced packages from /nix/store.
@@ -34,11 +34,21 @@ sudo nix-collect-garbage -d
 echo "System garbage collected."
 echo ""
 
-echo "--- [ROOT] Step 4 of 4: Optimizing the Nix store ---"
+echo "--- [ROOT] Step 4 of 5: Optimizing the Nix store ---"
 echo "This may also ask for your password."
 # As root, this finds identical files in the store and hardlinks them to save space.
 sudo nix store optimise && nix store optimise
 echo "Nix store optimise."
+echo ""
+
+echo "--- [ROOT] Step 5 of 5: Wiping free space + TRIM ---"
+# Fill free space with zeros so filesystem-level recovery tools (photorec,
+# extundelete) cannot find remnants of previously deleted files, then tell
+# the NVMe to erase the freed blocks via TRIM.
+dd if=/dev/zero of="$HOME/.wipe" bs=1M status=progress 2>&1 || true
+rm -f "$HOME/.wipe"
+sudo fstrim -v /
+echo "Free space zeroed and trimmed."
 echo ""
 
 echo "--- Nix Cleanup Complete! ---"
