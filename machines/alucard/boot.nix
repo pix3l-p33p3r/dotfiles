@@ -137,10 +137,11 @@ DeviceScale=1
 	systemd.enable = true;  # Required for Plymouth + systemd-ask-password in initrd
 	verbose = false;
 
-	# Max zstd compression — smaller initrd, faster decompression at boot
-	# -19 = max level, -T0 = use all CPU threads (only affects rebuild time)
+	# Level -3: significantly faster decompression than -19 at boot with only
+	# ~20% larger image. On an NVMe SSD the extra read time is <0.1s while
+	# the CPU saves noticeably on decompression. -T0 = all threads at build time.
 	compressor = "zstd";
-	compressorArgs = [ "-19" "-T0" ];
+	compressorArgs = [ "-3" "-T0" ];
 
 	# TPM2 support: tpm_tis is the driver for STM0125 (confirmed via lsmod)
 	# i915 for Plymouth early-KMS
