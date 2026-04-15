@@ -28,5 +28,21 @@ in
 
   # nix.settings.auto-optimise-store in system.nix already hard-links identical
   # files after every build. A separate weekly nix.optimise job would be redundant.
+
+  # ───── /tmp hygiene ─────
+  # systemd-tmpfiles-clean was taking ~12s on last boot because it had to stat
+  # ~1.3GB of files in /tmp. Root causes identified:
+  #
+  #   /tmp/flake-archive  — 965MB leftover nix store written by 'nix flake archive'.
+  #                         Not cleaned automatically; grows unbounded across reboots.
+  #   /tmp/agkozak_zsh_prompt_*  — zero-byte lock files left per shell session by
+  #                         the agkozak zsh prompt plugin; accumulates over time.
+  #
+  # 'e' type: adjusts existing paths without creating them; removes contents (like D)
+  # if the path's modification time is older than the age argument.
+  systemd.tmpfiles.rules = [
+    "e /tmp/flake-archive            - - - 1d -"
+    "e /tmp/agkozak_zsh_prompt_*     - - - 1d -"
+  ];
 }
 
