@@ -57,19 +57,28 @@
     scanRandMacAddress = true;
   };
 
-  # Stable per-SSID MAC + conservative bgscan for dense campus AP deployments.
+  # Stable per-SSID MAC (opsec + DHCP stability).  Do not set wifi.bgscan here —
+  # NetworkManager 1.46+ rejects it in NetworkManager.conf [connection] (unknown key).
+  # Tune bgscan per SSID with nmcli if needed: 802-11-wireless.bgscan (keyfile only).
   networking.networkmanager.settings.connection = {
     "wifi.cloned-mac-address" = "stable";
-    "wifi.bgscan" = "simple:30:-70:3600";
   };
 
-  # P2P virtual iface has no ipv4 sysctl; NM would spam forwarding warnings.
-  networking.networkmanager.unmanaged = [ "interface-name:p2p-dev-*" ];
+  # Exact name — wildcards are not applied for P2P devices on this NM build.
+  networking.networkmanager.unmanaged = [ "interface-name:p2p-dev-wlp0s20f3" ];
 
   # Prevent rebuilds and boots from stalling while waiting for a connection.
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Single iwlwifi line — modprobe only honours one `options iwlwifi` per module.
+  # iwlwifi loads very early; modprobe.d alone can leave sysfs at defaults.  Kernel
+  # cmdline applies at first bind (verified: bt_coex_active / swcrypto then match).
+  boot.kernelParams = [
+    "iwlwifi.bt_coex_active=0"
+    "iwlwifi.swcrypto=1"
+    "iwlwifi.power_save=0"
+  ];
+
+  # Belt-and-suspenders for any later modprobe reload path.
   boot.extraModprobeConfig = ''
     options iwlwifi bt_coex_active=0 swcrypto=1 power_save=0
   '';
