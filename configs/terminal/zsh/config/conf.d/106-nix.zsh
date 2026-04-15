@@ -18,6 +18,7 @@ upgrade() {
   cd "$HOME/dotfiles" || return 1
   nrs || return 1
   bash "$HOME/dotfiles/scripts/home-manager-switch.sh" || return 1
+  bash "$HOME/dotfiles/scripts/nix-cleaner.sh"
   clear
   fastfetch
 }
