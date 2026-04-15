@@ -1,1 +1,48 @@
-{}
+{
+  "custom/hotspot": {
+    "icon": {
+      "on": "󱛆",
+      "off": "󱛅",
+      "default": "󱛅"
+    },
+    "label": "{status}",
+    "tooltip": "Hotspot",
+    "execute": "bash /home/pixel-peeper/dotfiles/scripts/hotspot-status.sh",
+    "interval": 3000,
+    "hideOnEmpty": false,
+    "actions": {
+      "onLeftClick": "bash /home/pixel-peeper/dotfiles/scripts/hotspot-toggle.sh",
+      "onRightClick": "bash /home/pixel-peeper/dotfiles/scripts/hotspot-manage.sh"
+    }
+  },
+  "custom/firewall": {
+    "icon": {
+      "on": "󰒃",
+      "off": "󰒅",
+      "default": "󰒃"
+    },
+    "label": "{status}",
+    "tooltip": "Firewall",
+    "execute": "bash /home/pixel-peeper/dotfiles/scripts/firewall-status.sh",
+    "interval": 5000,
+    "hideOnEmpty": false,
+    "actions": {
+      "onLeftClick": "bash /home/pixel-peeper/dotfiles/scripts/firewall-toggle.sh"
+    }
+  },
+  "custom/dns": {
+    "icon": {
+      "filter": "󰈀",
+      "plain": "󰪎",
+      "default": "󰈀"
+    },
+    "label": "{status}",
+    "tooltip": "DNS Filter",
+    "execute": "bash /home/pixel-peeper/dotfiles/scripts/dns-status.sh",
+    "interval": 5000,
+    "hideOnEmpty": false,
+    "actions": {
+      "onLeftClick": "bash /home/pixel-peeper/dotfiles/scripts/dns-toggle.sh"
+    }
+  }
+}
