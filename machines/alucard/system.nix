@@ -51,11 +51,31 @@
   environment.systemPackages = [ pkgs.wsdd ];
 
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi = {
+    powersave = false;
+    # Randomize MACs during probe scans only (not association); 802.1X APs unaffected.
+    scanRandMacAddress = true;
+  };
+
+  # Stable per-SSID MAC + conservative bgscan for dense campus AP deployments.
+  networking.networkmanager.settings.connection = {
+    "wifi.cloned-mac-address" = "stable";
+    "wifi.bgscan" = "simple:30:-70:3600";
+  };
+
+  # P2P virtual iface has no ipv4 sysctl; NM would spam forwarding warnings.
+  networking.networkmanager.unmanaged = [ "interface-name:p2p-dev-*" ];
+
   # Prevent rebuilds and boots from stalling while waiting for a connection.
   systemd.services.NetworkManager-wait-online.enable = false;
 
+  # Single iwlwifi line — modprobe only honours one `options iwlwifi` per module.
+  boot.extraModprobeConfig = ''
+    options iwlwifi bt_coex_active=0 swcrypto=1 power_save=0
+  '';
+
   boot.kernel.sysctl = {
-    "vm.swappiness" = 60;  # zram is fast compressed RAM — use it aggressively before OOM-killing
+    "vm.swappiness" = 60;
     "vm.vfs_cache_pressure" = 50;
   };
 
@@ -68,4 +88,8 @@
 
   # Weekly TRIM for SSD health.
   services.fstrim.enable = true;
+
+  # /tmp lives in RAM — temp files never touch the NVMe and vanish on reboot.
+  boot.tmp.useTmpfs = true;
+  boot.tmp.cleanOnBoot = true;
 }
