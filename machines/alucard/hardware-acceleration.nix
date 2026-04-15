@@ -33,8 +33,8 @@
     "kvm-intel"
   ];
 
-  # i915 and thinkpad_acpi share extraModprobeConfig; mkForce prevents conflicts
-  boot.extraModprobeConfig = lib.mkForce ''
+  # Do not use mkForce here — it overrides iwlwifi tuning in system.nix.
+  boot.extraModprobeConfig = ''
     options i915 enable_guc=3 enable_fbc=1 enable_psr=1
     options thinkpad_acpi experimental=1 fan_control=1
   '';
