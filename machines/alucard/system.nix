@@ -47,8 +47,9 @@
   # Required for the MCP-NixOS server and other dynamically linked binaries.
   programs.nix-ld.enable = true;
 
-  # wsdd: needed by GVFS for WS-Discovery; silences gvfsd-wsdd warnings.
-  environment.systemPackages = [ pkgs.wsdd ];
+  # wsdd removed: was broadcasting WS-Discovery announcements to the local
+  # network (campus WiFi), revealing the machine's hostname and Linux origin.
+  # Re-enable only if SMB network browsing through GVFS is needed.
 
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi = {
@@ -82,15 +83,33 @@
   # lines live here so we do not rely on cross-file merges (and avoid mkForce
   # dropping iwlwifi tuning). i915 / thinkpad lines: see
   # docs/machines/alucard/HARDWARE-ACCELERATION.md.
+  # iwlmvm power_scheme=1 = CAM (Continuously Aware Mode): radio fully awake,
+  # complements iwlwifi.power_save=0 for maximum throughput on AX201.
   boot.extraModprobeConfig = ''
     options iwlwifi bt_coex_active=0 swcrypto=1 power_save=0
+    options iwlmvm power_scheme=1
     options i915 enable_guc=3 enable_fbc=1 enable_psr=0
     options thinkpad_acpi experimental=1 fan_control=1
   '';
 
+  # BBR congestion control + fq qdisc: massively better throughput on lossy
+  # WiFi than the default cubic. CPU has AES-NI so swcrypto adds no overhead.
+  boot.kernelModules = [ "tcp_bbr" ];
+
   boot.kernel.sysctl = {
     "vm.swappiness" = 60;
     "vm.vfs_cache_pressure" = 50;
+
+    # ── TCP performance tuning ──
+    "net.core.default_qdisc" = "fq";
+    "net.ipv4.tcp_congestion_control" = "bbr";
+    # TFO on both client and server (saves an RTT on reconnects)
+    "net.ipv4.tcp_fastopen" = 3;
+    # Bigger socket buffers for high-latency / high-bandwidth connections
+    "net.core.rmem_max" = 16777216;
+    "net.core.wmem_max" = 16777216;
+    "net.ipv4.tcp_rmem" = "4096 131072 16777216";
+    "net.ipv4.tcp_wmem" = "4096 16384 16777216";
   };
 
   systemd.oomd = {

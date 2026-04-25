@@ -205,9 +205,53 @@ DeviceScale=1
 		# Give the i2c_designware controller more time to initialize so the
 		# Synaptics touchpad (SYNA800E) doesn't time out during cold boot
 		"i2c_designware.timeout_ms=1000"
+
+		# ── Kernel exploitation hardening ──
+		# slab_nomerge: prevents heap-spray attacks across slab caches
+		"slab_nomerge"
+		# init_on_alloc: zero-init heap pages (mitigates uninit-memory leaks)
+		"init_on_alloc=1"
+		# page_alloc.shuffle: randomize freelist order (mitigates heap predictability)
+		"page_alloc.shuffle=1"
+		# randomize_kstack_offset: per-syscall kernel stack randomization
+		"randomize_kstack_offset=on"
 	]
 	];
-	
+
+	# ── Kernel security sysctls ──
+	# Reduces information disclosure and limits unprivileged-user attack surface.
+	boot.kernel.sysctl = {
+		"kernel.kptr_restrict"                  = 2;     # hide kernel pointers from all users
+		"kernel.dmesg_restrict"                 = 1;     # restrict dmesg to root
+		"kernel.perf_event_paranoid"            = 3;     # restrict perf_event_open to root
+		"kernel.yama.ptrace_scope"              = 2;     # restrict ptrace to root only
+		"kernel.unprivileged_bpf_disabled"      = 1;     # block unprivileged BPF
+		"net.core.bpf_jit_harden"               = 2;     # harden BPF JIT against spectre-style attacks
+		"kernel.kexec_load_disabled"            = 1;     # prevent live-kernel patching by attackers
+		"vm.unprivileged_userfaultfd"           = 0;     # block use-after-free exploit primitive
+		"dev.tty.ldisc_autoload"                = 0;     # prevent TTY line discipline attacks
+		"fs.protected_symlinks"                 = 1;
+		"fs.protected_hardlinks"                = 1;
+		"fs.protected_fifos"                    = 2;
+		"fs.protected_regular"                  = 2;
+		"fs.suid_dumpable"                      = 0;     # no core dumps from setuid binaries
+	};
+
+	# ── Module blacklist ──
+	# Disable rarely-used network protocols and exotic filesystems that have
+	# historically been a source of CVEs and provide no value on a laptop.
+	boot.blacklistedKernelModules = [
+		# Niche network protocols
+		"dccp" "sctp" "rds" "tipc"
+		"n-hdlc" "ax25" "netrom" "x25" "rose" "decnet" "econet" "af_802154"
+		"ipx" "appletalk" "psnap" "p8023" "p8022"
+		"can" "atm"
+		# Exotic / legacy filesystems
+		"cramfs" "freevxfs" "jffs2" "hfs" "hfsplus" "udf"
+		# Test-only video driver, regular CVE source
+		"vivid"
+	];
+
 	# Suppress console log messages (0 = only emergency messages)
 	boot.consoleLogLevel = 0;
 	

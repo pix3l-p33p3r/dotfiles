@@ -49,10 +49,19 @@
       };
     };
 
-    fangfrisch.enable = false;
+    # Fangfrisch pulls third-party signature databases (Sanesecurity,
+    # SecuriteInfo, MalwarePatrol) on top of the official ClamAV DB. Hugely
+    # improves detection for phishing, PUPs, and emerging malware.
+    fangfrisch = {
+      enable = true;
+      interval = "daily";
+    };
   };
 
+  # Defer freshclam from auto-starting on boot (saves ~1-3s of boot time and
+  # network usage); the timer below still runs it on schedule.
   systemd.services.clamav-freshclam = {
+    wantedBy = lib.mkForce [ ];
     after = [ "network-online.target" "nss-lookup.target" ];
     wants = [ "network-online.target" "nss-lookup.target" ];
   };

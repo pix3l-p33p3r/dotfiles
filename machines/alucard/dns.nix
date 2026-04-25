@@ -25,6 +25,11 @@
         "45.91.92.121#dot.libredns.gr"
         "2a03:4000:4b:23e::1#dot.libredns.gr"
       ];
+      # Disable link-local name resolution protocols. On a campus / shared
+      # network these broadcast our hostname (mDNS) and let attackers respond
+      # to name queries (LLMNR poisoning / Responder attacks).
+      LLMNR = "no";
+      MulticastDNS = "no";
     };
   };
 

@@ -30,3 +30,4 @@ alias e="$EDITOR"
 
 # ── Debug ─────────────────────────────────────────────────────────────────
 alias timezsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
+alias nrs='sudo nixos-rebuild switch --flake .#alucard'

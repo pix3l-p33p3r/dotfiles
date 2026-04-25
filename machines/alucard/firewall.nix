@@ -12,9 +12,9 @@
     # Drop (stealth) rather than reject with ICMP unreachable
     rejectPackets = false;
 
-    # SSH is opened automatically by services.openssh; listed here for clarity.
+    # SSH bound to 127.0.0.1 only (security.nix), so no firewall hole needed.
     # IPsec ports (500, 4500) and ESP are opened in vpn.nix.
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [ ];
   };
 
   # ───── Network hardening sysctls ─────
@@ -46,5 +46,24 @@
     # Don't accept IPv6 router advertisements (not a router, use NetworkManager)
     "net.ipv6.conf.all.accept_ra"     = 0;
     "net.ipv6.conf.default.accept_ra" = 0;
+
+    # ───── Privacy hardening ─────
+
+    # IPv6 privacy extensions: prefer temporary, randomized SLAAC addresses
+    # over the MAC-derived EUI-64 interface ID (which is a persistent tracker).
+    # NOTE: NixOS already sets `net.ipv6.conf.default.use_tempaddr = 2` upstream
+    # in nixos/modules/tasks/network-interfaces.nix, so we only override `all`
+    # here (defaults inherit to new interfaces; `all` retroactively applies to
+    # already-existing interfaces like wlp0s20f3).
+    "net.ipv6.conf.all.use_tempaddr"     = 2;
+
+    # TCP timestamps leak system uptime to remote servers, useful for OS
+    # fingerprinting. PAWS protection only matters at multi-Gbps; not a laptop.
+    "net.ipv4.tcp_timestamps" = 0;
+
+    # Log packets with impossible source addresses (spoofing attempts) — useful
+    # for spotting ARP poisoning / rogue clients on shared networks
+    "net.ipv4.conf.all.log_martians"     = 1;
+    "net.ipv4.conf.default.log_martians" = 1;
   };
 }

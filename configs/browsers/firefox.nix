@@ -142,9 +142,20 @@
       "network.http.max-connections" = 1800;
       "network.http.max-persistent-connections-per-server" = 10;
       "network.http.max-urgent-start-excessive-connections-per-host" = 5;
-      "network.http.pacing.requests.enabled" = false;
+      # Pacing reduces burst-induced packet drops on congested WiFi.
+      "network.http.pacing.requests.enabled" = true;
       "network.IDN_show_punycode" = true;
       "network.ssl_tokens_cache_capacity" = 10240;
+
+      # ── Privacy hardening ──
+      # WebRTC leaks the real local IP (10.x address on campus WiFi) even
+      # through VPN. Restrict ICE candidates to the default route only.
+      "media.peerconnection.ice.default_address_only" = true;
+      "media.peerconnection.ice.no_host" = true;
+
+      # Block geolocation API and beacon API (silent tracking pings)
+      "geo.enabled" = false;
+      "beacon.enabled" = false;
 
       "security.insecure_connection_text.enabled" = true;
       "security.insecure_connection_text.pbmode.enabled" = true;
@@ -332,7 +343,11 @@
       };
       DNSOverHTTPS = {
         Enabled = true;
-        ProviderURL = "https://cloudflare-dns.com/dns-query";
+        # Mullvad base resolver (ads + trackers + malware blocked) — same
+        # provider as system-wide DoT (machines/alucard/dns.nix) so the
+        # browser doesn't punch a hole in our DNS privacy story by hitting
+        # Cloudflare directly.
+        ProviderURL = "https://base.dns.mullvad.net/dns-query";
         Locked = true;
         ExcludedDomains = [ "casa.ayoubedd.me" ];
         Fallback = true;

@@ -7,7 +7,7 @@
   home.activation.generateCursorMcpConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
     $DRY_RUN_CMD mkdir -p $HOME/.cursor
     
-    # Generate mcp.json (Obsidian integration removed per request)
+    # Filesystem MCP removed: Cursor has native FS access to open workspaces.
     $DRY_RUN_CMD cat > $HOME/.cursor/mcp.json <<'EOF'
 {
   "mcpServers": {
@@ -30,14 +30,6 @@
         "--scheme=cursor"
       ],
       "env": {}
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "$HOME/dotfiles"
-      ]
     }
   }
 }

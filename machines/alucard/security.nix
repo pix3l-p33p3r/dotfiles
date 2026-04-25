@@ -30,13 +30,21 @@ in
 
   # Prevent gnome-keyring's PAM module from injecting SSH_AUTH_SOCK=/run/user/*/gcr/ssh
   # at login — KeePassXC owns the SSH agent socket instead.
-  security.pam.services.login.enableGnomeKeyring = false;
-  security.pam.services.sddm.enableGnomeKeyring = false;
+  security.pam.services.login.enableGnomeKeyring = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
 
   # ───── OpenSSH hardening ─────
   services.openssh = {
     enable = true;
     startWhenNeeded = true;
+    # Bind to loopback only — SSH is used for local tunnels / Cursor remote
+    # forwarding, never for incoming connections from other hosts. This makes
+    # the campus network unable to even reach the SSH port.
+    listenAddresses = [
+      { addr = "127.0.0.1"; port = 22; }
+      { addr = "::1";       port = 22; }
+    ];
+    openFirewall = false;
     settings = {
       LogLevel = "VERBOSE";
       PermitRootLogin = "no";
@@ -55,6 +63,21 @@ in
       Ciphers = hardeningCiphers;
       Macs = hardeningMacs;
       KexAlgorithms = hardeningKex;
+    };
+  };
+
+  # ───── fail2ban ─────
+  # Belt-and-suspenders for SSH (already loopback-only) and any other future
+  # listening services — bans IPs after repeated auth failures.
+  services.fail2ban = {
+    enable = true;
+    maxretry = 3;
+    bantime  = "1h";
+    bantime-increment = {
+      enable     = true;
+      multipliers = "1 2 4 8 16 32 64";
+      maxtime    = "168h";  # one week max
+      overalljails = true;
     };
   };
 
