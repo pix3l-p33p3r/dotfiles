@@ -19,10 +19,11 @@
       DNSSEC = "no";
       Domains = [ "~." ];
       FallbackDNS = [
-        "1.1.1.1#cloudflare-dns.com"
-        "8.8.8.8#dns.google"
-        "1.0.0.1#cloudflare-dns.com"
-        "8.8.4.4#dns.google"
+        "9.9.9.9#dns.quad9.net"
+        "149.112.112.112#dns.quad9.net"
+        "2620:fe::fe#dns.quad9.net"
+        "45.91.92.121#dot.libredns.gr"
+        "2a03:4000:4b:23e::1#dot.libredns.gr"
       ];
     };
   };
