@@ -7,6 +7,12 @@
   # Required for poweralertd to work properly
   services.upower.enable = true;
 
+  # UPower is D-Bus activated by default, which means it only starts when
+  # first queried. WirePlumber queries it immediately at session start,
+  # often before the D-Bus activation kicks in. Start it eagerly so battery
+  # info is available by the time the graphical session begins.
+  systemd.services.upower.wantedBy = [ "graphical.target" ];
+
   # ───── Suspend, Hibernation & Power Saving ─────
   
   # Enable suspend/hibernate support

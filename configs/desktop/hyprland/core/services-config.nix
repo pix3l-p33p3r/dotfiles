@@ -4,8 +4,8 @@
   # Do NOT run mako alongside it — whichever claims the D-Bus name first wins, and mako
   # would prevent hyprpanel from receiving notifications (breaks history, theming, X buttons).
 
-  # System services
-  services.blueman-applet.enable = true;
+  # blueman-applet is started by the NixOS services.blueman module (bluetooth.nix)
+  # via D-Bus activation. Enabling it here too causes a duplicate ExecStart= conflict.
 
   services.cliphist = {
     enable = true;

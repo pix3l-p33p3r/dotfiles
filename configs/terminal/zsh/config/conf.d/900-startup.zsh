@@ -1,7 +1,8 @@
 # Run fetch on each top-level shell session
 if [ "$SHLVL" = "1" ]
 then
-  macchina
+  macchina --shell zsh
+  # fastfetch --shell zsh
 fi
 
 # direnv

@@ -24,7 +24,7 @@
 
   boot.kernelParams = [
     "i915.enable_guc=3"  # GuC submission + HuC firmware (Gen9+)
-    "i915.enable_psr=1"  # Panel Self Refresh — disable if flicker appears
+    "i915.enable_psr=0"  # PSR off — causes I2C arbitration failures / touchpad lockup (see boot.nix)
     "i915.enable_fbc=1"  # Framebuffer Compression
   ];
 
