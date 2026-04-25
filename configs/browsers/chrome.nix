@@ -19,11 +19,11 @@
       fr_FR
     ];
 
-    extensions = [
-      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
-      { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
-      { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
-      { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
-    ];
+    # extensions = [
+    #   { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
+    #   { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
+    #   { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
+    #   { id = "mnjggcdmjocbbbhaepdhchncahnbgone"; } # SponsorBlock
+    # ];
   };
 }

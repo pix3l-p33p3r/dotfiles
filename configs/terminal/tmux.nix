@@ -14,6 +14,11 @@
       set -ag terminal-overrides ",xterm-256color:RGB"
       set -ag terminal-overrides ",xterm-kitty:RGB"
 
+      # Use Kitty's native keyboard protocol instead of the deprecated
+      # "application escape mode" that newer Kitty versions reject.
+      set -g extended-keys on
+      set -as terminal-features 'xterm-kitty:extkeys'
+
       set -g status-position top
 
       # 1-based window/pane numbering so numbers match keyboard layout

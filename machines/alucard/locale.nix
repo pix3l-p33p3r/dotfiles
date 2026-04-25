@@ -3,6 +3,7 @@
 {
   # ───── Time Zone ─────
   time.timeZone = "Africa/Casablanca";
+  environment.variables.TZ = "Africa/Casablanca";
 
   # ───── Internationalisation properties ─────
   i18n.defaultLocale = "en_US.UTF-8";

@@ -56,7 +56,7 @@ in
       if ${pkgs.tmux}/bin/tmux has-session -t acs-main 2>/dev/null; then
         echo "=> Attaching to existing session..."
         ${pkgs.kitty}/bin/kitty --class acs-zen \
-          ${pkgs.tmux}/bin/tmux attach -t acs-main &
+          ${pkgs.tmux}/bin/tmux attach -t acs-main 2>/dev/null &
         disown
       else
         echo "=> Forging new session..."
@@ -65,7 +65,7 @@ in
             split-window -h -p 35 \; \
             send-keys "sudo journalctl -fu acs-vpn" Enter \; \
             select-pane -t 0 \; \
-            send-keys "ssh -o 'SetEnv TERM=tmux-256color' $SSH_USER@$SSH_HOST" Enter &
+            send-keys "ssh -o 'SetEnv TERM=tmux-256color' $SSH_USER@$SSH_HOST" Enter 2>/dev/null &
         disown
       fi
     '')
@@ -108,7 +108,7 @@ in
         "  Open Terminal")
           if ${pkgs.tmux}/bin/tmux has-session -t acs-main 2>/dev/null; then
             ${pkgs.kitty}/bin/kitty --class acs-zen \
-              ${pkgs.tmux}/bin/tmux attach -t acs-main &
+              ${pkgs.tmux}/bin/tmux attach -t acs-main 2>/dev/null &
             disown
           else
             ${pkgs.kitty}/bin/kitty --class acs-zen \
@@ -116,7 +116,7 @@ in
                 split-window -h -p 35 \; \
                 send-keys "sudo journalctl -fu acs-vpn" Enter \; \
                 select-pane -t 0 \; \
-                send-keys "ssh -o 'SetEnv TERM=tmux-256color' $SSH_USER@$SSH_HOST" Enter &
+                send-keys "ssh -o 'SetEnv TERM=tmux-256color' $SSH_USER@$SSH_HOST" Enter 2>/dev/null &
             disown
           fi
           ;;

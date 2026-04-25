@@ -42,15 +42,14 @@ echo "Nix store optimise."
 echo ""
 
 echo "--- [ROOT] Step 5 of 5: Wiping free space + TRIM ---"
-# Fill free space with zeros so filesystem-level recovery tools (photorec,
-# extundelete) cannot find remnants of previously deleted files, then tell
-# the NVMe to erase the freed blocks via TRIM.
-dd if=/dev/zero of="$HOME/.wipe" bs=1M status=progress 2>&1 || true
-rm -f "$HOME/.wipe"
-sudo fstrim -v /
-echo "Free space zeroed and trimmed."
-echo ""
+echo "STEP 5 SKIPED"
+# # Fill free space with zeros so filesystem-level recovery tools (photorec,
+# # extundelete) cannot find remnants of previously deleted files, then tell
+# # the NVMe to erase the freed blocks via TRIM.
+# dd if=/dev/zero of="$HOME/.wipe" bs=1M status=progress 2>&1 || true
+# rm -f "$HOME/.wipe"
+# sudo fstrim -v /
+# echo "Free space zeroed and trimmed."
+# echo ""
 
 echo "--- Nix Cleanup Complete! ---"
-
-

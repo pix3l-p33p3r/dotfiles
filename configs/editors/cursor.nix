@@ -2,11 +2,11 @@
 
 let
   pname = "cursor";
-  version = "2.6.22";
+  version = "3.1.15";
 
   src = fetchurl {
-    url = "https://downloads.cursor.com/production/c6285feaba0ad62603f7c22e72f0a170dc8415a5/linux/x64/Cursor-2.6.22-x86_64.AppImage";
-    sha256 = "0242y0ln7fiy3mbl4ksqwmffs2r2dac0q3sxr0xry8h7j83dfqxf";
+    url = "https://github.com/udit-001/cursor-linux-release/releases/download/v${version}/Cursor-${version}-x86_64.AppImage";
+    sha256 = "0n8si64if4vnj577w8vrq9spx89dl85qk097j062yifaiwb8x44h";
   };
 
   appimageContents = appimageTools.extractType2 {
@@ -21,6 +21,8 @@ in appimageTools.wrapType2 {
   extraPkgs = pkgs: (appimageTools.defaultFhsEnvArgs.multiPkgs pkgs) ++ (with pkgs; [
     # Core libraries
     libxshmfence
+    # Timezone data required by Chromium/Electron
+    tzdata
     # For native modules
     python3
     gcc
@@ -57,6 +59,16 @@ in appimageTools.wrapType2 {
   "updateMode": "manual"
 }
 EOF
+
+    # Disable Electron's sandbox to prevent PR_SET_NO_NEW_PRIVS, which blocks
+    # sudo in integrated terminals and triggers "Terminal sandbox could not
+    # start" on NixOS with AppArmor + kernel 6.2+.
+    mv $out/bin/cursor $out/bin/.cursor-wrapped
+    cat > $out/bin/cursor <<'WRAPPER'
+#!/bin/sh
+exec "$(dirname "$0")/.cursor-wrapped" --no-sandbox "$@"
+WRAPPER
+    chmod +x $out/bin/cursor
   '';
 
   meta = with lib; {

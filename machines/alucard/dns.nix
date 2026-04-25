@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   # ───── System-wide DNS-over-TLS via Mullvad ─────
   # Uses the "base" resolver: blocks ads, trackers, and malware.
@@ -29,4 +29,20 @@
 
   # NixOS also sets this when resolved is enabled; kept explicit for clarity.
   networking.networkmanager.dns = "systemd-resolved";
+
+  # NM pushes DHCP-received DNS onto the per-link resolver (wlp0s20f3) with
+  # DefaultRoute=yes, which overrides the global Mullvad DoT config above.
+  # This dispatcher clears per-link DNS after every connect/DHCP change so all
+  # queries route through the global resolver exclusively.
+  networking.networkmanager.dispatcherScripts = [{
+    source = pkgs.writeText "10-clear-link-dns" ''
+      case "$2" in
+        up|dhcp4-change|dhcp6-change)
+          ${pkgs.systemd}/bin/resolvectl dns "$1" ""
+          ${pkgs.systemd}/bin/resolvectl default-route "$1" no
+          ;;
+      esac
+    '';
+    type = "basic";
+  }];
 }

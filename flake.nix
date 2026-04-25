@@ -42,9 +42,19 @@
   outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: let
     system = "x86_64-linux";
     # Single overlay list — shared by both NixOS and Home Manager so they
-    # can never diverge. Until nixpkgs includes nixpkgs#503035 (cargo vendor path layout).
-    overlays = [ (import ./overlays/stremio-linux-shell.nix) ];
-    pkgs = nixpkgs.legacyPackages.${system}.extend (builtins.head overlays);
+    # can never diverge.
+    overlays = [
+      # Until nixpkgs includes nixpkgs#503035 (cargo vendor path layout).
+      (import ./overlays/stremio-linux-shell.nix)
+      # Bump ani-cli to v4.12 (allanime AES-256-CTR fix) until nixpkgs
+      # picks up the upstream release.  See pystardust/ani-cli#1650.
+      (import ./overlays/ani-cli.nix)
+    ];
+    pkgs = nixpkgs.legacyPackages.${system}.extend (
+      nixpkgs.lib.composeManyExtensions overlays
+    );
+
+
   in {
     # ===== NixOS Configuration =====
     nixosConfigurations.alucard = nixpkgs.lib.nixosSystem {
@@ -52,6 +62,7 @@
       specialArgs = { inherit inputs self; };
       modules = [
         { nixpkgs.overlays = overlays; }
+
         ./machines/alucard
         sops-nix.nixosModules.sops
         lanzaboote.nixosModules.lanzaboote

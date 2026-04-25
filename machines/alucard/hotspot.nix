@@ -33,13 +33,40 @@ let
       echo "Channel $CHANNEL is DFS — locking '$CONN' to 2.4 GHz band..."
 
       $NMCLI con modify "$CONN" 802-11-wireless.band bg
-      $NMCLI con up "$CONN" ifname wlp0s20f3 2>&1 || true
-      $SLEEP 5
+
+      $NMCLI device wifi rescan ifname wlp0s20f3 2>/dev/null || true
+      $SLEEP 3
+
+      RECONNECTED=false
+      for attempt in 1 2 3; do
+        echo "Reconnect attempt $attempt/3..."
+        if $NMCLI con up "$CONN" ifname wlp0s20f3 2>&1; then
+          RECONNECTED=true
+          break
+        fi
+        $SLEEP 3
+        $NMCLI device wifi rescan ifname wlp0s20f3 2>/dev/null || true
+        $SLEEP 2
+      done
+
+      if [ "$RECONNECTED" = false ]; then
+        echo "ERROR: Failed to reconnect '$CONN' on 2.4 GHz after 3 attempts." >&2
+        $NMCLI con modify "$CONN" 802-11-wireless.band ""
+        exit 1
+      fi
+
+      $SLEEP 3
 
       INFO=$($IW dev wlp0s20f3 info)
       CHANNEL=$(echo "$INFO" | $AWK '/channel [0-9]/{print $2}')
       FREQ=$(echo    "$INFO" | $AWK '/channel [0-9]/{gsub(/[()]/,"",$3); print $3}')
       echo "Now on channel $CHANNEL ($FREQ MHz)"
+
+      if [ -z "$CHANNEL" ] || [ -z "$FREQ" ]; then
+        echo "ERROR: No channel info after reconnect." >&2
+        $NMCLI con modify "$CONN" 802-11-wireless.band ""
+        exit 1
+      fi
 
       if is_dfs "$CHANNEL"; then
         echo "ERROR: Still on DFS channel $CHANNEL after band lock." >&2

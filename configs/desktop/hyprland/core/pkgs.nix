@@ -117,8 +117,8 @@
 
     # Database TUI Tools
     # mycli # MySQL CLI (temporarily disabled: nixpkgs runtime dep mismatch on sqlglot 27.*)
-    pgcli # PostgreSQL CLI
-    litecli # SQLite CLI
+    # pgcli # PostgreSQL CLI (temporarily disabled: python3.13-cli-helpers tests fail)
+    # litecli # SQLite CLI (temporarily disabled: python3.13-cli-helpers tests fail)
     usql # Universal SQL CLI
 
     # Terminal Applications
