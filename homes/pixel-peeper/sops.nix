@@ -30,6 +30,10 @@
         path = "${config.home.homeDirectory}/.config/sops-secrets/ssh-private-key";
         sopsFile = ../../secrets/users/pixel-peeper.yaml;
       };
+      "github/token" = {
+        path = "${config.home.homeDirectory}/.config/sops-secrets/github-token";
+        sopsFile = ../../secrets/users/pixel-peeper.yaml;
+      };
     };
   };
 

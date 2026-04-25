@@ -207,6 +207,7 @@
     tor # Anonymous network
     gpa # GNU Privacy Assistant
     keepassxc # Password manager
+    seahorse # Gnome Keyring frontend
     picocrypt # File encryption
 
     # Communication
