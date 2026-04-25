@@ -11,12 +11,19 @@
   services.resolved = {
     enable = true;
     settings.Resolve = {
+      # IPv4-only primary DNS. Many networks (campus WiFi, mobile hotspots,
+      # captive portals) are IPv4-only — listing IPv6 DoT servers as primary
+      # causes 5-10s "network unreachable" timeouts per query before falling
+      # back to IPv4. The IPv6 endpoints below in FallbackDNS still cover
+      # dual-stack networks if all IPv4 paths fail.
       DNS = [
         "194.242.2.4#base.dns.mullvad.net"
-        "2a07:e340::4#base.dns.mullvad.net"
       ];
       DNSOverTLS = "yes";
-      DNSSEC = "no";
+      # allow-downgrade: validate DNSSEC where signatures exist (most TLDs)
+      # without hard-failing on unsigned zones. Hard "yes" would break
+      # captive-portal probing and any zone without DS records.
+      DNSSEC = "allow-downgrade";
       Domains = [ "~." ];
       FallbackDNS = [
         "9.9.9.9#dns.quad9.net"
@@ -24,6 +31,8 @@
         "2620:fe::fe#dns.quad9.net"
         "45.91.92.121#dot.libredns.gr"
         "2a03:4000:4b:23e::1#dot.libredns.gr"
+        # IPv6 Mullvad here too — only used when all primary IPv4 paths fail
+        "2a07:e340::4#base.dns.mullvad.net"
       ];
       # Disable link-local name resolution protocols. On a campus / shared
       # network these broadcast our hostname (mDNS) and let attackers respond
