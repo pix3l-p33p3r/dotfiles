@@ -31,3 +31,10 @@ alias e="$EDITOR"
 # ── Debug ─────────────────────────────────────────────────────────────────
 alias timezsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
 alias nrs='sudo nixos-rebuild switch --flake .#alucard'
+
+# ── Security scanning shortcuts ───────────────────────────────────────────
+# Calls scripts/security-scan.sh — runs AIDE integrity check + Lynis audit
+# with a progress spinner and formatted summary.
+alias secscan="$HOME/dotfiles/scripts/security-scan.sh"
+alias aidechk='secscan aide'
+alias lynischk='secscan lynis'
