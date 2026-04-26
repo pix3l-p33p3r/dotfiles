@@ -134,14 +134,16 @@ run_lynis() {
       printf '  Hardening index : %s%s/100%s\n' "$color" "$idx" "$reset"
     fi
 
-    # `grep -c` exits 1 on no match while still printing "0", so the prior
-    # `|| echo 0` fallback duplicated the 0.  Pipe through wc -l instead.
-    local warns
-    warns="$(sudo grep '^warning\[' /var/log/lynis/report.dat 2>/dev/null | wc -l)"
-    local suggs
-    suggs="$(sudo grep '^suggestion\[' /var/log/lynis/report.dat 2>/dev/null | wc -l)"
-    printf '  Warnings        : %s%d%s\n' "$([ "$warns" -gt 0 ] && echo "$yellow" || echo "$green")" "$warns" "$reset"
-    printf '  Suggestions     : %d\n' "$suggs"
+    # grep returns exit 1 on no-match; combined with `set -o pipefail` this
+    # kills the script.  Wrap each pipeline so it can fail safely.
+    local warns suggs
+    warns="$( { sudo grep '^warning\['   /var/log/lynis/report.dat || true; } 2>/dev/null | wc -l)"
+    suggs="$( { sudo grep '^suggestion\[' /var/log/lynis/report.dat || true; } 2>/dev/null | wc -l)"
+    # Strip whitespace from wc -l (it pads on some systems)
+    warns="${warns//[[:space:]]/}"
+    suggs="${suggs//[[:space:]]/}"
+    printf '  Warnings        : %s%d%s\n' "$([ "${warns:-0}" -gt 0 ] && echo "$yellow" || echo "$green")" "${warns:-0}" "$reset"
+    printf '  Suggestions     : %d\n' "${suggs:-0}"
 
     if [ "$warns" -gt 0 ]; then
       printf '\n%sTop warnings:%s\n' "$bold" "$reset"

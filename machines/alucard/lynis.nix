@@ -99,11 +99,14 @@
       SuccessExitStatus = "0 1 2 3 4 5";
     };
     script = ''
+      # Lynis auto-loads /etc/lynis/custom.prf at the standard location and
+      # merges it with default.prf.  Passing --profile would *replace* the
+      # default and silently drop most of Lynis's behavior.  See:
+      # https://cisofy.com/documentation/lynis/configuration/
       ${pkgs.lynis}/bin/lynis audit system \
         --no-colors \
         --quiet \
         --auditor "alucard-systemd" \
-        --profile /etc/lynis/custom.prf \
         --logfile /var/log/lynis/lynis.log \
         --report-file /var/log/lynis/report.dat
       # Surface the hardening index + warnings count to journal for at-a-glance
