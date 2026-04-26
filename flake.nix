@@ -37,9 +37,15 @@
       url = "github:GGetsov/nixos-catppuccin-plymouth";
       flake = false;
     };
+    nur = {
+      # Nix User Repository — used for `pkgs.nur.repos.rycee.firefox-addons.*`
+      # in configs/browsers/librewolf.nix and configs/browsers/firefox.nix.
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, ... }@inputs: let
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, ... }@inputs: let
     system = "x86_64-linux";
     # Single overlay list — shared by both NixOS and Home Manager so they
     # can never diverge.

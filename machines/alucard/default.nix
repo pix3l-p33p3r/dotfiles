@@ -40,8 +40,15 @@
       ./dns.nix
       ./hotspot.nix
 
+      # Anonymity networks
+      ./tor.nix
+      ./i2p.nix
+      ./lokinet.nix
+
       # Security tooling
       ./clamav.nix
+      ./aide.nix
+      ./lynis.nix
       ./pam-apparmor-fix.nix
       ../../configs/security/polkit-fstrim.nix
 

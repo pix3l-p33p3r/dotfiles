@@ -343,11 +343,9 @@
       };
       DNSOverHTTPS = {
         Enabled = true;
-        # Mullvad base resolver (ads + trackers + malware blocked) — same
-        # provider as system-wide DoT (machines/alucard/dns.nix) so the
-        # browser doesn't punch a hole in our DNS privacy story by hitting
-        # Cloudflare directly.
-        ProviderURL = "https://base.dns.mullvad.net/dns-query";
+        # Mullvad "extended" resolver (ads + trackers + malware + social media).
+        # "base" broke YouTube by NXDOMAIN'ing Google tracking domains.
+        ProviderURL = "https://extended.dns.mullvad.net/dns-query";
         Locked = true;
         ExcludedDomains = [ "casa.ayoubedd.me" ];
         Fallback = true;

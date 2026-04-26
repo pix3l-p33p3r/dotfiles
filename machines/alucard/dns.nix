@@ -1,7 +1,8 @@
 { pkgs, ... }:
 {
   # ───── System-wide DNS-over-TLS via Mullvad ─────
-  # Uses the "base" resolver: blocks ads, trackers, and malware.
+  # "extended" resolver: ads + trackers + malware + social media.
+  # Avoids "base" which NXDOMAIN'd Google domains YouTube needs.
   # Primary: Mullvad. Fallback: public DoT (still TLS, not plaintext) so a Mullvad
   # blip or captive-portal phase does not leave resolution entirely dead (nix/store
   # downloads need working DNS).
@@ -17,7 +18,7 @@
       # back to IPv4. The IPv6 endpoints below in FallbackDNS still cover
       # dual-stack networks if all IPv4 paths fail.
       DNS = [
-        "194.242.2.4#base.dns.mullvad.net"
+        "194.242.2.5#extended.dns.mullvad.net"
       ];
       DNSOverTLS = "yes";
       # allow-downgrade: validate DNSSEC where signatures exist (most TLDs)
@@ -32,7 +33,7 @@
         "45.91.92.121#dot.libredns.gr"
         "2a03:4000:4b:23e::1#dot.libredns.gr"
         # IPv6 Mullvad here too — only used when all primary IPv4 paths fail
-        "2a07:e340::4#base.dns.mullvad.net"
+        "2a07:e340::5#extended.dns.mullvad.net"
       ];
       # Disable link-local name resolution protocols. On a campus / shared
       # network these broadcast our hostname (mDNS) and let attackers respond

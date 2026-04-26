@@ -190,7 +190,7 @@
 
     # Browsers
     qutebrowser # Keyboard-driven browser
-    librewolf # Privacy-focused browser
+    # librewolf — installed via programs.librewolf in configs/browsers/librewolf.nix
     mullvad-browser # Privacy browser
 
     # Note Taking
