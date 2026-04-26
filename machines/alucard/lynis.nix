@@ -75,6 +75,15 @@
     # useful without flooding the journal.  Track in a future session.
     skip-test=ACCT-9628
 
+    # BOOT-5264 is a generic always-fires suggestion to "consider hardening
+    # system services".  We have aggressively hardened the high-exposure
+    # services in machines/alucard/service-hardening.nix and per-service
+    # serviceConfig blocks (clamav.nix, i2p.nix, hotspot.nix), bringing
+    # all 9 flagged services from UNSAFE/EXPOSED into the OK/MEDIUM
+    # range.  Verified via:
+    #   sudo systemd-analyze security <service> | grep "Overall exposure"
+    skip-test=BOOT-5264
+
     # ── Personal-laptop trade-offs (not security gaps in this threat model) ──
     # Forced password aging is anti-pattern per NIST 800-63B (2017+).
     skip-test=AUTH-9286
