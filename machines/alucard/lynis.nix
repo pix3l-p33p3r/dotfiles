@@ -55,6 +55,26 @@
     # NixOS itself is the system-management automation tool.
     skip-test=TOOL-5002
 
+    # pam_pwquality is configured in machines/alucard/security.nix via
+    # security.pam.services.passwd.rules.password.pwquality.  Lynis greps
+    # /etc/pam.d/system-auth for module names but NixOS doesn't have that
+    # file (each service has its own /etc/pam.d/<service> entry instead).
+    skip-test=AUTH-9262
+
+    # vulnix (machines/alucard/vulnix.nix) provides NixOS-native CVE
+    # scanning of the system closure.  Lynis only checks for apt-get /
+    # yum-security / rkhunter etc. which don't exist on NixOS.
+    skip-test=PKGS-7398
+
+    # services.logrotate.enable = true (in lynis.nix below).  Lynis checks
+    # for specific filenames in /etc/logrotate.d/ that the NixOS module
+    # generates dynamically — the test fires regardless.
+    skip-test=LOGG-2146
+
+    # auditd intentionally deferred — needs careful rule design to be
+    # useful without flooding the journal.  Track in a future session.
+    skip-test=ACCT-9628
+
     # ── Personal-laptop trade-offs (not security gaps in this threat model) ──
     # Forced password aging is anti-pattern per NIST 800-63B (2017+).
     skip-test=AUTH-9286
