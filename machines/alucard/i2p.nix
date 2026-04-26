@@ -45,8 +45,10 @@
   };
 
   # ── Hardening (was 9.2 UNSAFE) ──
-  # i2pd is a self-contained network daemon: no need for /home, kernel
-  # tunables, or syscall categories outside the standard service set.
+  # i2pd is a self-contained network daemon.  The upstream NixOS module
+  # uses /var/lib/i2pd for its pidfile + state but doesn't declare a
+  # StateDirectory, so under ProtectSystem=strict we must whitelist it
+  # explicitly via ReadWritePaths.
   systemd.services.i2pd.serviceConfig = {
     NoNewPrivileges         = true;
     LockPersonality         = true;
@@ -63,6 +65,7 @@
     ProtectKernelTunables   = true;
     ProtectKernelModules    = true;
     ProtectSystem           = "strict";
+    ReadWritePaths          = [ "/var/lib/i2pd" ];
     RestrictNamespaces      = true;
     RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
   };
