@@ -2,13 +2,14 @@
 # security-scan — trigger AIDE + Lynis on demand, wait, summarize results.
 #
 # Usage:
-#   security-scan            # run both (default)
+#   security-scan            # all three: AIDE + Lynis + Vulnix
 #   security-scan aide       # just the AIDE integrity check
 #   security-scan lynis      # just the Lynis audit
+#   security-scan vulnix     # just the Vulnix CVE scan
 #   security-scan baseline   # rebuild AIDE baseline (use after legit system changes)
 #
 # Reads systemd unit state and journal output — needs sudo for `systemctl
-# start` and for reading /var/log/lynis (mode 0700).
+# start` and for reading /var/log/lynis + /var/log/vulnix.
 
 set -euo pipefail
 
@@ -152,19 +153,49 @@ run_lynis() {
   fi
 }
 
+run_vulnix() {
+  printf '\n%s── Vulnix CVE scan ──%s\n' "$bold" "$reset"
+  run_unit vulnix-scan.service 1800
+
+  # Pull the verdict from journal (the systemd unit prints a "vulnix: N
+  # affected derivations" summary as part of its script).
+  local last
+  last="$(sudo journalctl -u vulnix-scan.service -n 200 --no-pager --since '10 min ago' \
+            | grep -E 'vulnix: [0-9]+ affected' | tail -1 || true)"
+  if [ -n "$last" ]; then
+    local n
+    n="$(echo "$last" | grep -oE '[0-9]+' | head -1)"
+    local color="$green"
+    [ "$n" -gt 0 ]  && color="$yellow"
+    [ "$n" -gt 10 ] && color="$red"
+    printf '\n%sSummary:%s\n' "$bold" "$reset"
+    printf '  Affected derivations : %s%d%s\n' "$color" "$n" "$reset"
+    if [ "$n" -gt 0 ]; then
+      printf '\n%sTop offenders:%s\n' "$bold" "$reset"
+      sudo journalctl -u vulnix-scan.service -n 200 --no-pager --since '10 min ago' \
+        | grep -E '^\s+• ' | head -10
+    fi
+    printf '\n%sJSON report :%s sudo less /var/log/vulnix/vulnix.json\n' "$dim" "$reset"
+    printf '%sFull log    :%s sudo less /var/log/vulnix/vulnix.log\n'   "$dim" "$reset"
+  else
+    warn "couldn't parse vulnix output — see: sudo journalctl -u vulnix-scan -n 50"
+  fi
+}
+
 # ── dispatch ───────────────────────────────────────────────────────────────
 
 case "${1:-all}" in
   aide)     run_aide_check ;;
   baseline) run_aide_init ;;
   lynis)    run_lynis ;;
-  all|"")   run_aide_check; run_lynis ;;
+  vulnix)   run_vulnix ;;
+  all|"")   run_aide_check; run_lynis; run_vulnix ;;
   -h|--help)
     sed -n '/^# Usage:/,/^$/p' "$0" | sed 's/^# \?//'
     ;;
   *)
     err "unknown argument: $1"
-    err "valid: aide | baseline | lynis | all"
+    err "valid: aide | baseline | lynis | vulnix | all"
     exit 1
     ;;
 esac

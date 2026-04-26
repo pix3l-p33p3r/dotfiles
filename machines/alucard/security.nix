@@ -33,6 +33,26 @@ in
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
 
+  # ── Password strength enforcement via pam_pwquality ──
+  # Triggers when running `passwd`.  Single-user laptop, so this only
+  # matters at password-change time — but addresses Lynis AUTH-9262.
+  # Defaults: minlen=12, at least 1 of each class (upper/lower/digit/special).
+  security.pam.services.passwd.rules.password.pwquality = {
+    control    = "required";
+    modulePath = "${pkgs.libpwquality.lib}/lib/security/pam_pwquality.so";
+    order      = 11000;  # before unix (~12000) so quality check happens first
+    args = [
+      "retry=3"
+      "minlen=12"
+      "difok=3"           # at least 3 chars must differ from old password
+      "ucredit=-1"        # at least 1 uppercase
+      "lcredit=-1"        # at least 1 lowercase
+      "dcredit=-1"        # at least 1 digit
+      "ocredit=-1"        # at least 1 special char
+      "enforce_for_root"
+    ];
+  };
+
   # ───── OpenSSH hardening ─────
   services.openssh = {
     enable = true;

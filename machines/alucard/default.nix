@@ -48,6 +48,7 @@
       ./clamav.nix
       ./aide.nix
       ./lynis.nix
+      ./vulnix.nix
       ./pam-apparmor-fix.nix
       ../../configs/security/polkit-fstrim.nix
 

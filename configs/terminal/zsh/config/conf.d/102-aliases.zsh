@@ -38,3 +38,4 @@ alias nrs='sudo nixos-rebuild switch --flake .#alucard'
 alias secscan="$HOME/dotfiles/scripts/security-scan.sh"
 alias aidechk='secscan aide'
 alias lynischk='secscan lynis'
+alias vulnchk='secscan vulnix'
