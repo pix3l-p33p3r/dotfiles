@@ -21,10 +21,12 @@
         "194.242.2.5#extended.dns.mullvad.net"
       ];
       DNSOverTLS = "yes";
-      # allow-downgrade: validate DNSSEC where signatures exist (most TLDs)
-      # without hard-failing on unsigned zones. Hard "yes" would break
-      # captive-portal probing and any zone without DS records.
-      DNSSEC = "allow-downgrade";
+      # DNSSEC + filtering DNS = broken: Mullvad returns modified responses
+      # for blocked domains whose DNSSEC signatures then fail validation
+      # (e.g. youtube-ui.l.google.com → "failed-auxiliary"). Verified that
+      # a fresh resolved restart doesn't help — the failure is immediate.
+      # DoT already authenticates the channel to Mullvad.
+      DNSSEC = "no";
       Domains = [ "~." ];
       FallbackDNS = [
         "9.9.9.9#dns.quad9.net"
@@ -50,10 +52,15 @@
   # DefaultRoute=yes, which overrides the global Mullvad DoT config above.
   # This dispatcher clears per-link DNS after every connect/DHCP change so all
   # queries route through the global resolver exclusively.
+  #
+  # Trigger on every event NM might fire that *could* re-push DNS — `up`,
+  # `dhcp4-change`, `dhcp6-change` cover the normal flow.  `connectivity-change`
+  # and `hostname` catch corner cases (campus captive portal redirects,
+  # hostname events that re-run dhclient hooks).
   networking.networkmanager.dispatcherScripts = [{
     source = pkgs.writeText "10-clear-link-dns" ''
       case "$2" in
-        up|dhcp4-change|dhcp6-change)
+        up|dhcp4-change|dhcp6-change|connectivity-change|hostname)
           ${pkgs.systemd}/bin/resolvectl dns "$1" ""
           ${pkgs.systemd}/bin/resolvectl default-route "$1" no
           ;;
@@ -61,4 +68,30 @@
     '';
     type = "basic";
   }];
+
+  # Belt-and-suspenders: after every boot AND after every nrs reload of
+  # systemd-resolved, sweep all interfaces and clear their DNS / default-route.
+  # The dispatcher only fires on connection events; if a connection is already
+  # up when resolved or NM is reloaded (e.g. during nrs), DHCP-pushed DNS like
+  # `8.8.8.8` from the campus router can sit sticky on Link 3 with
+  # +DefaultRoute, leaking queries past Mullvad.
+  systemd.services.clear-link-dns = {
+    description = "Clear DHCP-pushed per-link DNS (force Global Mullvad)";
+    after = [ "systemd-resolved.service" "NetworkManager.service" ];
+    wants = [ "systemd-resolved.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = false;
+    };
+    script = ''
+      set -u
+      for iface in $(${pkgs.iproute2}/bin/ip -o link show \
+                     | ${pkgs.gawk}/bin/awk -F': ' '{print $2}' \
+                     | ${pkgs.gnugrep}/bin/grep -vE '^(lo|ap0|docker.*|veth.*|virbr.*|br-.*)$'); do
+        ${pkgs.systemd}/bin/resolvectl dns "$iface" ""           2>/dev/null || true
+        ${pkgs.systemd}/bin/resolvectl default-route "$iface" no 2>/dev/null || true
+      done
+    '';
+  };
 }
