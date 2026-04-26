@@ -25,10 +25,9 @@
     # ── False positives on NixOS / systemd ──
     # Network protocol modules — already blacklisted in machines/alucard/boot.nix
     # so they cannot be loaded; Lynis only checks if the module is *available*.
-    skip-test=NETW-3200:dccp
-    skip-test=NETW-3200:sctp
-    skip-test=NETW-3200:rds
-    skip-test=NETW-3200:tipc
+    # NOTE: a single skip-test=<id> covers ALL instances of that test
+    # (Lynis aggregates by test ID, not by per-protocol parameter).
+    skip-test=NETW-3200
 
     # nftables firewall is enabled in machines/alucard/firewall.nix; Lynis
     # only checks for /etc/iptables which doesn't exist with nftables.

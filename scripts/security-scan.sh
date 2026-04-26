@@ -134,10 +134,12 @@ run_lynis() {
       printf '  Hardening index : %s%s/100%s\n' "$color" "$idx" "$reset"
     fi
 
+    # `grep -c` exits 1 on no match while still printing "0", so the prior
+    # `|| echo 0` fallback duplicated the 0.  Pipe through wc -l instead.
     local warns
-    warns="$(sudo grep -c '^warning\[' /var/log/lynis/report.dat 2>/dev/null || echo 0)"
+    warns="$(sudo grep '^warning\[' /var/log/lynis/report.dat 2>/dev/null | wc -l)"
     local suggs
-    suggs="$(sudo grep -c '^suggestion\[' /var/log/lynis/report.dat 2>/dev/null || echo 0)"
+    suggs="$(sudo grep '^suggestion\[' /var/log/lynis/report.dat 2>/dev/null | wc -l)"
     printf '  Warnings        : %s%d%s\n' "$([ "$warns" -gt 0 ] && echo "$yellow" || echo "$green")" "$warns" "$reset"
     printf '  Suggestions     : %d\n' "$suggs"
 
