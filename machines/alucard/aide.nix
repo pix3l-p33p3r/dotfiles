@@ -24,9 +24,16 @@
     database_new   = file:/var/lib/aide/aide.db.new
 
     # Report style
-    gzip_dbout     = yes
+    # gzip_dbout disabled so the on-disk filenames in `database_in` /
+    # `database_out` match exactly (otherwise AIDE writes aide.db.new.gz
+    # but our paths don't have the .gz suffix and reads fail).
+    gzip_dbout     = no
     report_url     = stdout
-    verbose        = 5
+    # AIDE 0.18+ replaced the legacy `verbose = N` directive with
+    # `report_level=`.  `changed_attributes` shows which attribute differs
+    # for each modified entry — a good middle ground between minimal noise
+    # and full attribute dumps.
+    report_level   = changed_attributes
 
     # ── Rule definitions ──
     # FullCheck = perm + owner + group + ftype + size + ctime + mtime + sha256
@@ -106,8 +113,7 @@
         echo "aide-init: creating initial AIDE baseline (this can take 5-15 min)..."
       fi
       ${pkgs.aide}/bin/aide --init --config=/etc/aide.conf
-      mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz 2>/dev/null || \
-        mv /var/lib/aide/aide.db.new   /var/lib/aide/aide.db
+      mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
       echo "aide-init: baseline ready at /var/lib/aide/aide.db"
     '';
   };
@@ -128,7 +134,7 @@
     };
     script = ''
       set -uo pipefail
-      if [ ! -f /var/lib/aide/aide.db ] && [ ! -f /var/lib/aide/aide.db.gz ]; then
+      if [ ! -f /var/lib/aide/aide.db ]; then
         echo "aide-check: no baseline at /var/lib/aide/aide.db — run aide-init first" >&2
         exit 0
       fi
