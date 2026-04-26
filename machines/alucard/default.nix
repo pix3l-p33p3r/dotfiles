@@ -49,6 +49,7 @@
       ./aide.nix
       ./lynis.nix
       ./vulnix.nix
+      ./service-hardening.nix
       ./pam-apparmor-fix.nix
       ../../configs/security/polkit-fstrim.nix
 

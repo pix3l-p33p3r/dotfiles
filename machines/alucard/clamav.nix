@@ -132,6 +132,29 @@
       RestartSec        = "5s";
       Nice              = 19;
       IOSchedulingClass = "idle";
+
+      # ── Hardening (was 9.6 UNSAFE) ──
+      # The script only reads from ~/Downloads, talks to clamd over a
+      # UNIX socket, and runs notify-send via DBus.  No mutation of
+      # system state needed.
+      NoNewPrivileges         = true;
+      LockPersonality         = true;
+      RestrictRealtime        = true;
+      RestrictSUIDSGID        = true;
+      ProtectClock            = true;
+      ProtectKernelLogs       = true;
+      ProtectControlGroups    = true;
+      SystemCallArchitectures = "native";
+      MemoryDenyWriteExecute  = true;
+      PrivateMounts           = true;
+      PrivateTmp              = true;
+      ProtectKernelTunables   = true;
+      ProtectKernelModules    = true;
+      RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+      RestrictNamespaces      = true;
+      # ProtectSystem=strict would block the script's tmp paths; full is
+      # almost as good and lets clamdscan write its own per-scan temp.
+      ProtectSystem           = "full";
     };
 
     script = ''

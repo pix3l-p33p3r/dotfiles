@@ -43,4 +43,27 @@
       };
     };
   };
+
+  # ── Hardening (was 9.2 UNSAFE) ──
+  # i2pd is a self-contained network daemon: no need for /home, kernel
+  # tunables, or syscall categories outside the standard service set.
+  systemd.services.i2pd.serviceConfig = {
+    NoNewPrivileges         = true;
+    LockPersonality         = true;
+    RestrictRealtime        = true;
+    RestrictSUIDSGID        = true;
+    ProtectClock            = true;
+    ProtectKernelLogs       = true;
+    ProtectControlGroups    = true;
+    SystemCallArchitectures = "native";
+    MemoryDenyWriteExecute  = true;
+    PrivateMounts           = true;
+    PrivateTmp              = true;
+    ProtectHome             = true;
+    ProtectKernelTunables   = true;
+    ProtectKernelModules    = true;
+    ProtectSystem           = "strict";
+    RestrictNamespaces      = true;
+    RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" ];
+  };
 }

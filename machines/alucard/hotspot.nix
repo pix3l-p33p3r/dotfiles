@@ -162,6 +162,27 @@ in
       ExecStart    = startHotspot;
       ExecStopPost = stopHotspot;
       Restart      = "no";
+
+      # ── Hardening (was 9.6 UNSAFE) ──
+      # hostapd needs CAP_NET_ADMIN and access to wireless interfaces.
+      # The startHotspot script also needs to read the SOPS secret at
+      # /run/secrets/hotspot/wpa_passphrase, write a config to /run, and
+      # exec hostapd.  Conservative profile that doesn't break those.
+      NoNewPrivileges         = true;
+      LockPersonality         = true;
+      RestrictRealtime        = true;
+      RestrictSUIDSGID        = true;
+      ProtectClock            = true;
+      ProtectKernelLogs       = true;
+      ProtectControlGroups    = true;
+      SystemCallArchitectures = "native";
+      MemoryDenyWriteExecute  = true;
+      PrivateMounts           = true;
+      ProtectHome             = true;
+      ProtectKernelTunables   = true;
+      ProtectKernelModules    = true;
+      RestrictAddressFamilies = [ "AF_UNIX" "AF_INET" "AF_INET6" "AF_NETLINK" "AF_PACKET" ];
+      CapabilityBoundingSet   = [ "CAP_NET_ADMIN" "CAP_NET_RAW" "CAP_NET_BIND_SERVICE" ];
     };
   };
 
