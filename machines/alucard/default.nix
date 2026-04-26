@@ -43,7 +43,6 @@
       # Anonymity networks
       ./tor.nix
       ./i2p.nix
-      ./lokinet.nix
 
       # Security tooling
       ./clamav.nix

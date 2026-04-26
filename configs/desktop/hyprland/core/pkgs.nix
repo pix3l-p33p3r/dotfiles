@@ -211,8 +211,10 @@
     picocrypt # File encryption
 
     # Communication
-    session-desktop # Secure messaging
-    simplex-chat-desktop # Secure chat
+    # session-desktop removed (Apr 2026): Session Technology Foundation
+    # announced shutdown of paid dev + infrastructure deprecation on Jul 8 2026.
+    # Migrated to simplex-chat-desktop which has no user IDs at all.
+    simplex-chat-desktop # Secure chat (Session replacement)
     vesktop # Discord alternative
 
     # Productivity
