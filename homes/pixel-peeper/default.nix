@@ -45,6 +45,7 @@ in
   programs.aria2p.enable = true;
   programs.atool.enable = true;
   programs.ttyper.enable = true;
+  programs.jujutsu.enable = true;
 
   # Use 'nix profile add' instead of the deprecated 'nix profile install' alias.
   home.activation.installPackages = lib.mkForce (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -94,6 +95,7 @@ in
     cursorPkg
     pkgs.zed-editor
     pkgs.sl
+    pkgs.jjui
   ];
 
   home.username = "pixel-peeper";
