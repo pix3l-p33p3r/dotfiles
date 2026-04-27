@@ -2,8 +2,9 @@
 {
   imports = [
     ./hyprpanel.nix
+    # ./wayle.nix  # Wayle replacement — uncomment to switch (in-progress)
     ./rofi.nix
-    # ./hyprlauncher.nix # in the future maybe 
+    # ./hyprlauncher.nix
     ./hyprpaper.nix
     ./hypridle.nix
     ./hyprlock.nix

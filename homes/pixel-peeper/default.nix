@@ -41,6 +41,11 @@ in
   programs.atuin.enable = true;
   programs.home-manager.enable = true;
 
+  programs.qalculate.enable = true;
+  programs.aria2p.enable = true;
+  programs.atool.enable = true;
+  programs.ttyper.enable = true;
+
   # Use 'nix profile add' instead of the deprecated 'nix profile install' alias.
   home.activation.installPackages = lib.mkForce (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     function nixReplaceProfile() {

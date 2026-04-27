@@ -1,20 +1,24 @@
 { config, pkgs, lib, ... }:
 
-let
-  systemctl = lib.getExe' pkgs.systemd "systemctl";
-in
 {
   services.wayle = {
     enable = true;
     settings = {
+      general = {
+        font-mono = "JetBrainsMono Nerd Font";
+        font-sans = "JetBrainsMono Nerd Font";
+        tearing-mode = true;
+      };
+
       styling = {
         theme-provider = "wayle";
+        rounding = "sm";
         palette = {
           bg = "#1e1e2e";
           surface = "#313244";
           elevated = "#45475a";
           fg = "#cdd6f4";
-          fg_muted = "#a6adc8";
+          fg-muted = "#a6adc8";
           primary = "#b4befe";
           red = "#f38ba8";
           yellow = "#f9e2af";
@@ -24,12 +28,20 @@ in
       };
 
       bar = {
-        auto-hide = "fullscreen";
-        rounding = "lg";
+        scale = 1.0;
+        rounding = "sm";
+        shadow = "none";
+        border-location = "none";
+        padding = 0.1;
+        padding-ends = 1.1;
+        button-icon-padding = 0.7;
+        button-label-padding = 0.7;
+        button-label-weight = "medium";
+        button-rounding = "sm";
         layout = [
           {
             monitor = "*";
-            left = [ "dashboard" "hyprland-workspaces" "hyprland-windowtitle" ];
+            left = [ "dashboard" "hyprland-workspaces" "window-title" ];
             center = [ "media" ];
             right = [
               "volume" "network"
@@ -47,8 +59,23 @@ in
         };
 
         weather = {
-          unit = "metric";
+          provider = "open-meteo";
+          units = "metric";
           location = "Ben Guerir, Morocco";
+        };
+
+        hyprland-workspaces = {
+          active-indicator = "underline";
+          app-icons-show = false;
+        };
+
+        volume = {
+          scroll-up = "wayle audio output-volume +5";
+          scroll-down = "wayle audio output-volume -5";
+        };
+
+        dashboard = {
+          dropdown-lock-command = "${pkgs.hyprlock}/bin/hyprlock";
         };
 
         custom = [
@@ -96,24 +123,6 @@ in
         volume_up wifi bluetooth battery_full \
         schedule notifications dashboard play_arrow \
         2>/dev/null || true
-    fi
-  '';
-
-  home.activation.wayleWeatherConfig = lib.hm.dag.entryAfter [ "reloadSystemd" ] ''
-    SECRET="${config.sops.secrets."hyprpanel/openweather_api_key".path}"
-    RUNTIME="${config.xdg.configHome}/wayle/runtime.toml"
-    $DRY_RUN_CMD mkdir -p "${config.xdg.configHome}/wayle"
-    if [[ -z "''${DRY_RUN:-}" ]]; then
-      ${systemctl} --user start sops-nix.service || true
-      for _i in $(seq 1 200); do
-        [[ -s "$SECRET" ]] && break
-        sleep 0.05
-      done
-    fi
-    if [[ -s "$SECRET" ]]; then
-      KEY=$(cat "$SECRET" | tr -d '\n')
-      printf '[modules.weather]\napi-key = "%s"\n' "$KEY" > "$RUNTIME"
-      $DRY_RUN_CMD chmod 600 "$RUNTIME"
     fi
   '';
 }
