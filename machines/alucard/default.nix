@@ -37,7 +37,7 @@
       # Networking
       ./firewall.nix
       ./vpn.nix
-      ./dns.nix
+      # ./dns.nix
       ./hotspot.nix
 
       # Anonymity networks
