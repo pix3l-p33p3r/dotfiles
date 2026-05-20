@@ -59,8 +59,8 @@
     awscli2 # AWS command line
     azure-cli # Azure command line
     google-cloud-sdk # Google Cloud SDK
-    # amazon-ecs-cli # Amazon ECS CLI # FUCKING DEPRICATED IN FAVOR OF AWS Copilot CLI.
-    copilot-cli
+    # amazon-ecs-cli # Amazon ECS CLI # Deprecated in favor of AWS Copilot CLI.
+    # copilot-cli # Removed from nixpkgs (upstream EOL — AWS archived the project).
     # acr-cli: temporarily removed — nixpkgs 0.18.1 tests fail on current Go (ParseDuration error type mismatch in purge_test.go).
 
     # VPS Providers
