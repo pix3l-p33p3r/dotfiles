@@ -133,6 +133,10 @@
     tftui # Terminal file transfer TUI
     bluetui # Bluetooth TUI
 
+
+    totp-cli # cli tool for 2fa auth
+    authenticator # gnome app for 2fa/topt/Password-management 
+
     # ============================================================================
     # |                              WAYLAND DESKTOP                           |
     # ============================================================================
