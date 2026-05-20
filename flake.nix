@@ -55,6 +55,9 @@
       # Bump ani-cli to v4.12 (allanime AES-256-CTR fix) until nixpkgs
       # picks up the upstream release.  See pystardust/ani-cli#1650.
       (import ./overlays/ani-cli.nix)
+      # Bump google-chrome to 148.0.7778.178 ahead of the nixos-unstable
+      # channel.  Upstream landed nixpkgs@68ed617 on master 2026-05-19.
+      (import ./overlays/google-chrome.nix)
     ];
     pkgs = nixpkgs.legacyPackages.${system}.extend (
       nixpkgs.lib.composeManyExtensions overlays
