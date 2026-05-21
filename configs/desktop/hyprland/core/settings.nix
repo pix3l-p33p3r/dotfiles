@@ -38,7 +38,6 @@ in
   misc = {
     disable_hyprland_logo = true;
     force_default_wallpaper = 0;
-    vfr = true;
     font_family = "JetBrainsMono Nerd Font";
     mouse_move_enables_dpms = true;
     key_press_enables_dpms = true;

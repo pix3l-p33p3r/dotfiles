@@ -47,5 +47,4 @@ in
 
   decoration:blur:enabled = false
   decoration:shadow:enabled = false
-  misc:vfr = true
 ''
