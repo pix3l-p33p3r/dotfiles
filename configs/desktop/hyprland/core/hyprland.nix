@@ -10,6 +10,12 @@ in
 
   wayland.windowManager.hyprland.enable = true;
 
+  # Pin the legacy hyprlang renderer. home-manager changed the default to
+  # "lua" for new (stateVersion >= 26.05) configs; switching would require
+  # rewriting submapsConfig / settings as Lua function calls. Explicit pin
+  # silences the activation-time warning.
+  wayland.windowManager.hyprland.configType = "hyprlang";
+
   wayland.windowManager.hyprland.extraConfig = submapsConfig;
 
   wayland.windowManager.hyprland.settings = settings;
