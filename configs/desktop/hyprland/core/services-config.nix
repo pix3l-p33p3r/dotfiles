@@ -4,8 +4,13 @@
   # Do NOT run mako alongside it — whichever claims the D-Bus name first wins, and mako
   # would prevent hyprpanel from receiving notifications (breaks history, theming, X buttons).
 
-  # blueman-applet is started by the NixOS services.blueman module (bluetooth.nix)
-  # via D-Bus activation. Enabling it here too causes a duplicate ExecStart= conflict.
+  # blueman-applet is intentionally NOT enabled. services.blueman.enable is set
+  # to false in machines/alucard/bluetooth.nix to drop the ~85 MB tray applet.
+  # Pair devices with `bluetui`, `bluetoothctl`, or `blueman-manager` on demand.
+  #
+  # nm-applet (NetworkManager tray + secret agent) is also disabled below. For
+  # new Wi-Fi networks use `nmtui` or `nm-connection-editor` (float window rule
+  # already exists in core/settings.nix). Saved networks auto-connect.
 
   services.cliphist = {
     enable = true;
@@ -27,22 +32,9 @@
     Unit.After = [ "hyprpanel.service" ];
     Service.ExecStart = lib.mkForce "${pkgs.poweralertd}/bin/poweralertd -s";
   };
-  services.network-manager-applet.enable = true;
-  # Hyprland often reaches hyprland-session.target before graphical-session.target; bind the
-  # NM secret agent to both so "no agents were available" does not happen on Wi-Fi connect.
-  systemd.user.services.network-manager-applet = {
-    Unit = {
-      Description = "Network Manager applet";
-      Requires = [ "tray.target" ];
-      PartOf = lib.mkForce [ "graphical-session.target" "hyprland-session.target" ];
-      After = lib.mkForce [
-        "graphical-session.target"
-        "tray.target"
-        "hyprland-session.target"
-      ];
-    };
-    Install.WantedBy = lib.mkForce [ "graphical-session.target" "hyprland-session.target" ];
-  };
+  # nm-applet disabled (~29 MB). Hyprpanel no longer renders a network widget
+  # either — Wi-Fi state surfaces via NetworkManager D-Bus notifications, which
+  # hyprpanel forwards as it owns the notification daemon.
 
   # Polkit agent (required for GUI auth prompts e.g., udisks mounts in Thunar)
   services.polkit-gnome.enable = true;
