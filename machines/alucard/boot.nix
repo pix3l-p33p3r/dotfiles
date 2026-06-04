@@ -32,6 +32,19 @@ in
 	# Enable fwupd for firmware updates (BIOS, EC, ME, etc.)
 	services.fwupd.enable = true;
 
+	# fwupd-refresh runs as the sessionless `fwupd-refresh` system user, so the
+	# default fwupd polkit policy (which only auto-allows active local sessions)
+	# denies the metadata commit with "Failed to obtain auth", failing the unit
+	# during nixos switch. Allow this user to refresh metadata non-interactively.
+	security.polkit.extraConfig = ''
+		polkit.addRule(function(action, subject) {
+			if (action.id == "org.freedesktop.fwupd.refresh-metadata" &&
+				subject.user == "fwupd-refresh") {
+				return polkit.Result.YES;
+			}
+		});
+	'';
+
 	# Install firmware packages for Intel microcode
 	hardware.enableRedistributableFirmware = true;
 
