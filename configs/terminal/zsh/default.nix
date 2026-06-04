@@ -35,7 +35,6 @@
     # Terminal Utilities
     bb # Command line tool
     tmux # Terminal multiplexer
-    tt # Terminal typing test
     ueberzugpp # Image preview
 
     # ============================================================================
@@ -89,6 +88,9 @@
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
     history.path = "${config.xdg.configHome}/zsh/.zsh_history";
+    shellAliases = {
+      tt = "ttyper";
+    };
   };
 
   home.sessionVariables = {

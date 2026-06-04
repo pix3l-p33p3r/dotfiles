@@ -42,6 +42,7 @@
   programs.aria2p.enable = true;
   programs.atool.enable = true;
   programs.ttyper.enable = true;
+  programs.nom.enable = true;
   programs.jujutsu.enable = true;
 
   # Use 'nix profile add' instead of the deprecated 'nix profile install' alias.
@@ -89,11 +90,14 @@
   '';
 
   home.packages = [
-    pkgs.code-cursor-fhs
     pkgs.zed-editor
     pkgs.sl
     pkgs.jjui
   ];
+
+  services.syshud.enable = true;
+  programs.cursor.enable = true;
+  programs.github-copilot-cli.enable = true;
 
   home.username = "pixel-peeper";
   home.homeDirectory = "/home/pixel-peeper";
