@@ -1,4 +1,7 @@
 { config, inputs, wallpaper, pkgs, lib, ... }@all:
+let
+  cursorPkg = pkgs.callPackage ../../configs/editors/cursor.nix {};
+in
 {
   imports = [
     ../../configs/desktop/hyprland
@@ -96,7 +99,10 @@
   ];
 
   services.syshud.enable = true;
-  programs.cursor.enable = true;
+  programs.cursor = {
+    enable = true;
+    package = cursorPkg;
+  };
   programs.github-copilot-cli.enable = true;
 
   home.username = "pixel-peeper";

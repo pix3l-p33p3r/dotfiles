@@ -2,11 +2,11 @@
 
 let
   pname = "cursor";
-  version = "3.1.15";
+  version = "3.6.31";
 
   src = fetchurl {
     url = "https://github.com/udit-001/cursor-linux-release/releases/download/v${version}/Cursor-${version}-x86_64.AppImage";
-    sha256 = "0n8si64if4vnj577w8vrq9spx89dl85qk097j062yifaiwb8x44h";
+    sha256 = "sha256-AUc4oY30jiUHmeU9bniub0KcpLtqK+9HV2lfLsUClkI=";
   };
 
   appimageContents = appimageTools.extractType2 {
