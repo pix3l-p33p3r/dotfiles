@@ -90,7 +90,6 @@
   '';
 
   home.packages = [
-    pkgs.zed-editor
     pkgs.sl
     pkgs.jjui
   ];

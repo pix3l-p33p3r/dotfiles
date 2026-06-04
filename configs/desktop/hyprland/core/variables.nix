@@ -25,8 +25,8 @@
   systemctl = "${pkgs.systemd}/bin/systemctl";
   pidof = "${pkgs.procps}/bin/pidof";
   notify-send = "${pkgs.libnotify}/bin/notify-send";
-  screen_brightness_up = "${pkgs.brightnessctl}/bin/brightnessctl set +5%";
-  screen_brightness_down = "${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
+  screen_brightness_up = ''${pkgs.brightnessctl}/bin/brightnessctl set +5% && ${pkgs.libnotify}/bin/notify-send "Brightness" "Brightness: $(${pkgs.brightnessctl}/bin/brightnessctl | grep -Eo '[0-9]+%')"'';
+  screen_brightness_down = ''${pkgs.brightnessctl}/bin/brightnessctl set 5%- && ${pkgs.libnotify}/bin/notify-send "Brightness" "Brightness: $(${pkgs.brightnessctl}/bin/brightnessctl | grep -Eo '[0-9]+%')"'';
 
   # Screenshot utilities
   grim = "${pkgs.grim}/bin/grim";

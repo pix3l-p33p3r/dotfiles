@@ -62,7 +62,7 @@
     pkg-config # Package configuration
 
     # Package Managers
-    # pipx # Python package installer (tests currently failing)
+    (pipx.overrideAttrs (old: { doCheck = false; doInstallCheck = false; })) # Python package installer
     cargo # Rust package manager
     go # Go compiler
     nodejs # JavaScript runtime

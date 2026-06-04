@@ -46,7 +46,7 @@
     nodejs # JavaScript runtime
     yarn # Node package manager
     pnpm # Node package manager
-    # (pipx.overrideAttrs (old: { doCheck = false; })) # Python package installer (tests currently failing)
+    (pipx.overrideAttrs (old: { doCheck = false; doInstallCheck = false; })) # Python package installer
 
     # Code Quality & Linting
     shellcheck # Shell script linter
