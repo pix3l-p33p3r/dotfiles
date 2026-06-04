@@ -38,21 +38,21 @@ in
     $DRY_RUN_CMD chmod 600 "${config.xdg.configHome}/hyprpanel/config.json"
   '';
 
-  systemd.user.services.hyprpanel = {
-    Unit = {
-      Description = "Hyprland status bar";
-      PartOf = [ "hyprland-session.target" ];
-      After = [ "hyprland-session.target" "sops-nix.service" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
-      ExecStart = "${pkgs.hyprpanel}/bin/hyprpanel";
-      Restart = "on-failure";
-      RestartSec = 3;
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
-    };
-  };
+  # systemd.user.services.hyprpanel = {
+  #   Unit = {
+  #     Description = "Hyprland status bar";
+  #     PartOf = [ "hyprland-session.target" ];
+  #     After = [ "hyprland-session.target" "sops-nix.service" ];
+  #   };
+  #   Service = {
+  #     Type = "simple";
+  #     ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
+  #     ExecStart = "${pkgs.hyprpanel}/bin/hyprpanel";
+  #     Restart = "on-failure";
+  #     RestartSec = 3;
+  #   };
+  #   Install = {
+  #     WantedBy = [ "hyprland-session.target" ];
+  #   };
+  # };
 }

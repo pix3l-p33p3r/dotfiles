@@ -4,7 +4,7 @@ let
 	cliphist rofi rofi-menu rofi-cliphist rofi-firefox hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
-	hyprpanel hyprlock hyprpaper hyprshot record_start record_stop show_keybinds;
+	# hyprpanel hyprlock hyprpaper hyprshot record_start record_stop show_keybinds;
 in
 {
   exec-once = [
@@ -47,7 +47,7 @@ in
   "$mod SHIFT, d, exec, ${rofi} -show run"
 
 	# Hyprpanel windows
-	"$mod, p, exec, ${hyprpanel} toggleWindow dashboardmenu"
+	# "$mod, p, exec, ${hyprpanel} toggleWindow dashboardmenu"
 
 	"$mod, f, exec, $file_manager"
 	"$mod, b, exec, $browser"
