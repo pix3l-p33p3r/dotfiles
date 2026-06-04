@@ -88,9 +88,6 @@
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
     history.path = "${config.xdg.configHome}/zsh/.zsh_history";
-    shellAliases = {
-      tt = "ttyper";
-    };
   };
 
   home.sessionVariables = {
