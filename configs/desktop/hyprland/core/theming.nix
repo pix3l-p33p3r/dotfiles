@@ -19,6 +19,7 @@ in
 		};
 
 		# HM ≥26.05 defaults gtk4 theme separately; keep GTK3/GTK4 aligned with Stylix until stateVersion migrates.
+		gtk4.theme = lib.mkForce config.gtk.theme;
 
 		gtk3.extraConfig = {
 			gtk-application-prefer-dark-theme = true;
