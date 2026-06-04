@@ -92,6 +92,7 @@
   home.packages = [
     pkgs.sl
     pkgs.jjui
+    pkgs.wayle
   ];
 
   services.syshud.enable = true;
