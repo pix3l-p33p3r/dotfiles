@@ -63,7 +63,7 @@
     pkg-config # Package configuration
 
     # Package Managers
-    pipx # Python package installer
+    # pipx # Python package installer (tests currently failing)
     cargo # Rust package manager
     go # Go compiler
     nodejs # JavaScript runtime

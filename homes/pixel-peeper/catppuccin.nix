@@ -3,6 +3,8 @@
 {
   catppuccin.flavor = "mocha";
   catppuccin.accent = "lavender";
+  catppuccin.enable = true;
+  catppuccin.autoEnable = false;
 
   catppuccin.btop.enable = true;
   catppuccin.bat.enable = true;

@@ -1,7 +1,4 @@
 { config, inputs, wallpaper, pkgs, lib, ... }@all:
-let
-  cursorPkg = pkgs.callPackage ../../configs/editors/cursor.nix {};
-in
 {
   imports = [
     ../../configs/desktop/hyprland
@@ -92,7 +89,7 @@ in
   '';
 
   home.packages = [
-    cursorPkg
+    pkgs.code-cursor-fhs
     pkgs.zed-editor
     pkgs.sl
     pkgs.jjui
