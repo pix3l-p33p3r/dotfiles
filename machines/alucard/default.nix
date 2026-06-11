@@ -33,6 +33,8 @@
       # Containerization & Virtualization
       ./docker.nix
       ./virt.nix
+      ./winapps.nix
+      ./waydroid.nix
       
       # Networking
       ./firewall.nix

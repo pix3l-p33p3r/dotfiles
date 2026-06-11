@@ -96,7 +96,27 @@ Configured Nix to maximize build performance and minimize disk usage.
 
 **Why:** Upstream ties clamd after freshclam, so freshclam ran on every boot before clamd, adding several seconds to the critical path to `graphical.target`. The socket unit still allows activation on demand; the timer ensures the daemon is up shortly after login without blocking boot.
 
-**Scheduled scan:** `clamav-scan.service` uses `Requires=`/`After=` `clamav-daemon.socket`, not `clamav-daemon.service`, so a `Persistent` timer firing soon after boot does not fail while the daemon unit is still deferred; `clamdscan --fdpass` starts clamd via socket activation when needed.
+**Scheduled scan:** `clamav-scan.service` uses `Requires=`/`After=` `clamav-daemon.socket`, waits for `/run/clamav/clamd.ctl`, then runs `clamdscan`. Timer fires on the **1st and 15th** at 03:00 (not daily — full scans take hours). Reports go to `/var/log/clamav/`. Browser/IDE extension paths are excluded after Fangfrisch `.UNOFFICIAL` false positives on legitimate `.xpi`/VSIX files.
+
+---
+
+## Waydroid for Android apps
+
+**Decision:** Enable `virtualisation.waydroid` on alucard (LXC + binderfs + `waydroid-nftables`).
+
+**Why:** Waydroid runs Android in a container with native Wayland windows — fits Hyprland better than Anbox or a full VM. NixOS module handles LXC, firewall (`waydroid0`), gbinder, and `psi=1`. Intel Iris Xe provides GLES; no extra GPU passthrough.
+
+**Setup:** One-time `sudo waydroid init` (or `init -s GAPPS` for Play Store) after rebuild. Helpers: `scripts/waydroid-setup.sh`, zsh aliases `android`, `android-ui`, `android-launch`.
+
+---
+
+## WinApps for Perplexity Comet (Windows VM)
+
+**Decision:** Run Comet via WinApps + libvirt (`RDPWindows` VM) instead of Waydroid.
+
+**Why:** Comet Android is arm64-only; Waydroid is x86_64 without a reliable ARM bridge. Perplexity ships Comet desktop for Windows/macOS only — no native Linux build. WinApps remotes individual app windows over FreeRDP (`wlfreerdp` on Hyprland).
+
+**Setup:** `scripts/WINAPPS.md` — create Windows 11 **Pro** VM in virt-manager, run WinApps OEM `install.bat`, install Comet, then `winapps-setup --user`. Menu: `Super+Shift+W` / `comet` alias.
 
 ---
 

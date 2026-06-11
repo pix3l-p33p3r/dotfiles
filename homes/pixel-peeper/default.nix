@@ -5,6 +5,7 @@ in
 {
   imports = [
     ../../configs/desktop/hyprland
+    ../../configs/desktop/winapps
     ../../configs/editors/cursor-config.nix
     ../../configs/browsers/chrome.nix
     ../../configs/browsers/zen-browser.nix
@@ -30,12 +31,17 @@ in
   # Nix 2.31.x bug: a trusted user's extra-trusted-public-keys replaces rather
   # than supplements the daemon's system keys. Repeating all keys here ensures
   # the full set is always active via ~/.config/nix/nix.conf.
+  nix.settings.extra-substituters = [
+    "https://winapps.cachix.org"
+  ];
+
   nix.settings.extra-trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
     "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
+    "winapps.cachix.org-1:HI82jWrXZsQRar/PChgIx1unmuEsiQMQq+zt05CD36g="
   ];
 
   programs.atuin.enable = true;
@@ -97,11 +103,14 @@ in
     pkgs.jjui
     pkgs.wayle
   ];
-
-  services.syshud.enable = true;
   programs.cursor = {
     enable = true;
     package = cursorPkg;
+    # Electron sandbox sets PR_SET_NO_NEW_PRIVS on child processes, which
+    # blocks sudo in the integrated terminal.  See cursor.nix wrapper too.
+    argvSettings = {
+      "disable-chromium-sandbox" = true;
+    };
   };
   programs.github-copilot-cli.enable = true;
 

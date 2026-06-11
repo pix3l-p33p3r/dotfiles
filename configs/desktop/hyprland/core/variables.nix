@@ -70,10 +70,44 @@
     in
     "${script}/bin/rofi-firefox";
 
+  rofi-waydroid =
+    let
+      script = pkgs.writeShellApplication {
+        name = "rofi-waydroid";
+        runtimeInputs = with pkgs; [
+          rofi
+          waydroid
+          libnotify
+          systemd
+        ];
+        text = builtins.readFile ../../../../scripts/rofi-waydroid.sh;
+      };
+    in
+    "${script}/bin/rofi-waydroid";
+
+  rofi-winapps =
+    let
+      script = pkgs.writeShellApplication {
+        name = "rofi-winapps";
+        runtimeInputs =
+          with pkgs;
+          [
+            rofi
+            libnotify
+            libvirt
+            inputs.winapps.packages.${pkgs.system}.winapps
+            inputs.winapps.packages.${pkgs.system}.winapps-launcher
+            gtk3
+          ];
+        text = builtins.readFile ../../../../scripts/rofi-winapps.sh;
+      };
+    in
+    "${script}/bin/rofi-winapps";
+
   # Hyprland ecosystem
   hyprctl = "${pkgs.hyprland}/bin/hyprctl";
   hyprlock = "${pkgs.hyprlock}/bin/hyprlock";
-  # hyprpanel = "${pkgs.hyprpanel}/bin/hyprpanel";
+  hyprpanel = "${pkgs.hyprpanel}/bin/hyprpanel";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
   hypridle = "${pkgs.hypridle}/bin/hypridle";
   hyprpaper = "${pkgs.hyprpaper}/bin/hyprpaper";

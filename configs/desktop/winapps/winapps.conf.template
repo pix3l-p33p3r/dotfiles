@@ -1,0 +1,36 @@
+##################################
+#   WINAPPS CONFIGURATION FILE   #
+##################################
+
+# Set RDP_USER / password after creating the Windows VM (see scripts/WINAPPS.md).
+# Use a full Windows account + password (PIN-only accounts do not work for RDP).
+RDP_USER="winapps"
+RDP_PASS=""
+RDP_ASKPASS="$HOME/.local/bin/winapps-rdp-pass"
+
+RDP_DOMAIN=""
+# Leave blank — WinApps auto-detects the libvirt VM IP.
+RDP_IP=""
+RDP_PORT="3389"
+
+VM_NAME="RDPWindows"
+WAFLAVOR="libvirt"
+
+RDP_SCALE="100"
+REMOVABLE_MEDIA="/run/media"
+
+# wlfreerdp renders on Wayland (Hyprland); +home-drive shares ~/ in Windows.
+RDP_FLAGS="/cert:tofu /sound /microphone +home-drive"
+RDP_FLAGS_NON_WINDOWS=""
+RDP_FLAGS_WINDOWS=""
+
+DEBUG="true"
+AUTOPAUSE="off"
+AUTOPAUSE_TIME="300"
+
+FREERDP_COMMAND="wlfreerdp"
+
+PORT_TIMEOUT="5"
+RDP_TIMEOUT="30"
+APP_SCAN_TIMEOUT="120"
+BOOT_TIMEOUT="180"

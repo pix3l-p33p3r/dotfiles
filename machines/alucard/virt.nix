@@ -5,6 +5,9 @@
 {
   virtualisation.libvirtd.enable = true;
 
+  # virtio-fs for optional Windows shared folders (see scripts/WINAPPS.md).
+  virtualisation.libvirtd.qemu.vhostUserPackages = with pkgs; [ virtiofsd ];
+
   # Use socket activation — libvirtd starts on demand when virsh/virt-manager connect.
   # Removes libvirtd from the critical boot path (~1.9s saving).
   # libvirtd.socket, libvirtd-ro.socket, libvirtd-admin.socket remain active.

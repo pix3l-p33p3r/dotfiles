@@ -116,5 +116,10 @@ in
 
     "idle_inhibit focus, match:class mpv"
     "idle_inhibit focus, match:class org.pwmt.zathura"
+
+    # Waydroid — full Android shell floats; APK windows tile normally.
+    "float on, match:class ^(waydroid)$"
+    "center on, match:class ^(waydroid)$"
+    "size 480 960, match:class ^(waydroid)$"
   ];
 }
