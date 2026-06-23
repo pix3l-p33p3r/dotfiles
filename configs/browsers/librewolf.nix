@@ -89,6 +89,34 @@ let
     "network.dns.disabled"             = true;         # belt-and-suspenders
   };
 
+  # Binary-only LibreWolf via official prebuilt AppImage (no nixpkgs source build).
+  # `pkgs.librewolf` pulls a full Firefox recompile (insecure-flagged in nixpkgs,
+  # almost never in cache). Using the community AppImage + appimageTools gives a
+  # small wrapper + fetch of the ~135 MiB portable build.
+  # The wrapped package still exposes bin/librewolf accepting -P for profiles.
+  # Update: bump version + sha256 from https://dl.librewolf.net/ (or librewolf.net).
+  #
+  # We shim the package with an .override so that HM's mkFirefoxModule (used by
+  # programs.librewolf) can call package.override without "attribute 'override' missing".
+  # The cfg injection from the module (nativeMessagingHosts etc) is ignored because
+  # the AppImage is self-contained; we only care about getting our bin in $out/bin.
+  librewolfAppImage = pkgs.appimageTools.wrapType2 {
+    pname = "librewolf";
+    version = "152.0-1";
+    src = pkgs.fetchurl {
+      url = "https://dl.librewolf.net/librewolf/152.0-1/librewolf-152.0-1-linux-x86_64-appimage.AppImage";
+      sha256 = "0rfmhvlwj7152vfh7nq946bj3lbk17ai9hyd0q4g0lj9gch2grxs";
+    };
+    # AppImage is self-contained; add pkgs here only if missing libs surface at runtime.
+  };
+  librewolfBin = librewolfAppImage // {
+    # Satisfy: lib.functionArgs package.override ? cfg
+    override = lib.setFunctionArgs (_: librewolfAppImage) { cfg = true; };
+    # Some firefox-module paths also reference these:
+    unwrapped = librewolfAppImage;
+    binaryName = "librewolf";
+  };
+
   # Rofi-driven LibreWolf profile picker.  Same UX as `acs-rofi` in vpn.nix.
   librewolfPicker = pkgs.writeShellScriptBin "librewolf-picker" ''
     set -eu
@@ -97,8 +125,8 @@ let
           -theme-str 'window {width: 360px;} listview {lines: 2;}')
 
     case "$CHOICE" in
-      *privacy*) exec ${pkgs.librewolf}/bin/librewolf -P privacy "$@" ;;
-      *i2p*)     exec ${pkgs.librewolf}/bin/librewolf -P i2p     "$@" ;;
+      *privacy*) exec ${librewolfBin}/bin/librewolf -P privacy "$@" ;;
+      *i2p*)     exec ${librewolfBin}/bin/librewolf -P i2p     "$@" ;;
     esac
   '';
 in
@@ -112,6 +140,10 @@ in
 
   programs.librewolf = {
     enable = true;
+
+    # Use our binary AppImage package instead of nixpkgs' librewolf.
+    # This is the critical change that prevents long source rebuilds of Firefox.
+    package = librewolfBin;
 
     # Default profile: clearnet, hardened.  System DoT (Mullvad) handles DNS.
     profiles."privacy" = {

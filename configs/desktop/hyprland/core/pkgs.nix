@@ -147,7 +147,6 @@
     hyprpaper # Hyprland wallpaper daemon
     hyprpicker # Hyprland color picker
     hyprpanel # Hyprland panel
-    nvtopPackages.intel # GPU stats (optional for hyprpanel; Intel iGPU only — avoids full/CUDA closure)
     intel-gpu-tools # intel_gpu_top — Intel iGPU stats for hyprpanel
     hyprshot # Hyprland screenshot tool
     wf-recorder # Wayland screen recorder
@@ -169,7 +168,6 @@
     # ============================================================================
     alsa-firmware # ALSA firmware
     alsa-tools # ALSA utilities
-    cava # Audio visualizer
     pamixer # PulseAudio mixer
     pavucontrol # PulseAudio control
     pipewire # Audio server
@@ -236,7 +234,6 @@
     # ============================================================================
     # |                               DRIVERS                                 |
     # ============================================================================
-    intel-gpu-tools # Intel GPU utilities
     vulkan-tools # Vulkan utilities
   ];
 }

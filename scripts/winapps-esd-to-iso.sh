@@ -22,9 +22,12 @@ else
   out="$(readlink -f "$out")"
 fi
 
-for cmd in wiminfo wimapply wimexport xorriso; do
-  command -v "$cmd" >/dev/null 2>&1 || die "missing: $cmd (install wimlib + xorriso)"
-done
+if ! command -v wiminfo >/dev/null 2>&1 || ! command -v xorriso >/dev/null 2>&1; then
+  if command -v nix >/dev/null 2>&1; then
+    exec nix shell nixpkgs#wimlib nixpkgs#xorriso -c "$0" "$@"
+  fi
+  die "missing wimlib/xorriso — run: nix shell nixpkgs#wimlib nixpkgs#xorriso -c $0 …"
+fi
 
 if [[ -s "$out" ]]; then
   log "ISO already exists: $out"
@@ -51,11 +54,13 @@ wimapply "$esd" 1 "$tmpdir"
 wimexport "$esd" 2 "${tmpdir}/sources/boot.wim" --compress=LZX --chunk-size=32K
 wimexport "$esd" 3 "${tmpdir}/sources/boot.wim" --compress=LZX --chunk-size=32K --boot
 
-for index in $(seq 4 "$image_count"); do
-  log "Exporting edition image $index…"
-  wimexport "$esd" "$index" "${tmpdir}/sources/install.esd" \
-    --compress=LZMS --chunk-size=128K --recompress
-done
+# Export one edition only (default: 9 = Windows 11 Pro). Merging all consumer
+# editions into install.esd can OOM on machines with <32 GiB RAM.
+edition_index="${WINAPPS_EDITION_INDEX:-9}"
+edition_name="$(wiminfo "$esd" "$edition_index" | awk -F': ' '/^Name:/ {print $2; exit}')"
+log "Exporting edition $edition_index ($edition_name)…"
+wimexport "$esd" "$edition_index" "${tmpdir}/sources/install.esd" \
+  --compress=LZX --chunk-size=32K --threads=4
 
 efisys="${tmpdir}/efi/microsoft/boot/efisys.bin"
 efisys_np="${tmpdir}/efi/microsoft/boot/efisys_noprompt.bin"

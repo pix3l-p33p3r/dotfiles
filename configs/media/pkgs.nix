@@ -31,11 +31,18 @@
     # |                            DOCUMENT TOOLS                              |
     # ============================================================================
     pandoc # Universal document converter
-    texlive.combined.scheme-full # Full TeX Live
+    # scheme-medium covers standard pandoc->PDF (xelatex/lualatex/pdflatex,
+    # latexmk, common packages, fonts) at a fraction of scheme-full's ~7 GiB
+    # closure. `tectonic` (below) is a self-contained fallback that fetches any
+    # missing LaTeX packages on demand. Bump back to scheme-full only if a build
+    # errors on a missing .sty.
+    texlive.combined.scheme-medium # TeX Live (medium scheme)
     katex # KaTeX CLI and assets for HTML math
     mermaid-cli # mmdc: Mermaid CLI for diagrams
     graphviz # dot: Graphviz for diagrams
-    haskellPackages.pandoc-crossref # Cross-references for pandoc
+    # haskellPackages.pandoc-crossref removed (was ~6 GiB transitive via ghc);
+    # pandoc itself is kept for general doc conversion. If crossref needed later,
+    # it can be added back (or use pandoc's built-in for simple cases).
     tectonic # Fast LaTeX engine (optional alternative to texlive engines)
     poppler # PDF rendering library and utilities
     resvg # SVG renderer

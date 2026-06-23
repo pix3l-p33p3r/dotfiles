@@ -14,10 +14,9 @@
     # Kubernetes
     helm # Kubernetes package manager
     kustomize # Kubernetes configuration management
-    minikube # Local Kubernetes
-    kind # Kubernetes in Docker
-    k3s # Lightweight Kubernetes
+    k3s # Lightweight Kubernetes (kept as the single small k8s; minikube/kind removed)
     k9s # Kubernetes TUI
+    # Removed: minikube, kind (heavy, occasional local k8s; use k3s or external clusters)
 
     # ============================================================================
     # |                        INFRASTRUCTURE AS CODE                           |
@@ -25,7 +24,7 @@
     terraform # Infrastructure provisioning
     terraform-ls # Terraform language server
     terragrunt # Terraform wrapper
-    pulumi # Infrastructure as code
+    # pulumi removed (large, occasional IaC use; bring in ad-hoc via nix shell if needed)
     ansible # Configuration management
     ansible-lint # Ansible linting
 
@@ -39,18 +38,19 @@
     # |                        MONITORING & OBSERVABILITY                       |
     # ============================================================================
     # Metrics & Logging
-    prometheus # Metrics collection
-    grafana # Metrics visualization
-    loki # Log aggregation
-    grafana-alloy # Log/metric/trace shipping (promtail successor)
-    prometheus-node-exporter # Node metrics
-    cadvisor # Container metrics
+    # Removed heavy self-hosted observability (prom/grafana/loki) for debloat;
+    # they are occasional-use and pull large Go/JS closures. Use hosted or
+    # `nix shell` for one-offs. Kept the light shippers/exporters for basic host monitoring.
+    grafana-alloy # Log/metric/trace shipping (promtail successor) -- kept (light)
+    prometheus-node-exporter # Node metrics -- kept (light)
+    cadvisor # Container metrics -- kept (light)
+    # Removed: prometheus, grafana, loki, elasticsearch
 
     # ELK Stack
     tuistash # TUI for Logstash
     # kibana # ELK Stack UI - removed due to EOL Node.js dependency
     # logstash # ELK Stack log shipping - conflicts with elasticsearch
-    elasticsearch # ELK Stack search and analytics
+    # elasticsearch removed (heavy; was only for occasional local ELK)
 
     # ============================================================================
     # |                            CLOUD & API TOOLS                           |

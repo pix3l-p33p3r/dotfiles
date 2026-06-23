@@ -2,7 +2,12 @@
   description = "pixel-peeper flake on T";
   
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    # Pinned to the current nixos-unstable channel commit (Hydra-built/cached)
+    # for reproducible fast rebuilds and to avoid source builds for insecure-flagged
+    # packages like old librewolf. To bump: run
+    #   curl -sL https://channels.nixos.org/nixos-unstable/git-revision
+    # then update the rev here and `nix flake lock --update-input nixpkgs`.
+    nixpkgs.url = "github:NixOS/nixpkgs/567a49d1913ce81ac6e9582e3553dd90a955875f";
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -63,9 +68,16 @@
       # channel.  Upstream landed nixpkgs@68ed617 on master 2026-05-19.
       (import ./overlays/google-chrome.nix)
     ];
-    pkgs = nixpkgs.legacyPackages.${system}.extend (
-      nixpkgs.lib.composeManyExtensions overlays
-    );
+    nixpkgsConfig = {
+      allowUnfree = true;
+      # No more permittedInsecurePackages for librewolf: we now use an official
+      # prebuilt AppImage (not the nixpkgs source derivation that was flagged insecure).
+    };
+    pkgs = import nixpkgs {
+      inherit system;
+      config = nixpkgsConfig;
+      overlays = overlays;
+    };
 
 
   in {
@@ -75,6 +87,7 @@
       specialArgs = { inherit inputs self; };
       modules = [
         { nixpkgs.overlays = overlays; }
+        { nixpkgs.config = nixpkgsConfig; }
 
         ./machines/alucard
         sops-nix.nixosModules.sops

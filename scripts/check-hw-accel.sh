@@ -117,7 +117,7 @@ fi
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}\n"
 
 echo -e "For detailed documentation, see:"
-echo -e "  ${BLUE}machines/alucard/HARDWARE-ACCELERATION.md${NC}\n"
+echo -e "  ${BLUE}docs/machines/alucard/HARDWARE-ACCELERATION.md${NC}\n"
 
 echo -e "To monitor GPU in real-time:"
 echo -e "  ${GREEN}intel_gpu_top${NC}\n"

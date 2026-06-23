@@ -2,7 +2,7 @@
 #   WINAPPS CONFIGURATION FILE   #
 ##################################
 
-# Set RDP_USER / password after creating the Windows VM (see scripts/WINAPPS.md).
+# Set RDP_USER / password after creating the Windows VM (see docs/WINAPPS.md).
 # Use a full Windows account + password (PIN-only accounts do not work for RDP).
 RDP_USER="winapps"
 RDP_PASS=""

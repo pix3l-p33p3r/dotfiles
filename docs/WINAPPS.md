@@ -8,7 +8,18 @@ Run **Perplexity Comet** (and other Windows apps) as native-feeling windows via 
 - User in `libvirtd` + `kvm` groups (re-login after first rebuild)
 - `~/.config/winapps/winapps.conf` — edit `RDP_USER` and password
 
-## 1. Download ISOs
+## Automated VM setup (recommended)
+
+After `nixos-rebuild switch` and `home-manager switch`:
+
+```bash
+winapps-vm    # alias for scripts/winapps-create-vm.sh
+winapps-status
+```
+
+This downloads VirtIO + Windows 11 ISOs (via Mido), creates the `RDPWindows` VM, writes credentials to `~/VMs/CREDENTIALS.txt`, and opens virt-manager. Then follow steps 3–6 below.
+
+## 1. Download ISOs (manual alternative)
 
 | File | URL |
 |------|-----|

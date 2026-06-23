@@ -95,8 +95,8 @@
             rofi
             libnotify
             libvirt
-            inputs.winapps.packages.${pkgs.system}.winapps
-            inputs.winapps.packages.${pkgs.system}.winapps-launcher
+            inputs.winapps.packages.${pkgs.stdenv.hostPlatform.system}.winapps
+            inputs.winapps.packages.${pkgs.stdenv.hostPlatform.system}.winapps-launcher
             gtk3
           ];
         text = builtins.readFile ../../../../scripts/rofi-winapps.sh;

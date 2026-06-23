@@ -34,15 +34,16 @@
     # Languages
     rustc # Rust compiler
     zig # Zig compiler
-    ghc # Haskell compiler
     nim # Nim compiler
     go # Go compiler
     python3 # Python interpreter
     lua # Lua interpreter
+    # ghc (Haskell compiler) removed: its only consumer was haskellPackages.pandoc-crossref
+    # (removed from configs/media/pkgs.nix). GHC + haskell ecosystem is very heavy.
+    # User Haskell toolchain is still available via ghcup in $HOME/.ghcup (zshenv).
 
     # Package Managers
     cargo # Rust package manager
-    go # Go compiler
     nodejs # JavaScript runtime
     yarn # Node package manager
     pnpm # Node package manager

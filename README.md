@@ -97,7 +97,7 @@ Package catalog: `configs/desktop/hyprland/core/pkgs.nix`
 
 **Start here:** [docs/INDEX.md](docs/INDEX.md)
 
-Quick links: [HOME-MANAGER.md](docs/HOME-MANAGER.md) | [System Config](docs/machines/alucard/README.md) | [Desktop](docs/configs/desktop/README.md) | [Notes & Tasks](docs/NOTES-AND-TASKS.md) | [Secrets](docs/secrets/README.md) | [Decisions](docs/DECISIONS.md)
+Quick links: [HOME-MANAGER.md](docs/HOME-MANAGER.md) | [System Config](docs/machines/alucard/README.md) | [Desktop](docs/configs/desktop/README.md) | [Notes & Tasks](docs/NOTES-AND-TASKS.md) | [Secrets](secrets/README.md) | [Decisions](docs/DECISIONS.md)
 
 ## License
 

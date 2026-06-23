@@ -116,7 +116,7 @@ Configured Nix to maximize build performance and minimize disk usage.
 
 **Why:** Comet Android is arm64-only; Waydroid is x86_64 without a reliable ARM bridge. Perplexity ships Comet desktop for Windows/macOS only — no native Linux build. WinApps remotes individual app windows over FreeRDP (`wlfreerdp` on Hyprland).
 
-**Setup:** `scripts/WINAPPS.md` — create Windows 11 **Pro** VM in virt-manager, run WinApps OEM `install.bat`, install Comet, then `winapps-setup --user`. Menu: `Super+Shift+W` / `comet` alias.
+**Setup:** [docs/WINAPPS.md](WINAPPS.md) — create Windows 11 **Pro** VM in virt-manager, run WinApps OEM `install.bat`, install Comet, then `winapps-setup --user`. Menu: `Super+Shift+W` / `comet` alias.
 
 ---
 

@@ -1,5 +1,5 @@
 # WinApps — run Windows apps (e.g. Perplexity Comet) via libvirt + FreeRDP.
-# See scripts/WINAPPS.md for one-time Windows VM setup.
+# See docs/WINAPPS.md for one-time Windows VM setup.
 
 { config, lib, ... }:
 

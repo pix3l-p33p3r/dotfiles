@@ -116,5 +116,5 @@ SSH is hardened beyond NixOS defaults:
 ## See Also
 
 - [TPM2-LUKS.md](TPM2-LUKS.md) — TPM2 LUKS auto-unlock (boot-time encryption)
-- [configs/security/KEEPASSXC.md](../../docs/configs/security/KEEPASSXC.md) — SSH agent and secrets management
+- [configs/security/KEEPASSXC.md](configs/security/KEEPASSXC.md) — SSH agent and secrets management
 - [secrets/README.md](../../secrets/README.md) — SOPS/Age encrypted secrets

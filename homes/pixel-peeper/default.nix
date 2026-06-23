@@ -24,7 +24,12 @@ in
   programs.zsh.enable = true;
   programs.nix-search-tv.enable = true;
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    # LibreWolf insecure allowance removed: using official prebuilt AppImage
+    # (see configs/browsers/librewolf.nix). The nixpkgs librewolf source drv
+    # is no longer referenced.
+  };
 
   nix.package = lib.mkDefault pkgs.nix;
 
@@ -106,11 +111,8 @@ in
   programs.cursor = {
     enable = true;
     package = cursorPkg;
-    # Electron sandbox sets PR_SET_NO_NEW_PRIVS on child processes, which
-    # blocks sudo in the integrated terminal.  See cursor.nix wrapper too.
-    argvSettings = {
-      "disable-chromium-sandbox" = true;
-    };
+    # argv.json lives in cursor-config.nix (xdg.configFile."Cursor/argv.json").
+    # programs.cursor.argvSettings writes to ~/.cursor/, which Cursor ignores.
   };
   programs.github-copilot-cli.enable = true;
 

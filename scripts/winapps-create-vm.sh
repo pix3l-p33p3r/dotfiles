@@ -166,7 +166,8 @@ create_vm() {
     --machine q35 \
     --os-variant win11 \
     --boot uefi,hd,cdrom \
-    --disk "path=$DISK_PATH,size=64,format=qcow2,bus=virtio" \
+    --disk "path=$DISK_PATH,size=30,format=qcow2,bus=virtio" \
+    --check disk_size=off \
     --disk "path=$WIN_ISO,device=cdrom,bus=sata" \
     --disk "path=$VIRTIO_ISO,device=cdrom,bus=sata" \
     --network network=default,model=virtio \
@@ -206,7 +207,7 @@ print_next_steps() {
 
   4. Launch Comet:  Super+Shift+W  or  comet
 
-  Full guide: ~/dotfiles/scripts/WINAPPS.md
+  Full guide: ~/dotfiles/docs/WINAPPS.md
 ══════════════════════════════════════════════════════════════
 EOF
 }

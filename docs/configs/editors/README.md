@@ -4,7 +4,7 @@
 
 | Editor | Package | Role |
 |--------|---------|------|
-| Cursor AI | `pkgs.code-cursor-fhs` (custom `cursor.nix`) | Primary IDE with AI/MCP |
+| Cursor AI | `configs/editors/cursor.nix` (AppImage) | Primary IDE with AI/MCP |
 | Zed | `pkgs.zed-editor` | Secondary editor |
 | Neovim | `programs.neovim` (Lazy.nvim) | Terminal editor |
 
@@ -14,79 +14,49 @@ All three are installed via `homes/pixel-peeper/default.nix`.
 
 ## Cursor AI Editor
 
-### Current Installation (`pkgs.code-cursor-fhs`)
+### Installation
 
-On the `testing` branch Cursor is provided directly from **nixpkgs**:
-
-```nix
-home.packages = [
-  pkgs.code-cursor-fhs
-];
-
-```
-
-`code-cursor-fhs` ships upstream Cursor inside an FHS environment so the embedded browser, webviews, and VS Code extensions all work out of the box (no AppImage wrangling).
-
-### Legacy Custom Package (still available)
-
-`configs/editors/cursor.nix` remains in the repo in case we need to pin an AppImage manually:
-
-To update that fallback package, repeat the AppImage steps below only if nixpkgs lags behind or the FHS build breaks.
-
-### MCP (Model Context Protocol) Configuration 🎯
-
-**Status**: ✅ Managed declaratively via `cursor-config.nix` with SOPS-encrypted secrets
-
-The MCP configuration is now fully declarative, version-controlled, and **security-hardened**:
+Cursor is provided by a custom AppImage wrapper (`configs/editors/cursor.nix`) via Home Manager:
 
 ```nix
-# configs/editors/cursor-config.nix
-home.file.".cursor/mcp.json" = {
-  text = builtins.toJSON {
-    mcpServers = { ... };
-  };
-};
+# configs/editors/cursor-config.nix — xdg.configFile."Cursor/argv.json"
+{
+  "disable-chromium-sandbox" = true;
+  "password-store" = "gnome-libsecret";
+}
 ```
 
-**Configured MCP Servers**:
-- **NixOS** - Package search, options, and flake operations
-- **GitKraken** - Git operations
-- **Filesystem** - Dotfiles access
+Home Manager's `programs.cursor.argvSettings` writes to `~/.cursor/argv.json`, but Cursor reads `~/.config/Cursor/argv.json` — the config above targets the correct path.
 
-> Obsidian MCP was removed. Secrets for remaining servers are encrypted with SOPS + Age.
+The wrapper adds `libsecret`, disables Electron sandbox (so `sudo` works in the integrated terminal), and passes `--no-sandbox`.
 
-**Security Features**:
-- Secrets stored in `secrets/users/pixel-peeper.yaml` (encrypted)
-- Automatic decryption during Home Manager build
-- Age key location: `~/.config/sops/age/keys.txt`
+### MCP (Model Context Protocol)
 
-The configuration automatically deploys to `~/.cursor/mcp.json` on `home-manager switch`.
+**Status:** Managed declaratively via `cursor-config.nix`.
 
-See `docs/MCP-SETUP.md` for detailed documentation and `secrets/README.md` for SOPS usage.
+**Configured MCP servers:**
+- **NixOS** — package search, options, flake operations
+- **GitKraken** — Git operations (via GitLens extension)
 
-### Features of Cursor
+Secrets for remaining servers are encrypted with SOPS + Age in `secrets/users/pixel-peeper.yaml`.
 
-- **AI-Powered Completions**: Context-aware code suggestions
-- **Chat**: Ask questions about your codebase
-- **Composer**: AI-assisted code generation
-- **MCP Integration**: Extended capabilities via Model Context Protocol
-- **VS Code Compatible**: All VS Code extensions work
-- **Privacy**: Local processing option available
+The configuration deploys to `~/.cursor/mcp.json` on `home-manager switch`.
+
+See [MCP-SETUP.md](../../MCP-SETUP.md) and [secrets/README.md](../../../secrets/README.md).
 
 ### Troubleshooting
 
-**Issue**: Extensions don't work properly  
-**Solution**: Use `code-cursor-fhs` instead of `code-cursor`
+**OS keyring error on Hyprland**  
+Ensure `"password-store": "gnome-libsecret"` is set in `~/.config/Cursor/argv.json`. Gnome Keyring must be running (`systemctl --user status gnome-keyring`).
 
-**Issue**: AppImage won't run  
-**Solution**: Make sure you're using `appimage-run` and not executing directly
+**Extensions misbehave in AppImage**  
+The FHS wrapper in `cursor.nix` includes common runtime deps. If something still breaks, consider `pkgs.code-cursor-fhs` from nixpkgs as a fallback.
 
-**Issue**: Can't download AppImage  
-**Solution**: Check network connectivity or download from browser at https://cursor.com/download
+**Integrated terminal: sudo blocked**  
+Expected fix: sandbox disabled via `argvSettings` and the `cursor.nix` wrapper.
 
 ---
 
 ## Zed Editor
 
-Installed as `pkgs.zed-editor` alongside Cursor. No custom configuration yet -- uses defaults. Added as a lightweight alternative for quick editing sessions.
-
+Installed as `pkgs.zed-editor` alongside Cursor. No custom configuration yet — defaults only. Lightweight alternative for quick edits.

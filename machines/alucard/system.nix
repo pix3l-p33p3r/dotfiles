@@ -8,7 +8,11 @@
   catppuccin.enable = true;
   catppuccin.autoEnable = false;
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    # LibreWolf now uses a pinned official prebuilt AppImage (via appimageTools
+    # in configs/browsers/librewolf.nix). No source build, no insecure flag.
+  };
 
   # Do not change after initial install — controls stateful data locations.
   system.stateVersion = "25.05";

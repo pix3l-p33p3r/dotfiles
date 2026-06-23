@@ -14,6 +14,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 
 **Configuration Guides:**
 - [MCP-SETUP.md](MCP-SETUP.md) - Model Context Protocol setup for Cursor AI (SOPS encryption)
+- [WINAPPS.md](WINAPPS.md) - WinApps + Comet browser on Hyprland
 - [NOTES-AND-TASKS.md](NOTES-AND-TASKS.md) - Notes, task management, and time tracking system
 - [SHORTCUTS.md](SHORTCUTS.md) - Keybinds and aliases reference
 - [MIGRATE-EXT4-TO-BTRFS.md](MIGRATE-EXT4-TO-BTRFS.md) - Filesystem migration guide
@@ -21,8 +22,8 @@ Complete navigation guide for NixOS dotfiles documentation.
 **Security:**
 - [secrets/README.md](../secrets/README.md) - SOPS + Age secrets management
 - [configs/security/KEEPASSXC.md](configs/security/KEEPASSXC.md) - KeePassXC setup and opsec notes
-- [machines/alucard/SECURITY.md](../machines/alucard/SECURITY.md) - AppArmor, firewall, ClamAV, SSH hardening
-- [machines/alucard/TPM2-LUKS.md](../machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
+- [machines/alucard/SECURITY.md](machines/alucard/SECURITY.md) - AppArmor, firewall, ClamAV, SSH hardening
+- [machines/alucard/TPM2-LUKS.md](machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
 
 ## Component Documentation
 
@@ -35,12 +36,12 @@ Complete navigation guide for NixOS dotfiles documentation.
 - [configs/terminal/zsh/README.md](configs/terminal/zsh/README.md) - Zsh shell configuration
 
 **System:**
-- [machines/alucard/README.md](../machines/alucard/README.md) - Host-specific system configuration
-- [machines/alucard/PLYMOUTH-SETUP.md](../machines/alucard/PLYMOUTH-SETUP.md) - Boot splash configuration
-- [machines/alucard/TPM2-LUKS.md](../machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
-- [machines/alucard/SECURITY.md](../machines/alucard/SECURITY.md) - AppArmor, firewall, ClamAV, SSH hardening
-- [machines/alucard/HARDWARE-ACCELERATION.md](../machines/alucard/HARDWARE-ACCELERATION.md) - Intel GPU acceleration
-- [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theme configuration
+- [machines/alucard/README.md](machines/alucard/README.md) - Host-specific system configuration
+- [machines/alucard/PLYMOUTH-SETUP.md](machines/alucard/PLYMOUTH-SETUP.md) - Boot splash configuration
+- [machines/alucard/TPM2-LUKS.md](machines/alucard/TPM2-LUKS.md) - TPM2 LUKS auto-unlock
+- [machines/alucard/SECURITY.md](machines/alucard/SECURITY.md) - AppArmor, firewall, ClamAV, SSH hardening
+- [machines/alucard/HARDWARE-ACCELERATION.md](machines/alucard/HARDWARE-ACCELERATION.md) - Intel GPU acceleration
+- [machines/alucard/CATPPUCCIN-SYSTEM.md](machines/alucard/CATPPUCCIN-SYSTEM.md) - Theme configuration
 - [scripts/README.md](../scripts/README.md) - Utility scripts
 
 ## Quick Navigation
@@ -59,7 +60,7 @@ Complete navigation guide for NixOS dotfiles documentation.
 
 **Customize desktop:**
 1. [configs/desktop/README.md](configs/desktop/README.md) - Hyprland
-2. [machines/alucard/CATPPUCCIN-SYSTEM.md](../machines/alucard/CATPPUCCIN-SYSTEM.md) - Theming
+2. [machines/alucard/CATPPUCCIN-SYSTEM.md](machines/alucard/CATPPUCCIN-SYSTEM.md) - Theming
 
 **Notes & task tracking:**
 1. [NOTES-AND-TASKS.md](NOTES-AND-TASKS.md) - Full system overview
@@ -81,6 +82,7 @@ docs/
 ├── NOTES-AND-TASKS.md          # Notes & task management
 ├── PRODUCTIVITY-SYSTEM.md      # GTD/4D productivity methodology
 ├── SHORTCUTS.md                # Keybinds reference
+├── WINAPPS.md                  # WinApps + Comet on Hyprland
 ├── MIGRATE-EXT4-TO-BTRFS.md    # Filesystem migration
 └── configs/
     ├── desktop/README.md       # Hyprland

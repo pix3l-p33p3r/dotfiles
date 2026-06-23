@@ -1,6 +1,6 @@
 # ── WinApps (Windows VM / Comet browser) ─────────────────────────────────────
 
-alias winapps-docs='$PAGER "$HOME/dotfiles/scripts/WINAPPS.md"'
+alias winapps-docs='$PAGER "$HOME/dotfiles/docs/WINAPPS.md"'
 alias winapps-vm='$HOME/dotfiles/scripts/winapps-create-vm.sh'
 comet() {
   local app
