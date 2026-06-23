@@ -3,7 +3,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 let
-  winappsPkgs = inputs.winapps.packages.${pkgs.system};
+  winappsPkgs = inputs.winapps.packages.${pkgs.stdenv.hostPlatform.system};
 
   rdpPassHelper = pkgs.writeShellScriptBin "winapps-rdp-pass" ''
     set -euo pipefail
@@ -40,19 +40,18 @@ in
 
   home.sessionVariables.LIBVIRT_DEFAULT_URI = "qemu:///system";
 
-  # First deploy symlinks the template; activation replaces the symlink with a
-  # writable file so RDP_PASS can be set by winapps-create-vm.sh.
-  home.file.".config/winapps/winapps.conf" = {
-    source = ./winapps.conf.template;
-    force = false;
-  };
-
+  # winapps.conf must be a writable real file (RDP_PASS is set by
+  # winapps-create-vm.sh), so it is NOT managed via home.file (which would
+  # symlink it read-only into the store). The activation below seeds it from the
+  # template on first deploy and leaves user edits untouched afterwards.
   home.activation.winappsWritableConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     conf="$HOME/.config/winapps/winapps.conf"
     template=${./winapps.conf.template}
+    # Only seed when missing or still a (possibly stale) symlink into the store.
+    # --remove-destination drops the symlink first so cp never sees src == dest.
     if [ -L "$conf" ] || [ ! -e "$conf" ]; then
       $DRY_RUN_CMD mkdir -p "$(dirname "$conf")"
-      $DRY_RUN_CMD cp "$template" "$conf"
+      $DRY_RUN_CMD cp --remove-destination "$template" "$conf"
       $DRY_RUN_CMD chmod 600 "$conf"
     fi
   '';
