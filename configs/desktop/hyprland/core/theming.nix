@@ -7,7 +7,9 @@ let
 in
 {
 	# Cursor size/source of truth (Catppuccin provides theme, HM sets size)
+	# HM ≥26.07 requires an explicit enable; implicit pointerCursor no longer opts in.
 	home.pointerCursor = {
+		enable = true;
 		size = 24;
 	};
 
