@@ -82,11 +82,11 @@
     };
   };
 
-  # ───── Daily scheduled scan ─────
-  # Scans /home and /etc at 03:00; clamd is started before and stopped after
-  # so the ~1 GB signature DB doesn't sit in RAM all day.
+  # ───── Weekly scheduled scan ─────
+  # Scans /home and /etc Friday 23:00; clamd is started before and stopped after
+  # so the ~1 GB signature DB doesn't sit in RAM all week.
   systemd.services.clamav-scan = {
-    description = "ClamAV daily home scan";
+    description = "ClamAV weekly home scan";
     wants       = [ "network-online.target" ];
     after       = [ "clamav-daemon.socket" "network-online.target" ];
     requires    = [ "clamav-daemon.socket" ];
@@ -104,10 +104,10 @@
   };
 
   systemd.timers.clamav-scan = {
-    description = "ClamAV daily home scan timer";
+    description = "ClamAV weekly home scan timer";
     wantedBy    = [ "timers.target" ];
     timerConfig = {
-      OnCalendar         = "03:00";
+      OnCalendar         = "Fri 23:00";
       Persistent         = true;
       RandomizedDelaySec = "30m";
     };
