@@ -1,6 +1,9 @@
 # Nix flake development
 .envrc
 
+# nixos-facter dumps (4k+ lines, not part of the NixOS closure)
+machines/**/facter.json
+
 # Editor files
 .vscode/
 .idea/

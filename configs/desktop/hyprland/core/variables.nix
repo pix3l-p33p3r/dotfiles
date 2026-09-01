@@ -70,21 +70,6 @@
     in
     "${script}/bin/rofi-firefox";
 
-  rofi-waydroid =
-    let
-      script = pkgs.writeShellApplication {
-        name = "rofi-waydroid";
-        runtimeInputs = with pkgs; [
-          rofi
-          waydroid
-          libnotify
-          systemd
-        ];
-        text = builtins.readFile ../../../../scripts/rofi-waydroid.sh;
-      };
-    in
-    "${script}/bin/rofi-waydroid";
-
   rofi-winapps =
     let
       script = pkgs.writeShellApplication {
@@ -99,7 +84,7 @@
             inputs.winapps.packages.${pkgs.stdenv.hostPlatform.system}.winapps-launcher
             gtk3
           ];
-        text = builtins.readFile ../../../../scripts/rofi-winapps.sh;
+        text = builtins.readFile ../apps/rofi-winapps.sh;
       };
     in
     "${script}/bin/rofi-winapps";

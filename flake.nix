@@ -48,13 +48,20 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware = {
+      # T14s Gen 2i has no model-specific profile — import
+      # lenovo-thinkpad-t14s and keep i915/PSR local. Their nixpkgs is
+      # only for upstream tests; modules do not evaluate it.
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     winapps = {
       url = "github:winapps-org/winapps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, ... }@inputs: let
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, ... }@inputs: let
     system = "x86_64-linux";
     # Single overlay list — shared by both NixOS and Home Manager so they
     # can never diverge.
@@ -106,6 +113,13 @@
         inputs.zen-browser.homeModules.twilight
         sops-nix.homeManagerModules.sops
       ];
+    };
+
+    # On-demand hardware scan. Do not commit the JSON (gitignore).
+    #   sudo nix run .#facter -- -o /tmp/facter.json
+    apps.${system}.facter = {
+      type = "app";
+      program = "${pkgs.nixos-facter}/bin/nixos-facter";
     };
   };
 }

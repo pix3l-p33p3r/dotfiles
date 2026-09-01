@@ -100,23 +100,47 @@ Configured Nix to maximize build performance and minimize disk usage.
 
 ---
 
-## Waydroid for Android apps
+## Waydroid removed
 
-**Decision:** Enable `virtualisation.waydroid` on alucard (LXC + binderfs + `waydroid-nftables`).
-
-**Why:** Waydroid runs Android in a container with native Wayland windows — fits Hyprland better than Anbox or a full VM. NixOS module handles LXC, firewall (`waydroid0`), gbinder, and `psi=1`. Intel Iris Xe provides GLES; no extra GPU passthrough.
-
-**Setup:** One-time `sudo waydroid init` (or `init -s GAPPS` for Play Store) after rebuild. Helpers: `scripts/waydroid-setup.sh`, zsh aliases `android`, `android-ui`, `android-launch`.
+**Decision:** Do not run Waydroid. Android is a phone; the LXC stack (binderfs, `waydroid0`, images) is unused boot and disk cost.
 
 ---
 
 ## WinApps for Perplexity Comet (Windows VM)
 
-**Decision:** Run Comet via WinApps + libvirt (`RDPWindows` VM) instead of Waydroid.
+**Decision:** Run Comet via WinApps + libvirt (`RDPWindows` VM).
 
-**Why:** Comet Android is arm64-only; Waydroid is x86_64 without a reliable ARM bridge. Perplexity ships Comet desktop for Windows/macOS only — no native Linux build. WinApps remotes individual app windows over FreeRDP (`wlfreerdp` on Hyprland).
+**Why:** Perplexity ships Comet desktop for Windows/macOS only — no native Linux build. WinApps remotes individual app windows over FreeRDP (`wlfreerdp` on Hyprland).
 
 **Setup:** [docs/WINAPPS.md](WINAPPS.md) — create Windows 11 **Pro** VM in virt-manager, run WinApps OEM `install.bat`, install Comet, then `winapps-setup --user`. Menu: `Super+Shift+W` / `comet` alias.
+
+---
+
+## Hardware profile: T14s Intel Gen 2 (upstream + local)
+
+**Decision:** Treat alucard as ThinkPad T14s Gen 2i (`20WNS1R800`). Locally import generic `lenovo-thinkpad-t14s` + `common/cpu/intel/tiger-lake` + `common-pc-ssd`, and keep chassis quirks in `machines/alucard/thinkpad.nix`. Upstream the same layout as `lenovo-thinkpad-t14s-intel-gen2`.
+
+**Why:** nixos-hardware had AMD T14s gens and a generic T14s, but no Intel Gen 2. `tiger-lake` sets `hardware.intelgpu.vaapiDriver = "intel-media-driver"` (iHD only) and `i915.enable_guc=3`. We still set `i915.enable_psr=0` for the SYNA800E I2C/touchpad lockup.
+
+**Local extras** (not for upstream): Thunderbolt `boltd`, fprintd forced off. **Upstream extras:** BIOS Sleep State note, thermald/throttled `mkDefault false`.
+
+**Contribution:** fork `pix3l-p33p3r/nixos-hardware`, branch `add-thinkpad-t14s-intel-gen2` at `~/nixos-hardware`. Sign/push from a real terminal (GPG pinentry), then `gh pr create --repo NixOS/nixos-hardware`.
+
+**nixos-facter:** Optional scan only. Do **not** commit the JSON or enable `hardware.facter` — the report is a 4k-line dump and the modules would add initrd/IPU6/fprintd we do not want on the boot path. When you need a snapshot: `sudo nix run .#facter -- -o /tmp/facter.json`.
+
+**Not added:** `auto-cpufreq` (fights TLP), `throttled` (older ThinkPads / missing DPTF — Tiger Lake + TLP/thinkfan already cover this), `common-gpu-intel`.
+
+**nvtop:** System package (`nvtopPackages.intel`) plus `security.wrappers` with `cap_perfmon` for `nvtop` and `intel_gpu_top`. Do not drop `kernel.perf_event_paranoid=3` just to make GPU monitors work.
+
+---
+
+## CLI: store binaries, not repo-path bash
+
+**Decision:** Do not invoke `~/dotfiles/scripts/*.sh` from zsh, Wayle, or docs. Daily tools are `writeShellApplication` / `programs.nh` in the Home Manager or NixOS closure. One-shot installers (sed-the-config Secure Boot, live-ISO Btrfs convert) were deleted; the docs remain.
+
+**Why:** Repo-path scripts break under sudo (`$HOME` → `/root`), drift from the generation, and are not atomic. `nh os switch` / `nh home switch` replace `nrs`/`hms` wrappers.
+
+**sudo:** Never add `pkgs.sudo` to `writeShellApplication.runtimeInputs`. That store binary has no setuid bit; callers must use `/run/wrappers/bin/sudo`.
 
 ---
 

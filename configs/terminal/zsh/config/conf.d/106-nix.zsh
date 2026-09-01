@@ -1,34 +1,36 @@
-# ── NixOS / Home Manager workflow ─────────────────────────────────────────
+# ── NixOS / Home Manager (nh) ─────────────────────────────────────────────
+# Functions, not aliases — aliases baked into an old session keep pointing
+# at deleted ~/dotfiles/scripts/*.sh until exec zsh.
+# Flake path: programs.nh.flake, with a fallback if session vars were skipped.
 
-alias clean="$HOME/dotfiles/scripts/nix-cleaner.sh"
+: "${NH_FLAKE:=/home/pixel-peeper/dotfiles}"
+export NH_FLAKE
 
-# System rebuild — delegate job count to nix.settings.max-jobs (auto), suppress output
-alias nrs="sudo nixos-rebuild switch --flake '$HOME/dotfiles#alucard' --no-reexec --no-build-output"
+unalias nrs hms update check clean upgrade 2>/dev/null
+unfunction nrs hms update check clean upgrade reload-dotfiles 2>/dev/null
 
-# Home Manager rebuild (delegates to script so flags stay correct even if this
-# file was not yet redeployed into ~/.config/zsh — avoids --no-build-output etc.)
-hms() {
-  bash "$HOME/dotfiles/scripts/home-manager-switch.sh" "$@"
-}
+nrs() { nh os switch "$NH_FLAKE" "$@" }
+hms() { nh home switch "$NH_FLAKE" -c 'pixel-peeper@alucard' "$@" }
+update() { nix flake update --flake "$NH_FLAKE" "$@" }
+check() { nix flake check "$NH_FLAKE" "$@" }
+clean() { command nix-clean "$@" }
 
-alias update="cd $HOME/dotfiles && nix flake update"
-
-# Full upgrade: use bash + repo script for HM so it never uses a stale hms() body
 upgrade() {
-  cd "$HOME/dotfiles" || return 1
-  nrs || return 1
-  bash "$HOME/dotfiles/scripts/home-manager-switch.sh" || return 1
-  bash "$HOME/dotfiles/scripts/nix-cleaner.sh"
-  clear
-  fastfetch
+  nrs "$@" || return 1
+  hms || return 1
+  clean
 }
 
-alias check="nix flake check"
+reload-dotfiles() {
+  local f
+  for f in "$ZDOTDIR/conf.d"/*.zsh(N); do
+    source "$f"
+  done
+}
 
 # ── Nix helpers ────────────────────────────────────────────────────────────
-alias nsize="nix path-info -Sh /run/current-system"
-alias nsearch="nix search nixpkgs"
-alias nwhy="nix why-depends"
-alias nfdiff="nix flake diff"
-alias nbuild="cd $HOME/dotfiles && nix build .#"
-alias mcp="nix run github:utensils/mcp-nixos"
+alias nsize='nix path-info -Sh /run/current-system'
+alias nsearch='nix search nixpkgs'
+alias nwhy='nix why-depends'
+alias nbuild='nix build'
+alias mcp='nix run github:utensils/mcp-nixos'

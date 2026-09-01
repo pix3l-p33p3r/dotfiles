@@ -317,6 +317,26 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788044418,
+        "narHash": "sha256-cmOd3iGoE140M2GidgQMQbyxHZ4dT7C0QZq2+CrXQyA=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "dc3f0cfde2050172abf6c3cdb684f735c15a57c5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1788039129,
@@ -373,11 +393,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788216787,
-        "narHash": "sha256-1wYmIRw8Bt67qoIW2BmIvzQt7/9vJ0exvRK/+LJ3DU8=",
+        "lastModified": 1788223032,
+        "narHash": "sha256-C694p/U+o1k0Fscigj9yE1LY9HcMfUbil6G/8l853HA=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "19d8ccc905d0f0712b27ad2967e05b41603e87b2",
+        "rev": "84cf95e4a095cd83b7467a9cc6190abd1d4e4c22",
         "type": "github"
       },
       "original": {
@@ -439,6 +459,7 @@
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nixos-catppuccin-plymouth": "nixos-catppuccin-plymouth",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nur": "nur",
         "sops-nix": "sops-nix",

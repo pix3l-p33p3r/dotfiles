@@ -70,12 +70,12 @@ This document centralizes the main keyboard shortcuts and CLI aliases across the
   - pg: ping 1.0.0.1 -c 5 | myip: curl icanhazip.com
 
 - Nix helpers
-  - clean: scripts/nix-cleaner.sh
-  - nrs: NixOS rebuild (system)
-  - hms: Home Manager switch (user)
-  - update: flake update + fastfetch
-  - upgrade: nrs + hms + clean + fastfetch
-  - check: nix flake check | nsize | nsearch | nwhy | nfdiff | nbuild
+  - clean / nix-clean: expire HM gens + GC + store optimise
+  - nrs: `nh os switch`
+  - hms: `nh home switch -c pixel-peeper@alucard`
+  - update: `nix flake update`
+  - upgrade: nrs + hms + nix-clean
+  - check: nix flake check | nsize | nsearch | nwhy | nbuild
   - mcp: run MCP for NixOS | timezsh: zsh startup timing
 
 - Taskwarrior / Timewarrior

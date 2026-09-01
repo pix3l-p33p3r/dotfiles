@@ -36,12 +36,27 @@ in
     dialog
     netcat
     rdpPassHelper
+    (writeShellApplication {
+      name = "winapps-create-vm";
+      runtimeInputs = [ pkgs.qemu pkgs.libvirt pkgs.virt-manager pkgs.coreutils pkgs.gnugrep pkgs.gnused ];
+      text = builtins.readFile ./create-vm.sh;
+    })
+    (writeShellApplication {
+      name = "winapps-status";
+      runtimeInputs = [ pkgs.libvirt pkgs.coreutils ];
+      text = builtins.readFile ./status.sh;
+    })
+    (writeShellApplication {
+      name = "winapps-esd-to-iso";
+      runtimeInputs = [ pkgs.coreutils ];
+      text = builtins.readFile ./esd-to-iso.sh;
+    })
   ];
 
   home.sessionVariables.LIBVIRT_DEFAULT_URI = "qemu:///system";
 
   # winapps.conf must be a writable real file (RDP_PASS is set by
-  # winapps-create-vm.sh), so it is NOT managed via home.file (which would
+  # winapps-create-vm), so it is NOT managed via home.file (which would
   # symlink it read-only into the store). The activation below seeds it from the
   # template on first deploy and leaves user edits untouched afterwards.
   home.activation.winappsWritableConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

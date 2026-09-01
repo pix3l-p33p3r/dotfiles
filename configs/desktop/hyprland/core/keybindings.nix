@@ -1,7 +1,7 @@
 { variables, ... }:
 let
   inherit (variables) 
-	cliphist rofi rofi-menu rofi-cliphist rofi-firefox rofi-waydroid rofi-winapps hyprpicker volume_up volume_down 
+	cliphist rofi rofi-menu rofi-cliphist rofi-firefox rofi-winapps hyprpicker volume_up volume_down 
 	volume_mute_toggle player_play_toggle player_next player_prev 
 	screen_brightness_up screen_brightness_down wl-paste wl-clip-persist wl-copy
 	hyprlock hyprpaper hyprshot record_start record_stop show_keybinds
@@ -53,7 +53,6 @@ in
 	"$mod, f, exec, $file_manager"
 	"$mod, b, exec, $browser"
 	"$mod SHIFT, b, exec, ${rofi-firefox}"
-	"$mod SHIFT, a, exec, ${rofi-waydroid}"
 	"$mod SHIFT, w, exec, ${rofi-winapps}"
 	"$mod, x, exec, $browser --new-tab https://x.com"
 	"$mod, g, exec, $browser --new-tab https://mail.google.com"

@@ -44,17 +44,28 @@
     VDPAU_LOG            = "0";
   };
 
-  environment.systemPackages = with pkgs; [
-    libva-utils           # vainfo
-    vdpauinfo
-    vulkan-tools          # vulkaninfo, vkcube
-    vulkan-loader
-    vulkan-headers
-    vulkan-validation-layers
-    intel-gpu-tools       # intel_gpu_top
-    clinfo
-    mesa-demos            # glxinfo, glxgears
-  ];
+  # Drivers + session env are the acceleration path. One-shot
+  # diagnostics (vainfo, vulkaninfo, clinfo) stay in `hw-accel`.
+  # nvtop is daily monitoring — keep it on the system path.
+  environment.systemPackages = [ pkgs.nvtopPackages.intel ];
+
+  # boot.nix sets kernel.perf_event_paranoid=3. Intel GPU busy/OA
+  # counters need CAP_PERFMON; wrap the two monitors instead of
+  # opening perf_event_open for every process.
+  security.wrappers.nvtop = {
+    owner = "root";
+    group = "video";
+    permissions = "0750";
+    source = "${pkgs.nvtopPackages.intel}/bin/nvtop";
+    capabilities = "cap_perfmon+ep";
+  };
+  security.wrappers.intel_gpu_top = {
+    owner = "root";
+    group = "video";
+    permissions = "0750";
+    source = "${pkgs.intel-gpu-tools}/bin/intel_gpu_top";
+    capabilities = "cap_perfmon+ep";
+  };
 
   users.users.pixel-peeper.extraGroups = [ "video" "render" ];
 

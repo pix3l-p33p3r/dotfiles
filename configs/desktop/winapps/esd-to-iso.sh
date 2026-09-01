@@ -63,7 +63,6 @@ wimexport "$esd" "$edition_index" "${tmpdir}/sources/install.esd" \
   --compress=LZX --chunk-size=32K --threads=4
 
 efisys="${tmpdir}/efi/microsoft/boot/efisys.bin"
-efisys_np="${tmpdir}/efi/microsoft/boot/efisys_noprompt.bin"
 [[ -f "$efisys" ]] || die "missing UEFI boot image in ESD export"
 
 log "Creating ISO → $out"

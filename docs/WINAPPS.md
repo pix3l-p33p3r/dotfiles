@@ -13,7 +13,7 @@ Run **Perplexity Comet** (and other Windows apps) as native-feeling windows via 
 After `nixos-rebuild switch` and `home-manager switch`:
 
 ```bash
-winapps-vm    # alias for scripts/winapps-create-vm.sh
+winapps-vm    # alias for store binary winapps-create-vm
 winapps-status
 ```
 

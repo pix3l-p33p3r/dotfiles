@@ -18,6 +18,7 @@
       ./programs.nix
       
       # Hardware-specific
+      ./thinkpad.nix
       ./hardware-acceleration.nix
       ./audio.nix
       ./bluetooth.nix
@@ -34,7 +35,6 @@
       ./docker.nix
       ./virt.nix
       ./winapps.nix
-      ./waydroid.nix
       
       # Networking
       ./firewall.nix

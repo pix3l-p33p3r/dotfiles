@@ -16,7 +16,8 @@ Modular NixOS system configuration for alucard, organized for maintainability.
 alucard/
 ├── default.nix              # Entry point, imports all modules
 ├── hardware-configuration.nix  # Auto-generated hardware config
-├── boot.nix                 # Secure Boot (Lanzaboote), Plymouth, TPM2, firmware
+      ├── thinkpad.nix             # T14s Gen 2i (20WNS1R800) + nixos-hardware
+      ├── boot.nix                 # Secure Boot (Lanzaboote), Plymouth, TPM2, firmware
 ├── system.nix               # Core settings, hostname, NetworkManager, sysctls
 ├── locale.nix               # Timezone, internationalization
 ├── users.nix                # User accounts, shell, groups
@@ -42,7 +43,7 @@ alucard/
 ## Key Components
 
 **Boot:** Secure Boot (Lanzaboote/UKI), Plymouth (Catppuccin), LUKS + TPM2 auto-unlock, Intel microcode, fwupd  
-**Hardware:** Intel VA-API, Vulkan, OpenCL, Mesa, intel_pstate powersave governor  
+**Hardware:** ThinkPad T14s Gen 2i (nixos-hardware `lenovo-thinkpad-t14s`), trackpoint, Thunderbolt (`boltd`), Intel VA-API/Vulkan/OpenCL, intel_pstate + TLP  
 **Services:** NetworkManager, OpenSSH, UPower, Pipewire, Docker, QEMU/KVM/libvirt (socket-activated)  
 **Display:** SDDM, Hyprland (Wayland), XWayland, Blueman  
 **Security:** SOPS/Age secrets, PAM, AppArmor, nftables firewall, ClamAV, OpenSSH hardening
@@ -75,7 +76,8 @@ fwupdmgr get-devices    # Device status
 sudo sbctl status       # Check status
 sudo sbctl verify       # Verify boot entries
 sudo bootctl status     # Boot loader status
-sudo ~/dotfiles/scripts/cleanup-legacy-boot.sh  # Clean legacy entries
+# legacy systemd-boot leftovers (only if /boot/EFI/nixos still exists)
+sudo rm -rf /boot/EFI/nixos
 ```
 
 **Common issues:**

@@ -19,6 +19,7 @@ in
     ../../configs/development/git.nix
     ./catppuccin.nix
     ./sops.nix
+    ./cli.nix
   ];
 
   programs.zsh.enable = true;

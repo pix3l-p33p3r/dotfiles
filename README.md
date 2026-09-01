@@ -46,13 +46,13 @@ sudo nixos-generate-config --show-hardware-config > machines/your-hostname/hardw
 
 5. **Build system:**
 ```sh
-sudo nixos-rebuild switch --flake .#your-hostname
-nix run home-manager/master -- switch --flake .#your-username@your-hostname
+nh os switch
+nh home switch -c 'your-username@your-hostname'
 ```
 
 6. **Clean old generations (optional):**
 ```sh
-./scripts/nix-cleaner.sh
+nix-clean
 ```
 
 > **Note:** Uses **standalone Home Manager**. See [docs/HOME-MANAGER.md](docs/HOME-MANAGER.md).

@@ -28,14 +28,17 @@ alias myip="curl icanhazip.com"
 alias vi=nvim
 alias e="$EDITOR"
 
+# ── Lazy TUIs (`lD`/`lS` — `ld` is the linker, `ls` is eza) ───────────────
+alias lg=lazygit
+alias lD=lazydocker
+alias lh=lazyhetzner
+alias lj=lazyjournal
+alias lS=lazysql
+
 # ── Debug ─────────────────────────────────────────────────────────────────
 alias timezsh="time ZSH_DEBUGRC=1 zsh -i -c exit"
-alias nrs='sudo nixos-rebuild switch --flake .#alucard'
-
-# ── Security scanning shortcuts ───────────────────────────────────────────
-# Calls scripts/security-scan.sh — runs AIDE integrity check + Lynis audit
-# with a progress spinner and formatted summary.
-alias secscan="$HOME/dotfiles/scripts/security-scan.sh"
+# ── Security scanning (store binary from homes/pixel-peeper/cli.nix) ─────
+unalias secscan aidechk lynischk vulnchk 2>/dev/null
 alias aidechk='secscan aide'
 alias lynischk='secscan lynis'
 alias vulnchk='secscan vulnix'

@@ -2,7 +2,7 @@
 
 ThinkPad with Intel Gen12 Tiger Lake Iris Xe (TGL GT2), single iGPU, Hyprland/Wayland.
 
-**NixOS config:** `machines/alucard/hardware-acceleration.nix` (sole GPU module — `graphics.nix` removed).
+**NixOS config:** `machines/alucard/hardware-acceleration.nix` (sole GPU module — `graphics.nix` removed). Chassis/profile: `machines/alucard/thinkpad.nix` (`nixos-hardware` T14s, no `common-gpu-intel`).
 
 ## What's enabled
 
@@ -16,13 +16,11 @@ ThinkPad with Intel Gen12 Tiger Lake Iris Xe (TGL GT2), single iGPU, Hyprland/Wa
 ## Verification
 
 ```bash
-vainfo              # "iHD driver" + codec list
-vulkaninfo --summary
-clinfo
-intel_gpu_top       # live engine stats (Video, Render/3D, Blitter…)
+hw-accel   # VA-API / Vulkan / OpenCL one-shot
+nvtop      # live iGPU (Iris Xe) — system package + CAP_PERFMON wrapper
 ```
 
-A modest **Video %** in `intel_gpu_top` during 1080p playback is expected and correct.
+A modest **Video %** in `intel_gpu_top` during 1080p playback is expected and correct. Both `nvtop` and `intel_gpu_top` are `/run/wrappers` binaries (`cap_perfmon`) so they work with `kernel.perf_event_paranoid=3`.
 
 ## Application notes
 

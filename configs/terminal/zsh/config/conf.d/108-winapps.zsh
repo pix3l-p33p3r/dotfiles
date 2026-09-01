@@ -1,7 +1,8 @@
-# ── WinApps (Windows VM / Comet browser) ─────────────────────────────────────
+# ── WinApps ───────────────────────────────────────────────────────────────
+# VM helpers are store binaries from configs/desktop/winapps.
 
 alias winapps-docs='$PAGER "$HOME/dotfiles/docs/WINAPPS.md"'
-alias winapps-vm='$HOME/dotfiles/scripts/winapps-create-vm.sh'
+alias winapps-vm='winapps-create-vm'
 comet() {
   local app
   app=$(find "$HOME/.local/share/applications" -maxdepth 1 -iname '*comet*.desktop' -print -quit)

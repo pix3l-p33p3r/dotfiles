@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }:
 
+let
+  barTools = import ./bar-tools.nix { inherit pkgs; };
+in
 {
   services.wayle = {
     enable = true;
@@ -81,40 +84,42 @@
         custom = [
           {
             id = "firewall";
-            command = "bash /home/pixel-peeper/dotfiles/scripts/firewall-status.sh";
+            command = "${barTools.firewall-status}/bin/firewall-status";
             interval-ms = 5000;
             format = "{{ status }}";
             icon-name = "md-shield-symbolic";
             icon-map = { on = "md-shield-symbolic"; off = "md-shield-symbolic"; };
-            left-click = "bash /home/pixel-peeper/dotfiles/scripts/firewall-toggle.sh";
-            on-action = "bash /home/pixel-peeper/dotfiles/scripts/firewall-status.sh";
+            left-click = "${barTools.firewall-toggle}/bin/firewall-toggle";
+            on-action = "${barTools.firewall-status}/bin/firewall-status";
           }
           {
             id = "dns";
-            command = "bash /home/pixel-peeper/dotfiles/scripts/dns-status.sh";
+            command = "${barTools.dns-status}/bin/dns-status";
             interval-ms = 5000;
             format = "{{ status }}";
             icon-name = "md-dns-symbolic";
             icon-map = { filter = "md-dns-symbolic"; plain = "md-dns-symbolic"; };
-            left-click = "bash /home/pixel-peeper/dotfiles/scripts/dns-toggle.sh";
-            on-action = "bash /home/pixel-peeper/dotfiles/scripts/dns-status.sh";
+            left-click = "${barTools.dns-toggle}/bin/dns-toggle";
+            on-action = "${barTools.dns-status}/bin/dns-status";
             class-format = "{{ alt }}";
           }
           {
             id = "hotspot";
-            command = "bash /home/pixel-peeper/dotfiles/scripts/hotspot-status.sh";
+            command = "${barTools.hotspot-status}/bin/hotspot-status";
             interval-ms = 3000;
             format = "{{ status }}";
             icon-name = "md-wifi_tethering-symbolic";
             icon-map = { on = "md-wifi_tethering-symbolic"; off = "md-wifi_tethering_off-symbolic"; };
-            left-click = "bash /home/pixel-peeper/dotfiles/scripts/hotspot-toggle.sh";
-            right-click = "bash /home/pixel-peeper/dotfiles/scripts/hotspot-manage.sh";
-            on-action = "bash /home/pixel-peeper/dotfiles/scripts/hotspot-status.sh";
+            left-click = "${barTools.hotspot-toggle}/bin/hotspot-toggle";
+            right-click = "${barTools.hotspot-manage}/bin/hotspot-manage";
+            on-action = "${barTools.hotspot-status}/bin/hotspot-status";
           }
         ];
       };
     };
   };
+
+  home.packages = barTools.packages;
 
   home.activation.wayleIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if command -v wayle &>/dev/null; then
