@@ -201,7 +201,6 @@
     obsidian # Knowledge management
 
     # Entertainment
-    ani-cli # Anime streaming CLI
     komikku # Manga reader
 
     # Privacy & Security

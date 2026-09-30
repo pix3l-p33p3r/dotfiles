@@ -62,7 +62,9 @@ in
     # the campus network unable to even reach the SSH port.
     listenAddresses = [
       { addr = "127.0.0.1"; port = 22; }
-      { addr = "::1";       port = 22; }
+      # systemd.socket needs [ipv6]:port; bare ::1:22 is parsed as invalid
+      # and dropped from sshd.socket (journal: Failed to parse address).
+      { addr = "[::1]";     port = 22; }
     ];
     openFirewall = false;
     settings = {

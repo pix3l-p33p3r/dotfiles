@@ -44,7 +44,12 @@ let
 in
 {
   # ── NetworkManager (was 7.8 EXPOSED) ──
-  systemd.services.NetworkManager.serviceConfig = fsTight;
+  # ProtectKernelTunables makes /proc/sys read-only, so NM cannot set
+  # per-iface IPv6 sysctls (journal: "Read-only file system" on
+  # temp_valid_lft / disable_ipv6 / accept_ra). Keep the rest of fsTight.
+  systemd.services.NetworkManager.serviceConfig = fsTight // {
+    ProtectKernelTunables = lib.mkForce false;
+  };
 
   # ── NetworkManager-dispatcher (was 9.6 UNSAFE) ──
   # Runs arbitrary scripts (e.g., DNS-clear in dns.nix, strongswan plugin).

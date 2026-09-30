@@ -116,6 +116,16 @@ Configured Nix to maximize build performance and minimize disk usage.
 
 ---
 
+## Codex Desktop (ChatGPT GUI) on NixOS
+
+**Decision:** Install via `github:ilysenko/codex-desktop-linux` Home Manager module (`programs.codexDesktopLinux`), not AppImage or mutable `/opt` installs.
+
+**Why:** OpenAI’s ChatGPT/Codex desktop is packaged as a Linux `.deb`; the flake wraps that payload for the Nix store (ELF audit + library path), exposes `codex-desktop`, and ships a cachix. Matches the Antigravity/Zen pattern: flake input + HM enable + editor config under `configs/editors/`.
+
+**Update:** `nix flake update codex-desktop-linux` then `home-manager switch --flake .#pixel-peeper@alucard`. Nix store builds do not use the in-app updater.
+
+---
+
 ## Hardware profile: T14s Intel Gen 2 (upstream + local)
 
 **Decision:** Treat alucard as ThinkPad T14s Gen 2i (`20WNS1R800`). Locally import generic `lenovo-thinkpad-t14s` + `common/cpu/intel/tiger-lake` + `common-pc-ssd`, and keep chassis quirks in `machines/alucard/thinkpad.nix`. Upstream the same layout as `lenovo-thinkpad-t14s-intel-gen2`.
@@ -131,6 +141,19 @@ Configured Nix to maximize build performance and minimize disk usage.
 **Not added:** `auto-cpufreq` (fights TLP), `throttled` (older ThinkPads / missing DPTF — Tiger Lake + TLP/thinkfan already cover this), `common-gpu-intel`.
 
 **nvtop:** System package (`nvtopPackages.intel`) plus `security.wrappers` with `cap_perfmon` for `nvtop` and `intel_gpu_top`. Do not drop `kernel.perf_event_paranoid=3` just to make GPU monitors work.
+
+---
+
+## Local overlays vs nixpkgs
+
+**Decision:** Drop version-bump overlays once the pinned `nixos-unstable` already has a newer official package. Keep fetch-and-wrap AppImages when nixpkgs is older, missing, or would compile from source.
+
+**Why:** `overlays/ani-cli.nix` (4.12), `overlays/google-chrome.nix` (148.0.7778.178), and `overlays/stremio-linux-shell.nix` (cargo vendor glob) were ahead of an older pin. The current pin already has google-chrome 149.0.7827.114 and the stremio postPatch from nixpkgs#503035 — those overlays were downgrading or no-ops. ani-cli 4.14 on the pin is dead; `configs/media/pkgs.nix` callPackages the official nixos-unstable `package.nix` (5.1) until the pin moves.
+
+**Still local (not nixpkgs):**
+- Cursor: official AppImage wrap (`configs/editors/cursor.nix`). Pin's `code-cursor` is 3.7.19; nixpkgs `buildVscode` is uncached unfree and not a Chrome-style wrap.
+- Grok Bot: official AppImage wrap. Not in nixpkgs master yet.
+- LibreWolf: official AppImage wrap. `pkgs.librewolf` is a Firefox source rebuild.
 
 ---
 

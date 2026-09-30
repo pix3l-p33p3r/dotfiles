@@ -36,8 +36,8 @@
         "XDG_CACHE_HOME=/var/lib/vulnix"
         "HOME=/var/lib/vulnix"
       ];
-      # vulnix exits 1 when CVEs are found, 2 when whitelisted; both are
-      # successful runs from systemd's perspective.
+      # Nagios-style exits: 0=clean, 1=all whitelisted (--show-whitelisted only),
+      # 2=active CVEs, 3=error. 0–2 are successful scan runs for systemd.
       SuccessExitStatus = "0 1 2";
     };
 
@@ -49,7 +49,9 @@
       echo "vulnix-scan: scanning current system closure (this may take a few min)..."
       # --system: scan /run/current-system/sw closure
       # --json:   structured output for the secscan parser
-      ${pkgs.vulnix}/bin/vulnix --system --json > "$JSON.tmp" 2>"$LOG"
+      # Capture exit code: set -e would skip the summary on exit 1/2.
+      ec=0
+      ${pkgs.vulnix}/bin/vulnix --system --json > "$JSON.tmp" 2>"$LOG" || ec=$?
       mv "$JSON.tmp" "$JSON"
 
       # Quick human summary into journal.  Python heredoc lives inside a
@@ -79,6 +81,7 @@ try:
 except Exception as e:
     print(f"vulnix: could not parse JSON output: {e}")
 PY
+      exit "$ec"
     '';
   };
 

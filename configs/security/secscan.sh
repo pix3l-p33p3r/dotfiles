@@ -157,33 +157,78 @@ run_lynis() {
   fi
 }
 
+vulnix_parse_json() {
+  sudo python3 - <<'PY'
+import json
+
+path = "/var/log/vulnix/vulnix.json"
+try:
+    with open(path) as f:
+        data = json.load(f)
+except OSError as e:
+    print(f"ERR:{e}")
+    raise SystemExit(1)
+except json.JSONDecodeError as e:
+    print(f"ERR:invalid JSON in {path}: {e}")
+    raise SystemExit(1)
+
+items = data if isinstance(data, list) else []
+print(f"COUNT:{len(items)}")
+for entry in items[:10]:
+    name = entry.get("name") or entry.get("pname") or "?"
+    cves = entry.get("affected_by") or entry.get("cves") or []
+    if cves:
+        head = ", ".join(cves[:3])
+        tail = "..." if len(cves) > 3 else ""
+        print(f"ITEM:{name}|{len(cves)}|{head}{tail}")
+PY
+}
+
 run_vulnix() {
   printf '\n%s── Vulnix CVE scan ──%s\n' "$bold" "$reset"
   run_unit vulnix-scan.service 1800
 
-  # Pull the verdict from journal (the systemd unit prints a "vulnix: N
-  # affected derivations" summary as part of its script).
-  local last
-  last="$(sudo journalctl -u vulnix-scan.service -n 200 --no-pager --since '10 min ago' \
-            | grep -E 'vulnix: [0-9]+ affected' | tail -1 || true)"
-  if [ -n "$last" ]; then
-    local n
-    n="$(echo "$last" | grep -oE '[0-9]+' | head -1)"
-    local color="$green"
-    [ "$n" -gt 0 ]  && color="$yellow"
-    [ "$n" -gt 10 ] && color="$red"
-    printf '\n%sSummary:%s\n' "$bold" "$reset"
-    printf '  Affected derivations : %s%d%s\n' "$color" "$n" "$reset"
-    if [ "$n" -gt 0 ]; then
-      printf '\n%sTop offenders:%s\n' "$bold" "$reset"
-      sudo journalctl -u vulnix-scan.service -n 200 --no-pager --since '10 min ago' \
-        | grep -E '^\s+• ' | head -10
+  local code
+  code="$(systemctl show -p ExecMainStatus --value vulnix-scan.service 2>/dev/null || echo unknown)"
+
+  local parsed n
+  if ! parsed="$(vulnix_parse_json 2>/dev/null)"; then
+    # Fallback: journal summary (older runs / JSON unreadable).
+    local last
+    last="$(sudo journalctl -u vulnix-scan.service -n 200 --no-pager --since '10 min ago' \
+              | grep -E 'vulnix: [0-9]+ affected' | tail -1 || true)"
+    if [ -z "$last" ]; then
+      warn "couldn't parse vulnix output — see: sudo journalctl -u vulnix-scan -n 50"
+      return 0
     fi
-    printf '\n%sJSON report :%s sudo less /var/log/vulnix/vulnix.json\n' "$dim" "$reset"
-    printf '%sFull log    :%s sudo less /var/log/vulnix/vulnix.log\n'   "$dim" "$reset"
+    n="$(echo "$last" | grep -oE '[0-9]+' | head -1)"
+    parsed="COUNT:${n}"
   else
-    warn "couldn't parse vulnix output — see: sudo journalctl -u vulnix-scan -n 50"
+    n="$(echo "$parsed" | awk -F: '/^COUNT:/ { print $2; exit }')"
   fi
+
+  local color="$green"
+  [ "${n:-0}" -gt 0 ]  && color="$yellow"
+  [ "${n:-0}" -gt 10 ] && color="$red"
+
+  printf '\n%sSummary:%s\n' "$bold" "$reset"
+  case "$code" in
+    0) printf '  Scan status         : %sclean (no CVEs)%s\n' "$green" "$reset" ;;
+    1) printf '  Scan status         : %swhitelisted CVEs only%s\n' "$yellow" "$reset" ;;
+    2) printf '  Scan status         : %sactive CVEs found%s\n' "$red" "$reset" ;;
+    *) printf '  Scan status         : exit=%s\n' "$code" ;;
+  esac
+  printf '  Affected derivations : %s%s%s\n' "$color" "${n:-?}" "$reset"
+
+  if [ "${n:-0}" -gt 0 ]; then
+    printf '\n%sTop offenders:%s\n' "$bold" "$reset"
+    echo "$parsed" | awk -F'|' '/^ITEM:/ {
+      sub(/^ITEM:/, "", $0)
+      printf "  • %s: %s CVE(s) — %s\n", $1, $2, $3
+    }'
+  fi
+  printf '\n%sJSON report :%s sudo less /var/log/vulnix/vulnix.json\n' "$dim" "$reset"
+  printf '%sFull log    :%s sudo less /var/log/vulnix/vulnix.log\n'   "$dim" "$reset"
 }
 
 # ── dispatch ───────────────────────────────────────────────────────────────

@@ -61,7 +61,7 @@ nix-clean
 
 `machines/` (NixOS system) → `homes/` (Home Manager user) → `configs/` (apps) → `assets/`, `scripts/`, `secrets/`, `docs/`
 
-**Flake inputs:** nixpkgs (unstable), home-manager, catppuccin/nix, stylix, lanzaboote, sops-nix, zen-browser, NUR, nixos-catppuccin-plymouth
+**Flake inputs:** nixpkgs (unstable), home-manager, catppuccin/nix, stylix, lanzaboote, sops-nix, zen-browser, NUR, nixos-catppuccin-plymouth, winapps, antigravity, codex-desktop-linux
 
 ## Keybindings
 

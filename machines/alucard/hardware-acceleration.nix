@@ -22,10 +22,10 @@
     ];
   };
 
+  # enable_guc=3 comes from nixos-hardware tiger-lake. enable_psr=0 is the
+  # T14s chassis quirk in thinkpad.nix. Only FBC is extra here.
   boot.kernelParams = [
-    "i915.enable_guc=3"  # GuC submission + HuC firmware (Gen9+)
-    "i915.enable_psr=0"  # PSR off — causes I2C arbitration failures / touchpad lockup (see boot.nix)
-    "i915.enable_fbc=1"  # Framebuffer Compression
+    "i915.enable_fbc=1"
   ];
 
   boot.kernelModules = [

@@ -205,19 +205,14 @@ DeviceScale=1
 		"video=eDP-1:1920x1080@60"
 		# i915.fastboot was removed in kernel 6.11+ (the no-mode-reset behavior
 		# is now unconditional). No replacement parameter needed.
-		# PSR (Panel Self Refresh) triggers I2C bus arbitration failures on this
-		# ThinkPad, causing the SYNA800E touchpad to lock up after 10-15 minutes.
-		"i915.enable_psr=0"
+		# Chassis i915/i2c quirks (PSR off, i2c_designware timeout) live in
+		# thinkpad.nix so they are not duplicated on the kernel cmdline.
 		# Disable legacy serial port probing to fix initrd delay
 		"8250.nr_uarts=0"
 
 		# Disable kernel and hardware watchdog — not needed on a laptop
 		"nowatchdog"
 		"nmi_watchdog=0"
-
-		# Give the i2c_designware controller more time to initialize so the
-		# Synaptics touchpad (SYNA800E) doesn't time out during cold boot
-		"i2c_designware.timeout_ms=1000"
 
 		# ── Kernel exploitation hardening ──
 		# slab_nomerge: prevents heap-spray attacks across slab caches

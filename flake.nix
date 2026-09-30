@@ -59,22 +59,23 @@
       url = "github:winapps-org/winapps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Google Antigravity suite (hub/agent app, IDE, CLI `agy`, Python SDK).
+    # Keep its own nixpkgs — packages are mostly prebuilt binaries + FHS wrap.
+    antigravity = {
+      url = "github:Hy4ri/antigravity-flake";
+    };
+    # Unofficial ChatGPT / Codex desktop for Linux — wraps OpenAI's official
+    # Linux .deb. Keep its own nixpkgs so the project cachix hits.
+    codex-desktop-linux = {
+      url = "github:ilysenko/codex-desktop-linux";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, ... }@inputs: let
+  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, antigravity, codex-desktop-linux, ... }@inputs: let
     system = "x86_64-linux";
-    # Single overlay list — shared by both NixOS and Home Manager so they
-    # can never diverge.
-    overlays = [
-      # Until nixpkgs includes nixpkgs#503035 (cargo vendor path layout).
-      (import ./overlays/stremio-linux-shell.nix)
-      # Bump ani-cli to v4.12 (allanime AES-256-CTR fix) until nixpkgs
-      # picks up the upstream release.  See pystardust/ani-cli#1650.
-      (import ./overlays/ani-cli.nix)
-      # Bump google-chrome to 148.0.7778.178 ahead of the nixos-unstable
-      # channel.  Upstream landed nixpkgs@68ed617 on master 2026-05-19.
-      (import ./overlays/google-chrome.nix)
-    ];
+    # Shared overlay list for NixOS and Home Manager. Keep empty unless a
+    # local override is still ahead of the pinned nixos-unstable channel.
+    overlays = [ ];
     nixpkgsConfig = {
       allowUnfree = true;
       # No more permittedInsecurePackages for librewolf: we now use an official
@@ -111,6 +112,7 @@
         ./homes/pixel-peeper
         catppuccin.homeModules.catppuccin
         inputs.zen-browser.homeModules.twilight
+        inputs.codex-desktop-linux.homeManagerModules.default
         sops-nix.homeManagerModules.sops
       ];
     };

@@ -42,6 +42,7 @@
     "https://lanzaboote.cachix.org"
     "https://zen-browser.cachix.org"
     "https://winapps.cachix.org"
+    "https://codex-desktop-linux.cachix.org"
   ];
   nix.settings.trusted-public-keys = [
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -50,6 +51,7 @@
     "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
     "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
     "winapps.cachix.org-1:HI82jWrXZsQRar/PChgIx1unmuEsiQMQq+zt05CD36g="
+    "codex-desktop-linux.cachix.org-1:nX/xy6AdK9hQE24A8ALGjkCKj2ObFmcnemiL5Cid4nk="
   ];
 
   # Required for the MCP-NixOS server and other dynamically linked binaries.
@@ -79,11 +81,10 @@
   # Prevent rebuilds and boots from stalling while waiting for a connection.
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  # iwlwifi loads very early; modprobe.d alone can leave sysfs at defaults.  Kernel
-  # cmdline applies at first bind (verified: bt_coex_active / swcrypto then match).
+  # iwlwifi loads very early; modprobe.d alone can leave sysfs at defaults.
+  # Kernel cmdline applies at first bind. iwlmvm (AX201) ignores swcrypto and
+  # bt_coex_active — those params only log errors now. power_save still works.
   boot.kernelParams = [
-    "iwlwifi.bt_coex_active=0"
-    "iwlwifi.swcrypto=1"
     "iwlwifi.power_save=0"
   ];
 
@@ -94,14 +95,14 @@
   # iwlmvm power_scheme=1 = CAM (Continuously Aware Mode): radio fully awake,
   # complements iwlwifi.power_save=0 for maximum throughput on AX201.
   boot.extraModprobeConfig = ''
-    options iwlwifi bt_coex_active=0 swcrypto=1 power_save=0
+    options iwlwifi power_save=0
     options iwlmvm power_scheme=1
     options i915 enable_guc=3 enable_fbc=1 enable_psr=0
     options thinkpad_acpi experimental=1 fan_control=1
   '';
 
   # BBR congestion control + fq qdisc: massively better throughput on lossy
-  # WiFi than the default cubic. CPU has AES-NI so swcrypto adds no overhead.
+  # WiFi than the default cubic. AES-NI covers in-kernel crypto.
   boot.kernelModules = [ "tcp_bbr" ];
 
   boot.kernel.sysctl = {

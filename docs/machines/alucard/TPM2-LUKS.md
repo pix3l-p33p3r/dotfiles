@@ -70,6 +70,14 @@ systemd-cryptenroll --tpm2-device=list
 lsmod | grep tpm
 ```
 
+## Userspace `systemd-tpm2-setup` (~2s)
+
+LUKS unseal happens in the initrd. After switch-root, `systemd-tpm2-setup.service` sits on the `sysinit.target` critical chain and initializes the Storage Root Key plus systemd NvPCRs.
+
+On this STMicro STM0125 the journal shows `Esys_NV_DefineSpace` error `0x14c` (`TPM_RC_NV_DEFINED`) three times, then `3 NvPCRs initialized`. The indexes already exist; systemd retries anyway. That is a systemd 259+ NvPCR quirk, not a broken LUKS seal. Do **not** disable `boot.initrd.systemd.tpm2.enable` or wipe the TPM token to “fix” it — that would drop automatic unlock.
+
+Do **not** set `TPM2_BROKEN_NVPCR` on this chip either: NvPCRs do initialize, they are just slow.
+
 ## Fallback
 
 If the TPM seal fails for any reason, `tries=3` in crypttabExtraOpts gives three passphrase attempts via the Plymouth password dialog (same two-step theme, same UI — just prompted).

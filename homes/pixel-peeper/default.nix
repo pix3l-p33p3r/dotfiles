@@ -1,12 +1,15 @@
 { config, inputs, wallpaper, pkgs, lib, ... }@all:
 let
   cursorPkg = pkgs.callPackage ../../configs/editors/cursor.nix {};
+  grokBotPkg = pkgs.callPackage ../../configs/editors/grok-bot.nix {};
 in
 {
   imports = [
     ../../configs/desktop/hyprland
     ../../configs/desktop/winapps
     ../../configs/editors/cursor-config.nix
+    ../../configs/editors/antigravity.nix
+    ../../configs/editors/codex-desktop.nix
     ../../configs/browsers/chrome.nix
     ../../configs/browsers/zen-browser.nix
     ../../configs/browsers/librewolf.nix
@@ -39,6 +42,7 @@ in
   # the full set is always active via ~/.config/nix/nix.conf.
   nix.settings.extra-substituters = [
     "https://winapps.cachix.org"
+    "https://codex-desktop-linux.cachix.org"
   ];
 
   nix.settings.extra-trusted-public-keys = [
@@ -48,6 +52,7 @@ in
     "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
     "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
     "winapps.cachix.org-1:HI82jWrXZsQRar/PChgIx1unmuEsiQMQq+zt05CD36g="
+    "codex-desktop-linux.cachix.org-1:nX/xy6AdK9hQE24A8ALGjkCKj2ObFmcnemiL5Cid4nk="
   ];
 
   programs.atuin.enable = true;
@@ -108,6 +113,7 @@ in
     pkgs.sl
     pkgs.jjui
     pkgs.wayle
+    grokBotPkg
   ];
   programs.cursor = {
     enable = true;

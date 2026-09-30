@@ -41,9 +41,8 @@
     # PermsOnly  = catches permission/ownership changes only (for /etc which
     # systemd reloads can touch)
     PermsOnly   = p+u+g
-    # Existence = path must exist; ignore content (Nix store paths are
-    # immutable — hashing them is redundant and slow)
-    Existence   = p+ftype
+    # Existence kept for optional path-must-exist checks. Do not point this
+    # at /nix/store — a walk of .links still stats millions of inodes.
 
     # ── Watched paths ──
     # System binaries (PATH on a NixOS system points here via env links)
@@ -69,8 +68,12 @@
     !/root/.cache
     !/root/.local/share
 
-    # Nix store: existence-only (paths are immutable, content-addressed)
-    /nix/store                       Existence
+    # /nix is content-addressed and rebuilt on every nrs. Walking it as
+    # Existence still stats millions of /nix/store/.links entries, spikes
+    # RSS past 6G, and fills swap on a 16G laptop. Watch the generation
+    # symlink instead; a store rewrite shows up as /run/current-system
+    # changing. Re-run aide-init after this rule change.
+    !/nix
 
     # Systemd unit files — directories often, files less so
     /etc/systemd                     FullCheck
@@ -129,6 +132,7 @@
       Nice              = 19;
       IOSchedulingClass = "idle";
       User              = "root";
+      MemoryMax         = "1G";
       # Don't fail systemd unit on file changes (exit code 1-7) — log and move on.
       SuccessExitStatus = "0 1 2 3 4 5 6 7";
     };
@@ -147,8 +151,11 @@
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar         = "04:00";
+      # Persistent catch-up after a night off used to fire during the first
+      # minutes of a session. Keep Persistent so a missed 04:00 still runs,
+      # but spread it so login is not competing with a hash walk.
       Persistent         = true;
-      RandomizedDelaySec = "30m";
+      RandomizedDelaySec = "1h";
     };
   };
 }

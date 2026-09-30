@@ -2,7 +2,7 @@
 
 ThinkPad with Intel Gen12 Tiger Lake Iris Xe (TGL GT2), single iGPU, Hyprland/Wayland.
 
-**NixOS config:** `machines/alucard/hardware-acceleration.nix` (sole GPU module — `graphics.nix` removed). Chassis/profile: `machines/alucard/thinkpad.nix` (`nixos-hardware` T14s, no `common-gpu-intel`).
+**NixOS config:** `machines/alucard/hardware-acceleration.nix` (sole GPU module — `graphics.nix` removed). Chassis/profile: `machines/alucard/thinkpad.nix` (`nixos-hardware` T14s, no `common-gpu-intel`). Kernel cmdline is split on purpose: `i915.enable_guc=3` from tiger-lake, `i915.enable_psr=0` from `thinkpad.nix`, `i915.enable_fbc=1` from this module — do not repeat them.
 
 ## What's enabled
 

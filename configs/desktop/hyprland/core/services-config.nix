@@ -39,6 +39,10 @@
   # Polkit agent (required for GUI auth prompts e.g., udisks mounts in Thunar)
   services.polkit-gnome.enable = true;
 
+  # KDE Connect daemon. Pair from `kdeconnect-app`. No tray indicator —
+  # hyprpanel does not pick up StatusNotifierItem from this.
+  services.kdeconnect.enable = true;
+
   # MPD (Music Player Daemon) as a user service for rmpc/kew
   services.mpd = {
     enable = true;

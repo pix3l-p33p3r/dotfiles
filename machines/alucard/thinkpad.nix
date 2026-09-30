@@ -2,6 +2,15 @@
 # Mirrors the proposed nixos-hardware profile
 # nixosModules.lenovo-thinkpad-t14s-intel-gen2 (branch add-thinkpad-t14s-intel-gen2).
 # tiger-lake sets hardware.intelgpu.vaapiDriver = "intel-media-driver" (iHD only).
+#
+# Firmware/POST: ~10s is normal for this chassis on Linux (see sibling T14
+# Gen 2i probes ~10.7s firmware). Fast Boot / unused devices already applied;
+# remaining time is Lenovo UEFI + Intel ME + TPM, not the OS.
+#
+# Sleep: mem_sleep_default=deep only works if EFI Config → Power → Sleep State
+# is "Linux" so ACPI advertises S3. If `cat /sys/power/mem_sleep` is just
+# "s2idle" (no [deep]), the firmware is in Windows/Linux (S0ix) mode and
+# failed s2idle resumes show up in `last` as crash.
 { inputs, lib, ... }:
 
 {

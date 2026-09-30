@@ -90,6 +90,8 @@ in
   windowrule = [
     # Cursor is Electron on Wayland — tune focused/unfocused opacity here.
     "opacity 0.92 override 0.86 override, match:class ^(cursor)$"
+    "opacity 0.92 override 0.86 override, match:class ^(Cursor)$"
+    "opacity 0.92 override 0.86 override, match:class ^(grok-bot)$"
     "float on, match:class kitty-float"
     "center on, match:class kitty-float"
     "size 900 600, match:class kitty-float"
