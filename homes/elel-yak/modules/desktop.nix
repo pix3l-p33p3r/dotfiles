@@ -30,7 +30,14 @@ let
   # is reachable when launched from the GNOME dash.
   chromeWrapper = pkgs.writeText "google-chrome" ''
     #!/usr/bin/env bash
-    exec "$HOME/.local/bin/nix-enter" google-chrome-stable --no-sandbox --disable-gpu "$@"
+    # Absolute profile path: a bare name resolves back to this wrapper via
+    # ~/.local/bin in PATH and recurses until unshare fails with ENOSPC.
+    bin="$HOME/.nix-profile/bin/google-chrome-stable"
+    flags=(--no-sandbox --disable-gpu)
+    if [[ -x "$bin" ]]; then
+      exec "$bin" "''${flags[@]}" "$@"
+    fi
+    exec "$HOME/.local/bin/nix-enter" "$bin" "''${flags[@]}" "$@"
   '';
 
   chromeDesktop = pkgs.writeText "google-chrome.desktop" ''
