@@ -1,9 +1,12 @@
 # ── ls / eza ──────────────────────────────────────────────────────────────
-local ls=eza
-alias eza="$ls --icons"
-alias {l,ls}="$ls"
-alias lsa="$ls -lah"
-alias ll="$ls -lh"
+# (no `local` here — this file is sourced at top level)
+_ls_cmd=eza
+alias eza="${_ls_cmd} --icons"
+alias l="${_ls_cmd}"
+alias ls="${_ls_cmd}"
+alias lsa="${_ls_cmd} -lah"
+alias ll="${_ls_cmd} -lh"
+unset _ls_cmd
 
 # ── Directory stack ────────────────────────────────────────────────────────
 alias d='dirs -v'
@@ -15,7 +18,7 @@ alias rm="rm -i"
 alias df='df -h'
 alias makej="make -j \`nproc\`"
 alias cat="bat --plain"
-alias cd="z"
+# cd→z applied in 900-startup.zsh after zoxide init
 alias grep="grep --color=auto"
 alias mkdir="mkdir -p"
 

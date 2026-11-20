@@ -1,16 +1,18 @@
 # Run fetch on each top-level shell session
-if [ "$SHLVL" = "1" ]
+if [ "$SHLVL" = "1" ] && command -v fastfetch >/dev/null
 then
-  # macchina 
-  fastfetch 
+  fastfetch
 fi
 
 # direnv
-eval "$(direnv hook zsh)"
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
 # atuin
-eval "$(atuin init zsh)"
+command -v atuin >/dev/null && eval "$(atuin init zsh)"
 
 # zoxide - must be last
-export _ZO_DOCTOR=0
-eval "$(zoxide init zsh)"
+if command -v zoxide >/dev/null; then
+  export _ZO_DOCTOR=0
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi

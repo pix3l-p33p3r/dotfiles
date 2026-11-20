@@ -3,7 +3,7 @@
 # at deleted ~/dotfiles/scripts/*.sh until exec zsh.
 # Flake path: programs.nh.flake, with a fallback if session vars were skipped.
 
-: "${NH_FLAKE:=/home/pixel-peeper/dotfiles}"
+: "${NH_FLAKE:=${HOME}/dotfiles-terminal}"
 export NH_FLAKE
 
 unalias nrs hms update check clean upgrade 2>/dev/null

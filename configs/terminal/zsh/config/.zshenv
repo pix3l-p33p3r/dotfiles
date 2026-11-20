@@ -1,12 +1,16 @@
-# Environment variables
-. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+# Cluster-adapted from pix3l-p33p3r/dotfiles (Home Manager optional on 1337)
+if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
+  . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+elif [[ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ]]; then
+  . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
 
 # Only source this once
 if [[ -z "$__HM_ZSH_SESS_VARS_SOURCED" ]]; then
   export __HM_ZSH_SESS_VARS_SOURCED=1
 fi
 
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export ZDOTDIR="${ZDOTDIR:-$XDG_CONFIG_HOME/zsh}"
 export WORDCHARS=${WORDCHARS//\//}
 
 # Include volta in path
@@ -22,16 +26,18 @@ export CARGO_HOME="$XDG_DATA_HOME/cargo"
 
 # Deno path
 export DENO_DIR="$XDG_CACHE_HOME/deno"
+export npm_config_cache="${GOINFRE:-/goinfre/$USER}/npm"
 
-export PATH="$HOME/.local/bin:$HOME/.ghcup/bin:$GOBIN:$CARGO_HOME/bin:$VOLTA_HOME/bin:$PATH"
+# Custom nix profile has bin/ but no etc/profile.d/nix.sh — add explicitly
+export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$HOME/.ghcup/bin:$GOBIN:$CARGO_HOME/bin:$VOLTA_HOME/bin:$PATH"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
   export VISUAL='nvim --clean'
   export EDITOR='nvim --clean'
 else
-  export VISUAL='nvim'
-  export EDITOR='nvim'
+  export EDITOR="${EDITOR:-nvim}"
+  export VISUAL="${VISUAL:-nvim}"
 fi
 
 # Repl's History files
