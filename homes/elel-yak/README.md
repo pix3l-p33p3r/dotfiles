@@ -15,6 +15,8 @@ home-manager switch --flake .#elel-yak
 ## What it manages
 
 - CLI / TUI stack (lazygit, lazydocker, yazi, btop, …)
+- `comma` (`, pkg`) via nix-index-database
+- PaperWM 44.18.1 for GNOME 42 (`~/.local/share/gnome-shell/extensions`)
 - Zsh config from `configs/terminal/zsh/config` + cluster `.zshenv`
 - Google Chrome desktop entry + GNOME dock pin
 - Antigravity CLI / Hub / IDE (Hy4ri flake, `--no-sandbox`)

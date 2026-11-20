@@ -8,10 +8,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     antigravity.url = "github:Hy4ri/antigravity-flake";
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { self, nixpkgs, home-manager, antigravity, ... }:
+    { self, nixpkgs, home-manager, antigravity, nix-index-database, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -23,7 +25,11 @@
       homeConfigurations."elel-yak" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit antigravity; };
-        modules = [ ./home.nix ];
+        modules = [
+          ./home.nix
+          nix-index-database.homeModules.nix-index
+          { programs.nix-index-database.comma.enable = true; }
+        ];
       };
 
       # Convenience: nix run .#hm -- switch --flake .#elel-yak
