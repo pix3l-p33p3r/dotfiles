@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Codex Desktop
+Comment=OpenAI Codex / ChatGPT Desktop
+TryExec=/home/elel-yak/.local/bin/codex-desktop
+Exec=/home/elel-yak/.local/bin/codex-desktop %U
+Icon=/home/elel-yak/.local/share/icons/hicolor/256x256/apps/codex-desktop.png
+Terminal=false
+StartupNotify=true
+StartupWMClass=Codex
+Categories=Development;Utility;
+Keywords=codex;openai;chatgpt;ai;

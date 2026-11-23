@@ -21,8 +21,13 @@ export GOPATH="$XDG_DATA_HOME/go"
 export GOCACHE="$XDG_CACHE_HOME/go"
 export GOBIN="$GOPATH/bin"
 
-# Cargo path
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
+# Cargo / Rustup path
+if [[ -d "${GOINFRE:-/goinfre/$USER}/cargo/bin" ]]; then
+  export CARGO_HOME="${GOINFRE:-/goinfre/$USER}/cargo"
+  export RUSTUP_HOME="${GOINFRE:-/goinfre/$USER}/rustup"
+else
+  export CARGO_HOME="$XDG_DATA_HOME/cargo"
+fi
 
 # Deno path
 export DENO_DIR="$XDG_CACHE_HOME/deno"

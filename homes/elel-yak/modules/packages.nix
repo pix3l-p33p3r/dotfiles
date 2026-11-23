@@ -1,15 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, pkgs2405, ... }:
 {
   home.packages = with pkgs; [
-    # Shell / navigation
+    # ── Shell / navigation ─────────────────────────────────────────────
     atuin
     carapace
     nushell
     zoxide
     direnv
-    starship
+    starship # optional; agkozak stays default via zap
 
-    # Files
+    # ── Files ──────────────────────────────────────────────────────────
     bat
     eza
     fd
@@ -17,6 +17,7 @@
     tree
     trashy
     yazi
+    sl
     dust
     duf
     procs
@@ -24,14 +25,14 @@
     yq-go
     fq
 
-    # Sysinfo / TUI
+    # ── Sysinfo / TUI ──────────────────────────────────────────────────
     btop
     bottom
     macchina
     fastfetch
     nix-tree
 
-    # Text
+    # ── Text ───────────────────────────────────────────────────────────
     glow
     ripgrep
     tldr
@@ -39,16 +40,16 @@
     helix
     delta
 
-    # Net
+    # ── Net ────────────────────────────────────────────────────────────
     gping
     curl
     wget
 
-    # Terminal
+    # ── Terminal ───────────────────────────────────────────────────────
     tmux
     ueberzugpp
 
-    # VCS + lazy TUIs
+    # ── VCS + lazy TUIs ────────────────────────────────────────────────
     git
     git-lfs
     git-crypt
@@ -64,14 +65,14 @@
     lazysql
     jujutsu
 
-    # Lint / fmt
+    # ── Lint / fmt ─────────────────────────────────────────────────────
     shellcheck
     shfmt
     hadolint
     yamllint
     prettier
 
-    # Build / langs
+    # ── Build / langs ──────────────────────────────────────────────────
     cmake
     ninja
     meson
@@ -79,14 +80,16 @@
     nodejs
     yarn
     pnpm
-    python3
+    (python3.withPackages (ps: [
+      ps.openai
+    ]))
     (pipx.overrideAttrs (_: {
       doCheck = false;
       doInstallCheck = false;
     }))
     go
 
-    # nvim LSP / fmt essentials
+    # ── nvim LSP / fmt essentials ──────────────────────────────────────
     nixd
     pyright
     rust-analyzer
@@ -100,10 +103,28 @@
     stylua
     black
 
-    # Browser (dock)
+    # ── AI CLIs ────────────────────────────────────────────────────────
+    grok-build # xAI Grok terminal agent (`grok`)
+
+    # ── Fonts (Electron FHS blanks text without these — /usr is shadowed) ─
+    cantarell-fonts
+    dejavu_fonts
+    noto-fonts
+    gsettings-desktop-schemas
+
+    # ── Browser (dock) ─────────────────────────────────────────────────
     google-chrome
 
-    # Nix tooling (needed for HM activation / nix-env)
+    # ── OpenCL (RT dual-GPU: AMD rusticl + Intel NEO) ──────────────────
+    clinfo
+    ocl-icd
+    opencl-headers
+    intel-compute-runtime # Intel UHD 770 (ADL-S) OpenCL NEO
+
+    # ── Nix tooling (needed for HM activation / nix-env) ────────────
     nix
+  ] ++ [
+    # Mesa 24.05 rusticl — exposes RX 6500 on kernel 5.15 (unstable mesa needs 6.11+)
+    pkgs2405.mesa.opencl
   ];
 }

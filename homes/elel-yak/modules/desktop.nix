@@ -1,21 +1,5 @@
 { config, pkgs, lib, ... }:
 let
-  # GNOME 42 build. Shell reads ~/.local/share, not goinfre XDG_DATA_HOME.
-  paperwm = pkgs.stdenv.mkDerivation {
-    pname = "paperwm";
-    version = "44.18.1";
-    src = pkgs.fetchzip {
-      url = "https://github.com/paperwm/PaperWM/archive/refs/tags/v44.18.1.tar.gz";
-      sha256 = "13d44db5kmsl7zr9q5kdcmnq0i8w868af4c3v8ii6l8cinm8ca1w";
-    };
-    nativeBuildInputs = [ pkgs.glib ];
-    installPhase = ''
-      mkdir -p "$out"
-      cp -a . "$out/"
-      glib-compile-schemas "$out/schemas"
-    '';
-  };
-
   home = config.home.homeDirectory;
 
   # IMPORTANT (do not regress): the Chrome wrapper + .desktop files MUST end up
@@ -94,21 +78,10 @@ in
     run install -Dm644 ${chromeDesktopHidden} "$HOME/.local/share/applications/com.google.Chrome.desktop"
   '';
 
-  # PaperWM lives in the home dir GNOME Shell scans.
-  home.file.".local/share/gnome-shell/extensions/paperwm@paperwm.github.com" = {
-    source = paperwm;
-    recursive = true;
-  };
-
-  home.activation.enablePaperWM = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-    if command -v gnome-extensions >/dev/null 2>&1; then
-      env -u XDG_DATA_HOME gnome-extensions enable paperwm@paperwm.github.com || true
-    fi
-  '';
-
-  # Keep the current dock order and pin Nix Chrome right after grok-bot.
+  # Keep the current dock order and pin Nix Chrome right after grok-bot,
+  # plus Codex Desktop after Antigravity IDE.
   # Known-good order: kitty, cursor, grok-bot, google-chrome, Nautilus,
-  # antigravity, antigravity-ide.
+  # antigravity, antigravity-ide, codex-desktop.
   home.activation.gnomeDockFavorites = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if command -v gsettings >/dev/null 2>&1; then
       python3 - <<'PY'
@@ -125,6 +98,13 @@ if anchor in apps:
     apps.insert(apps.index(anchor) + 1, chrome)
 else:
     apps.append(chrome)
+codex = "codex-desktop.desktop"
+if codex in apps:
+    apps.remove(codex)
+if "antigravity-ide.desktop" in apps:
+    apps.insert(apps.index("antigravity-ide.desktop") + 1, codex)
+else:
+    apps.append(codex)
 subprocess.check_call(
     ["gsettings", "set", "org.gnome.shell", "favorite-apps", str(apps)]
 )

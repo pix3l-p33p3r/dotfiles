@@ -43,3 +43,8 @@ mcp-config.example.json
 
 # cursor files
 .cursorrules
+
+# Live zsh runtime files (when ~/.config/zsh links to configs/terminal/zsh/config)
+.zsh_history
+.zcompdump
+.zcompdump*

@@ -1,12 +1,17 @@
 # ── ls / eza ──────────────────────────────────────────────────────────────
-# (no `local` here — this file is sourced at top level)
-_ls_cmd=eza
-alias eza="${_ls_cmd} --icons"
-alias l="${_ls_cmd}"
-alias ls="${_ls_cmd}"
-alias lsa="${_ls_cmd} -lah"
-alias ll="${_ls_cmd} -lh"
-unset _ls_cmd
+# Fall back to /bin/ls when the nix store is not mounted (outside nix-enter).
+if command -v eza >/dev/null 2>&1 && eza --version >/dev/null 2>&1; then
+  alias eza='command eza --icons'
+  alias l='command eza --icons'
+  alias ls='command eza --icons'
+  alias lsa='command eza --icons -lah'
+  alias ll='command eza --icons -lh'
+else
+  alias l='/bin/ls --color=auto'
+  alias ls='/bin/ls --color=auto'
+  alias lsa='/bin/ls -lah --color=auto'
+  alias ll='/bin/ls -lh --color=auto'
+fi
 
 # ── Directory stack ────────────────────────────────────────────────────────
 alias d='dirs -v'
