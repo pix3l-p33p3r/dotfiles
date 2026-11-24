@@ -1,9 +1,13 @@
 # Timezsh start
 if [ -n "${ZSH_DEBUGRC+1}" ]; then zmodload zsh/zprof; fi
 
-# Ensuring Zap installed
-[ ! -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] &&
-  zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+# Ensuring Zap installed (--keep: never overwrite this .zshrc; goinfre can wipe plugins)
+if [[ ! -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]]; then
+  _zap_dir="${XDG_DATA_HOME:-$HOME/.local/share}/zap"
+  git clone --depth 1 --branch release-v1 https://github.com/zap-zsh/zap.git "$_zap_dir" \
+    || zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep
+  unset _zap_dir
+fi
 
 source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 

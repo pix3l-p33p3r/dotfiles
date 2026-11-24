@@ -7,7 +7,7 @@
     # packages like old librewolf. To bump: run
     #   curl -sL https://channels.nixos.org/nixos-unstable/git-revision
     # then update the rev here and `nix flake lock --update-input nixpkgs`.
-    nixpkgs.url = "github:NixOS/nixpkgs/567a49d1913ce81ac6e9582e3553dd90a955875f";
+    nixpkgs.url = "github:NixOS/nixpkgs/2786a2a72088ecf32aea5b3ec52099e6a7cff78f";
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -69,9 +69,17 @@
     codex-desktop-linux = {
       url = "github:ilysenko/codex-desktop-linux";
     };
+    # Mesa 24.05 rusticl for 1337 cluster kernel 5.15 (unstable mesa needs 6.11+).
+    # Lazy input — only evaluated by homeConfigurations."elel-yak".
+    nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # Prebuilt nix-index database for `comma` (`, pkg`).
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, antigravity, codex-desktop-linux, ... }@inputs: let
+  outputs = { self, nixpkgs, nixpkgs-2405, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, antigravity, codex-desktop-linux, nix-index-database, ... }@inputs: let
     system = "x86_64-linux";
     # Shared overlay list for NixOS and Home Manager. Keep empty unless a
     # local override is still ahead of the pinned nixos-unstable channel.
@@ -85,6 +93,10 @@
       inherit system;
       config = nixpkgsConfig;
       overlays = overlays;
+    };
+    pkgs2405 = import nixpkgs-2405 {
+      inherit system;
+      config = nixpkgsConfig;
     };
 
 
@@ -116,6 +128,23 @@
         sops-nix.homeManagerModules.sops
       ];
     };
+
+    # ===== 1337 Cluster Deviant Home Manager (Ubuntu + nix-user-chroot) =====
+    homeConfigurations."elel-yak" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = {
+        inherit inputs self antigravity codex-desktop-linux pkgs2405;
+      };
+      modules = [
+        ./homes/elel-yak/home.nix
+        catppuccin.homeModules.catppuccin
+        nix-index-database.homeModules.nix-index
+        { programs.nix-index-database.comma.enable = true; }
+      ];
+    };
+
+    # Convenience: nix run .#hm -- switch --flake .#elel-yak
+    packages.${system}.hm = home-manager.packages.${system}.default;
 
     # On-demand hardware scan. Do not commit the JSON (gitignore).
     #   sudo nix run .#facter -- -o /tmp/facter.json

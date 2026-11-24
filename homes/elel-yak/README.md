@@ -1,31 +1,32 @@
 # elel-yak @ 1337 (goinfre)
 
-Standalone **Home Manager** for the school Ubuntu + `nix-user-chroot` setup.
+Standalone **Home Manager** deviant profile in the unified `pix3l-p33p3r/dotfiles` flake for 1337 Ubuntu + `nix-user-chroot`.
 
 ## Switch
 
 ```bash
-# inside nix namespace (interactive zsh already nix-enter's)
-cd ~/dotfiles-terminal/homes/elel-yak
-nix run .#hm -- switch --flake .#elel-yak
+# from repo root (inside nix namespace; interactive zsh already nix-enter's)
+cd ~/dotfiles-terminal
+nix run .#hm -- switch --flake .#elel-yak -b hm-bak
 # or after first install:
-home-manager switch --flake .#elel-yak
+home-manager switch --flake .#elel-yak -b hm-bak
 ```
 
-## What it manages
+## What it shares from the NixOS base (`configs/`)
 
-- CLI / TUI stack (lazygit, lazydocker, yazi, btop, …)
-- `comma` (`, pkg`) via nix-index-database
-- Zsh config from `configs/terminal/zsh/config` + cluster `.zshenv`
-- Google Chrome desktop entry + GNOME dock pin
-- Antigravity CLI / Hub / IDE (Hy4ri flake, `--no-sandbox`)
-- OpenAI Codex CLI, OpenAI Python SDK, and Codex Desktop (`codex-desktop-linux` flake)
+- `configs/terminal/tmux.nix`, `configs/terminal/yazi.nix`, `configs/terminal/zsh/config`, `configs/terminal/nvim/conf`
+- `configs/development/git.nix` (with `commit.gpgsign = false` override on cluster)
+- Catppuccin Mocha Lavender via `catppuccin.homeModules.catppuccin` (`bat`, `btop`, `eza`, `fzf`, `tmux`, `atuin`, `lazygit`)
+- `programs.atuin`
 
-## Not managed here
+## Cluster-specific deviations
 
-- Cursor / Grok Bot AppImages → `~/.local/bin/nix-setup` + goinfre
-- Nested i3 / tiling → separate step
+- XDG cache/data/state on `/goinfre/elel-yak`; Lean `ELAN_HOME` on hynix
+- Real host-readable files (not `/nix/store` symlinks) for `~/.zshenv`, `~/.config/kitty/kitty.conf`, desktop entries, and GTK/icon/font assets on `/goinfre/elel-yak/theme-assets`
+- `pkgs2405.mesa.opencl` for kernel 5.15 rusticl dual-GPU OpenCL
+- `comma` (`, pkg`) via `nix-index-database`
+- Antigravity + Codex Desktop wrappers (`--no-sandbox --disable-gpu`)
 
 ## Relation to `pixel-peeper@alucard`
 
-Full NixOS + Hyprland lives in `homes/pixel-peeper`. This flake is the **cluster subset** only.
+Full NixOS + Hyprland lives in `machines/alucard` + `homes/pixel-peeper`. Both profiles live in the same root `flake.nix`.

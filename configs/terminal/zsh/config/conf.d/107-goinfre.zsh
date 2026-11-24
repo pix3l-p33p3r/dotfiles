@@ -1,4 +1,7 @@
 # 1337 cluster: nix lives on goinfre via nix-user-chroot
+# No-op on NixOS hosts (e.g., alucard) where /goinfre does not exist.
+[[ -d "/goinfre/$USER" ]] || return 0
+
 unalias nrs hms update check clean upgrade 2>/dev/null
 unfunction nrs hms update check clean upgrade 2>/dev/null
 

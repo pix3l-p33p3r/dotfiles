@@ -21,20 +21,17 @@ export GOPATH="$XDG_DATA_HOME/go"
 export GOCACHE="$XDG_CACHE_HOME/go"
 export GOBIN="$GOPATH/bin"
 
-# Cargo / Rustup path
-if [[ -d "${GOINFRE:-/goinfre/$USER}/cargo/bin" ]]; then
-  export CARGO_HOME="${GOINFRE:-/goinfre/$USER}/cargo"
-  export RUSTUP_HOME="${GOINFRE:-/goinfre/$USER}/rustup"
-else
-  export CARGO_HOME="$XDG_DATA_HOME/cargo"
-fi
+# Cargo home for crates.io cache only — rustc/cargo come from devenv/nix.
+# No RUSTUP_HOME: use `devenv shell` in Rust projects (see templates/devenv-rust).
+export CARGO_HOME="${GOINFRE:-/goinfre/$USER}/cargo"
+mkdir -p "$CARGO_HOME" 2>/dev/null
 
 # Deno path
 export DENO_DIR="$XDG_CACHE_HOME/deno"
 export npm_config_cache="${GOINFRE:-/goinfre/$USER}/npm"
 
 # Custom nix profile has bin/ but no etc/profile.d/nix.sh — add explicitly
-export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$HOME/.ghcup/bin:$GOBIN:$CARGO_HOME/bin:$VOLTA_HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$HOME/.ghcup/bin:$GOBIN:$VOLTA_HOME/bin:$PATH"
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then

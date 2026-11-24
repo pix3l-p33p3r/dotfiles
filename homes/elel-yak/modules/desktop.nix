@@ -12,6 +12,10 @@ let
   # The wrapper's shebang is /usr/bin/env bash (a real path outside the chroot),
   # and it re-enters the chroot via ~/.local/bin/nix-enter so /nix/store Chrome
   # is reachable when launched from the GNOME dash.
+  # Absolute path: GNOME outside nix-user-chroot cannot resolve theme names that
+  # only exist under ~/.nix-profile (and GC'd profile gens leave blank dock icons).
+  chromeIconPath = "${home}/.local/share/icons/hicolor/256x256/apps/google-chrome.png";
+
   chromeWrapper = pkgs.writeText "google-chrome" ''
     #!/usr/bin/env bash
     # Absolute profile path: a bare name resolves back to this wrapper via
@@ -21,7 +25,15 @@ let
     if [[ -x "$bin" ]]; then
       exec "$bin" "''${flags[@]}" "$@"
     fi
-    exec "$HOME/.local/bin/nix-enter" "$bin" "''${flags[@]}" "$@"
+    if [[ -x "$HOME/.local/bin/nix-enter" ]]; then
+      "$HOME/.local/bin/nix-enter" "$bin" "''${flags[@]}" "$@" && exit $?
+    fi
+    # Last resort: Ubuntu .deb Chrome (keeps the dock pin usable after a bad profile gen).
+    if [[ -x /opt/google/chrome/google-chrome ]]; then
+      exec /opt/google/chrome/google-chrome "''${flags[@]}" "$@"
+    fi
+    echo "google-chrome: nix profile binary missing and no system Chrome at /opt/google/chrome" >&2
+    exit 127
   '';
 
   chromeDesktop = pkgs.writeText "google-chrome.desktop" ''
@@ -33,7 +45,7 @@ let
     Comment=Google Chrome from Nix
     TryExec=${home}/.local/bin/google-chrome
     Exec=${home}/.local/bin/google-chrome %U
-    Icon=google-chrome
+    Icon=${chromeIconPath}
     Terminal=false
     StartupNotify=true
     StartupWMClass=Google-chrome
@@ -61,7 +73,7 @@ let
     Comment=Google Chrome from Nix
     TryExec=${home}/.local/bin/google-chrome
     Exec=${home}/.local/bin/google-chrome %U
-    Icon=google-chrome
+    Icon=${chromeIconPath}
     Terminal=false
     StartupNotify=true
     StartupWMClass=Google-chrome
@@ -72,10 +84,26 @@ in
 {
   # GNOME Shell scans ~/.local/share/applications, not goinfre XDG_DATA_HOME.
   # Install Chrome launcher + desktop entries as REAL files (see note above).
+  # Icons: ALWAYS copy real PNGs into ~/.local (never symlink into ~/.nix-profile —
+  # a bad/GC'd profile generation leaves broken links and a blank dock icon).
   home.activation.nixChromeDesktop = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run install -Dm755 ${chromeWrapper} "$HOME/.local/bin/google-chrome"
     run install -Dm644 ${chromeDesktop} "$HOME/.local/share/applications/google-chrome.desktop"
     run install -Dm644 ${chromeDesktopHidden} "$HOME/.local/share/applications/com.google.Chrome.desktop"
+    for size in 16 24 32 48 64 128 256; do
+      dest="$HOME/.local/share/icons/hicolor/''${size}x''${size}/apps"
+      run mkdir -p "$dest"
+      run rm -f "$dest/google-chrome.png"
+      if [[ -f "${pkgs.google-chrome}/share/icons/hicolor/''${size}x''${size}/apps/google-chrome.png" ]]; then
+        run cp -L "${pkgs.google-chrome}/share/icons/hicolor/''${size}x''${size}/apps/google-chrome.png" "$dest/google-chrome.png"
+      elif [[ -f /usr/share/icons/hicolor/''${size}x''${size}/apps/google-chrome.png ]]; then
+        run cp -L /usr/share/icons/hicolor/''${size}x''${size}/apps/google-chrome.png "$dest/google-chrome.png"
+      elif [[ -f /opt/google/chrome/product_logo_''${size}.png ]]; then
+        run cp -L /opt/google/chrome/product_logo_''${size}.png "$dest/google-chrome.png"
+      fi
+      run chmod 644 "$dest/google-chrome.png" 2>/dev/null || true
+    done
+    run rm -f "$HOME/.local/share/icons/hicolor/icon-theme.cache"
   '';
 
   # Keep the current dock order and pin Nix Chrome right after grok-bot,

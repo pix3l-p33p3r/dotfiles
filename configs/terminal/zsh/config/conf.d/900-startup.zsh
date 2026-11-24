@@ -1,7 +1,10 @@
-# Run fetch on each top-level shell session
-if [ "$SHLVL" = "1" ] && command -v fastfetch >/dev/null
-then
-  fastfetch
+# fastfetch on every new Kitty window/tab (and top-level non-Kitty shells).
+# Skip dumb terminals (Cursor agent, IDE) and nested shells that inherit FASTFETCH_SHOWN.
+if [[ -o interactive ]] && [[ "${TERM:-}" != "dumb" ]] && [[ -z "${FASTFETCH_SHOWN:-}" ]] && command -v fastfetch >/dev/null; then
+  if [[ -n "${KITTY_WINDOW_ID:-}" || "${SHLVL}" -eq 1 ]]; then
+    export FASTFETCH_SHOWN=1
+    fastfetch
+  fi
 fi
 
 # direnv

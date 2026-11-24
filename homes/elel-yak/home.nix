@@ -8,6 +8,12 @@
 }:
 {
   imports = [
+    # Shared base modules from pix3l-p33p3r/dotfiles
+    ../../configs/terminal/tmux.nix
+    ../../configs/terminal/yazi.nix
+    ../../configs/development/git.nix
+
+    # 1337 cluster deviant modules
     ./modules/packages.nix
     ./modules/shell.nix # kitty.conf stays a real file; do not enable programs.kitty
     ./modules/desktop.nix
@@ -15,6 +21,26 @@
     ./modules/antigravity.nix
     ./modules/codex.nix
   ];
+
+  # Cluster overrides over shared base modules
+  programs.git.settings.commit.gpgsign = lib.mkForce false;
+  programs.atuin.enable = true;
+
+  # Catppuccin Mocha Lavender for portable CLI/TUI apps (matches homes/pixel-peeper/catppuccin.nix).
+  # Keep catppuccin.kitty.enable = false — kitty.conf stays a real file outside nix-user-chroot.
+  catppuccin = {
+    enable = true;
+    autoEnable = false;
+    flavor = "mocha";
+    accent = "lavender";
+    bat.enable = true;
+    btop.enable = true;
+    eza.enable = true;
+    fzf.enable = true;
+    tmux.enable = true;
+    atuin.enable = true;
+    lazygit.enable = true;
+  };
 
   home.username = "elel-yak";
   home.homeDirectory = "/home/elel-yak";
@@ -32,7 +58,8 @@
 
   home.sessionVariables = {
     GOINFRE = "/goinfre/elel-yak";
-    ELAN_HOME = "/goinfre/elel-yak/elan";
+    # Lean via devenv; toolchains on hynix — `toolchain-gc lean` frees them.
+    ELAN_HOME = "/media/elel-yak/hynix256/toolchains/elan";
     EDITOR = "nvim";
     VISUAL = "nvim";
     npm_config_cache = "/goinfre/elel-yak/npm";
@@ -47,7 +74,6 @@
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.nix-profile/bin"
-    "/goinfre/elel-yak/elan/bin"
   ];
 
   # Don't clobber existing zap-managed interactive zsh; only ensure profile PATH.

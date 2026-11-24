@@ -9,14 +9,16 @@ mkdir -p "$XDG_CACHE_HOME/zsh" "$XDG_DATA_HOME" "$XDG_STATE_HOME" 2>/dev/null
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export EDITOR=nvim
 export VISUAL=nvim
-export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$GOINFRE/elan/bin:$GOINFRE/apps/kitty/kitty.app/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$GOINFRE/apps/kitty/kitty.app/bin:$PATH"
 export npm_config_cache="${GOINFRE}/npm"
-export ELAN_HOME="${GOINFRE}/elan"
+# Lean toolchains → hynix (ephemeral). Enter via: devenv shell / direnv in Lake projects.
+# Wipe with: toolchain-gc lean
+export ELAN_HOME="/media/elel-yak/hynix256/toolchains/elan"
 export NIX_GOINFRE=1
-# Keep ~/.elan → $ELAN_HOME (Lean toolchains are multi‑GB; home is ~5G).
-if [[ ! -L "$HOME/.elan" ]]; then
+# ~/.elan → hynix ELAN_HOME (never store multi‑GB toolchains on ~5G home / goinfre).
+if [[ ! -L "$HOME/.elan" ]] || [[ "$(command readlink -f "$HOME/.elan" 2>/dev/null || true)" != "$(command readlink -f "$ELAN_HOME" 2>/dev/null || true)" ]]; then
   mkdir -p "$ELAN_HOME"
-  if [[ -d "$HOME/.elan" ]]; then
+  if [[ -e "$HOME/.elan" && ! -L "$HOME/.elan" ]]; then
     command rm -rf "$HOME/.elan"
   fi
   command ln -sfn "$ELAN_HOME" "$HOME/.elan"

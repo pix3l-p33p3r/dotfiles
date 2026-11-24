@@ -40,13 +40,15 @@ in
 
     if [ -d "$HOME/.codex" ] && [ ! -L "$HOME/.codex" ]; then
       cp -a "$HOME/.codex/." /goinfre/elel-yak/codex/ 2>/dev/null || true
-      rm -rf "$HOME/.codex"
+      chmod -R u+w "$HOME/.codex" 2>/dev/null || true
+      rm -rf "$HOME/.codex" 2>/dev/null || mv "$HOME/.codex" "$HOME/.codex.old.$$"
     fi
     ln -sfn /goinfre/elel-yak/codex "$HOME/.codex"
 
     if [ -d "$HOME/.config/Codex" ] && [ ! -L "$HOME/.config/Codex" ]; then
       cp -a "$HOME/.config/Codex/." /goinfre/elel-yak/config/Codex/ 2>/dev/null || true
-      rm -rf "$HOME/.config/Codex"
+      chmod -R u+w "$HOME/.config/Codex" 2>/dev/null || true
+      rm -rf "$HOME/.config/Codex" 2>/dev/null || mv "$HOME/.config/Codex" "$HOME/.config/Codex.old.$$"
     fi
     ln -sfn /goinfre/elel-yak/config/Codex "$HOME/.config/Codex"
   '';

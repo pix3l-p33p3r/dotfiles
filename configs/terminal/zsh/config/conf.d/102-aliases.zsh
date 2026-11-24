@@ -1,11 +1,11 @@
 # ── ls / eza ──────────────────────────────────────────────────────────────
 # Fall back to /bin/ls when the nix store is not mounted (outside nix-enter).
 if command -v eza >/dev/null 2>&1 && eza --version >/dev/null 2>&1; then
-  alias eza='command eza --icons'
-  alias l='command eza --icons'
-  alias ls='command eza --icons'
-  alias lsa='command eza --icons -lah'
-  alias ll='command eza --icons -lh'
+  alias eza='command eza --icons=always'
+  alias l='command eza --icons=always'
+  alias ls='command eza --icons=always'
+  alias lsa='command eza --icons=always -lah'
+  alias ll='command eza --icons=always -lh'
 else
   alias l='/bin/ls --color=auto'
   alias ls='/bin/ls --color=auto'
