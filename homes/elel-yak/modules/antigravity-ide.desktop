@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Antigravity IDE
+Comment=Google Antigravity Desktop IDE
+TryExec=/home/elel-yak/.local/bin/antigravity-ide
+Exec=/home/elel-yak/.local/bin/antigravity-ide %F
+Icon=antigravity-ide
+Terminal=false
+StartupNotify=false
+StartupWMClass=antigravity-ide
+Categories=Development;IDE;TextEditor;
+Keywords=antigravity;ide;google;

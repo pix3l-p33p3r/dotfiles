@@ -1,9 +1,17 @@
 # ── ls / eza ──────────────────────────────────────────────────────────────
-local ls=eza
-alias eza="$ls --icons"
-alias {l,ls}="$ls"
-alias lsa="$ls -lah"
-alias ll="$ls -lh"
+# Fall back to /bin/ls when the nix store is not mounted (outside nix-enter).
+if command -v eza >/dev/null 2>&1 && eza --version >/dev/null 2>&1; then
+  alias eza='command eza --icons=always'
+  alias l='command eza --icons=always'
+  alias ls='command eza --icons=always'
+  alias lsa='command eza --icons=always -lah'
+  alias ll='command eza --icons=always -lh'
+else
+  alias l='/bin/ls --color=auto'
+  alias ls='/bin/ls --color=auto'
+  alias lsa='/bin/ls -lah --color=auto'
+  alias ll='/bin/ls -lh --color=auto'
+fi
 
 # ── Directory stack ────────────────────────────────────────────────────────
 alias d='dirs -v'
@@ -15,7 +23,7 @@ alias rm="rm -i"
 alias df='df -h'
 alias makej="make -j \`nproc\`"
 alias cat="bat --plain"
-alias cd="z"
+# cd→z applied in 900-startup.zsh after zoxide init
 alias grep="grep --color=auto"
 alias mkdir="mkdir -p"
 

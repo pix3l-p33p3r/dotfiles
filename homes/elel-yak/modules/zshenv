@@ -1,0 +1,45 @@
+# 1337 goinfre — real file (not a /nix/store symlink). Kitty starts outside the chroot.
+export GOINFRE="/goinfre/$USER"
+export XDG_CACHE_HOME="${GOINFRE}/cache"
+export XDG_DATA_HOME="${GOINFRE}/xdg-data"
+export XDG_STATE_HOME="${GOINFRE}/xdg-state"
+export XDG_CONFIG_HOME="${HOME}/.config"
+mkdir -p "$XDG_CACHE_HOME/zsh" "$XDG_DATA_HOME" "$XDG_STATE_HOME" 2>/dev/null
+
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export EDITOR=nvim
+export VISUAL=nvim
+export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$GOINFRE/apps/kitty/kitty.app/bin:$PATH"
+export npm_config_cache="${GOINFRE}/npm"
+# Lean toolchains → hynix (ephemeral). Enter via: devenv shell / direnv in Lake projects.
+# Wipe with: toolchain-gc lean
+export ELAN_HOME="/media/elel-yak/hynix256/toolchains/elan"
+export NIX_GOINFRE=1
+# ~/.elan → hynix ELAN_HOME (never store multi‑GB toolchains on ~5G home / goinfre).
+if [[ ! -L "$HOME/.elan" ]] || [[ "$(command readlink -f "$HOME/.elan" 2>/dev/null || true)" != "$(command readlink -f "$ELAN_HOME" 2>/dev/null || true)" ]]; then
+  mkdir -p "$ELAN_HOME"
+  if [[ -e "$HOME/.elan" && ! -L "$HOME/.elan" ]]; then
+    command rm -rf "$HOME/.elan"
+  fi
+  command ln -sfn "$ELAN_HOME" "$HOME/.elan"
+fi
+
+if [[ -f "$ZDOTDIR/.zshenv" ]]; then
+  . "$ZDOTDIR/.zshenv"
+fi
+
+# Enter goinfre nix once. /proc/1/ns is unreadable here, so compare mount
+# identities: inside the chroot, /nix and $GOINFRE/nix are the same directory.
+_nix_here=0
+if [[ -d /nix/store && -d "$GOINFRE/nix/store" ]]; then
+  _a="$(command stat -c '%d:%i' /nix 2>/dev/null || true)"
+  _b="$(command stat -c '%d:%i' "$GOINFRE/nix" 2>/dev/null || true)"
+  if [[ -n "$_a" && "$_a" == "$_b" ]]; then
+    _nix_here=1
+  fi
+fi
+if [[ -o interactive && "$_nix_here" -eq 0 && -z "${NIX_ENTER_SKIP:-}" && -x "$HOME/.local/bin/nix-enter" ]]; then
+  unset _nix_here _a _b
+  exec "$HOME/.local/bin/nix-enter"
+fi
+unset _nix_here _a _b
