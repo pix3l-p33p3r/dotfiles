@@ -15,7 +15,19 @@ FRESH_NEED_MIB=$((25 * 1024))
 # On top of what Nix reports: AppImages, theme copy, derivations built locally.
 HEADROOM_MIB=$((3 * 1024))
 
-notify() { notify-send -a goinfre-heal "$@" 2>/dev/null || true; }
+# One notification slot: each status replaces the last instead of stacking.
+# Never critical: GNOME 42 keeps critical banners until clicked, and a stale one
+# can get stuck on screen until gnome-shell restarts.
+NOTIFY_ID="${XDG_RUNTIME_DIR:-/tmp}/goinfre-heal.notify-id"
+notify() { # <summary> <body>
+  local out
+  out="$(gdbus call --session --dest org.freedesktop.Notifications \
+    --object-path /org/freedesktop/Notifications \
+    --method org.freedesktop.Notifications.Notify \
+    goinfre-heal "$(cat "$NOTIFY_ID" 2>/dev/null || echo 0)" "" "$1" "$2" \
+    "[]" "{'urgency': <byte ${NOTIFY_URGENCY:-1}>}" 10000 2>/dev/null)" || return 0
+  [[ "$out" =~ uint32\ ([0-9]+) ]] && echo "${BASH_REMATCH[1]}" >"$NOTIFY_ID"
+}
 gib() { awk -v m="$1" 'BEGIN { printf "%.1f GiB", m / 1024 }'; }
 free_mib() { df -BM --output=avail /goinfre | tail -1 | tr -dc 0-9; }
 have_nix() { [[ -x "${GOINFRE}/bin/nix-user-chroot" && -d "${GOINFRE}/nix/store" ]]; }
@@ -78,7 +90,7 @@ if ((free < need)); then
   echo "goinfre-heal: ${msg}" >&2
   echo "Biggest folders in ${GOINFRE}:" >&2
   timeout 30 du -sh "$GOINFRE"/* 2>/dev/null | sort -h | tail -5 >&2
-  notify -u critical "Not enough space on ${host}" "${msg} Free space (clean = Nix garbage collection), then run: nix-up"
+  notify "Not enough space on ${host}" "${msg} Free space (clean = Nix garbage collection), then run: nix-up"
   exit 2
 fi
 echo "goinfre-heal: about $(gib "$need") needed, $(gib "$free") free. Starting."
@@ -92,6 +104,6 @@ start=$SECONDS
 if "${here}/nix-setup" 2>&1 | tee "$LOG"; then
   notify "${host} is ready" "Setup finished in $(((SECONDS - start) / 60)) min. kitty, cursor and agent work."
 else
-  notify -u critical "Setup failed on ${host}" "See ${LOG}, then run: nix-up"
+  notify "Setup failed on ${host}" "See ${LOG}, then run: nix-up"
   exit 1
 fi
