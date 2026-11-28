@@ -2,15 +2,15 @@
 
 let
   pname = "grok-bot";
-  version = "0.51.0";
+  version = "1.3.0";
   # Cursor/xAI stable build id. To bump: GET
   # https://api2.cursor.sh/updates/api/download/stable/linux-x64/sand
   # then replace version, commit, and sha256.
-  commit = "e872793eb9471205c1f37e91891fedd0b827e3c1";
+  commit = "bfb372966cec77c6ec2750957965f2a2268da17d";
 
   src = fetchurl {
     url = "https://downloads.cursor.com/grokbot/stable/${commit}/linux/x64/Grok_Bot_${version}.AppImage";
-    sha256 = "sha256-pF2cAxVvvhGlbpVWXDQyS4bo+AD0MpDxtUyVkS0aoM8=";
+    sha256 = "sha256-XXL/SBLjND6wBTk626akzY5Qgjm1giLWkZzgQmeYNeY=";
   };
 
   appimageContents = appimageTools.extractType2 {
@@ -29,8 +29,7 @@ in appimageTools.wrapType2 {
 
   extraInstallCommands = ''
     install -Dm444 ${appimageContents}/grok-bot.desktop -t $out/share/applications
-    substituteInPlace $out/share/applications/grok-bot.desktop \
-      --replace-fail 'Exec=AppRun --no-sandbox %U' 'Exec=grok-bot %U'
+    sed -i 's|^Exec=AppRun.*|Exec=grok-bot %U|' $out/share/applications/grok-bot.desktop
 
     if [ -d ${appimageContents}/usr/share/icons ]; then
       mkdir -p $out/share

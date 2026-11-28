@@ -2,11 +2,11 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   agy = antigravity.packages.${system};
-  # Same cluster flags as Chrome: no setuid sandbox, software GL.
+  # Same cluster flags as Chrome: no setuid sandbox, GPU on.
   # Do not pass ozone-platform-hint — Electron 39 rejects it as unknown.
   flags = [
     "--no-sandbox"
-    "--disable-gpu"
+    "--ignore-gpu-blocklist"
   ];
   wrap =
     {

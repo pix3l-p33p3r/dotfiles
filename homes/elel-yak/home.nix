@@ -4,6 +4,7 @@
   lib,
   antigravity,
   codex-desktop-linux,
+  nixGLIntel,
   ...
 }:
 {
@@ -12,6 +13,7 @@
     ../../configs/terminal/tmux.nix
     ../../configs/terminal/yazi.nix
     ../../configs/development/git.nix
+    ../../configs/media/ani-cli.nix
 
     # 1337 cluster deviant modules
     ./modules/packages.nix
@@ -23,6 +25,7 @@
   ];
 
   # Cluster overrides over shared base modules
+  home.packages = [ nixGLIntel ];
   programs.git.settings.commit.gpgsign = lib.mkForce false;
   programs.atuin.enable = true;
 
@@ -62,7 +65,6 @@
     ELAN_HOME = "/media/elel-yak/hynix256/toolchains/elan";
     EDITOR = "nvim";
     VISUAL = "nvim";
-    npm_config_cache = "/goinfre/elel-yak/npm";
     # ocl-icd + Khronos loader: rusticl (Mesa) + intel-neo from the HM profile
     OCL_ICD_VENDORS = "${config.home.profileDirectory}/etc/OpenCL/vendors";
     OPENCL_VENDOR_PATH = "${config.home.profileDirectory}/etc/OpenCL/vendors";
@@ -82,4 +84,8 @@
   # Antigravity IDE (and other Electron FHS apps) replace /usr inside bwrap,
   # so host /usr/share/fonts vanish. Nix fonts under the profile stay visible.
   fonts.fontconfig.enable = true;
+  # Home Manager's default cachedir is the profile path inside /nix/store.
+  # nix-user-chroot leaves that store user-writable, so fc-cache drops mode-0644
+  # files there and `nix store optimise` warns on every one. Keep the cache on goinfre.
+  fonts.fontconfig.configFile.fonts.settings.cachedir = lib.mkForce "${config.xdg.cacheHome}/fontconfig";
 }

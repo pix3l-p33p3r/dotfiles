@@ -12,6 +12,26 @@ nix run .#hm -- switch --flake .#elel-yak -b hm-bak
 home-manager switch --flake .#elel-yak -b hm-bak
 ```
 
+## New machine or wiped goinfre
+
+Nothing to type. `$HOME` follows you between cluster machines; `/goinfre` does not.
+At every graphical login `goinfre-heal.service` checks this machine and, if Nix is
+missing or stale, runs `nix-setup` in the background (about 10 min, desktop
+notification at start and end). Until then kitty opens `gnome-terminal` and other
+launchers tell you setup is in progress.
+
+```bash
+goinfre-heal --check                 # ready or not, and why
+tail -f /goinfre/$USER/setup.log     # watch a rebuild
+```
+
+Reset home (nothing in `~/.local/bin`):
+
+```bash
+git clone https://github.com/pix3l-p33p3r/dotfiles ~/dotfiles-terminal
+~/dotfiles-terminal/homes/elel-yak/bootstrap/install.sh && goinfre-heal
+```
+
 ## What it shares from the NixOS base (`configs/`)
 
 - `configs/terminal/tmux.nix`, `configs/terminal/yazi.nix`, `configs/terminal/zsh/config`, `configs/terminal/nvim/conf`

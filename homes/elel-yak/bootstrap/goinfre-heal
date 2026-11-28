@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Rebuild this machine's goinfre Nix setup when it is missing, wiped, or stale.
+# $HOME roams between cluster machines; /goinfre is per-machine and gets wiped.
+# Runs at every graphical login (goinfre-heal.service). Usage: goinfre-heal [--check]
+set -uo pipefail
+GOINFRE="${GOINFRE:-/goinfre/$USER}"
+STAMP="${GOINFRE}/.setup-ok"
+LOG="${GOINFRE}/setup.log"
+host="$(hostname -s)"
+
+notify() { notify-send -a goinfre-heal "$@" 2>/dev/null || true; }
+
+# A roaming symlink is usable only if its /nix/store target exists in this
+# machine's store. Outside the chroot /nix is absent, so look on goinfre.
+in_store() {
+  local t
+  t="$(readlink -m "$1" 2>/dev/null)" || return 1
+  [[ "$t" == /nix/store/* ]] || return 1
+  t="${GOINFRE}/nix/store/$(cut -d/ -f4 <<<"$t")"
+  [[ -e "$t" || -L "$t" ]]
+}
+
+reason=""
+if [[ ! -x "${GOINFRE}/bin/nix-user-chroot" || ! -d "${GOINFRE}/nix/store" ]]; then
+  reason="goinfre has no Nix (fresh machine or wiped)"
+elif ! in_store "$HOME/.nix-profile" || ! in_store "$HOME/.profile"; then
+  reason="your profile points at packages this machine does not have"
+elif [[ ! -f "$STAMP" ]]; then
+  reason="the last nix-setup did not finish"
+fi
+
+if [[ -z "$reason" ]]; then
+  echo "goinfre-heal: ${host} is ready"
+  exit 0
+fi
+echo "goinfre-heal: ${host} needs setup: ${reason}"
+[[ "${1:-}" == "--check" ]] && exit 1
+
+rm -f "$STAMP"
+mkdir -p "$GOINFRE"
+notify "Setting up ${host}" "${reason^}. Rebuilding Nix and apps in the background (about 10 min). Log: ${LOG}"
+start=$SECONDS
+if "$HOME/.local/bin/nix-setup" 2>&1 | tee "$LOG"; then
+  notify "${host} is ready" "Setup finished in $(((SECONDS - start) / 60)) min. kitty, cursor and agent work again."
+else
+  notify -u critical "Setup failed on ${host}" "See ${LOG}, then run: goinfre-heal"
+  exit 1
+fi

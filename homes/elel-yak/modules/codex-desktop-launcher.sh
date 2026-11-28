@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# Queue sqlite must live on a real directory. Codex bwrap write-refuses
+# ~/.codex when that path is a symlink into goinfre.
+export GOINFRE="${GOINFRE:-/goinfre/$USER}"
+export CODEX_HOME="${GOINFRE}/codex"
+mkdir -p "$CODEX_HOME"
+if [[ -L "$HOME/.codex" ]]; then
+  rm -f "$HOME/.codex"
+fi
 export SHELL=/bin/bash
 export XDG_DATA_DIRS="${HOME}/.nix-profile/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
 for _gs in "${HOME}/.nix-profile/share/gsettings-schemas"/*; do
@@ -13,8 +21,8 @@ if [[ -d "${HOME}/.nix-profile/etc/fonts" ]]; then
 fi
 
 bin="$HOME/.nix-profile/bin/codex-desktop"
-flags=(--no-sandbox --disable-gpu)
+flags=(--no-sandbox --ignore-gpu-blocklist)
 if [[ -n "${NIX_USER_CHROOT:-}" ]]; then
-  exec "$bin" "${flags[@]}" "$@"
+  exec "$HOME/.nix-profile/bin/nixGLIntel" "$bin" "${flags[@]}" "$@"
 fi
-exec "$HOME/.local/bin/nix-enter" "$bin" "${flags[@]}" "$@"
+exec "$HOME/.local/bin/nix-enter" "$HOME/.local/bin/codex-desktop" "$@"

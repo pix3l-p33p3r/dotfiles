@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# Enter goinfre Nix namespace (store bind-mounted as /nix). No root.
+set -euo pipefail
+GOINFRE="${GOINFRE:-/goinfre/$USER}"
+CHROOT="${GOINFRE}/bin/nix-user-chroot"
+NIXROOT="${GOINFRE}/nix"
+
+already_in() {
+  [[ -n "${NIX_USER_CHROOT:-}" ]] && return 0
+  # Different user namespace from pid 1 ⇒ already inside nix-user-chroot (or similar)
+  local self init
+  self=$(readlink /proc/self/ns/user 2>/dev/null || true)
+  init=$(readlink /proc/1/ns/user 2>/dev/null || true)
+  [[ -n "$self" && -n "$init" && "$self" != "$init" ]]
+}
+
+run_inside() {
+  export NIX_USER_CHROOT=1
+  export GOINFRE
+  [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+  export XDG_CACHE_HOME="${GOINFRE}/cache"
+  export npm_config_cache="${GOINFRE}/npm"
+  # Real goinfre path — do NOT symlink ~/.codex (Codex bwrap refuse RO-protects through writable symlinks).
+  export CODEX_HOME="${CODEX_HOME:-${GOINFRE}/codex}"
+  export PATH="$HOME/.local/bin:${GOINFRE}/apps/kitty/kitty.app/bin:${GOINFRE}/apps/kitty/bin:${PATH:-}"
+  # Codex bwrap masks these dirs with a mode-000 tmpfs. They must already exist,
+  # and Codex rejects anything other than a user-owned directory with mode 0700.
+  # mkdir -p follows umask 022 (0755) and will not correct an existing dir.
+  mkdir -p "$CODEX_HOME" 2>/dev/null || true
+  install -d -m 700 \
+    "/nix/tmp/codex-daemon-${UID:-$(id -u)}" \
+    "/tmp/codex-daemon-${UID:-$(id -u)}" 2>/dev/null || true
+  if [[ $# -eq 0 ]]; then
+    exec "${SHELL:-zsh}" -l
+  fi
+  exec "$@"
+}
+
+if already_in; then
+  export NIX_USER_CHROOT=1
+  run_inside "$@"
+fi
+
+export GOINFRE
+# Launchers started before nix-setup finishes would hit a half-built store and
+# recurse or exit 127. Interactive shells may still enter.
+if [[ $# -gt 0 && ! -f "${GOINFRE}/.setup-ok" ]]; then
+  msg="$(hostname -s) is still setting up. $(basename "$1") opens after goinfre-heal finishes. Log: ${GOINFRE}/setup.log"
+  echo "nix-enter: ${msg}" >&2
+  notify-send -a goinfre-heal "Setup in progress" "$msg" 2>/dev/null || true
+  systemctl --user start --no-block goinfre-heal.service 2>/dev/null || true
+  exit 75
+fi
+if [[ ! -x "$CHROOT" ]]; then
+  echo "nix-user-chroot missing: $CHROOT — run goinfre-heal" >&2
+  exit 1
+fi
+if [[ ! -d "$NIXROOT/store" ]]; then
+  echo "Nix store missing: $NIXROOT — run goinfre-heal" >&2
+  exit 1
+fi
+if [[ $# -eq 0 ]]; then
+  exec "$CHROOT" "$NIXROOT" bash -lc '
+    export NIX_USER_CHROOT=1
+    export GOINFRE
+    [ -f "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+    export XDG_CACHE_HOME="$GOINFRE/cache"
+    export npm_config_cache="$GOINFRE/npm"
+    export CODEX_HOME="${CODEX_HOME:-$GOINFRE/codex}"
+    export PATH="$HOME/.local/bin:$GOINFRE/apps/kitty/kitty.app/bin:$GOINFRE/apps/kitty/bin:${PATH:-}"
+    mkdir -p "$CODEX_HOME" 2>/dev/null || true
+    install -d -m 700 "/nix/tmp/codex-daemon-${UID:-$(id -u)}" "/tmp/codex-daemon-${UID:-$(id -u)}" 2>/dev/null || true
+    exec "${SHELL:-zsh}" -l
+  '
+else
+  quoted=
+  for a in "$@"; do
+    quoted+=$(printf '%q ' "$a")
+  done
+  exec "$CHROOT" "$NIXROOT" bash -lc "
+    export NIX_USER_CHROOT=1
+    export GOINFRE
+    [ -f \"\$HOME/.nix-profile/etc/profile.d/nix.sh\" ] && . \"\$HOME/.nix-profile/etc/profile.d/nix.sh\"
+    export XDG_CACHE_HOME=\"\$GOINFRE/cache\"
+    export npm_config_cache=\"\$GOINFRE/npm\"
+    export CODEX_HOME=\"\${CODEX_HOME:-\$GOINFRE/codex}\"
+    export PATH=\"\$HOME/.local/bin:\$GOINFRE/apps/kitty/kitty.app/bin:\$GOINFRE/apps/kitty/bin:\${PATH:-}\"
+    mkdir -p \"\$CODEX_HOME\" 2>/dev/null || true
+    install -d -m 700 \"/nix/tmp/codex-daemon-\${UID:-\$(id -u)}\" \"/tmp/codex-daemon-\${UID:-\$(id -u)}\" 2>/dev/null || true
+    exec $quoted
+  "
+fi

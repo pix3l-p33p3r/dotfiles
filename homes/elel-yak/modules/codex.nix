@@ -2,10 +2,10 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   codexDesktopPkg = codex-desktop-linux.packages.${system}.codex-desktop;
-  # Cluster Electron flags (no setuid sandbox, software GL — matches Chrome & Antigravity).
+  # Cluster Electron flags. No setuid sandbox. GPU stays on (same as Chrome).
   flags = [
     "--no-sandbox"
-    "--disable-gpu"
+    "--ignore-gpu-blocklist"
   ];
   codexDesktopWrapped = pkgs.symlinkJoin {
     name = "codex-desktop";
@@ -38,12 +38,17 @@ in
     install -Dm644 "${codexDesktopPkg}/share/icons/hicolor/256x256/apps/codex-desktop.png" \
       "$HOME/.local/share/icons/hicolor/256x256/apps/codex-desktop.png"
 
+    # Never symlink ~/.codex. Codex bwrap RO-protects through that link and
+    # then refuses queue sqlite writes ("Queue storage could not be written").
+    # Sessions stay at /goinfre/elel-yak/codex via CODEX_HOME in the launcher.
     if [ -d "$HOME/.codex" ] && [ ! -L "$HOME/.codex" ]; then
       cp -a "$HOME/.codex/." /goinfre/elel-yak/codex/ 2>/dev/null || true
       chmod -R u+w "$HOME/.codex" 2>/dev/null || true
       rm -rf "$HOME/.codex" 2>/dev/null || mv "$HOME/.codex" "$HOME/.codex.old.$$"
     fi
-    ln -sfn /goinfre/elel-yak/codex "$HOME/.codex"
+    if [ -L "$HOME/.codex" ]; then
+      rm -f "$HOME/.codex"
+    fi
 
     if [ -d "$HOME/.config/Codex" ] && [ ! -L "$HOME/.config/Codex" ]; then
       cp -a "$HOME/.config/Codex/." /goinfre/elel-yak/config/Codex/ 2>/dev/null || true

@@ -426,6 +426,17 @@ vim.lsp.config.pyright = {
 	},
 }
 
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspInlayHints", { clear = true }),
+	callback = function(args)
+		local client_id = args.data and args.data.client_id
+		local client = client_id and vim.lsp.get_client_by_id(client_id)
+		if client and client:supports_method("textDocument/inlayHint") then
+			vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+		end
+	end,
+})
+
 vim.lsp.enable({
 	"tsserver_ls",
 	"css_ls",

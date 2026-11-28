@@ -10,7 +10,6 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export EDITOR=nvim
 export VISUAL=nvim
 export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$GOINFRE/apps/kitty/kitty.app/bin:$PATH"
-export npm_config_cache="${GOINFRE}/npm"
 # Lean toolchains → hynix (ephemeral). Enter via: devenv shell / direnv in Lake projects.
 # Wipe with: toolchain-gc lean
 export ELAN_HOME="/media/elel-yak/hynix256/toolchains/elan"
@@ -38,8 +37,12 @@ if [[ -d /nix/store && -d "$GOINFRE/nix/store" ]]; then
     _nix_here=1
   fi
 fi
-if [[ -o interactive && "$_nix_here" -eq 0 && -z "${NIX_ENTER_SKIP:-}" && -x "$HOME/.local/bin/nix-enter" ]]; then
-  unset _nix_here _a _b
-  exec "$HOME/.local/bin/nix-enter"
+if [[ -o interactive && "$_nix_here" -eq 0 && -z "${NIX_ENTER_SKIP:-}" ]]; then
+  # Without a chroot, `exec nix-enter` exits and takes the terminal with it.
+  if [[ -x "$GOINFRE/bin/nix-user-chroot" && -d "$GOINFRE/nix/store" && -x "$HOME/.local/bin/nix-enter" ]]; then
+    unset _nix_here _a _b
+    exec "$HOME/.local/bin/nix-enter"
+  fi
+  print -u2 "goinfre has no Nix on ${HOST%%.*} yet; goinfre-heal is rebuilding it. Progress: tail -f $GOINFRE/setup.log"
 fi
 unset _nix_here _a _b

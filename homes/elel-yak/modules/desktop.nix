@@ -21,12 +21,28 @@ let
     # Absolute profile path: a bare name resolves back to this wrapper via
     # ~/.local/bin in PATH and recurses until unshare fails with ENOSPC.
     bin="$HOME/.nix-profile/bin/google-chrome-stable"
-    flags=(--no-sandbox --disable-gpu)
-    if [[ -x "$bin" ]]; then
-      exec "$bin" "''${flags[@]}" "$@"
+    # GPU on. --no-sandbox stays: nix-user-chroot has no setuid chrome sandbox.
+    # Vaapi* turns on Intel/AMD video decode. Drop these two lines if a window stays black.
+    flags=(
+      --no-sandbox
+      --ignore-gpu-blocklist
+      --enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoDecoder,VaapiIgnoreDriverChecks
+    )
+    # nixGLIntel supplies Nix Mesa for OpenGL. Its LIBVA path lists Mesa's
+    # radeonsi driver first, so Chrome opens the AMD decoder and vaInitialize
+    # fails. Force the 64-bit Intel iHD 26.3.5 directory: H.264, VP9, HEVC, AV1.
+    # Do not prepend /usr/lib or Ubuntu libc wins and Chrome aborts.
+    if [[ -n "''${NIX_USER_CHROOT:-}" && -x "$bin" ]]; then
+      ihd_dri=$(grep -o '/nix/store/[^:]*intel-media-driver-[^:]*' \
+        "$HOME/.nix-profile/bin/nixGLIntel" | head -1)
+      exec "$HOME/.nix-profile/bin/nixGLIntel" \
+        /usr/bin/env LIBVA_DRIVER_NAME=iHD LIBVA_DRIVERS_PATH="$ihd_dri" \
+        "$bin" "''${flags[@]}" "$@"
     fi
-    if [[ -x "$HOME/.local/bin/nix-enter" ]]; then
-      "$HOME/.local/bin/nix-enter" "$bin" "''${flags[@]}" "$@" && exit $?
+    # Re-enter only from outside: inside with a missing profile binary this
+    # wrapper would call itself until exec fails with E2BIG.
+    if [[ -z "''${NIX_USER_CHROOT:-}" && -x "$HOME/.local/bin/nix-enter" ]]; then
+      exec "$HOME/.local/bin/nix-enter" "$HOME/.local/bin/google-chrome" "$@"
     fi
     # Last resort: Ubuntu .deb Chrome (keeps the dock pin usable after a bad profile gen).
     if [[ -x /opt/google/chrome/google-chrome ]]; then

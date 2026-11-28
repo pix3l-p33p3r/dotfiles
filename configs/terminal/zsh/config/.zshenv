@@ -28,7 +28,8 @@ mkdir -p "$CARGO_HOME" 2>/dev/null
 
 # Deno path
 export DENO_DIR="$XDG_CACHE_HOME/deno"
-export npm_config_cache="${GOINFRE:-/goinfre/$USER}/npm"
+# Profile still exports this until the next home-manager switch.
+unset npm_config_cache
 
 # Custom nix profile has bin/ but no etc/profile.d/nix.sh — add explicitly
 export PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$HOME/.ghcup/bin:$GOBIN:$VOLTA_HOME/bin:$PATH"

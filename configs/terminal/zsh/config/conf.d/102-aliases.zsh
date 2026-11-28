@@ -35,6 +35,10 @@ alias pg="ping 1.0.0.1 -c 5"
 alias myip="curl icanhazip.com"
 alias vi=nvim
 alias e="$EDITOR"
+alias code=cursor
+alias hg='kitten hyperlinked-grep'
+# HM shellWrapperName=y never loads (ZDOTDIR/zap); reuse cwd-aware wrapper
+alias y=yazi_fm
 
 # ── Lazy TUIs (`lD`/`lS` — `ld` is the linker, `ls` is eza) ───────────────
 alias lg=lazygit

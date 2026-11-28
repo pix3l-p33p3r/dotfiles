@@ -34,10 +34,19 @@
         exit 1
       fi
     }
-    mkdir -p "$HOME/.config/kitty"
+    mkdir -p "$HOME/.config/kitty" "$HOME/.config/mpv"
     install_real "$mod/zshenv" "$HOME/.zshenv"
     install_real "$mod/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+    install_real "$mod/mpv.conf" "$HOME/.config/mpv/mpv.conf"
     grep -q 'include current-theme.conf' "$HOME/.config/kitty/kitty.conf"
+    grep -q 'hwdec=auto-copy' "$HOME/.config/mpv/mpv.conf"
+    install -m 755 "$mod/nixgl-run.sh" "$HOME/.local/bin/nixgl-run"
+    install -m 755 "$mod/kitty-launcher.sh" "$HOME/.local/bin/kitty"
+    install -m 755 "$mod/kitten-launcher.sh" "$HOME/.local/bin/kitten"
+    install -m 755 "$mod/cursor-launcher.sh" "$HOME/.local/bin/cursor"
+    install -m 755 "$mod/cursor-launcher.sh" "$HOME/.local/bin/cursor-ide"
+    install -m 755 "$mod/grok-bot-launcher.sh" "$HOME/.local/bin/grok-bot"
+    bash "$mod/../bootstrap/install.sh"
   '';
 
   programs.direnv = {

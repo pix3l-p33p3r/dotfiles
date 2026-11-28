@@ -1,0 +1,12 @@
+[Unit]
+Description=Rebuild goinfre Nix setup when this machine lacks it
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/goinfre-heal
+TimeoutStartSec=infinity
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=graphical-session.target

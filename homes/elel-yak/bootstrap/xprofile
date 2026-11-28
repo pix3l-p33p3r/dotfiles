@@ -1,0 +1,3 @@
+# Sourced by GDM's Xsession outside nix-user-chroot. Must stay a real file:
+# ~/.profile is a /nix/store symlink the host cannot read.
+export PATH="$HOME/.local/bin:$PATH"

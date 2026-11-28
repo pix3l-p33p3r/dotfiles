@@ -21,7 +21,7 @@ fi
 GOINFRE="${GOINFRE:-/goinfre/$USER}"
 FIX="$GOINFRE/agy-fix"
 STUB="$FIX/parcel-stub"
-FLAGS=(--no-sandbox --disable-gpu)
+FLAGS=(--no-sandbox --ignore-gpu-blocklist)
 
 # GNOME dock starts this outside nix-user-chroot, where /nix does not exist.
 # Resolve store paths only after entering. Kitty is already inside, so this is a no-op there.
@@ -128,4 +128,4 @@ if [[ ! -x "$FIX/antigravity-ide-fhs.sh" || ! -f "$stamp" || "$(cat "$stamp" 2>/
   printf '%s\n' "$prof_now" > "$stamp"
 fi
 
-exec "$FIX/antigravity-ide-fhs.sh" "${FLAGS[@]}" "$@"
+exec "$HOME/.nix-profile/bin/nixGLIntel" "$FIX/antigravity-ide-fhs.sh" "${FLAGS[@]}" "$@"

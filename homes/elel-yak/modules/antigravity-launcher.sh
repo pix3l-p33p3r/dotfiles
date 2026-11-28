@@ -13,8 +13,8 @@ if [[ -d "${HOME}/.nix-profile/etc/fonts" ]]; then
 fi
 
 bin="$HOME/.nix-profile/bin/antigravity"
-flags=(--no-sandbox --disable-gpu)
+flags=(--no-sandbox --ignore-gpu-blocklist)
 if [[ -n "${NIX_USER_CHROOT:-}" ]]; then
-  exec "$bin" "${flags[@]}" "$@"
+  exec "$HOME/.nix-profile/bin/nixGLIntel" "$bin" "${flags[@]}" "$@"
 fi
-exec "$HOME/.local/bin/nix-enter" "$bin" "${flags[@]}" "$@"
+exec "$HOME/.local/bin/nix-enter" "$HOME/.local/bin/antigravity" "$@"

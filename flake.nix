@@ -77,9 +77,15 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Host-GPU wrapper for Nix GUI apps on Ubuntu. Follow our nixpkgs so
+    # libGLX and Chrome share one glibc.
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, nixpkgs-2405, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, antigravity, codex-desktop-linux, nix-index-database, ... }@inputs: let
+  outputs = { self, nixpkgs, nixpkgs-2405, catppuccin, lanzaboote, home-manager, stylix, zen-browser, sops-nix, nixos-catppuccin-plymouth, nur, winapps, nixos-hardware, antigravity, codex-desktop-linux, nix-index-database, nixgl, ... }@inputs: let
     system = "x86_64-linux";
     # Shared overlay list for NixOS and Home Manager. Keep empty unless a
     # local override is still ahead of the pinned nixos-unstable channel.
@@ -134,6 +140,7 @@
       inherit pkgs;
       extraSpecialArgs = {
         inherit inputs self antigravity codex-desktop-linux pkgs2405;
+        nixGLIntel = nixgl.packages.${system}.nixGLIntel;
       };
       modules = [
         ./homes/elel-yak/home.nix
@@ -154,3 +161,4 @@
     };
   };
 }
+

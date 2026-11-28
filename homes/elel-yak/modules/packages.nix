@@ -16,7 +16,7 @@
     fzf
     tree
     trashy
-    yazi
+    # yazi: programs.yazi in configs/terminal/yazi.nix
     sl
     dust
     duf
@@ -77,11 +77,12 @@
     ninja
     meson
     pkg-config
-    nodejs
-    yarn
-    pnpm
+    # Node binary only. npm, npx, yarn, and pnpm stay out of the global
+    # profile — a JS repo gets them from its own devenv, then toolchain-gc.
+    nodejs-slim
     (python3.withPackages (ps: [
       ps.openai
+      ps.textual # 42_Holes TUI; profile python has no pip
     ]))
     (pipx.overrideAttrs (_: {
       doCheck = false;
@@ -109,8 +110,15 @@
     noto-fonts
     gsettings-desktop-schemas
 
+    # ── Media (ImageMagick `animate` shells out to this) ──────────────
+    ffmpeg
+
     # ── Browser (dock) ─────────────────────────────────────────────────
     google-chrome
+
+    # ── GUI apps (Nix-managed; launchers nix-enter + nixGLIntel) ──────
+    kitty
+    (code-cursor.override { commandLineArgs = "--no-sandbox"; })
 
     # ── OpenCL (RT dual-GPU: AMD rusticl + Intel NEO) ──────────────────
     clinfo
@@ -127,6 +135,7 @@
   ] ++ [
     # Mesa 24.05 rusticl — exposes RX 6500 on kernel 5.15 (unstable mesa needs 6.11+)
     pkgs2405.mesa.opencl
+    (pkgs.callPackage ../../../configs/editors/grok-bot.nix { })
   ] ++ lib.optionals (pkgs ? grok-build) [
     pkgs.grok-build # xAI Grok terminal agent (`grok`) when present in pinned nixpkgs
   ];
