@@ -100,4 +100,5 @@
     source = ./config;
     recursive = true;
   };
+  home.file.".config/zsh/plugins.zsh".source = (pkgs.callPackage ./plugins.nix { }).init;
 }

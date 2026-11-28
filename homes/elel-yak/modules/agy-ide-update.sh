@@ -3,7 +3,7 @@
 # Usage: agy-ide-update
 set -euo pipefail
 
-FLAKE="${HM_FLAKE:-$HOME/dotfiles-terminal/homes/elel-yak}"
+FLAKE="${HM_FLAKE:-$HOME/dotfiles-terminal}"
 GOINFRE="${GOINFRE:-/goinfre/$USER}"
 FIX="$GOINFRE/agy-fix"
 

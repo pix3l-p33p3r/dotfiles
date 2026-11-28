@@ -1,19 +1,19 @@
 # Timezsh start
 if [ -n "${ZSH_DEBUGRC+1}" ]; then zmodload zsh/zprof; fi
 
-# 1337: (re)build this machine's goinfre setup. Defined before Zap so it exists
-# on a fresh machine where plugins and Nix are still missing.
-[[ -d /goinfre ]] && alias nix-up="$HOME/dotfiles-terminal/homes/elel-yak/bootstrap/install.sh && $HOME/.local/bin/goinfre-heal --force"
-
-# Ensuring Zap installed (--keep: never overwrite this .zshrc; goinfre can wipe plugins)
-if [[ ! -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]]; then
-  _zap_dir="${XDG_DATA_HOME:-$HOME/.local/share}/zap"
-  git clone --depth 1 --branch release-v1 https://github.com/zap-zsh/zap.git "$_zap_dir" \
-    || zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep
-  unset _zap_dir
+# 1337: build this machine's setup from the repo / go back one generation.
+# Defined first so they exist on a fresh machine where plugins and Nix are missing.
+if [[ -d /goinfre ]]; then
+  alias nix-up="$HOME/dotfiles-terminal/homes/elel-yak/bootstrap/goinfre-heal --force"
+  alias nix-rollback="$HOME/.local/bin/nix-enter home-manager switch --rollback"
 fi
 
-source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+# Zap + plugins come pinned from the Nix store (configs/terminal/zsh/plugins.nix).
+if [[ -r "$ZDOTDIR/plugins.zsh" ]]; then
+  source "$ZDOTDIR/plugins.zsh"
+else
+  plug() { :; }
+fi
 
 # Loading config files (bindings that need plugins are deferred — see after plugs)
 for FILE in $(

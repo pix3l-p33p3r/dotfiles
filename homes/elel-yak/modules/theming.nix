@@ -9,6 +9,9 @@ let
   catppuccinPapirus = pkgs.catppuccin-papirus-folders.overrideAttrs (old: {
     installPhase = builtins.replaceStrings [ "cat-mocha-blue" ] [ "cat-mocha-lavender" ] old.installPhase;
   });
+  theme = "catppuccin-mocha-lavender-standard";
+  cursorTheme = "catppuccin-mocha-lavender-cursors";
+  font = "JetBrainsMono Nerd Font 11";
 in
 {
   home.packages = [
@@ -64,50 +67,46 @@ in
     cp -rL --no-preserve=mode "${pkgs.nerd-fonts.fira-code}/share/fonts/truetype/NerdFonts/." "$ASSETS/fonts/"
     ln -sfn "$ASSETS/fonts" "$HOME/.local/share/fonts/catppuccin-nerd"
     fc-cache -f "$HOME/.local/share/fonts" 2>/dev/null || true
-
-    # 4. GTK3 settings.ini
-    cat > "$HOME/.config/gtk-3.0/settings.ini" <<EOF
-[Settings]
-gtk-application-prefer-dark-theme=1
-gtk-theme-name=$THEME_NAME
-gtk-icon-theme-name=Papirus-Dark
-gtk-cursor-theme-name=$CURSOR_NAME
-gtk-cursor-theme-size=24
-gtk-font-name=JetBrainsMono Nerd Font 11
-EOF
-
-    # 5. Live GNOME Shell & desktop interface settings
-    if [ -x /usr/bin/gsettings ]; then
-      /usr/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
-      [ -n "$THEME_NAME" ] && /usr/bin/gsettings set org.gnome.desktop.interface gtk-theme "$THEME_NAME" || true
-      /usr/bin/gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark' || true
-      [ -n "$CURSOR_NAME" ] && /usr/bin/gsettings set org.gnome.desktop.interface cursor-theme "$CURSOR_NAME" || true
-      /usr/bin/gsettings set org.gnome.desktop.interface cursor-size 24 || true
-      /usr/bin/gsettings set org.gnome.desktop.interface font-name 'JetBrainsMono Nerd Font 11' || true
-      /usr/bin/gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMono Nerd Font 11' || true
-      /usr/bin/gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMono Nerd Font 11' || true
-      /usr/bin/gsettings set org.gnome.desktop.wm.preferences titlebar-font 'JetBrainsMono Nerd Font Bold 11' || true
-      if [ -n "$THEME_NAME" ] && [ -f "$ASSETS/themes/$THEME_NAME/gnome-shell/gnome-shell.css" ]; then
-        /usr/bin/gsettings set org.gnome.shell.extensions.user-theme name "$THEME_NAME" || true
-      fi
-    fi
-
-    # 6. Host-readable fontconfig override (outside nix-user-chroot)
-    mkdir -p "$HOME/.config/fontconfig/conf.d"
-    cat > "$HOME/.config/fontconfig/conf.d/99-catppuccin-fonts.conf" <<'EOF'
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>monospace</family>
-    <prefer>
-      <family>JetBrainsMono Nerd Font</family>
-      <family>FiraCode Nerd Font</family>
-      <family>Noto Color Emoji</family>
-    </prefer>
-  </alias>
-</fontconfig>
-EOF
-    /usr/bin/fc-cache -f "$HOME/.local/share/fonts" 2>/dev/null || fc-cache -f "$HOME/.local/share/fonts" 2>/dev/null || true
   '';
+
+  # Host GTK apps and fontconfig read these outside the chroot.
+  home.hostFiles.".config/gtk-3.0/settings.ini".source = pkgs.writeText "settings.ini" ''
+    [Settings]
+    gtk-application-prefer-dark-theme=1
+    gtk-theme-name=${theme}
+    gtk-icon-theme-name=Papirus-Dark
+    gtk-cursor-theme-name=${cursorTheme}
+    gtk-cursor-theme-size=24
+    gtk-font-name=${font}
+  '';
+  home.hostFiles.".config/fontconfig/conf.d/99-catppuccin-fonts.conf".source =
+    pkgs.writeText "99-catppuccin-fonts.conf" ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+      <fontconfig>
+        <alias>
+          <family>monospace</family>
+          <prefer>
+            <family>JetBrainsMono Nerd Font</family>
+            <family>FiraCode Nerd Font</family>
+            <family>Noto Color Emoji</family>
+          </prefer>
+        </alias>
+      </fontconfig>
+    '';
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      gtk-theme = theme;
+      icon-theme = "Papirus-Dark";
+      cursor-theme = cursorTheme;
+      cursor-size = 24;
+      font-name = font;
+      document-font-name = font;
+      monospace-font-name = font;
+    };
+    "org/gnome/desktop/wm/preferences".titlebar-font = "JetBrainsMono Nerd Font Bold 11";
+    "org/gnome/shell/extensions/user-theme".name = theme;
+  };
 }

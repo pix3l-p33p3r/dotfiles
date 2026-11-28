@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
-# Bootstrap Nix + apps on this machine's goinfre. Home stays thin (interface).
+# Bootstrap this machine's goinfre: hash-verified nix-user-chroot and Nix, then
+# one `home-manager switch`. Every app, launcher and config file is declared in
+# Home Manager; this script only gets Nix onto a machine that lacks it.
 set -euo pipefail
 
 GOINFRE="${GOINFRE:-/goinfre/$USER}"
 CHROOT_BIN="${GOINFRE}/bin/nix-user-chroot"
 NIXROOT="${GOINFRE}/nix"
-APPS="${GOINFRE}/apps"
-FLAKE="${HOME}/nix-config"
+FLAKE="${HOME}/dotfiles-terminal"
+# The bootstrap Nix reads the same nix.conf Home Manager installs later.
+NIX_CONF="${FLAKE}/homes/elel-yak/bootstrap/nix.conf"
+
 CHROOT_URL="https://github.com/nix-community/nix-user-chroot/releases/download/2.1.1/nix-user-chroot-bin-2.1.1-x86_64-unknown-linux-musl"
+CHROOT_SHA256="e6daa6a036e00b939531e5c11e6dcd891140813a09964fd12a64112de500fc15"
+NIX_VERSION="2.36.0"
+NIX_INSTALL_SHA256="8388dfd4d3c3a0c2dc79f764d453eafcc244255f47c93c1958f4775af22f0353"
 
 log() { printf '==> %s\n' "$*"; }
 
@@ -17,222 +24,55 @@ if ! flock -n 9; then
   flock 9
 fi
 
-mkdir -p "${GOINFRE}"/{bin,nix,cache,npm,apps/{cursor,cursor-agent,grok-bot,grok-cli,antigravity,chrome,kitty}}
+fetch_verified() { # <url> <sha256> <dest>
+  curl -fL --retry 3 -o "$3.part" "$1"
+  if ! echo "$2  $3.part" | sha256sum -c --quiet -; then
+    rm -f "$3.part"
+    log "ERROR: checksum mismatch for $1"
+    exit 1
+  fi
+  mv -f "$3.part" "$3"
+}
+
+mkdir -p "${GOINFRE}"/{bin,nix,cache,npm}
 chmod 0755 "${NIXROOT}" 2>/dev/null || true
 
-# 1) nix-user-chroot on goinfre
+# 1) nix-user-chroot
 if [[ ! -x "$CHROOT_BIN" ]]; then
-  log "Downloading nix-user-chroot → goinfre"
-  curl -fL --retry 3 -o "$CHROOT_BIN" "$CHROOT_URL"
+  log "Downloading nix-user-chroot 2.1.1"
+  fetch_verified "$CHROOT_URL" "$CHROOT_SHA256" "$CHROOT_BIN"
   chmod +x "$CHROOT_BIN"
 fi
 
-# 2) Nix store on goinfre
+# 2) Nix
 if [[ ! -d "${NIXROOT}/store" ]]; then
-  log "Installing Nix into ${NIXROOT} (no sudo)"
-  "$CHROOT_BIN" "$NIXROOT" bash -c \
-    'curl -L https://nixos.org/nix/install | sh -s -- --no-daemon --no-modify-profile'
+  log "Installing Nix ${NIX_VERSION} into ${NIXROOT}"
+  fetch_verified "https://releases.nixos.org/nix/nix-${NIX_VERSION}/install" "$NIX_INSTALL_SHA256" "${GOINFRE}/nix-install"
+  "$CHROOT_BIN" "$NIXROOT" sh "${GOINFRE}/nix-install" --no-daemon --no-modify-profile
+  rm -f "${GOINFRE}/nix-install"
 fi
 
-mkdir -p "${HOME}/.config/nix"
-cat > "${HOME}/.config/nix/nix.conf" <<'EOF'
-experimental-features = nix-command flakes
-warn-dirty = false
-extra-substituters = https://catppuccin.cachix.org https://nix-community.cachix.org https://codex-desktop-linux.cachix.org
-extra-trusted-public-keys = catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= codex-desktop-linux.cachix.org-1:nX/xy6AdK9hQE24A8ALGjkCKj2ObFmcnemiL5Cid4nk=
-EOF
-
-# 3) Home Manager from the unified root flake (homes/elel-yak is a module, not a flake)
-HM_FLAKE="${HOME}/dotfiles-terminal"
+# 3) The whole user environment
+log "Home Manager switch → ${FLAKE}#elel-yak"
 hm_ok=0
-if [[ -f "${HM_FLAKE}/flake.nix" ]]; then
-  log "Home Manager switch → ${HM_FLAKE}#elel-yak"
-  if "$CHROOT_BIN" "$NIXROOT" bash -lc "
-    . \"\$HOME/.nix-profile/etc/profile.d/nix.sh\" 2>/dev/null || true
-    export PATH=\"\$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:\$PATH\"
-    # ~/.nix-profile roams and may name another machine's generation; any store nix works.
-    for d in /nix/store/*-nix-2.*/bin; do command -v nix >/dev/null && break; [[ -x \$d/nix ]] && PATH=\"\$d:\$PATH\"; done
-    cd \"${HM_FLAKE}\"
-    nix run .#hm -- switch --flake .#elel-yak -b hm-backup
-  "; then
-    hm_ok=1
-  else
-    log "WARN: home-manager switch failed"
-  fi
-elif [[ -f "${FLAKE}/flake.nix" ]]; then
-  log "Fallback: nix profile install from ${FLAKE}"
-  if "$CHROOT_BIN" "$NIXROOT" bash -lc "
-    . \"\$HOME/.nix-profile/etc/profile.d/nix.sh\"
-    cd \"${FLAKE}\"
-    nix profile install .#default
-  "; then
-    hm_ok=1
-  fi
+if "$CHROOT_BIN" "$NIXROOT" bash -lc "
+  export NIX_USER_CONF_FILES='${NIX_CONF}'
+  . \"\$HOME/.nix-profile/etc/profile.d/nix.sh\" 2>/dev/null || true
+  export PATH=\"\$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:\$PATH\"
+  # ~/.nix-profile roams and may name another machine's generation; any store nix works.
+  for d in /nix/store/*-nix-2.*/bin; do command -v nix >/dev/null && break; [[ -x \$d/nix ]] && PATH=\"\$d:\$PATH\"; done
+  cd '${FLAKE}' && nix run .#hm -- switch --flake .#elel-yak -b hm-backup
+"; then
+  hm_ok=1
+else
+  log "WARN: home-manager switch failed"
 fi
 
-# 4) Proprietary / AppImage-style apps → goinfre/apps (wrappers in ~/.local/bin)
-install_appimage() {
-  local name="$1" url="$2" outdir="$3" version="$4"
-  local img="${outdir}/${name}-${version}.AppImage"
-  local stamp="${outdir}/VERSION"
-  if [[ -f "$stamp" && "$(<"$stamp")" == "$version" && -x "${outdir}/squashfs-root/AppRun" ]]; then
-    log "Skip ${name} ${version} (already present)"
-    return 0
-  fi
-  log "Fetching ${name} ${version}"
-  mkdir -p "$outdir"
-  curl -fL --retry 3 -o "$img" "$url"
-  chmod +x "$img"
-  local stage="${outdir}/extract-${version}"
-  rm -rf "$stage"
-  mkdir -p "$stage"
-  (cd "$stage" && "$img" --appimage-extract >/dev/null)
-  rm -rf "${outdir}/squashfs-root"
-  mv "$stage/squashfs-root" "${outdir}/squashfs-root"
-  rm -rf "$stage" "$img"
-  printf '%s\n' "$version" > "$stamp"
-}
-
-# Cursor IDE AppImage. Bump CURSOR_VER + CURSOR_COMMIT together.
-# Latest: curl -fsSL 'https://www.cursor.com/api/download?platform=linux-x64&releaseTrack=stable'
-CURSOR_VER="3.31.15"
-CURSOR_COMMIT="3eb8c13390837371c7c2f2013dc57fdbc802c753"
-install_appimage cursor \
-  "https://downloads.cursor.com/production/${CURSOR_COMMIT}/linux/x64/Cursor-${CURSOR_VER}-x86_64.AppImage" \
-  "${APPS}/cursor" "$CURSOR_VER" || log "WARN: cursor AppImage fetch failed"
-
-# Grok Bot. Latest: curl -fsSL https://api2.cursor.sh/updates/api/download/stable/linux-x64/sand
-GROK_VER="1.3.0"
-GROK_COMMIT="bfb372966cec77c6ec2750957965f2a2268da17d"
-install_appimage grok-bot \
-  "https://downloads.cursor.com/grokbot/stable/${GROK_COMMIT}/linux/x64/Grok_Bot_${GROK_VER}.AppImage" \
-  "${APPS}/grok-bot" "$GROK_VER" || log "WARN: grok-bot fetch failed"
-
-# Grok CLI. Installs into goinfre and exposes only `grok` on PATH.
-# Do not let the upstream installer replace ~/.local/bin/agent (that name is Cursor's CLI).
-install_grok_cli() {
-  local dest="${APPS}/grok-cli"
-  local want have
-  mkdir -p "$dest"
-  want="$(curl -fsSL --max-time 20 https://x.ai/cli/stable | tr -d '[:space:]')"
-  have="$("$dest/grok" --version 2>/dev/null | awk '{print $2}' || true)"
-  if [[ "$have" == "$want" && -x "$dest/grok" ]]; then
-    log "Skip grok CLI ${want} (already present)"
-  else
-    log "Installing grok CLI ${want}"
-    GROK_BIN_DIR="$dest" SHELL=/bin/sh PATH="$dest:$PATH" \
-      bash -c 'curl -fsSL https://x.ai/cli/install.sh | bash'
-  fi
-  ln -sfn "$dest/grok" "${HOME}/.local/bin/grok"
-  if [[ -L "${HOME}/.local/bin/agent" || -x "${APPS}/cursor-agent/cursor-agent" ]]; then
-    local agent_target
-    agent_target="$(readlink -f "${HOME}/.local/share/cursor-agent/cursor-agent" 2>/dev/null || true)"
-    # A dangling `agent` falls through to grok's own `agent` in ~/.nix-profile.
-    if [[ ! -x "$agent_target" ]]; then
-      agent_target="$(find "${APPS}/cursor-agent/versions" -mindepth 2 -maxdepth 2 -type f -name cursor-agent 2>/dev/null | sort | tail -1)"
-    fi
-    if [[ -n "$agent_target" ]]; then
-      ln -sfn "$agent_target" "${HOME}/.local/bin/agent"
-      ln -sfn "$agent_target" "${HOME}/.local/bin/cursor-agent"
-    fi
-  fi
-}
-install_grok_cli || log "WARN: grok CLI install failed"
-
-# Cursor Agent CLI → goinfre (official installer, prefix goinfre)
-if [[ ! -d "${APPS}/cursor-agent/versions" ]]; then
-  log "Installing cursor-agent CLI into goinfre"
-  curl -fsS https://cursor.com/install | bash -s -- --prefix "${APPS}/cursor-agent" \
-    || (mkdir -p "${APPS}/cursor-agent" && curl -fsS https://cursor.com/install | bash) || log "WARN: cursor-agent install failed"
-elif [[ -x "${HOME}/.local/bin/agent" ]]; then
-  log "Updating cursor-agent"
-  "${HOME}/.local/bin/agent" update || log "WARN: cursor-agent update failed"
-fi
-
-# Kitty → goinfre (official installer)
-if [[ ! -x "${APPS}/kitty/kitty.app/bin/kitty" ]]; then
-  log "Installing kitty into goinfre"
-  curl -L https://sw.kovidgoyal.net/kitty/installer.sh \
-    | sh /dev/stdin dest="${APPS}/kitty" launch=n \
-    || log "WARN: kitty install failed"
-fi
-
-# Thin wrappers in home PATH → goinfre binaries
-write_wrap() {
-  local name="$1" target="$2"
-  local dest="${HOME}/.local/bin/${name}"
-  cat > "$dest" <<EOF
-#!/usr/bin/env bash
-exec $(printf '%q' "$target") "\$@"
-EOF
-  chmod +x "$dest"
-}
-
-# Prefer extracted AppRun, else AppImage
-if [[ -x "${APPS}/cursor/squashfs-root/AppRun" ]]; then
-  write_wrap cursor "${APPS}/cursor/squashfs-root/AppRun"
-elif [[ -x "${APPS}/cursor/cursor.AppImage" ]]; then
-  write_wrap cursor "${APPS}/cursor/cursor.AppImage"
-fi
-
-if [[ -x "${APPS}/grok-bot/squashfs-root/AppRun" ]]; then
-  write_wrap grok-bot "${APPS}/grok-bot/squashfs-root/AppRun"
-elif [[ -x "${APPS}/grok-bot/grok-bot.AppImage" ]]; then
-  write_wrap grok-bot "${APPS}/grok-bot/grok-bot.AppImage"
-fi
-
-# cursor-agent: official layout or moved copy
-if [[ -x "${APPS}/cursor-agent/cursor-agent" ]]; then
-  write_wrap cursor-agent "${APPS}/cursor-agent/cursor-agent"
-elif [[ -x "${APPS}/cursor-agent/bin/cursor-agent" ]]; then
-  write_wrap cursor-agent "${APPS}/cursor-agent/bin/cursor-agent"
-elif [[ -x "${HOME}/.local/bin/cursor-agent" ]] && [[ -d "${HOME}/.local/share/cursor-agent" ]]; then
-  # migrate existing home install → goinfre once
-  if [[ ! -d "${APPS}/cursor-agent/versions" ]]; then
-    log "Moving existing cursor-agent → goinfre"
-    cp -a "${HOME}/.local/share/cursor-agent/." "${APPS}/cursor-agent/" || true
-  fi
-fi
-
-if [[ -x "${APPS}/kitty/bin/kitty" ]]; then
-  write_wrap kitty "${APPS}/kitty/bin/kitty"
-  write_wrap kitten "${APPS}/kitty/bin/kitten"
-fi
-
-# Antigravity: nix-profile bins + Electron flags (no setuid sandbox on cluster)
-if [[ -x "${HOME}/.nix-profile/bin/agy" ]]; then
-  cat > "${HOME}/.local/bin/agy" <<'EOF'
-#!/usr/bin/env bash
-exec "$HOME/.nix-profile/bin/agy" "$@"
-EOF
-  chmod +x "${HOME}/.local/bin/agy"
-fi
-write_nix_launcher() {
-  local name="$1"; shift
-  local dest="${HOME}/.local/bin/${name}"
-  cat > "$dest" <<EOF
-#!/usr/bin/env bash
-# Absolute profile path: a bare name resolves back to this wrapper via
-# ~/.local/bin in PATH and recurses until unshare fails with ENOSPC.
-bin="\$HOME/.nix-profile/bin/${name}"
-flags=($*)
-if [[ -x "\$bin" ]]; then
-  exec "\$bin" "\${flags[@]}" "\$@"
-fi
-exec "\$HOME/.local/bin/nix-enter" "\$bin" "\${flags[@]}" "\$@"
-EOF
-  chmod +x "$dest"
-}
-write_nix_launcher antigravity --no-sandbox --ozone-platform-hint=auto
-write_nix_launcher antigravity-ide --no-sandbox --ozone-platform-hint=auto
-
-# Symlink caches out of home if still directories
+# 4) Host layout: big caches live on goinfre, not the 4.7G home
 link_cache() {
   local home_path="$1" go_path="$2"
   mkdir -p "$go_path"
-  if [[ -L "$home_path" ]]; then
-    return 0
-  fi
+  [[ -L "$home_path" ]] && return 0
   if [[ -d "$home_path" ]]; then
     rsync -a "$home_path"/ "$go_path"/ 2>/dev/null || true
     rm -rf "$home_path"
@@ -249,6 +89,4 @@ if [[ "$hm_ok" -ne 1 ]]; then
   exit 1
 fi
 touch "${GOINFRE}/.setup-ok"
-
-log "Done. Use: nix-enter   |   cursor / cursor-agent / kitty / grok-bot / agy / antigravity / antigravity-ide"
-log "Goinfre: ${GOINFRE}  |  Host: $(hostname)"
+log "Done on $(hostname -s). Goinfre: ${GOINFRE}"

@@ -96,16 +96,123 @@ let
     Categories=Network;WebBrowser;
     NoDisplay=true
   '';
+
+  # Same override as packages.nix, so the icon comes from the store path already installed.
+  cursorIde = pkgs.code-cursor.override { commandLineArgs = "--no-sandbox"; };
+  grokBot = pkgs.callPackage ../../../configs/editors/grok-bot.nix { };
+
+  desktopEntry =
+    {
+      id,
+      name,
+      comment,
+      exec,
+      args ? "",
+      icon,
+      extra ? "",
+    }:
+    pkgs.writeText "${id}.desktop" ''
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=${name}
+      Comment=${comment}
+      TryExec=${home}/.local/bin/${exec}
+      Exec=${home}/.local/bin/${exec}${args}
+      Icon=${icon}
+      StartupNotify=true
+      ${extra}
+    '';
+
+  icon256 = name: ".local/share/icons/hicolor/256x256/apps/${name}.png";
 in
 {
   # GNOME Shell scans ~/.local/share/applications, not goinfre XDG_DATA_HOME.
-  # Install Chrome launcher + desktop entries as REAL files (see note above).
-  # Icons: ALWAYS copy real PNGs into ~/.local (never symlink into ~/.nix-profile —
-  # a bad/GC'd profile generation leaves broken links and a blank dock icon).
-  home.activation.nixChromeDesktop = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run install -Dm755 ${chromeWrapper} "$HOME/.local/bin/google-chrome"
-    run install -Dm644 ${chromeDesktop} "$HOME/.local/share/applications/google-chrome.desktop"
-    run install -Dm644 ${chromeDesktopHidden} "$HOME/.local/share/applications/com.google.Chrome.desktop"
+  # Launchers, entries and icons are real files (see note above); the dock
+  # order is dconf state, declared below.
+  home.hostFiles = {
+    ".local/bin/google-chrome" = {
+      source = chromeWrapper;
+      executable = true;
+    };
+    ".local/bin/google-chrome-stable" = {
+      source = chromeWrapper;
+      executable = true;
+    };
+    ".local/share/applications/google-chrome.desktop".source = chromeDesktop;
+    ".local/share/applications/com.google.Chrome.desktop".source = chromeDesktopHidden;
+
+    ".local/share/applications/kitty.desktop".source = desktopEntry {
+      id = "kitty";
+      name = "kitty";
+      comment = "Fast, feature-rich, GPU based terminal";
+      exec = "kitty";
+      icon = "kitty";
+      extra = ''
+        GenericName=Terminal emulator
+        Categories=System;TerminalEmulator;
+        X-TerminalArgExec=--
+        X-TerminalArgTitle=--title
+        X-TerminalArgAppId=--class
+        X-TerminalArgDir=--working-directory
+        X-TerminalArgHold=--hold
+      '';
+    };
+    ".local/share/applications/cursor.desktop".source = desktopEntry {
+      id = "cursor";
+      name = "Cursor";
+      comment = "The AI Code Editor";
+      exec = "cursor-ide";
+      args = " %F";
+      icon = "${home}/${icon256 "co.anysphere.cursor"}";
+      extra = ''
+        Terminal=false
+        StartupWMClass=Cursor
+        Categories=Development;IDE;TextEditor;
+        MimeType=application/x-cursor-workspace;
+        Keywords=cursor;code;editor;
+      '';
+    };
+    ".local/share/applications/grok-bot.desktop".source = desktopEntry {
+      id = "grok-bot";
+      name = "Grok Bot";
+      comment = "Grok Bot desktop agent";
+      exec = "grok-bot";
+      args = " %U";
+      icon = "grok-bot";
+      extra = ''
+        Terminal=false
+        StartupWMClass=grok-bot
+        Categories=Development;
+        Keywords=grok;ai;agent;
+        MimeType=text/html;x-scheme-handler/grokbot;x-scheme-handler/sand;
+      '';
+    };
+    ".local/share/applications/antigravity.desktop".source = desktopEntry {
+      id = "antigravity";
+      name = "Antigravity";
+      comment = "Google Antigravity Desktop Hub / Agent";
+      exec = "antigravity";
+      args = " %u";
+      icon = "antigravity";
+      extra = ''
+        Terminal=false
+        StartupWMClass=antigravity
+        Categories=Development;
+        MimeType=x-scheme-handler/antigravity;
+        Keywords=antigravity;google;agent;
+      '';
+    };
+
+    ${icon256 "kitty"}.source = "${pkgs.kitty}/share/icons/hicolor/256x256/apps/kitty.png";
+    ${icon256 "grok-bot"}.source = "${grokBot}/share/icons/hicolor/256x256/apps/grok-bot.png";
+    ${icon256 "co.anysphere.cursor"}.source = "${cursorIde}/share/pixmaps/cursor.png";
+    ${icon256 "antigravity"}.source = ../assets/icons/antigravity.png;
+    ${icon256 "antigravity-ide"}.source = ../assets/icons/antigravity-ide.png;
+  };
+
+  # Chrome ships icons at several sizes; copy whichever exist.
+  home.activation.nixChromeIcons = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     for size in 16 24 32 48 64 128 256; do
       dest="$HOME/.local/share/icons/hicolor/''${size}x''${size}/apps"
       run mkdir -p "$dest"
@@ -122,37 +229,15 @@ in
     run rm -f "$HOME/.local/share/icons/hicolor/icon-theme.cache"
   '';
 
-  # Keep the current dock order and pin Nix Chrome right after grok-bot,
-  # plus Codex Desktop after Antigravity IDE.
-  # Known-good order: kitty, cursor, grok-bot, google-chrome, Nautilus,
-  # antigravity, antigravity-ide, codex-desktop.
-  home.activation.gnomeDockFavorites = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if command -v gsettings >/dev/null 2>&1; then
-      python3 - <<'PY'
-import ast, subprocess
-raw = subprocess.check_output(
-    ["gsettings", "get", "org.gnome.shell", "favorite-apps"], text=True
-).strip()
-apps = ast.literal_eval(raw)
-chrome = "google-chrome.desktop"
-anchor = "grok-bot.desktop"
-if chrome in apps:
-    apps.remove(chrome)
-if anchor in apps:
-    apps.insert(apps.index(anchor) + 1, chrome)
-else:
-    apps.append(chrome)
-codex = "codex-desktop.desktop"
-if codex in apps:
-    apps.remove(codex)
-if "antigravity-ide.desktop" in apps:
-    apps.insert(apps.index("antigravity-ide.desktop") + 1, codex)
-else:
-    apps.append(codex)
-subprocess.check_call(
-    ["gsettings", "set", "org.gnome.shell", "favorite-apps", str(apps)]
-)
-PY
-    fi
-  '';
+  dconf.settings."org/gnome/shell".favorite-apps = [
+    "kitty.desktop"
+    "cursor.desktop"
+    "grok-bot.desktop"
+    "org.gnome.Nautilus.desktop"
+    "google-chrome.desktop"
+    "antigravity.desktop"
+    "antigravity-ide.desktop"
+    "codex-desktop.desktop"
+    "org.kicad.kicad.desktop"
+  ];
 }

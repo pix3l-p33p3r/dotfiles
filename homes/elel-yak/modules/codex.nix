@@ -24,19 +24,21 @@ in
   ];
 
   # Real launcher + .desktop under ~/.local (GNOME runs outside nix-user-chroot).
+  home.hostFiles = {
+    ".local/bin/codex-desktop" = {
+      source = ./codex-desktop-launcher.sh;
+      executable = true;
+    };
+    ".local/share/applications/codex-desktop.desktop".source = ./codex-desktop.desktop;
+    ".local/share/icons/hicolor/256x256/apps/codex-desktop.png".source =
+      "${codexDesktopPkg}/share/icons/hicolor/256x256/apps/codex-desktop.png";
+  };
+
   # Keep ~/.codex and Electron profile data on goinfre (home quota is ~5G).
   home.activation.codexLaunchers = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p "$HOME/.local/bin" \
-      /goinfre/elel-yak/codex \
+    mkdir -p /goinfre/elel-yak/codex \
       /goinfre/elel-yak/config/Codex \
       "/goinfre/elel-yak/config/ChatGPT Community"
-
-    install -m755 "$HOME/dotfiles-terminal/homes/elel-yak/modules/codex-desktop-launcher.sh" \
-      "$HOME/.local/bin/codex-desktop"
-    install -Dm644 "$HOME/dotfiles-terminal/homes/elel-yak/modules/codex-desktop.desktop" \
-      "$HOME/.local/share/applications/codex-desktop.desktop"
-    install -Dm644 "${codexDesktopPkg}/share/icons/hicolor/256x256/apps/codex-desktop.png" \
-      "$HOME/.local/share/icons/hicolor/256x256/apps/codex-desktop.png"
 
     # Never symlink ~/.codex. Codex bwrap RO-protects through that link and
     # then refuses queue sqlite writes ("Queue storage could not be written").

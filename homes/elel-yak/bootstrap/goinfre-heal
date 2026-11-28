@@ -9,6 +9,7 @@ GOINFRE="${GOINFRE:-/goinfre/$USER}"
 STAMP="${GOINFRE}/.setup-ok"
 LOG="${GOINFRE}/setup.log"
 host="$(hostname -s)"
+here="$(dirname "$(readlink -f "$0")")"
 # Fresh machine: measured 18.2 GiB Home Manager closure + 2.2 GiB apps + 0.6 GiB theme assets.
 FRESH_NEED_MIB=$((25 * 1024))
 # On top of what Nix reports: AppImages, theme copy, derivations built locally.
@@ -34,7 +35,7 @@ in_store() {
 need_mib() {
   have_nix || { echo "$FRESH_NEED_MIB"; return; }
   local out
-  if ! out="$("${GOINFRE}/bin/nix-user-chroot" "${GOINFRE}/nix" bash -lc '
+  if ! out="$("${GOINFRE}/bin/nix-user-chroot" "${GOINFRE}/nix" env NIX_USER_CONF_FILES="$HOME/dotfiles-terminal/homes/elel-yak/bootstrap/nix.conf" bash -lc '
     . "$HOME/.nix-profile/etc/profile.d/nix.sh" 2>/dev/null || true
     export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH"
     for d in /nix/store/*-nix-2.*/bin; do command -v nix >/dev/null && break; [[ -x $d/nix ]] && PATH="$d:$PATH"; done
@@ -88,7 +89,7 @@ echo "goinfre-heal: about $(gib "$need") needed, $(gib "$free") free. Starting."
 mkdir -p "$GOINFRE"
 notify "Setting up ${host}" "${reason^}. Fresh machines take about 10 min. Log: ${LOG}"
 start=$SECONDS
-if "$HOME/.local/bin/nix-setup" 2>&1 | tee "$LOG"; then
+if "${here}/nix-setup" 2>&1 | tee "$LOG"; then
   notify "${host} is ready" "Setup finished in $(((SECONDS - start) / 60)) min. kitty, cursor and agent work."
 else
   notify -u critical "Setup failed on ${host}" "See ${LOG}, then run: nix-up"

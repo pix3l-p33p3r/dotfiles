@@ -39,18 +39,25 @@ in
   ];
 
   # Real launchers under ~/.local — GNOME starts outside the chroot.
-  # Source files live next to this module (same pattern as kitty.conf / zshenv).
+  home.hostFiles = {
+    ".local/bin/antigravity" = {
+      source = ./antigravity-launcher.sh;
+      executable = true;
+    };
+    ".local/bin/antigravity-ide" = {
+      source = ./antigravity-ide-launcher.sh;
+      executable = true;
+    };
+    ".local/bin/agy-ide-update" = {
+      source = ./agy-ide-update.sh;
+      executable = true;
+    };
+    ".local/share/applications/antigravity-ide.desktop".source = ./antigravity-ide.desktop;
+  };
+
   # IDE user data + extensions live on goinfre (home is ~5G).
   home.activation.antigravityLaunchers = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    mkdir -p "$HOME/.local/bin" /goinfre/elel-yak/antigravity-ide "/goinfre/elel-yak/config/Antigravity IDE"
-    install -m755 "$HOME/dotfiles-terminal/homes/elel-yak/modules/antigravity-launcher.sh" \
-      "$HOME/.local/bin/antigravity"
-    install -m755 "$HOME/dotfiles-terminal/homes/elel-yak/modules/antigravity-ide-launcher.sh" \
-      "$HOME/.local/bin/antigravity-ide"
-    install -m755 "$HOME/dotfiles-terminal/homes/elel-yak/modules/agy-ide-update.sh" \
-      "$HOME/.local/bin/agy-ide-update"
-    install -Dm644 "$HOME/dotfiles-terminal/homes/elel-yak/modules/antigravity-ide.desktop" \
-      "$HOME/.local/share/applications/antigravity-ide.desktop"
+    mkdir -p /goinfre/elel-yak/antigravity-ide "/goinfre/elel-yak/config/Antigravity IDE"
     # Symlink heavy IDE dirs onto goinfre if still real directories.
     if [ -d "$HOME/.antigravity-ide" ] && [ ! -L "$HOME/.antigravity-ide" ]; then
       cp -a "$HOME/.antigravity-ide/." /goinfre/elel-yak/antigravity-ide/ 2>/dev/null || true

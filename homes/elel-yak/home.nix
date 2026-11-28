@@ -16,6 +16,7 @@
     ../../configs/media/ani-cli.nix
 
     # 1337 cluster deviant modules
+    ./modules/host-files.nix
     ./modules/packages.nix
     ./modules/shell.nix # kitty.conf stays a real file; do not enable programs.kitty
     ./modules/desktop.nix
@@ -52,6 +53,9 @@
   nixpkgs.config.allowUnfree = true;
 
   programs.home-manager.enable = true;
+
+  # nix-setup points the bootstrap Nix at the same file (NIX_USER_CONF_FILES).
+  xdg.configFile."nix/nix.conf".source = ./bootstrap/nix.conf;
 
   # Goinfre-friendly XDG (matches cluster ~/.zshenv)
   xdg.enable = true;
