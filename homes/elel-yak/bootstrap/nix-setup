@@ -50,6 +50,8 @@ if [[ -f "${HM_FLAKE}/flake.nix" ]]; then
   if "$CHROOT_BIN" "$NIXROOT" bash -lc "
     . \"\$HOME/.nix-profile/etc/profile.d/nix.sh\" 2>/dev/null || true
     export PATH=\"\$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:\$PATH\"
+    # ~/.nix-profile roams and may name another machine's generation; any store nix works.
+    for d in /nix/store/*-nix-2.*/bin; do command -v nix >/dev/null && break; [[ -x \$d/nix ]] && PATH=\"\$d:\$PATH\"; done
     cd \"${HM_FLAKE}\"
     nix run .#hm -- switch --flake .#elel-yak -b hm-backup
   "; then

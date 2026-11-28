@@ -28,6 +28,10 @@ tail -f /goinfre/$USER/setup.log     # watch a rebuild
 
 `nix-up` is an alias at the top of `.zshrc`, so it exists before Zap or Nix do.
 
+Both `nix-up` and the login check refuse to start when `/goinfre` lacks space:
+25 GiB on a fresh machine, otherwise Nix's own `--dry-run` download size + 3 GiB.
+Free space with `clean` (Nix garbage collection), then run `nix-up` again.
+
 ## What it shares from the NixOS base (`configs/`)
 
 - `configs/terminal/tmux.nix`, `configs/terminal/yazi.nix`, `configs/terminal/zsh/config`, `configs/terminal/nvim/conf`

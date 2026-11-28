@@ -9,8 +9,15 @@ GOINFRE="${GOINFRE:-/goinfre/$USER}"
 STAMP="${GOINFRE}/.setup-ok"
 LOG="${GOINFRE}/setup.log"
 host="$(hostname -s)"
+# Fresh machine: measured 18.2 GiB Home Manager closure + 2.2 GiB apps + 0.6 GiB theme assets.
+FRESH_NEED_MIB=$((25 * 1024))
+# On top of what Nix reports: AppImages, theme copy, derivations built locally.
+HEADROOM_MIB=$((3 * 1024))
 
 notify() { notify-send -a goinfre-heal "$@" 2>/dev/null || true; }
+gib() { awk -v m="$1" 'BEGIN { printf "%.1f GiB", m / 1024 }'; }
+free_mib() { df -BM --output=avail /goinfre | tail -1 | tr -dc 0-9; }
+have_nix() { [[ -x "${GOINFRE}/bin/nix-user-chroot" && -d "${GOINFRE}/nix/store" ]]; }
 
 # A roaming symlink is usable only if its /nix/store target exists in this
 # machine's store. Outside the chroot /nix is absent, so look on goinfre.
@@ -22,27 +29,62 @@ in_store() {
   [[ -e "$t" || -L "$t" ]]
 }
 
+# MiB this run adds to goinfre. Asks Nix for the exact download when it can;
+# otherwise assumes a full build so a big download never starts on a full disk.
+need_mib() {
+  have_nix || { echo "$FRESH_NEED_MIB"; return; }
+  local out
+  if ! out="$("${GOINFRE}/bin/nix-user-chroot" "${GOINFRE}/nix" bash -lc '
+    . "$HOME/.nix-profile/etc/profile.d/nix.sh" 2>/dev/null || true
+    export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH"
+    for d in /nix/store/*-nix-2.*/bin; do command -v nix >/dev/null && break; [[ -x $d/nix ]] && PATH="$d:$PATH"; done
+    cd "$HOME/dotfiles-terminal" && nix build --dry-run .#homeConfigurations.elel-yak.activationPackage
+  ' 2>&1)"; then
+    echo "goinfre-heal: Nix could not report the download size; assuming a full build" >&2
+    echo "$FRESH_NEED_MIB"
+    return
+  fi
+  grep -oE '[0-9.]+ [KMGT]iB unpacked' <<<"$out" | awk -v h="$HEADROOM_MIB" '
+    { m = $1; if ($2 == "KiB") m /= 1024; else if ($2 == "GiB") m *= 1024; else if ($2 == "TiB") m *= 1048576; s += m }
+    END { printf "%d\n", s + h }'
+}
+
+ready=0
 reason=""
-if [[ ! -x "${GOINFRE}/bin/nix-user-chroot" || ! -d "${GOINFRE}/nix/store" ]]; then
+if ! have_nix; then
   reason="goinfre has no Nix (fresh machine or wiped)"
 elif ! in_store "$HOME/.nix-profile" || ! in_store "$HOME/.profile"; then
   reason="your profile points at packages this machine does not have"
 elif [[ ! -f "$STAMP" ]]; then
   reason="the last nix-setup did not finish"
+else
+  ready=1
 fi
 
-if [[ -z "$reason" ]]; then
-  echo "goinfre-heal: ${host} is ready"
+free="$(free_mib)"
+if [[ "$ready" -eq 1 ]]; then
+  echo "goinfre-heal: ${host} is ready ($(gib "$free") free on /goinfre)"
   [[ "$mode" == --force ]] || exit 0
   reason="re-running setup on request"
 else
-  echo "goinfre-heal: ${host} needs setup: ${reason}"
+  echo "goinfre-heal: ${host} needs setup: ${reason} ($(gib "$free") free on /goinfre)"
   [[ "$mode" == --check ]] && exit 1
-  # Gate launchers until the rebuild finishes. A forced re-run on a ready
-  # machine keeps the stamp: the previous generation still works.
-  rm -f "$STAMP"
 fi
 
+need="$(need_mib)"
+if ((free < need)); then
+  msg="Only $(gib "$free") free on /goinfre; setup needs about $(gib "$need"). Nothing was built."
+  echo "goinfre-heal: ${msg}" >&2
+  echo "Biggest folders in ${GOINFRE}:" >&2
+  timeout 30 du -sh "$GOINFRE"/* 2>/dev/null | sort -h | tail -5 >&2
+  notify -u critical "Not enough space on ${host}" "${msg} Free space (clean = Nix garbage collection), then run: nix-up"
+  exit 2
+fi
+echo "goinfre-heal: about $(gib "$need") needed, $(gib "$free") free. Starting."
+
+# Gate launchers until the rebuild finishes. A forced re-run on a ready
+# machine keeps the stamp: the previous generation still works.
+[[ "$ready" -eq 1 ]] || rm -f "$STAMP"
 mkdir -p "$GOINFRE"
 notify "Setting up ${host}" "${reason^}. Fresh machines take about 10 min. Log: ${LOG}"
 start=$SECONDS
