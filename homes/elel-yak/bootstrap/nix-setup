@@ -241,8 +241,8 @@ link_cache "${HOME}/.cache" "${GOINFRE}/cache"
 link_cache "${HOME}/.npm" "${GOINFRE}/npm"
 
 # Launchers and goinfre-heal treat this stamp as "this machine is ready".
+# On failure leave it alone: a ready machine keeps its previous generation.
 if [[ "$hm_ok" -ne 1 ]]; then
-  rm -f "${GOINFRE}/.setup-ok"
   log "ERROR: Home Manager did not switch; setup is incomplete"
   exit 1
 fi

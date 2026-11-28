@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Rebuild this machine's goinfre Nix setup when it is missing, wiped, or stale.
 # $HOME roams between cluster machines; /goinfre is per-machine and gets wiped.
-# Runs at every graphical login (goinfre-heal.service). Usage: goinfre-heal [--check]
+# Runs at every graphical login (goinfre-heal.service).
+# Usage: goinfre-heal [--check | --force]   (`nix-up` runs --force)
 set -uo pipefail
+mode="${1:-}"
 GOINFRE="${GOINFRE:-/goinfre/$USER}"
 STAMP="${GOINFRE}/.setup-ok"
 LOG="${GOINFRE}/setup.log"
@@ -31,18 +33,22 @@ fi
 
 if [[ -z "$reason" ]]; then
   echo "goinfre-heal: ${host} is ready"
-  exit 0
+  [[ "$mode" == --force ]] || exit 0
+  reason="re-running setup on request"
+else
+  echo "goinfre-heal: ${host} needs setup: ${reason}"
+  [[ "$mode" == --check ]] && exit 1
+  # Gate launchers until the rebuild finishes. A forced re-run on a ready
+  # machine keeps the stamp: the previous generation still works.
+  rm -f "$STAMP"
 fi
-echo "goinfre-heal: ${host} needs setup: ${reason}"
-[[ "${1:-}" == "--check" ]] && exit 1
 
-rm -f "$STAMP"
 mkdir -p "$GOINFRE"
-notify "Setting up ${host}" "${reason^}. Rebuilding Nix and apps in the background (about 10 min). Log: ${LOG}"
+notify "Setting up ${host}" "${reason^}. Fresh machines take about 10 min. Log: ${LOG}"
 start=$SECONDS
 if "$HOME/.local/bin/nix-setup" 2>&1 | tee "$LOG"; then
-  notify "${host} is ready" "Setup finished in $(((SECONDS - start) / 60)) min. kitty, cursor and agent work again."
+  notify "${host} is ready" "Setup finished in $(((SECONDS - start) / 60)) min. kitty, cursor and agent work."
 else
-  notify -u critical "Setup failed on ${host}" "See ${LOG}, then run: goinfre-heal"
+  notify -u critical "Setup failed on ${host}" "See ${LOG}, then run: nix-up"
   exit 1
 fi

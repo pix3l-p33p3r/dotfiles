@@ -10,8 +10,8 @@ nix-setup() { command nix-setup "$@"; }
 
 # Enter nix namespace for one command or a shell
 nsh() { nix-enter "$@"; }
-nrs() { echo "not on NixOS — use: nix-setup / nix-enter" >&2; return 1; }
-hms() { echo "not on NixOS — edit ~/nix-config/flake.nix then: nix-setup" >&2; return 1; }
+nrs() { echo "not on NixOS — use: nix-up / nix-enter" >&2; return 1; }
+hms() { echo "not on NixOS — edit ~/dotfiles-terminal then: nix-up" >&2; return 1; }
 update() { nix-enter nix flake update --flake "$HOME/nix-config" "$@"; }
 check() { nix-enter nix flake check "$HOME/nix-config" "$@"; }
 clean() { nix-enter nix-collect-garbage -d "$@"; }

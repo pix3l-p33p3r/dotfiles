@@ -43,6 +43,6 @@ if [[ -o interactive && "$_nix_here" -eq 0 && -z "${NIX_ENTER_SKIP:-}" ]]; then
     unset _nix_here _a _b
     exec "$HOME/.local/bin/nix-enter"
   fi
-  print -u2 "goinfre has no Nix on ${HOST%%.*} yet; goinfre-heal is rebuilding it. Progress: tail -f $GOINFRE/setup.log"
+  print -u2 "goinfre has no Nix on ${HOST%%.*} yet; it is rebuilding in the background (or run: nix-up). Progress: tail -f $GOINFRE/setup.log"
 fi
 unset _nix_here _a _b

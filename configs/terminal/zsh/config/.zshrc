@@ -1,6 +1,10 @@
 # Timezsh start
 if [ -n "${ZSH_DEBUGRC+1}" ]; then zmodload zsh/zprof; fi
 
+# 1337: (re)build this machine's goinfre setup. Defined before Zap so it exists
+# on a fresh machine where plugins and Nix are still missing.
+[[ -d /goinfre ]] && alias nix-up="$HOME/dotfiles-terminal/homes/elel-yak/bootstrap/install.sh && $HOME/.local/bin/goinfre-heal --force"
+
 # Ensuring Zap installed (--keep: never overwrite this .zshrc; goinfre can wipe plugins)
 if [[ ! -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]]; then
   _zap_dir="${XDG_DATA_HOME:-$HOME/.local/share}/zap"

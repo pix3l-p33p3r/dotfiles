@@ -45,7 +45,7 @@ export GOINFRE
 # Launchers started before nix-setup finishes would hit a half-built store and
 # recurse or exit 127. Interactive shells may still enter.
 if [[ $# -gt 0 && ! -f "${GOINFRE}/.setup-ok" ]]; then
-  msg="$(hostname -s) is still setting up. $(basename "$1") opens after goinfre-heal finishes. Log: ${GOINFRE}/setup.log"
+  msg="$(hostname -s) is still setting up. $(basename "$1") opens once setup finishes (or run: nix-up). Log: ${GOINFRE}/setup.log"
   echo "nix-enter: ${msg}" >&2
   notify-send -a goinfre-heal "Setup in progress" "$msg" 2>/dev/null || true
   systemctl --user start --no-block goinfre-heal.service 2>/dev/null || true
