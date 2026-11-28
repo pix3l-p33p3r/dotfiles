@@ -97,8 +97,8 @@ let
     NoDisplay=true
   '';
 
-  # Same override as packages.nix, so the icon comes from the store path already installed.
-  cursorIde = pkgs.code-cursor.override { commandLineArgs = "--no-sandbox"; };
+  # Same packages as packages.nix, so icons match the installed store paths.
+  cursorIde = pkgs.callPackage ../../../configs/editors/code-cursor.nix { };
   grokBot = pkgs.callPackage ../../../configs/editors/grok-bot.nix { };
 
   desktopEntry =
@@ -206,7 +206,7 @@ in
 
     ${icon256 "kitty"}.source = "${pkgs.kitty}/share/icons/hicolor/256x256/apps/kitty.png";
     ${icon256 "grok-bot"}.source = "${grokBot}/share/icons/hicolor/256x256/apps/grok-bot.png";
-    ${icon256 "co.anysphere.cursor"}.source = "${cursorIde}/share/pixmaps/cursor.png";
+    ${icon256 "co.anysphere.cursor"}.source = "${cursorIde}/share/icons/hicolor/256x256/apps/cursor.png";
     ${icon256 "antigravity"}.source = ../assets/icons/antigravity.png;
     ${icon256 "antigravity-ide"}.source = ../assets/icons/antigravity-ide.png;
   };

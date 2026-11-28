@@ -89,7 +89,7 @@ in
     # ── Lint / fmt ─────────────────────────────────────────────────────
     shellcheck
     shfmt
-    hadolint
+    # hadolint: broken on current nixos-unstable (spdx vs Cabal-syntax). Re-add when fixed.
     yamllint
     prettier
 
@@ -139,7 +139,7 @@ in
 
     # ── GUI apps (Nix-managed; launchers nix-enter + nixGLIntel) ──────
     kitty
-    (code-cursor.override { commandLineArgs = "--no-sandbox"; })
+    (pkgs.callPackage ../../../configs/editors/code-cursor.nix { })
 
     # ── OpenCL (RT dual-GPU: AMD rusticl + Intel NEO) ──────────────────
     clinfo

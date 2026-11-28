@@ -19,7 +19,7 @@ let
 in
 {
   home.packages = [
-    pkgs.codex # OpenAI Codex terminal agent (`codex`)
+    (pkgs.callPackage ../../../configs/editors/codex-cli.nix { }) # OpenAI Codex CLI 0.172.0
     codexDesktopWrapped # Codex / ChatGPT Desktop (`codex-desktop`)
   ];
 

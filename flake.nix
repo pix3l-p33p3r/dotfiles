@@ -7,7 +7,9 @@
     # packages like old librewolf. To bump: run
     #   curl -sL https://channels.nixos.org/nixos-unstable/git-revision
     # then update the rev here and `nix flake lock --update-input nixpkgs`.
-    nixpkgs.url = "github:NixOS/nixpkgs/2786a2a72088ecf32aea5b3ec52099e6a7cff78f";
+    # Pinned to the current nixos-unstable channel commit (Hydra-built/cached).
+    # Bump: curl -sL https://channels.nixos.org/nixos-unstable/git-revision
+    nixpkgs.url = "github:NixOS/nixpkgs/58d0d3e9d527ca7263be6a45d1f86eacdc700dab";
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
